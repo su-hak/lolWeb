@@ -1982,6 +1982,7 @@ setInterval(scrollToBottom, 1000); // 1초마다 스크롤을 맨 아래로 이�
 const filePath = "js/champions.json";
 
 // Ajax를 사용하여 파일을 받아오는 함수
+
 function getFile(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
