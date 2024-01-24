@@ -1,0 +1,21 @@
+<!-- postForm.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 작성</title>
+</head>
+<body>
+<h1>게시글 작성</h1>
+<form th:object="${post}" th:action="@{/post/submitForm}" method="post">
+    <input type="text" th:field="*{nickname}" placeholder="닉네임" />
+    <input type="password" th:field="*{password}" placeholder="비밀번호" />
+    <input type="text" th:field="*{title}" placeholder="제목" />
+    <textarea th:field="*{content}" placeholder="내용"></textarea>
+    <button type="submit">작성</button>
+</form>
+<!-- 생략... -->
+</body>
+</html>

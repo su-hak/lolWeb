@@ -1,0 +1,180 @@
+<!-- readPost.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Read Post</title>
+    <!-- jQuery CDN을 사용하고 있다고 가정 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+<!-- 게시글 정보 표시 -->
+<h2 th:text="${post.title}"></h2>
+<p th:text="${post.content}"></p>
+<div>
+    <h3>Author Information:</h3>
+    <p>작성자: <span th:text="${post.nickname}"></span></p>
+    <p>IP Address: <span th:text="${post.ipAddress}"></span></p>
+</div>
+<!-- 댓글 목록 표시 -->
+<h3>댓글 목록</h3>
+<div th:if="${comments}">
+    <ul>
+        <li th:each="comment : ${comments}">
+            <p th:text="${comment.nickname}"></p>
+            <p th:text="${comment.content}"></p>
+        </li>
+    </ul>
+</div>
+
+<!-- 댓글 작성 폼 -->
+<form id="commentForm">
+    <input type="hidden" th:name="postId" id="postId" th:value="${post.id}">
+    <label for="nickname">닉네임:</label>
+    <input type="text" id="nickname" name="nickname" required>
+    <br>
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <label for="content">댓글 내용:</label>
+    <textarea id="content" name="content" required></textarea>
+    <br>
+    <!-- 수정된 부분: onclick 이벤트에 직접 createComment 함수 호출 제거 -->
+    <button type="button" id="commentButton">댓글 작성</button>
+</form>
+<div id="commentList">
+    <h3>댓글 목록</h3>
+    <div th:if="${comments}">
+        <ul>
+            <li th:each="comment : ${commentList}">
+                <p th:text="${comment.nickname}"></p>
+                <p th:text="${comment.content}"></p>
+                <p th:text="${comment.ipAddress}"></p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- JavaScript 코드 -->
+<script>
+    function createComment() {
+        // var postId = ${post.id}; // 게시글 ID
+        // var nickname = $("#nickname").val();
+        // var password = $("#password").val();
+        // var content = $("#content").val();
+
+        // Ajax를 이용한 비동기적인 댓글 작성
+        $.ajax({
+            type: "POST",
+            url: "/post/createComment",
+            contentType: "application/json",
+            data: JSON.stringify({
+                postId: $("#postId").val(),
+                nickname: $("#nickname").val(),
+                password: $("#password").val(),
+                content: $("#content").val()
+            }),
+            success: function (response) {
+                // 성공적으로 댓글이 작성되면 처리할 로직
+                alert(response);
+                // 댓글 작성 후 화면 갱신
+                updateCommentList();
+            },
+            error: function (error) {
+                // 댓글 작성 중 에러 발생 시 처리할 로직
+                alert("댓글 작성에 실패했습니다.");
+            }
+        });
+    }
+    function updateCommentList() {
+        // Ajax를 이용해 댓글 목록을 다시 불러오는 로직
+        $.ajax({
+            type: "GET",
+            url: "/post/getComments/" + $("#postId").val(),
+            success: function (comments) {
+                // 성공적으로 댓글 목록을 받아왔을 때 처리할 로직
+                // 받아온 댓글 목록으로 화면 갱신
+                displayComments(comments);
+            },
+            error: function (error) {
+                // 에러 처리 로직
+                console.error("댓글 목록을 불러오는데 실패했습니다.", error);
+            }
+        });
+    }
+    function displayComments(comments) {
+        // 받아온 댓글 목록을 화면에 표시하는 로직
+        var commentList = $("#commentList");
+        commentList.empty(); // 기존 목록 비우기
+
+        if (comments && comments.length > 0) {
+            var ul = $("<ul></ul>");
+
+            comments.forEach(function (comment) {
+                var li = $("<li></li>");
+                li.append("<p>" + comment.nickname + "</p>");
+                li.append("<p>" + comment.content + "</p>");
+                li.append("<p>" + comment.ipAddress + "</p>");
+                ul.append(li);
+            });
+
+            commentList.append(ul);
+        } else {
+            commentList.append("<p>댓글이 없습니다.</p>");
+        }
+    }
+
+    // 버튼 클릭 시 createComment 함수 호출하도록 수정
+    $(document).ready(function () {
+        $("#commentButton").click(createComment);
+    });
+</script>
+<script>
+    // 페이지 로드 시 댓글 목록 가져오기
+    $(document).ready(function () {
+        loadComments();
+    });
+
+    function loadComments() {
+        // 현재 게시물의 ID를 가져옴
+        var postId = $("#postId").val();
+
+        // Ajax를 이용해 댓글 목록을 가져오는 로직
+        $.ajax({
+            type: "GET",
+            url: "/post/getComments/" + postId,
+            success: function (comments) {
+                // 성공적으로 댓글 목록을 받아왔을 때 처리할 로직
+                // 받아온 댓글 목록으로 화면 갱신
+                displayComments(comments);
+            },
+            error: function (error) {
+                // 에러 처리 로직
+                console.error("댓글 목록을 불러오는데 실패했습니다.", error);
+            }
+        });
+    }
+
+    function displayComments(comments) {
+        // 받아온 댓글 목록을 화면에 표시하는 로직
+        var commentList = $("#commentList ul");
+        commentList.empty(); // 기존 목록 비우기
+
+        if (comments && comments.length > 0) {
+            comments.forEach(function (comment) {
+                var li = $("<li></li>");
+                li.append("<p>" + comment.nickname + "</p>");
+                li.append("<p>" + comment.content + "</p>");
+                li.append("<p>" + comment.ipAddress + "</p>");
+                commentList.append(li);
+            });
+        } else {
+            commentList.append("<p>댓글이 없습니다.</p>");
+        }
+    }
+</script>
+
+
+</body>
+</html>

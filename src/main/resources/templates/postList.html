@@ -1,0 +1,31 @@
+<!-- postList.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 생략... -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // 각 게시물의 "보러가기" 버튼 클릭 이벤트 처리
+            $(".view-post-btn").click(function () {
+                var postId = $(this).data("post-id"); // 해당 버튼에 저장된 게시물 ID 가져오기
+                window.location.href = "/post/read/" + postId; // 해당 게시물로 이동
+            });
+        });
+    </script>
+</head>
+<body>
+<!-- 게시글 목록 표시 -->
+<h2>게시글 목록</h2>
+<ul>
+    <li th:each="post : ${posts}">
+        <span th:text="${post.title}"></span> - <span th:text="${post.content}"></span>
+        <!-- "보러가기" 버튼 추가 -->
+        <button class="view-post-btn" th:data-post-id="${post.id}">보러가기</button>
+    </li>
+</ul>
+
+<!-- 게시글 작성 버튼 -->
+<a th:href="@{/post/create}"><button>게시글 작성</button></a>
+</body>
+</html>
