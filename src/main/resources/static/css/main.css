@@ -109,7 +109,7 @@ body {
 
 /* 헤더영역 */
 #header {
-    height: 80px;
+    /*height: 80px;*/
     align-items: center;
     background: #00bbab;
     color: rgb(255, 255, 255);
@@ -166,7 +166,7 @@ body {
 /* 헤더 네비 */
 
 .nav{
-    padding: 25px 0;
+    padding: 20px 0;
 }
 
 #header .gnb {
@@ -522,7 +522,7 @@ body {
 
 /* 배경페이지 */
 #main {
-    height: 960px;
+    min-height: 960px;
 }
 @media (max-width : 768px) {
     #main {

@@ -74,17 +74,17 @@ window.dispatchEvent(new Event('resize'));
 
 
  // 특정 영역에 페이지 로딩
-function loadMainContent(page) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        document.getElementById("main").innerHTML = xhr.responseText;
-
-        }
-    };
-    xhr.open("GET", "/" + page, true);
-    xhr.send();
-};
+// function loadMainContent(page) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.onreadystatechange = function () {
+//     if (xhr.readyState === 4 && xhr.status === 200) {
+//         document.getElementById("main").innerHTML = xhr.responseText;
+//
+//         }
+//     };
+//     xhr.open("GET", "/" + page, true);
+//     xhr.send();
+// };
 
 
 // 네비바에 마우스 오버시 서브메뉴 표출
