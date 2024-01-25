@@ -20,6 +20,8 @@
 <ul>
     <li th:each="post : ${posts}">
         <span th:text="${post.title}"></span> - <span th:text="${post.content}"></span>
+        <span th:text="${post.nickname}"></span> - <span th:text="${post.ipAddress}"></span>
+
         <!-- "보러가기" 버튼 추가 -->
         <button class="view-post-btn" th:data-post-id="${post.id}">보러가기</button>
     </li>

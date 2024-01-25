@@ -44,6 +44,10 @@ public class PostService {
         postDto.setId(post.getId());
         postDto.setTitle(post.getTitle());
         postDto.setContent(post.getContent());
+        postDto.setNickname(post.getNickname());
+        postDto.setIpAddress(post.getIpAddress());
+
+
         // 다른 필요한 변환 로직 추가
         return postDto;
     }
