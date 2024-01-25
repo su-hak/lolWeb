@@ -40,6 +40,7 @@ public class CommentService {
         // 다른 필요한 변환 로직 추가
         return comment;
     }
+    // 게시글 번호와 일치하는 댓글만 보이게
     public List<Comment> getCommentsByPostId(Long postId) {
         // CommentRepository를 사용하여 postId에 해당하는 댓글을 조회
         return commentRepository.findByPostId(postId);

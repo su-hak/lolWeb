@@ -24,16 +24,16 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<String> saveComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {
-        // 클라이언트의 IP 주소 가져오기
-        String ipAddress = request.getRemoteAddr();
-
-        // CommentDto와 IP 주소를 함께 전달하여 댓글 저장
-        commentService.saveComment(commentDto, ipAddress);
-
-        return new ResponseEntity<>("댓글이 저장되었습니다.", HttpStatus.CREATED);
-    }
+//    @PostMapping("/save")
+//    public ResponseEntity<String> saveComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {
+//        // 클라이언트의 IP 주소 가져오기
+//        String ipAddress = request.getRemoteAddr();
+//
+//        // CommentDto와 IP 주소를 함께 전달하여 댓글 저장
+//        commentService.saveComment(commentDto, ipAddress);
+//
+//        return new ResponseEntity<>("댓글이 저장되었습니다.", HttpStatus.CREATED);
+//    }
 
     private Comment convertDtoToEntity(CommentDto commentDto) {
         Comment comment = new Comment();

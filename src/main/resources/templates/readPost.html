@@ -17,14 +17,18 @@
     <p>작성자: <span th:text="${post.nickname}"></span></p>
     <p>IP Address: <span th:text="${post.ipAddress}"></span></p>
 </div>
+<button type="button" id="goToListButton">목록으로</button>
 <!-- 댓글 목록 표시 -->
 <h3>댓글 목록</h3>
 <div th:if="${comment}">
     <ul>
-        <li th:each="comment : ${comment}">
-            <p th:text="${comment.nickname}"></p>
-            <p th:text="${comment.ipAddress}"></p>
-            <p th:text="${comment.content}"></p>
+        <li th:each="comment, commentIndex : ${comment}">
+            <!-- 순차적인 번호를 출력 -->
+            <span th:text="${commentIndex.index + 1}"></span>.
+            <span th:text="${comment.nickname}"></span>
+            <span th:text="${comment.ipAddress}"></span>
+            <span th:text="${comment.content}"></span>
+            <span th:text="${comment.createTime}"></span>
         </li>
     </ul>
 </div>
@@ -44,18 +48,7 @@
     <!-- 수정된 부분: onclick 이벤트에 직접 createComment 함수 호출 제거 -->
     <button type="button" id="commentButton">댓글 작성</button>
 </form>
-<div id="commentList">
-    <h3>댓글 목록</h3>
-    <div th:if="${comments}">
-        <ul>
-            <li th:each="comment : ${commentList}">
-                <p th:text="${comment.nickname}"></p>
-                <p th:text="${comment.content}"></p>
-                <p th:text="${comment.ipAddress}"></p>
-            </li>
-        </ul>
-    </div>
-</div>
+
 
 <!-- JavaScript 코드 -->
 <script>
@@ -80,7 +73,7 @@
                 // 성공적으로 댓글이 작성되면 처리할 로직
                 alert(response);
                 // 댓글 작성 후 화면 갱신
-                updateCommentList();
+                // updateCommentList();
             },
             error: function (error) {
                 // 댓글 작성 중 에러 발생 시 처리할 로직
@@ -92,6 +85,11 @@
     // 버튼 클릭 시 createComment 함수 호출하도록 수정
     $(document).ready(function () {
         $("#commentButton").click(createComment);
+    });
+
+    // "목록으로" 버튼 클릭 시 post/list 페이지로 이동
+    $("#goToListButton").click(function() {
+        window.location.href = "/post/list";
     });
 </script>
 

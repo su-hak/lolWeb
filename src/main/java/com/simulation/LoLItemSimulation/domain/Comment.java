@@ -3,6 +3,8 @@ package com.simulation.LoLItemSimulation.domain;
 import jakarta.persistence.*;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 // Comment.java
 @Entity
 public class Comment {
@@ -22,6 +24,27 @@ public class Comment {
     @Column(name = "post_id")
     private Long postId;
 
+    @Column(name = "createtime")
+    private LocalDateTime createTime;
+
+    @Column(name = "updatetime")
+    private LocalDateTime updateTime;
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public Long getPostId() {
         return postId;
