@@ -57,7 +57,7 @@ public class PostController {
         post.setPassword(post.getPassword());
 
         // IP 주소 설정
-        String ipAddress = request.getRemoteAddr();
+        String ipAddress = getClientIP(request);
         post.setIpAddress(ipAddress);
 
         // title과 content는 HTML 폼에서의 매핑을 기다립니다.
@@ -115,13 +115,35 @@ public class PostController {
         comment.setPassword(commentDto.getPassword());
         comment.setContent(commentDto.getContent());
 
-        String ipAddress = request.getRemoteAddr();
+        // 클라이언트의 실제 IP 주소 가져오기
+        String ipAddress = getClientIP(request);
         comment.setIpAddress(ipAddress);
         log.info("댓글생성 확인 : " + comment);
         // 댓글을 저장
         commentRepository.save(comment);
 
         return ResponseEntity.ok(comment);
+    }
+
+    // 클라이언트의 실제 IP 주소를 가져오는 메서드
+    private String getClientIP(HttpServletRequest request) {
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)){
+            ipAddress = request.getHeader("HTTP_CLIENT_IP");
+        }
+        return ipAddress;
     }
 
 

@@ -10,4 +10,9 @@ public class MainController {
     public String list(Model model){
         return "simulation";
     }
+
+    @GetMapping("/")
+    public String helloPage() {
+        return "index";
+    }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+</head>
+<body>
+<h1>Hello!! Welcome!!</h1>
+
+<!-- 시뮬레이션 버튼 -->
+<button type="button" onclick="redirectToSimulation()">시뮬레이션</button>
+
+<!-- 커뮤니티 버튼 -->
+<button type="button" onclick="redirectToCommunity()">커뮤니티</button>
+
+<script>
+    // 시뮬레이션으로 리다이렉션
+    function redirectToSimulation() {
+        window.location.href = "/simulation";
+    }
+
+    // 커뮤니티로 리다이렉션
+    function redirectToCommunity() {
+        window.location.href = "/post/list";
+    }
+</script>
+</body>
+</html>
