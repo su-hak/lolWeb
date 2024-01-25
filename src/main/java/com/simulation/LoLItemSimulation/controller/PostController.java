@@ -114,8 +114,6 @@ public class PostController {
         comment.setNickname(commentDto.getNickname());
         comment.setPassword(commentDto.getPassword());
         comment.setContent(commentDto.getContent());
-//        comment.setCreateTime(commentDto.getCreateTime());
-//        comment.setUpdateTime(commentDto.getUpdateTime());
 
         String ipAddress = request.getRemoteAddr();
         comment.setIpAddress(ipAddress);

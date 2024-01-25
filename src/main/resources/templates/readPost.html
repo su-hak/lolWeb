@@ -71,7 +71,8 @@
             }),
             success: function (response) {
                 // 성공적으로 댓글이 작성되면 처리할 로직
-                alert(response);
+                alert("댓글이 성공적으로 저장되었습니다.");
+                location.reload();
                 // 댓글 작성 후 화면 갱신
                 // updateCommentList();
             },
