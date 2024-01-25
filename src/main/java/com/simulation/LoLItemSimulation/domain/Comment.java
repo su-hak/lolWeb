@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 // Comment.java
 @Entity
@@ -29,6 +31,21 @@ public class Comment {
 
     @Column(name = "updatetime")
     private LocalDateTime updateTime;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", insertable = false, updatable = false)
+    private Post post;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CommentLike> likes = new HashSet<>();
+
+    public Set<CommentLike> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<CommentLike> likes) {
+        this.likes = likes;
+    }
 
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -57,9 +74,7 @@ public class Comment {
     // 다른 필요한 댓글 관련 필드들 추가
 
     // 댓글과 게시글 관계 설정
-    @ManyToOne
-    @JoinColumn(name = "post_id", insertable = false, updatable = false)
-    private Post post;
+
 
     public void setContent(String content) {
         this.content = content;

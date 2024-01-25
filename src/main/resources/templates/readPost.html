@@ -29,6 +29,10 @@
             <span th:text="${comment.ipAddress}"></span>
             <span th:text="${comment.content}"></span>
             <span th:text="${comment.createTime}"></span>
+            <button type="button" class="likeButton" data-comment-id="${comment.id}">좋아요</button>
+            <span class="likeCount" data-comment-id="${comment.id}" th:attr="data-like-count=${comment.likes.size()}">
+        좋아요 수: <span class="likeCountValue"></span>
+    </span>
         </li>
     </ul>
 </div>
@@ -45,20 +49,51 @@
     <label for="content">댓글 내용:</label>
     <textarea id="content" name="content" required></textarea>
     <br>
-    <!-- 수정된 부분: onclick 이벤트에 직접 createComment 함수 호출 제거 -->
     <button type="button" id="commentButton">댓글 작성</button>
 </form>
 
-
 <!-- JavaScript 코드 -->
-<script>
-    function createComment() {
-        // var postId = ${post.id}; // 게시글 ID
-        // var nickname = $("#nickname").val();
-        // var password = $("#password").val();
-        // var content = $("#content").val();
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var commentData = /*[[${comments}]]*/ [];
+    /*]]>*/
+</script>
 
-        // Ajax를 이용한 비동기적인 댓글 작성
+<script>
+    // 좋아요 버튼 클릭 시 동작
+    $(document).on("click", ".likeButton", function() {
+        var commentId = $(this).data("comment-id");
+        var likeButton = $(this);
+
+        $.ajax({
+            type: "POST",
+            url: "/" + commentId + "/like",
+            contentType: "application/json",
+            data: JSON.stringify({
+                ipAddress: "dummy"
+            }),
+            success: function(response) {
+                if (response === true) {
+                    likeButton.css("color", "blue");
+                } else {
+                    likeButton.css("color", "black");
+                }
+
+                updateLikeCount(commentId);
+            },
+            error: function(error) {
+                alert("좋아요 처리 중 오류가 발생했습니다.");
+            }
+        });
+    });
+
+    // 좋아요 수 갱신 함수
+    function updateLikeCount(commentId) {
+        var likeCount = commentData.find(comment => comment.id === commentId).likes.length;
+        $(".likeCount[data-comment-id='" + commentId + "'] .likeCountValue").text(likeCount);
+    }
+    // 댓글 작성 버튼 클릭 시 동작
+    function createComment() {
         $.ajax({
             type: "POST",
             url: "/post/createComment",
@@ -69,21 +104,16 @@
                 password: $("#password").val(),
                 content: $("#content").val()
             }),
-            success: function (response) {
-                // 성공적으로 댓글이 작성되면 처리할 로직
+            success: function(response) {
                 alert("댓글이 성공적으로 저장되었습니다.");
                 location.reload();
-                // 댓글 작성 후 화면 갱신
-                // updateCommentList();
             },
-            error: function (error) {
-                // 댓글 작성 중 에러 발생 시 처리할 로직
+            error: function(error) {
                 alert("댓글 작성에 실패했습니다.");
             }
         });
     }
 
-    // 버튼 클릭 시 createComment 함수 호출하도록 수정
     $(document).ready(function () {
         $("#commentButton").click(createComment);
     });
@@ -93,8 +123,6 @@
         window.location.href = "/post/list";
     });
 </script>
-
-
 
 </body>
 </html>
