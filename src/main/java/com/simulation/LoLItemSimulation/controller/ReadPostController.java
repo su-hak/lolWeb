@@ -39,11 +39,11 @@ public class ReadPostController {
 //
 //        return "readPost";
 //    }
-@GetMapping("/post/getComments/{postId}")
-@ResponseBody
-public List<Comment> getCommentsByPostId(@PathVariable Long postId) {
-    // postId에 해당하는 게시물의 댓글 목록을 가져오는 로직
-    List<Comment> comments = commentService.getCommentsByPostId(postId);
-    return comments;
-}
+//@GetMapping("/post/getComments/{postId}")
+//@ResponseBody
+//public List<Comment> getCommentsByPostId(@PathVariable Long postId) {
+//    // postId에 해당하는 게시물의 댓글 목록을 가져오는 로직
+//    List<Comment> comments = commentService.getCommentsByPostId(postId);
+//    return comments;
+//}
 }

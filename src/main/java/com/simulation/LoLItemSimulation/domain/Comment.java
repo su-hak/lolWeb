@@ -42,6 +42,30 @@ public class Comment {
         this.content = content;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }

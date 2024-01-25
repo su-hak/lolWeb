@@ -19,10 +19,11 @@
 </div>
 <!-- 댓글 목록 표시 -->
 <h3>댓글 목록</h3>
-<div th:if="${comments}">
+<div th:if="${comment}">
     <ul>
-        <li th:each="comment : ${comments}">
+        <li th:each="comment : ${comment}">
             <p th:text="${comment.nickname}"></p>
+            <p th:text="${comment.ipAddress}"></p>
             <p th:text="${comment.content}"></p>
         </li>
     </ul>
@@ -87,93 +88,13 @@
             }
         });
     }
-    function updateCommentList() {
-        // Ajax를 이용해 댓글 목록을 다시 불러오는 로직
-        $.ajax({
-            type: "GET",
-            url: "/post/getComments/" + $("#postId").val(),
-            success: function (comments) {
-                // 성공적으로 댓글 목록을 받아왔을 때 처리할 로직
-                // 받아온 댓글 목록으로 화면 갱신
-                displayComments(comments);
-            },
-            error: function (error) {
-                // 에러 처리 로직
-                console.error("댓글 목록을 불러오는데 실패했습니다.", error);
-            }
-        });
-    }
-    function displayComments(comments) {
-        // 받아온 댓글 목록을 화면에 표시하는 로직
-        var commentList = $("#commentList");
-        commentList.empty(); // 기존 목록 비우기
-
-        if (comments && comments.length > 0) {
-            var ul = $("<ul></ul>");
-
-            comments.forEach(function (comment) {
-                var li = $("<li></li>");
-                li.append("<p>" + comment.nickname + "</p>");
-                li.append("<p>" + comment.content + "</p>");
-                li.append("<p>" + comment.ipAddress + "</p>");
-                ul.append(li);
-            });
-
-            commentList.append(ul);
-        } else {
-            commentList.append("<p>댓글이 없습니다.</p>");
-        }
-    }
 
     // 버튼 클릭 시 createComment 함수 호출하도록 수정
     $(document).ready(function () {
         $("#commentButton").click(createComment);
     });
 </script>
-<script>
-    // 페이지 로드 시 댓글 목록 가져오기
-    $(document).ready(function () {
-        loadComments();
-    });
 
-    function loadComments() {
-        // 현재 게시물의 ID를 가져옴
-        var postId = $("#postId").val();
-
-        // Ajax를 이용해 댓글 목록을 가져오는 로직
-        $.ajax({
-            type: "GET",
-            url: "/post/getComments/" + postId,
-            success: function (comments) {
-                // 성공적으로 댓글 목록을 받아왔을 때 처리할 로직
-                // 받아온 댓글 목록으로 화면 갱신
-                displayComments(comments);
-            },
-            error: function (error) {
-                // 에러 처리 로직
-                console.error("댓글 목록을 불러오는데 실패했습니다.", error);
-            }
-        });
-    }
-
-    function displayComments(comments) {
-        // 받아온 댓글 목록을 화면에 표시하는 로직
-        var commentList = $("#commentList ul");
-        commentList.empty(); // 기존 목록 비우기
-
-        if (comments && comments.length > 0) {
-            comments.forEach(function (comment) {
-                var li = $("<li></li>");
-                li.append("<p>" + comment.nickname + "</p>");
-                li.append("<p>" + comment.content + "</p>");
-                li.append("<p>" + comment.ipAddress + "</p>");
-                commentList.append(li);
-            });
-        } else {
-            commentList.append("<p>댓글이 없습니다.</p>");
-        }
-    }
-</script>
 
 
 </body>

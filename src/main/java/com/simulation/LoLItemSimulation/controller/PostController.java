@@ -92,8 +92,8 @@ public class PostController {
             // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
             return "게시글이 없습니다.";
         }
-        List<Comment> commentDtoList = commentService.findAll(postId);
-        model.addAttribute("commentList", commentDtoList);
+        List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
+        model.addAttribute("comment", commentDtoList);
 
         model.addAttribute("post", postDto);
         return "readPost";
