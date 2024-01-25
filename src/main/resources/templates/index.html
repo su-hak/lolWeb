@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/post.css}"/>
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -47,32 +48,14 @@
                     <div id="searching" class="col d-flex align-items-center justify-content-center">
 
                         <iconify-icon icon="ic:twotone-search" width="30"
-                                              height="30"></iconify-icon>
+                                      height="30"></iconify-icon>
                     </div>
-
-        <!-- 작은 화면용 팝업창-->
-        <button id="fullscreen-trigger">
-            <iconify-icon icon="fa:navicon" style="color: white" width="30"></iconify-icon>
-        </button>
-
-                    <div id="fullscreen-overlay">
-                        <button id="fullscreen-closed" class="text-right">
-                            <iconify-icon icon="vaadin:close" style="color: white" width="30"></iconify-icon>
-                        </button>
-                        <ul>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">딜미터기</a></li>
-                            <li><a href="#">커뮤니티</a></li>
-                        </ul>
-                    </div>
-                    <!-- 작은 화면용 팝업창 E-->
                 </div>
             </div>
             <!--서브 메뉴-->
             <div id="sub_nav" class="row" style="margin-top: 0.4rem; border-bottom: solid 1px #000000">
                 <div class="col"></div>
-                <div class="col nav justify-content-center" style="padding-left : 1rem; gap: 5rem;
-                font-weight: 500">
+                <div class="col nav justify-content-center" style="padding-left : 1rem; gap: 5rem; font-weight: 500">
                     <ul class="align-items-center">
                         <li><a href="#">공지사항</a></li>
                         <li><a href="#">패치노트</a></li>
@@ -87,8 +70,8 @@
                         <li><a href="#">프로빌드</a></li>
                     </ul>
                     <ul class="align-items-center">
-                        <li><a href="/freeBoardList">자유게시판</a></li>
-                        <li><a href="/editor">유머게시판</a></li>
+                        <li><a href="/post/list">자유게시판</a></li>
+                        <li><a href="#">유머게시판</a></li>
                         <li><a href="#">아이템공유</a></li>
                         <li><a href="#">매드무비</a></li>
                         <li><a href="#">커뮤니티</a></li>
