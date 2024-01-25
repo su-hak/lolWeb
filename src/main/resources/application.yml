@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    show-sql: true
+  datasource:
+    url: ${DB_URL}
+    hikari:
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      driver-class-name: org.mariadb.jdbc.Driver
+  devtools:
+    livereload:
+      enabled : true
+    remote :
+      restart:
+        enabled : false
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
