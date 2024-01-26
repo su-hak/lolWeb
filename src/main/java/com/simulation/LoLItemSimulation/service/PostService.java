@@ -4,6 +4,8 @@ import com.simulation.LoLItemSimulation.domain.Post;
 import com.simulation.LoLItemSimulation.dto.PostDto;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,13 +21,21 @@ public class PostService {
     // 게시글 저장 로직
     postRepository.save(post);
   }
+
   public List<Post> getAllPosts() {
-    return postRepository.findAll();
+    return postRepository.findAllByOrderByIdDesc(); // 역순정렬
   }
 
   public Optional<Post> getPostById(Long id) {
     return postRepository.findById(id);
   }
+
+  /* 게시판 페이징처리 관련*/
+  public Page<PostDto> getAllPosts(Pageable pageable){
+    Page<Post> postPage = postRepository.findAllByOrderByIdDesc(pageable);
+    return postPage.map(this::convertEntityToDto);
+  }
+
   // 다른 필요한 메서드들 추가
   public PostDto getPostDtoById(Long postId) {
     // postId에 해당하는 게시글 정보를 불러옴
@@ -49,4 +59,5 @@ public class PostService {
     // 다른 필요한 변환 로직 추가
     return postDto;
   }
+
 }

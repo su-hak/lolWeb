@@ -15,11 +15,7 @@
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
 
 
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-
-
 
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
@@ -40,7 +36,7 @@
                     <nav id="mainNav" class="nav col-9 justify-content-center">
                         <ul class="gnb align-items-center font-weight-bold">
                             <li><a href="#">공지사항</a></li>
-                            <li><a href="#" onclick="loadMainContent('dealMeter')">딜미터기</a></li>
+                            <li><a href="/post/dealmeter">딜미터기</a></li>
                             <li><a href="#">아이템순위</a></li>
                             <li><a href="#">프로빌드</a></li>
                             <li><a href="#">커뮤니티</a></li>
@@ -94,6 +90,8 @@
         </div>
     </header>
     <!-- 헤더영역 E -->
+
+
     <div style="height: 100px">
         <!--        메뉴영역 공백-->
     </div>
@@ -106,7 +104,7 @@
                     <div class="card-header">
                         <strong class="card-title">자유게시판</strong>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-5">
                         <div class="row flex-column">
                             <div class="col" style="font-size: larger" th:text="${post.title}">
                                 <!-- 제목 들어가는 부분 -->
@@ -153,6 +151,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" id="modifyBtn" class="col btn btn-success"
+                                    style="font-size: medium"
+                                    th:onclick="|location.href='@{/modifyPost?id={postId}(postId=${post.id})}'|">수정
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button id="delBtn" class="col btn btn-danger" aria-label="Try me! Example: AJAX request" style="font-size: medium">삭제</button>
+
+                        </div>
+                        <div class="col">
+                            <a href="/post/list"><button class="col btn btn-info" style="font-size: medium">목록
+                            </button></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -183,7 +197,8 @@
                                     55px; border: solid 1px;" required></textarea>
                                 </div>
                                 <div class="col-1 text-right" style="padding-left: 0">
-                                    <button id="commentButton" class="btn btn-primary" style="width: 100%; height: 55px">등록</button>
+                                    <button id="commentButton" class="btn btn-primary" style="width: 100%; height:
+                                    55px; font-size: medium">등록</button>
                                 </div>
                             </form>
                         </div>
@@ -288,6 +303,85 @@
         $("#commentButton").click(createComment);
     });
 </script>
+
+<!--수정 관련-->
+<script>
+    const modifyButton = document.getElementById('modifyBtn');
+
+    if(modifyButton){
+        // 클릭 이벤트가 감지되면 수정 API 요청
+        modifyButton.addEventListener('click', e=>{
+            let params = new URLSearchParams(location.search);
+            let id = params.get('id');
+
+            fetch(`/post/read/${id}`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: document.getElementById('title').value,
+                    content: document.getElementById('content').value
+                })
+            })
+
+                .then(()=>{
+                    alert('수정이 완료되었습니다.');
+                    location.replace(`/post/read/${id}`);
+                })
+        })
+    }
+</script>
+
+
+
+<!--삭제 관련-->
+<script>
+    $("#delBtn").click(function (e){
+        if (!test.choose) {
+            Swal.fire({
+                title: "비밀번호를 입력해주세요",
+                input: "password",
+                inputAttributes: {
+                    autocapitalize: "off"
+                },
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+                showLoaderOnConfirm: true,
+                preConfirm: async (password) => {
+                    try {
+                        const postId = `/post/read/${id}` /* 여기에 해당 게시물의 ID를 가져오는 코드를 추가하세요 */;
+                        const response = await fetch(`/posts/${postId}/delete`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ password }),
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            return Swal.showValidationMessage(`Error: ${JSON.stringify(errorData)}`);
+                        }
+
+                        return true; // Success, continue with the process
+                    } catch (error) {
+                        Swal.showValidationMessage(`Request failed: ${error}`);
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Deleted',
+                        text: 'The post has been deleted.',
+                        icon: 'success',
+                    });
+                }
+            });
+        }})
+</script>
+
 
 <!--<script>  // 스크롤을 위로 올리는 스티키바-->
 <!--    $(window).on('scroll', function () {-->

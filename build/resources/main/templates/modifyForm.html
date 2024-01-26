@@ -93,115 +93,73 @@
 
 
     <div style="height: 100px">
-<!--        메뉴영역 공백-->
+        <!--        메뉴영역 공백-->
     </div>
 
     <!-- 메인영역 -->
     <main id="main" class="container">
         <div class="row">
             <div class="col">
-                <div class="card shadow">
+                <div class="card shadow mb-4">
                     <div class="card-header">
-                        자유게시판
+                        <strong class="card-title">자유게시판</strong>
                     </div>
-                    <div class="card-body p-5">
-                        <!-- table -->
-                        <table class="table table-borderless table-hover">
-                            <!-- 게시판 헤더 -->
-                            <thead>
-                            <tr>
-                                <th class="col-2">글번호</th>
-                                <th class="col-7">글제목</th>
-                                <th class="col-3">작성자(IP)</th>
-                                <th class="col-2">작성일</th>
-                            </tr>
-                            </thead>
-                            <!-- 게시판 바디 -->
-                            <tbody th:if="${not #lists.isEmpty(posts)}">
-                            <tr th:each="post : ${posts}"> <!-- 게시물이 반복되어 리스트로 표시 -->
-                                <td style="font-size: 14px; color: #777777">
-                                    <p class="mb-0 text-muted" th:text="${post.id}"><!--게시물id--></p>
-                                </td>
-                                <td>
-                                    <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
-                                       th:data-post-id="${post.id}"><!--게시물 제목--></p>
-                                </td>
-                                <td class="ds_flex" style="font-size: 14px; color: #777777">
-                                    <p class="mb-0 text-muted" th:text="${post.nickname}"></p>
-                                    (<p class="mb-0 text-muted" th:text="${post.ipAddress}"></p>)
-
-                                </td>
-                                <td class="text-muted" style="font-size: 14px; color: #777777">2024/01/20</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div>
-                            <a th:href="@{/post/create}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">글쓰기</button>
-                            </a>
-                        </div>
-                        <div class="" style="margin-top: 10px">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <ul class="pagination">
-                                <li th:if="${currentPage > 0}">
-                                    <a th:href="@{'/post/list?page=' + (currentPage - 1)}">Previous</a>
-                                </li>
-
-                                <!-- 페이지 번호를 나타내는 링크 -->
-                                <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == currentPage} ? 'active'">
-                                    <a th:href="@{'/post/list?page=' + pageNumber}" th:text="${pageNumber + 1}"></a>
-                                </li>
-
-                                <!-- 다음 페이지로 이동하는 링크 -->
-                                <li th:if="${currentPage < totalPages - 1}">
-                                    <a th:href="@{'/post/list?page=' + '(currentPage + 1)'}">Next</a>
-                                </li>
-
-                                <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == currentPage} ? 'active'">
-                                    <a th:href="@{'/post/list?page=' + pageNumber}" th:text="${pageNumber + 1}">
-                                        <!-- 출력 추가: 페이지 번호 확인 -->
-                                        Page Number: <span th:text="${pageNumber}"></span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div id="search" class="" style="margin-top: 10px;">
-                            <form class="form">
-                                <div class="form-row justify-content-center">
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            제목
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                            <button class="dropdown-item" type="button">내용</button>
-                                            <button class="dropdown-item" type="button">제목+내용</button>
-                                            <button class="dropdown-item" type="button">작성자</button>
-                                        </div>
+                    <div class="card-body" style="padding: 40px">
+                        <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
+                        <form th:object="${post}" th:action="@{/post/modifyForm}" method="post">
+                            <div class="row flex-column" style="padding: 0 20px">
+                                <div class="col-md-6 d-flex">
+                                    <div class="form-group mb-3 d-flex" style="gap: 10px">
+                                        <label for="simpleinput">닉네임</label>
+                                        <input th:value="${nickname}" type="text" id="simpleinput"
+                                               class="form-control col-6"
+                                                style="font-size:
+                                        1.5rem">
                                     </div>
-                                    <div class="form-group col-auto">
-                                        <input type="text" class="form-control" id="freeSearch" value=""
-                                               placeholder="Search">
+                                    <div class="form-group mb-3 d-flex" style="gap: 10px">
+                                        <label for="password">비밀번호</label>
+                                        <input th:value="${password}" type="password" id="password"
+                                               class="form-control col-6" value=""
+                                                style="font-size:
+                                        1.5rem">
+                                    </div>
+                                </div> <!-- /.col -->
+                                <div class="col d-flex">
+                                    <div class="form-group d-flex" style="gap: 10px; width: 100%">
+                                        <label for="title">제　목</label>
+                                        <input th:value="${title}" type="text" id="title" class="form-control col-8"
+                                               style="font-size:
+                                        1.5rem">
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                            <!-- 글 작성 에디터 영역 -->
+                            <!--ckeditor 적용 안직 못해서 주석처리-->
+<!--                            <div class="row">-->
+<!--                                <div class="centered">-->
+<!--                                    <div class="row row-editor">-->
+<!--                                        <div class="col editor-container">-->
+<!--                                            <div class="editor"></div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                            <textarea th:value="${content}" style="border: solid 1px; width: 100%; height: 500px">
+
+                            </textarea>
+                            <div>
+                                <div class="row">
+                                    <div class="col ds_flex">
+                                        <button type="submit" class="btn btn-success col"
+                                                    style="font-size: medium">글수정</button>
+                                        <button type="button" class="btn btn-secondary col" style="font-size:
+                                        medium;
+                                        right: 15px"
+                                                onclick="history.back();">취　소</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -242,20 +200,14 @@
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <!--<script src="/js/jquery.sticky.js"></script>-->
-
 <script th:src="@{/js/test.js}"></script> <!-- 모든 기능 이벤트 -->
 <script th:src="@{/js/decimal.js}"></script> <!-- 계산식 -->
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
-<script>
-    $(document).ready(function () {
-        // 각 게시물의 "보러가기" 버튼 클릭 이벤트 처리
-        $(".view-post-btn").click(function () {
-            var postId = $(this).data("post-id"); // 해당 버튼에 저장된 게시물 ID 가져오기
-            window.location.href = "/post/read/" + postId; // 해당 게시물로 이동
-        });
-    });
-</script>
+<script th:src="@{/ckeditor5/build/ckeditor.js}"></script>
+<script th:src="@{/js/ckeditorscript.js}"></script>
+
+
 
 <!--<script>  // 스크롤을 위로 올리는 스티키바-->
 <!--    $(window).on('scroll', function () {-->

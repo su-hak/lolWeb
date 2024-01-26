@@ -112,6 +112,7 @@ body {
     /*height: 80px;*/
     align-items: center;
     background: #00bbab;
+    background-image: linear-gradient(120deg, #155799, #159957);
     color: rgb(255, 255, 255);
 }
 
@@ -222,7 +223,7 @@ body {
     text-decoration: none;
 }
 #sub_nav a:hover{
-    color: #00ffea;
+    color: #159957;
 }
 
 /*서브메뉴E*/

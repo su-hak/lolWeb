@@ -12,12 +12,10 @@
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/post.css}"/>
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-
-
 
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
@@ -38,7 +36,7 @@
                     <nav id="mainNav" class="nav col-9 justify-content-center">
                         <ul class="gnb align-items-center font-weight-bold">
                             <li><a href="#">공지사항</a></li>
-                            <li><a href="#" onclick="loadMainContent('dealMeter')">딜미터기</a></li>
+                            <li><a href="/post/dealmeter">딜미터기</a></li>
                             <li><a href="#">아이템순위</a></li>
                             <li><a href="#">프로빌드</a></li>
                             <li><a href="#">커뮤니티</a></li>
@@ -92,6 +90,8 @@
         </div>
     </header>
     <!-- 헤더영역 E -->
+
+
     <div style="height: 100px">
 <!--        메뉴영역 공백-->
     </div>
@@ -101,7 +101,10 @@
         <div class="row">
             <div class="col">
                 <div class="card shadow">
-                    <div class="card-body">
+                    <div class="card-header">
+                        자유게시판
+                    </div>
+                    <div class="card-body p-5">
                         <!-- table -->
                         <table class="table table-borderless table-hover">
                             <!-- 게시판 헤더 -->
@@ -114,21 +117,21 @@
                             </tr>
                             </thead>
                             <!-- 게시판 바디 -->
-                            <tbody>
+                            <tbody th:if="${not #lists.isEmpty(posts)}">
                             <tr th:each="post : ${posts}"> <!-- 게시물이 반복되어 리스트로 표시 -->
-                                <td>
+                                <td style="font-size: 14px; color: #777777">
                                     <p class="mb-0 text-muted" th:text="${post.id}"><!--게시물id--></p>
                                 </td>
                                 <td>
                                     <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                        th:data-post-id="${post.id}"><!--게시물 제목--></p>
                                 </td>
-                                <td>
-                                    <p class="mb-0 text-muted" th:text="${post.nickname}"
-                                    >미어켓수학</p><p class="mb-0 text-muted" th:text="${post.ipAddress}"></p>
+                                <td class="ds_flex" style="font-size: 14px; color: #777777">
+                                    <p class="mb-0 text-muted" th:text="${post.nickname}"></p>
+                                    (<p class="mb-0 text-muted" th:text="${post.ipAddress}"></p>)
 
                                 </td>
-                                <td class="text-muted">2024/01/20</td>
+                                <td class="text-muted" style="font-size: 14px; color: #777777">2024/01/20</td>
                             </tr>
                             </tbody>
                         </table>
@@ -156,6 +159,28 @@
                                     </li>
                                 </ul>
                             </nav>
+                            <ul class="pagination">
+                                <li th:if="${currentPage > 0}">
+                                    <a th:href="@{'/post/list?page=' + (currentPage - 1)}">Previous</a>
+                                </li>
+
+                                <!-- 페이지 번호를 나타내는 링크 -->
+                                <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == currentPage} ? 'active'">
+                                    <a th:href="@{'/post/list?page=' + pageNumber}" th:text="${pageNumber + 1}"></a>
+                                </li>
+
+                                <!-- 다음 페이지로 이동하는 링크 -->
+                                <li th:if="${currentPage < totalPages - 1}">
+                                    <a th:href="@{'/post/list?page=' + '(currentPage + 1)'}">Next</a>
+                                </li>
+
+                                <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == currentPage} ? 'active'">
+                                    <a th:href="@{'/post/list?page=' + pageNumber}" th:text="${pageNumber + 1}">
+                                        <!-- 출력 추가: 페이지 번호 확인 -->
+                                        Page Number: <span th:text="${pageNumber}"></span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                         <div id="search" class="" style="margin-top: 10px;">
                             <form class="form">
