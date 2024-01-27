@@ -11,6 +11,7 @@ import com.simulation.LoLItemSimulation.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,8 +58,8 @@ public class PostController {
     post.setPassword(post.getPassword());
 
     // IP 주소 설정
-    String ipAddress = getClientIP(request);
-    post.setIpAddress(ipAddress);
+//    String ipAddress = getClientIP(request);
+//    post.setIpAddress(ipAddress);
 
     // title과 content는 HTML 폼에서의 매핑을 기다립니다.
 
@@ -76,9 +77,10 @@ public class PostController {
   }
 
   @GetMapping("/list")
-  public String getPostList(Model model) {
-    List<Post> posts = postService.getAllPosts();
-    model.addAttribute("posts", posts);
+  public String getPostList(@RequestParam(defaultValue = "0") int page, Model model) {
+    Page<Post> paging = this.postService.getList(page);
+
+    model.addAttribute("paging", paging);
     return "postList";
   }
 
@@ -116,9 +118,9 @@ public class PostController {
     comment.setContent(commentDto.getContent());
 
     // 클라이언트의 실제 IP 주소 가져오기
-    String ipAddress = getClientIP(request);
-    comment.setIpAddress(ipAddress);
-    log.info("댓글생성 확인 : " + comment);
+//    String ipAddress = getClientIP(request);
+//    comment.setIpAddress(ipAddress);
+//    log.info("댓글생성 확인 : " + comment);
     // 댓글을 저장
     commentRepository.save(comment);
 
@@ -126,25 +128,25 @@ public class PostController {
   }
 
   // 클라이언트의 실제 IP 주소를 가져오는 메서드
-  private String getClientIP(HttpServletRequest request) {
-    String ipAddress = request.getHeader("X-Forwarded-For");
-    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-      ipAddress = request.getHeader("Proxy-Client-IP");
-    }
-    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-      ipAddress = request.getHeader("WL-Proxy-Client-IP");
-    }
-    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-      ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
-    }
-    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-      ipAddress = request.getRemoteAddr();
-    }
-    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)){
-      ipAddress = request.getHeader("HTTP_CLIENT_IP");
-    }
-    return ipAddress;
-  }
+//  private String getClientIP(HttpServletRequest request) {
+//    String ipAddress = request.getHeader("X-Forwarded-For");
+//    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+//      ipAddress = request.getHeader("Proxy-Client-IP");
+//    }
+//    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+//      ipAddress = request.getHeader("WL-Proxy-Client-IP");
+//    }
+//    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+//      ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
+//    }
+//    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+//      ipAddress = request.getRemoteAddr();
+//    }
+//    if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)){
+//      ipAddress = request.getHeader("HTTP_CLIENT_IP");
+//    }
+//    return ipAddress;
+//  }
 
 
 }

@@ -101,7 +101,7 @@
         <div class="row">
             <div class="col">
                 <div class="card shadow">
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 20px">
                         <!-- table -->
                         <table class="table table-borderless table-hover">
                             <!-- 게시판 헤더 -->
@@ -115,9 +115,9 @@
                             </thead>
                             <!-- 게시판 바디 -->
                             <tbody>
-                            <tr th:each="post : ${posts}"> <!-- 게시물이 반복되어 리스트로 표시 -->
+                            <tr th:each="post, loop : ${paging}"> <!-- 게시물이 반복되어 리스트로 표시 -->
                                 <td>
-                                    <p class="mb-0 text-muted" th:text="${post.id}"><!--게시물id--></p>
+                                    <p class="mb-0 text-muted" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"><!--게시물id--></p>
                                 </td>
                                 <td>
                                     <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
@@ -138,19 +138,24 @@
                                 medium">글쓰기</button>
                             </a>
                         </div>
-                        <div class="" style="margin-top: 10px">
-                            <nav aria-label="Page navigation example">
+                        <div style="margin-top: 10px">
+                            <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
+                                    <li th:classappend="${!paging.hasPrevious()} ? 'disabled'" class="page-item">
+                                        <a th:href="@{|?page=${paging.number-1}|}" class="page-link"
+                                           aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
+                                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                                        th:classappend="${page == paging.number} ? 'active'"
+                                        class="page-item">
+                                        <a th:text="${page+1}" th:href="@{|?page=${page}|}" class="page-link">1</a>
+                                    </li>
+
+                                    <li th:classappend="${!paging.hasNext} ? 'disabled'" class="page-item">
+                                        <a th:href="@{|?page=${paging.number+1}|}" class="page-link" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>

@@ -3,14 +3,21 @@ package com.simulation.LoLItemSimulation.service;
 import com.simulation.LoLItemSimulation.domain.Post;
 import com.simulation.LoLItemSimulation.dto.PostDto;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 // PostService.java
 @Service
+@RequiredArgsConstructor
 public class PostService {
   @Autowired
   private PostRepository postRepository;
@@ -23,9 +30,17 @@ public class PostService {
     return postRepository.findAll();
   }
 
-  public Optional<Post> getPostById(Long id) {
-    return postRepository.findById(id);
+  public Page<Post> getList(int page) {
+    List<Sort.Order> sorts = new ArrayList<>();
+//    sorts.add(Sort.Order.desc(""));
+
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+    return this.postRepository.findAll(pageable);
   }
+
+//  public Optional<Post> getPostById(Long id) {
+//    return postRepository.findById(id);
+//  }
   // 다른 필요한 메서드들 추가
   public PostDto getPostDtoById(Long postId) {
     // postId에 해당하는 게시글 정보를 불러옴
@@ -45,7 +60,7 @@ public class PostService {
     postDto.setTitle(post.getTitle());
     postDto.setContent(post.getContent());
     postDto.setNickname(post.getNickname());
-    postDto.setIpAddress(post.getIpAddress());
+//    postDto.setIpAddress(post.getIpAddress());
     // 다른 필요한 변환 로직 추가
     return postDto;
   }
