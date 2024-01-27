@@ -135,8 +135,8 @@
                         <div class="row">
                             <div class="centered">
                                 <div class="row row-editor">
-                                    <div class="col editor-container" th:field="*{content}">
-                                        <div class="editor"></div>
+                                    <div class="col editor-container">
+                                        <textarea class="editor" th:field="*{content}"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +200,6 @@
 
 <script src="/ckeditor5/build/ckeditor.js"></script>
 <script src="/js/ckeditorscript.js"></script>
-
 
 
 <!--<script>  // 스크롤을 위로 올리는 스티키바-->
