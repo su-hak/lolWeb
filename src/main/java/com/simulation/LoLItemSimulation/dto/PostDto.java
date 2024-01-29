@@ -11,17 +11,17 @@ import lombok.ToString;
 @ToString
 // PostDto.java
 public class PostDto {
-    private Long id;
+  private Long id;
 
-    private String title;
+  private String title;
 
-    private String content;
+  private String content;
 
-    private String nickname;
+  private String nickname;
 
-    private String password;
-    
-    private String ipAddress;
+  private String password;
+
+  private String ipAddress;
 
 
 }

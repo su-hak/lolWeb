@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 public class CommentRequest {
 
 
-    private Long postId;
+  private Long postId;
 
 
-    private String nickname;
+  private String nickname;
 
 
-    private String password;
+  private String password;
 
 
-    private String content;
+  private String content;
 }
