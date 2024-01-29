@@ -12,8 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,13 +38,6 @@ public class PostController {
   private CommentService commentService;
 
 
-
-  @GetMapping("/dealmeter")
-  public String getdealmeter(Model model) {
-    return "dealmeter";
-  }
-
-
   //    @PostMapping("/create")
   //    public ResponseEntity<String> createPost(@RequestBody PostDto postDto) {
   //        // DTO를 엔터티로 변환 후 저장 로직
@@ -67,12 +58,10 @@ public class PostController {
     post.setPassword(post.getPassword());
 
     // IP 주소 설정
-    String ipAddress = getClientIP(request);
-    post.setIpAddress(ipAddress);
+//    String ipAddress = getClientIP(request);
+//    post.setIpAddress(ipAddress);
 
     // title과 content는 HTML 폼에서의 매핑을 기다립니다.
-    post.setTitle(post.getTitle());
-    post.setContent(post.getContent());
 
     // 저장
     postRepository.save(post);
@@ -87,28 +76,11 @@ public class PostController {
     return "postForm";
   }
 
-
-  /* 게시물을 전체 가져오는 코드
-  *  리스트의 페이징처리 때문에 일단 주석*/
-//  @GetMapping("/list")
-//  public String getPostList(Model model) {
-//    List<Post> posts = postService.getAllPosts();
-//    model.addAttribute("posts", posts);
-//    return "postList";
-//  }
-
-  /* 게시물리스트 페이징 처리 */
   @GetMapping("/list")
   public String getPostList(@RequestParam(defaultValue = "0") int page, Model model) {
-    int currentPage = Integer.parseInt(String.valueOf(page));
-    int pageSize = 10; // 한 페이지에 보여줄 게시글 수
-    PageRequest pageable = PageRequest.of(currentPage, pageSize);
+    Page<Post> paging = this.postService.getList(page);
 
-    Page<PostDto> postPage = postService.getAllPosts(pageable);
-    model.addAttribute("posts", postPage.getContent());
-    model.addAttribute("currentPage", currentPage);
-    model.addAttribute("totalPages", postPage.getTotalPages());
-
+    model.addAttribute("paging", paging);
     return "postList";
   }
 
