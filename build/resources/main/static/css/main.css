@@ -6,6 +6,10 @@
 /* 게이지 글꼴 */
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&display=swap');
 
+/* 로고 글꼴*/
+@import url('https://fonts.googleapis.com/css2?family=Grape+Nuts&display=swap');
+
+
 /* font-family: 'Noto Sans KR', sans-serif;
 font-family: 'DM Serif Text', serif; */
 
@@ -28,15 +32,6 @@ table {
     width: 100%;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-size: 100%;
-}
-
 img {
     vertical-align: top;
 }
@@ -44,6 +39,7 @@ img {
 ul,
 ol {
     list-style: none;
+    margin-bottom : 0;
 }
 
 a {
@@ -88,13 +84,6 @@ body {
     color: #000;
 }
 
-.inner {
-    max-width: calc(100% - 200px);
-    margin: 0 auto;
-}
-
-
-
 
 /* 초기화  E */
 
@@ -107,12 +96,23 @@ body {
     color: #eeff00;
 }
 
+.po-relative {
+    position: relative;
+}
+.po-absolute {
+    position: absolute;
+}
+.grape_nuts_font {
+    font-family: 'Grape Nuts', cursive;
+}
+
+
 /* 헤더영역 */
 #header {
-    width: 100%;
-    height: 80px;
+    /*height: 80px;*/
     align-items: center;
-    background: #598EFF;
+    background: #00bbab;
+    background-image: linear-gradient(120deg, #155799, #159957);
     color: rgb(255, 255, 255);
 }
 
@@ -139,36 +139,94 @@ body {
     color: #fff;
 }
 
-@media (max-width : 1000px) {
-    #header .inner h1 { padding: 0 25px 0 0; }
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
-@media (max-width : 768px) {
-    #header .inner h1 {
-        text-align: center;
-        align-items: center;
-        align-content: center;
-        padding: 0;
 
-        /*display: none; !*테스트용*!*/
-    }
+#header.animated {
+    box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.15);
 }
+
+/*@media (max-width : 1000px) {*/
+/*    #header .inner h1 { padding: 0 25px 0 0; }*/
+/*}*/
+/*@media (max-width : 768px) {*/
+/*    #header .inner h1 {*/
+/*        text-align: center;*/
+/*        align-items: center;*/
+/*        align-content: center;*/
+/*        padding: 0;*/
+
+/*        !*display: none; !*테스트용*!*!*/
+/*    }*/
+/*}*/
 
 /* 헤더 네비 */
+
+.nav{
+    padding: 20px 0;
+}
+
 #header .gnb {
     margin: 0;
     display: flex;
-    gap: 1.875rem;
+    gap: 5rem;
     align-items: center;
 }
 /* 메뉴 기본 스타일 */
+@keyframes navColorHover {
+    from{
+        color: rgb(255, 255, 255)
+    }
+    to{
+        color: #D3D3D3FF
+    }
+}
+@keyframes navColorOut {
+    from{
+        color: #D3D3D3FF
+    }
+    to{
+        color: rgb(255, 255, 255)
+    }
+}
+
 #header .gnb a {
     color: rgb(255, 255, 255);
     text-decoration: none;
 }
 /*매뉴에 마우스 올리면 스타일 변경*/
 #header .gnb a:hover {
-    color: rgb(255, 38, 0)
+    /*animation: navColorHover 0.5s;*/
+    color: #00ffea;
 }
+#header .gnb a:not(:hover) {
+    /*animation: navColorOut 0.5s;*/
+    color: rgb(255, 255, 255);
+}
+
+/*서브메뉴*/
+
+#sub_nav{
+    /*background-color: #98dcd4;*/
+    background-color: #ffffff;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    /*z-index: 99999;*/
+}
+#sub_nav a{
+    color: #2c2e3e;
+    text-decoration: none;
+}
+#sub_nav a:hover{
+    color: #159957;
+}
+
+/*서브메뉴E*/
 
 
 
@@ -218,25 +276,39 @@ body {
 }
 
 /* 화면 줄일 시 메뉴바 사이즈 조정 */
-@media (max-width : 1000px) {
-    #header .gnb { gap : 1rem}
-}
+/*@media (max-width : 1000px) {*/
+/*    #header .gnb { gap : 1rem}*/
+/*}*/
 
-/* 화면 줄일 시 메뉴바 안보이고 메뉴버튼 나오게 */
-@media (max-width : 768px) {
-    /* 화면 줄어들면 메뉴 사라짐*/
-    #header .gnb {
-        display: none;
-    }
-    /* 화면 줄어들면 작은 화면 메뉴 활성화 */
-    #fullscreen-trigger {
-        display: block ;
-        position: absolute;
-        top: 30px;
-        right: 30px;
-    }
-}
+/*!* 화면 줄일 시 메뉴바 안보이고 메뉴버튼 나오게 *!*/
+/*@media (max-width : 768px) {*/
+/*    !* 화면 줄어들면 메뉴 사라짐*!*/
+/*    #header .gnb {*/
+/*        display: none;*/
+/*    }*/
+/*    !* 화면 줄어들면 작은 화면 메뉴 활성화 *!*/
+/*    #fullscreen-trigger {*/
+/*        display: block ;*/
+/*        position: absolute;*/
+/*        top: 30px;*/
+/*        right: 30px;*/
+/*    }*/
+/*}*/
 
+
+/* 전체 검색 창 ------------ */
+.searchForm {
+
+    /*background-color: #98dcd4;*/
+    background-color: #ffffff;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    /*z-index: 99999;*/
+}
+#searching:hover .searchForm{
+    max-height: 180px;
+}
 
 
 /* -------------- 공지사항 모달창 설정 --------------*/
@@ -418,70 +490,11 @@ body {
 
 /* ------------ 공지 모달창 설정 ------------*/
 
-/* 로그인 회원가입 */
-#header .util {
-    display: flex;
-    margin: 0 0 0 auto;
-    gap: 20px;
-}
 
-#header .util button {
-    width: 80px;
-    height: 35px;
-    background: #ffffff;
-    font-size: 15px;
-    font-weight: 700;
-    text-align: center;
-    border-radius: 10px
-}
-
-/* 회원 가입 버튼 */
-#header .util .joinBtn {
-    width: 110px;
-    height: 35px;
-    border: 2px solid #ffdd57;
-    color: #fff;
-    background: #ff00e1;
-    font-size: 15px;
-    font-weight: 700;
-    text-align: center;
-    border-radius: 10px
-}
-/* 회원기입버튼 마우스 올렸을때 */
-#header .util .joinBtn:hover {
-    background: #ad0099;
-}
-/* 화면 줄일 시 유틸창 사라지게 */
-@media (max-width : 768px) {
-    #header .util {
-        display: none;
-    }
-}
-/* 작은 화면 로그인 버튼 */
-.mobileLoginBtn{
-    width: 110px;
-    height: 35px;
-    color: #000;
-    background-color: #FFF;
-    font-size: 15px;
-    font-weight: 700;
-    text-align: center;
-    border-radius: 10px
-}
-/* 작은 화면  회원가입 버튼 */
-.mobileJoinBtn {
-    width: 110px;
-    height: 35px;
-    color: #fff;
-    background-color: #ff00e1;
-    font-size: 15px;
-    font-weight: 700;
-    text-align: center;
-    border-radius: 10px
-}
 
 
 /* 메인영역 */
+
 
 .ds_flex_center {
     display: flex;
@@ -494,9 +507,23 @@ body {
 }
 
 
+@keyframes colorChange {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.fadeIn {
+    opacity: 0;
+    animation: fadeIn 2s;
+}
+
+
 /* 배경페이지 */
 #main {
-    height: 880px;
+    min-height: 960px;
 }
 @media (max-width : 768px) {
     #main {
@@ -506,6 +533,7 @@ body {
 
 #main #sectionB {
     position: relative;
+
 }
 
 #main #sectionB .video {
@@ -513,7 +541,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 880px;
+    height: 960px;
     object-fit: cover;
 }
 
@@ -986,7 +1014,7 @@ body {
 }
 
 
-/* 오른쪽 딜미터기 */
+/* 오른쪽 시뮬레이터 */
 
 #main #sectionF #dealmeterR {
     padding: 0.625rem 3.125rem 0 0;
