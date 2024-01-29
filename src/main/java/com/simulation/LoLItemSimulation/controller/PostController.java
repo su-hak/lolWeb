@@ -58,8 +58,8 @@ public class PostController {
     post.setPassword(post.getPassword());
 
     // IP 주소 설정
-//    String ipAddress = getClientIP(request);
-//    post.setIpAddress(ipAddress);
+    String ipAddress = getClientIP(request);
+    post.setIpAddress(ipAddress);
 
     // title과 content는 HTML 폼에서의 매핑을 기다립니다.
 

@@ -93,7 +93,7 @@
     </header>
     <!-- 헤더영역 E -->
     <div style="height: 100px">
-<!--        메뉴영역 공백-->
+        <!--        메뉴영역 공백-->
     </div>
 
     <!-- 메인영역 -->
@@ -101,7 +101,10 @@
         <div class="row">
             <div class="col">
                 <div class="card shadow">
-                    <div class="card-body" style="padding: 20px">
+                    <div class="card-header">
+                        자유게시판
+                    </div>
+                    <div class="card-body p-5">
                         <!-- table -->
                         <table class="table table-borderless table-hover">
                             <!-- 게시판 헤더 -->
@@ -116,19 +119,19 @@
                             <!-- 게시판 바디 -->
                             <tbody>
                             <tr th:each="post, loop : ${paging}"> <!-- 게시물이 반복되어 리스트로 표시 -->
-                                <td>
+                                <td style="font-size: 14px; color: #777777">
                                     <p class="mb-0 text-muted" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"><!--게시물id--></p>
                                 </td>
                                 <td>
                                     <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
-                                       th:data-post-id="${post.id}"><!--게시물 제목--></p>
+                                       th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목--></p>
                                 </td>
-                                <td>
-                                    <p class="mb-0 text-muted" th:text="${post.nickname}"
-                                    >미어켓수학</p><p class="mb-0 text-muted" th:text="${post.ipAddress}"></p>
+                                <td class="ds_flex" style="font-size: 14px; color: #777777">
+                                    <p class="mb-0 text-muted" th:text="${post.nickname}"></p>
+                                    (<p class="mb-0 text-muted" th:text="${post.ipAddress}"></p>)
 
                                 </td>
-                                <td class="text-muted">2024/01/20</td>
+                                <td class="text-muted" style="font-size: 14px; color: #777777">2024/01/20</td>
                             </tr>
                             </tbody>
                         </table>

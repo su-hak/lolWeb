@@ -108,52 +108,52 @@
                         <strong class="card-title">자유게시판</strong>
                     </div>
                     <form th:object="${post}" th:action="@{/post/submitForm}" method="post">
-                    <div class="card-body" style="padding: 40px">
-                        <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
-                        <div class="row flex-column" style="padding: 0 20px">
-                            <div class="col-md-6 d-flex">
-                                <div class="form-group mb-3 d-flex" style="gap: 10px">
-                                    <label for="simpleinput">닉네임</label>
-                                    <input type="text" id="simpleinput" class="form-control col-6" style="font-size:
+                        <div class="card-body" style="padding: 40px">
+                            <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
+                            <div class="row flex-column" style="padding: 0 20px">
+                                <div class="col-md-6 d-flex">
+                                    <div class="form-group mb-3 d-flex" style="gap: 10px">
+                                        <label for="simpleinput">닉네임</label>
+                                        <input type="text" id="simpleinput" class="form-control col-6" style="font-size:
                                     1.5rem" th:field="*{nickname}">
-                                </div>
-                                <div class="form-group mb-3 d-flex" style="gap: 10px">
-                                    <label for="password">비밀번호</label>
-                                    <input type="password" id="password" class="form-control col-6" value="" style="font-size:
+                                    </div>
+                                    <div class="form-group mb-3 d-flex" style="gap: 10px">
+                                        <label for="password">비밀번호</label>
+                                        <input type="password" id="password" class="form-control col-6" value="" style="font-size:
                                     1.5rem" th:field="*{password}">
-                                </div>
-                            </div> <!-- /.col -->
-                            <div class="col d-flex">
-                                <div class="form-group d-flex" style="gap: 10px; width: 100%">
-                                    <label for="title">제　목</label>
-                                    <input type="text" id="title" class="form-control col-8" style="font-size:
+                                    </div>
+                                </div> <!-- /.col -->
+                                <div class="col d-flex">
+                                    <div class="form-group d-flex" style="gap: 10px; width: 100%">
+                                        <label for="title">제　목</label>
+                                        <input type="text" id="title" class="form-control col-8" style="font-size:
                                     1.5rem" th:field="*{title}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- 글 작성 에디터 영역 -->
-                        <div class="row">
-                            <div class="centered">
-                                <div class="row row-editor">
-                                    <div class="col editor-container">
-                                        <textarea class="editor" th:field="*{content}"></textarea>
+                            <!-- 글 작성 에디터 영역 -->
+                            <div class="row">
+                                <div class="centered">
+                                    <div class="row row-editor">
+                                        <div class="col editor-container">
+                                            <textarea class="editor" th:field="*{content}"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="row">
+                                    <div class="col ds_flex">
+                                        <button type="submit" class="btn btn-success col"
+                                                style="font-size: medium">글등록</button>
+                                        <button type="button" class="btn btn-secondary col" style="font-size:
+                                    medium;
+                                    right: 15px"
+                                                onclick="history.back();">취　소</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="row">
-                                <div class="col ds_flex">
-                                    <button type="submit" class="btn btn-success col"
-                                            style="font-size: medium">글등록</button>
-                                    <button type="button" class="btn btn-secondary col" style="font-size:
-                                    medium;
-                                    right: 15px"
-                                            onclick="history.back();">취　소</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     </form>
                 </div>
             </div>
