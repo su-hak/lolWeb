@@ -84,4 +84,6 @@ public class CommentService {
         CommentLike commentLike = commentLikeRepository.findByCommentIdAndIpAddress(commentId, ipAddress);
         return commentLike != null;
     }
+
+
 }

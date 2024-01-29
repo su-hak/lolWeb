@@ -6,6 +6,15 @@
     <title>Read Post</title>
     <!-- jQuery CDN을 사용하고 있다고 가정 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        .liked {
+            color: blue;
+        }
+
+        .not-liked {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 
@@ -20,18 +29,23 @@
 <button type="button" id="goToListButton">목록으로</button>
 <!-- 댓글 목록 표시 -->
 <h3>댓글 목록</h3>
-<li th:each="commentInfo : ${comment}">
+<li th:each="commentInfo,commentIndex : ${comment}">
     <!-- 순차적인 번호를 출력 -->
-    <span th:text="${commentIndex != null ? commentIndex.index + 1 : ''}"></span>.
+    <span th:text="${commentIndex.index + 1}"></span>.
     <span th:text="${commentInfo.comment.nickname}"></span>
     <span th:text="${commentInfo.comment.ipAddress}"></span>
     <span th:text="${commentInfo.comment.content}"></span>
     <span th:text="${commentInfo.comment.createTime}"></span>
     <!-- 아이디 값을 직접 전달 -->
+    <span th:text="${commentInfo.isLiked()}"></span>
+<!--    <button type="button" class="likeButton"-->
+<!--            data-comment-id="${commentInfo.comment.id}"-->
+<!--            th:attr="data-comment-id=${commentInfo.comment.id}"-->
+<!--            th:style="${commentInfo.isLiked ? 'color: blue;' : 'color: red;'}">좋아요</button>-->
     <button type="button" class="likeButton"
             data-comment-id="${commentInfo.comment.id}"
             th:attr="data-comment-id=${commentInfo.comment.id}"
-            th:style="${commentInfo.isLiked ? 'color: blue;' : 'color: black;'}">좋아요</button>
+            th:class="${commentInfo.isLiked == true} ? 'likeButton liked' : 'likeButton not-liked'">좋아요</button>
     <span class="likeCount" data-comment-id="${commentInfo.comment.id}"
           th:attr="data-like-count=${commentInfo.comment.likes.size()}, data-comment-id=${commentInfo.comment.id}">
         좋아요 수: <span class="likeCountValue"></span>
@@ -59,6 +73,17 @@
     var commentData = /*[[${comments}]]*/ [];
     /*]]>*/
 </script>
+<!--<script th:inline="javascript">-->
+<!--    /*<![CDATA[*/-->
+<!--    $(document).ready(function () {-->
+<!--        /* Iterate through each comment and update the like button style */-->
+<!--        $(".likeButton").each(function () {-->
+<!--            var isLiked = $(this).data("is-liked");-->
+<!--            $(this).css("color", isLiked ? "blue" : "black");-->
+<!--        });-->
+<!--    });-->
+<!--    /*]]>*/-->
+<!--</script>-->
 
 <script>
     // 좋아요 수 갱신 함수
@@ -83,9 +108,18 @@
                 }
 
                 // 좋아요 버튼 상태에 따라 색상 변경
-                var likeButton = $(".likeButton[data-comment-id='" + commentId + "']");
-                var isLiked = response > 0;
-                likeButton.css("color", isLiked ? "blue" : "black");
+                // var likeButton = $(".likeButton[data-comment-id='" + commentId + "']");
+                // var isLiked = response > 0;
+                //
+                // // 이전에 추가된 클래스를 모두 제거
+                // likeButton.removeClass("liked not-liked");
+                //
+                // // isLiked 값에 따라 적절한 클래스를 추가
+                // if (isLiked) {
+                //     likeButton.addClass("liked");
+                // } else {
+                //     likeButton.addClass("not-liked");
+                // }
             },
             error: function(error) {
                 console.log(error);
@@ -116,10 +150,15 @@
                 ipAddress: "dummy"
             }),
             success: function(response) {
+                likeButton.removeClass("liked");
+                likeButton.removeClass("not-liked");
+
                 if (response === true) {
-                    likeButton.css("color", "blue");
+                    console.log("좋아요 누름")
+                    likeButton.addClass("liked");
                 } else {
-                    likeButton.css("color", "black");
+                    console.log("좋아요 취소")
+                    likeButton.addClass("not-liked");
                 }
 
                 updateLikeCount(commentId);

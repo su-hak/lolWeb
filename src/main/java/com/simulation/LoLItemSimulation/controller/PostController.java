@@ -7,6 +7,7 @@ import com.simulation.LoLItemSimulation.dto.CommentDto;
 import com.simulation.LoLItemSimulation.dto.PostDto;
 import com.simulation.LoLItemSimulation.repository.CommentRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
+import com.simulation.LoLItemSimulation.service.CommentLikeService;
 import com.simulation.LoLItemSimulation.service.CommentService;
 import com.simulation.LoLItemSimulation.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +38,8 @@ public class PostController {
     private CommentRepository commentRepository;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private  CommentLikeService commentLikeService;
 
 
     //    @PostMapping("/create")
@@ -86,24 +89,20 @@ public class PostController {
 
     @GetMapping("/read/{postId}")
     public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request) {
-        // postId에 해당하는 게시글 정보를 가져옴
         PostDto postDto = postService.getPostDtoById(postId);
 
         if (postDto == null) {
-            // 게시글이 없을 경우 예외처리
-            // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
             return "게시글이 없습니다.";
         }
 
         List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
         List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
 
-        // 현재 클라이언트의 IP 주소 가져오기
         String clientIpAddress = getClientIP(request);
-
-        // 댓글과 좋아요 정보를 가져와서 클라이언트 IP에 해당하는 댓글과 좋아요 여부를 전달
+        log.info("client IP " +  clientIpAddress);
         for (Comment comment : commentDtoList) {
-            boolean isLiked = commentService.isCommentLikedByIp(comment.getId(), clientIpAddress);
+            boolean isLiked = commentLikeService.isCommentLikedByIp(comment.getId(), clientIpAddress);
+            log.info("is LIKE" + isLiked);
             commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
         }
 

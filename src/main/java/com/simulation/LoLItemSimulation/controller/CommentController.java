@@ -2,14 +2,12 @@ package com.simulation.LoLItemSimulation.controller;
 
 import com.simulation.LoLItemSimulation.domain.Comment;
 import com.simulation.LoLItemSimulation.domain.CommentLike;
-import com.simulation.LoLItemSimulation.domain.CommentLikeId;
 import com.simulation.LoLItemSimulation.dto.CommentDto;
 import com.simulation.LoLItemSimulation.repository.CommentLikeRepository;
 import com.simulation.LoLItemSimulation.repository.CommentRepository;
 import com.simulation.LoLItemSimulation.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -98,7 +96,7 @@ public class CommentController {
     }
     // 댓글에 좋아요 추가
     @PostMapping("/{commentId}/like")
-    public ResponseEntity<String> addLike(@PathVariable Long commentId, @RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Boolean> addLike(@PathVariable Long commentId, @RequestBody Map<String, String> requestBody) {
         String ipAddress = getClientIP(request);
 
         Comment comment = commentRepository.findById(commentId).orElse(null);
@@ -112,14 +110,14 @@ public class CommentController {
         if (existingLike != null) {
             // 이미 좋아요를 눌렀으면 취소
             commentLikeRepository.delete(existingLike);
-            return ResponseEntity.ok("Like canceled");
+            return ResponseEntity.ok(false);
         } else {
             // 좋아요 추가
             CommentLike newLike = new CommentLike();
             newLike.setComment(comment);
             newLike.setIpAddress(ipAddress);
             commentLikeRepository.save(newLike);
-            return ResponseEntity.ok("Like added");
+            return ResponseEntity.ok(true); // Like added
         }
     }
 
