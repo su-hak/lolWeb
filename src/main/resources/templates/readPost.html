@@ -29,10 +29,11 @@
             <span th:text="${comment.ipAddress}"></span>
             <span th:text="${comment.content}"></span>
             <span th:text="${comment.createTime}"></span>
-            <button type="button" class="likeButton" data-comment-id="${comment.id}">좋아요</button>
-            <span class="likeCount" data-comment-id="${comment.id}" th:attr="data-like-count=${comment.likes.size()}">
-        좋아요 수: <span class="likeCountValue"></span>
-    </span>
+            <!-- 아이디 값을 직접 전달 -->
+            <button type="button" class="likeButton" data-comment-id="${comment.id}" th:attr="data-comment-id=${comment.id}">좋아요</button>
+            <span class="likeCount" data-comment-id="${comment.id}" th:attr="data-like-count=${comment.likes.size()}, data-comment-id=${comment.id}">
+                좋아요 수: <span class="likeCountValue"></span>
+            </span>
         </li>
     </ul>
 </div>
@@ -60,10 +61,52 @@
 </script>
 
 <script>
+    // 좋아요 수 갱신 함수
+    function updateLikeCount(commentId) {
+        console.log(commentId);
+        $.ajax({
+            type: "GET",
+            url: "/" + commentId + "/like/count",
+            success: function(response) {
+                console.log("RES::: ",response);
+                var likeCountValueElement = $(".likeCount[data-comment-id='" + commentId + "']");
+                console.log(likeCountValueElement);
+
+                // response가 0보다 크면 좋아요 수를 업데이트
+                if (response > 0) {
+                    console.log("좋아요가 존재합니다.");
+                    likeCountValueElement.text("좋아요 수 :: ("+response+")");
+                } else {
+                    // 좋아요가 하나도 없으면 0으로 표시
+                    console.log("좋아요가 존재하지 않슴둥.");
+                    likeCountValueElement.text("좋아요 수 :: (0)");
+                }
+
+                // 좋아요 버튼 상태에 따라 색상 변경
+                var likeButton = $(".likeButton[data-comment-id='" + commentId + "']");
+                var isLiked = response > 0;
+                likeButton.css("color", isLiked ? "blue" : "black");
+            },
+            error: function(error) {
+                console.log(error);
+                alert("좋아요 수 갱신 중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    // 초기에 모든 댓글에 대해 좋아요 수를 업데이트
+    function updateAllCommentsLikeStatus() {
+        $(".likeButton").each(function () {
+            var likeButton = $(this);
+            var commentId = likeButton.attr("data-comment-id");
+            updateLikeCount(commentId);
+        });
+    }
     // 좋아요 버튼 클릭 시 동작
     $(document).on("click", ".likeButton", function() {
-        var commentId = $(this).data("comment-id");
         var likeButton = $(this);
+        // 타임리프로부터 직접 값을 받아옴
+        var commentId = likeButton.attr("data-comment-id");
 
         $.ajax({
             type: "POST",
@@ -82,16 +125,12 @@
                 updateLikeCount(commentId);
             },
             error: function(error) {
+                console.log(this.url);
                 alert("좋아요 처리 중 오류가 발생했습니다.");
             }
         });
     });
 
-    // 좋아요 수 갱신 함수
-    function updateLikeCount(commentId) {
-        var likeCount = commentData.find(comment => comment.id === commentId).likes.length;
-        $(".likeCount[data-comment-id='" + commentId + "'] .likeCountValue").text(likeCount);
-    }
     // 댓글 작성 버튼 클릭 시 동작
     function createComment() {
         $.ajax({
@@ -107,6 +146,7 @@
             success: function(response) {
                 alert("댓글이 성공적으로 저장되었습니다.");
                 location.reload();
+                updateAllCommentsLikeStatus();
             },
             error: function(error) {
                 alert("댓글 작성에 실패했습니다.");
@@ -115,12 +155,16 @@
     }
 
     $(document).ready(function () {
-        $("#commentButton").click(createComment);
-    });
+        // 초기에 모든 댓글에 대해 좋아요 수를 업데이트
+        updateAllCommentsLikeStatus();
 
-    // "목록으로" 버튼 클릭 시 post/list 페이지로 이동
-    $("#goToListButton").click(function() {
-        window.location.href = "/post/list";
+        // 나머지 코드는 그대로 유지
+        $("#commentButton").click(createComment);
+
+        // "목록으로" 버튼 클릭 시 post/list 페이지로 이동
+        $("#goToListButton").click(function() {
+            window.location.href = "/post/list";
+        });
     });
 </script>
 

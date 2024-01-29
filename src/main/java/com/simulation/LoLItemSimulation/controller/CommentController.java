@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 // CommentController.java
 @Controller
 //@RequestMapping("/comment")
@@ -96,7 +98,9 @@ public class CommentController {
     }
     // 댓글에 좋아요 추가
     @PostMapping("/{commentId}/like")
-    public ResponseEntity<String> addLike(@PathVariable Long commentId, @RequestParam String ipAddress) {
+    public ResponseEntity<String> addLike(@PathVariable Long commentId, @RequestBody Map<String, String> requestBody) {
+        String ipAddress = getClientIP(request);
+
         Comment comment = commentRepository.findById(commentId).orElse(null);
 
         if (comment == null) {
@@ -118,4 +122,12 @@ public class CommentController {
             return ResponseEntity.ok("Like added");
         }
     }
+
+    @GetMapping("/{commentId}/like/count")
+    public ResponseEntity<Long> getLikeCount(@PathVariable Long commentId) {
+        long likeCount = commentLikeRepository.countLikesByCommentId(commentId);
+        return ResponseEntity.ok(likeCount);
+    }
+
+
 }

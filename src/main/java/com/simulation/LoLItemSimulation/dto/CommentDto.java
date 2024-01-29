@@ -1,11 +1,13 @@
 package com.simulation.LoLItemSimulation.dto;
 
+import com.simulation.LoLItemSimulation.domain.CommentLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 // CommentDto.java
 @NoArgsConstructor
@@ -26,6 +28,8 @@ public class CommentDto {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+
+    private List<CommentLike> likes;
 
 //    public Long getPostId() {
 //        return postId;

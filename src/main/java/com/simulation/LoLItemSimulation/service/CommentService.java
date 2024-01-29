@@ -20,8 +20,9 @@ public class CommentService {
     private CommentLikeRepository commentLikeRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, CommentLikeRepository commentLikeRepository) {
         this.commentRepository = commentRepository;
+        this.commentLikeRepository = commentLikeRepository;
     }
 
     public void saveComment(CommentDto commentDto, String ipAddress) {
@@ -67,5 +68,15 @@ public class CommentService {
     public void saveComment(Comment comment) {
         // Comment 엔터티를 저장 또는 업데이트
         commentRepository.save(comment);
+    }
+    public int getLikeCount(Long commentId) {
+        Optional<Comment> commentOptional = commentRepository.findById(commentId);
+        if (commentOptional.isPresent()) {
+            Comment comment = commentOptional.get();
+            return comment.getLikes().size();
+        } else {
+            // 적절한 예외 처리를 여기에 추가
+            throw new RuntimeException("댓글을 찾을 수 없습니다: " + commentId);
+        }
     }
 }
