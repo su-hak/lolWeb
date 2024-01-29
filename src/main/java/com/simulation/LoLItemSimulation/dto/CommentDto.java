@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 // CommentDto.java
 @NoArgsConstructor
 @Setter
@@ -12,6 +14,7 @@ import lombok.ToString;
 @ToString
 public class CommentDto {
   private String content;
+
   private String password;
 
   private String ipAddress;
@@ -19,6 +22,10 @@ public class CommentDto {
   private String nickname;
 
   private Long postId;
+
+  private LocalDateTime createTime;
+
+  private LocalDateTime updateTime;
 
   //    public Long getPostId() {
   //        return postId;

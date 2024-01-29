@@ -32,15 +32,16 @@ public class PostService {
 
   public Page<Post> getList(int page) {
     List<Sort.Order> sorts = new ArrayList<>();
-//    sorts.add(Sort.Order.desc(""));
+    sorts.add(Sort.Order.desc("id"));
 
     Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
     return this.postRepository.findAll(pageable);
   }
 
-//  public Optional<Post> getPostById(Long id) {
-//    return postRepository.findById(id);
-//  }
+  public Optional<Post> getPostById(Long id) {
+    return postRepository.findById(id);
+  }
+
   // 다른 필요한 메서드들 추가
   public PostDto getPostDtoById(Long postId) {
     // postId에 해당하는 게시글 정보를 불러옴
@@ -61,6 +62,8 @@ public class PostService {
     postDto.setContent(post.getContent());
     postDto.setNickname(post.getNickname());
     postDto.setIpAddress(post.getIpAddress());
+
+
     // 다른 필요한 변환 로직 추가
     return postDto;
   }

@@ -6,9 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MainController {
-    @GetMapping("/")
+    @GetMapping("/simulation")
     public String list(Model model){
-        return "index";
+        return "simulation";
     }
 
+    @GetMapping("/")
+    public String helloPage() {
+        return "index";
+    }
 }
