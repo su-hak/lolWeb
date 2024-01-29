@@ -79,4 +79,9 @@ public class CommentService {
             throw new RuntimeException("댓글을 찾을 수 없습니다: " + commentId);
         }
     }
+
+    public boolean isCommentLikedByIp(Long commentId, String ipAddress) {
+        CommentLike commentLike = commentLikeRepository.findByCommentIdAndIpAddress(commentId, ipAddress);
+        return commentLike != null;
+    }
 }

@@ -1,6 +1,7 @@
 package com.simulation.LoLItemSimulation.controller;
 
 import com.simulation.LoLItemSimulation.domain.Comment;
+import com.simulation.LoLItemSimulation.domain.CommentLikeInfo;
 import com.simulation.LoLItemSimulation.domain.Post;
 import com.simulation.LoLItemSimulation.dto.CommentDto;
 import com.simulation.LoLItemSimulation.dto.PostDto;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // PostController.java
@@ -83,7 +85,7 @@ public class PostController {
     }
 
     @GetMapping("/read/{postId}")
-    public String readPost(@PathVariable Long postId, Model model) {
+    public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request) {
         // postId에 해당하는 게시글 정보를 가져옴
         PostDto postDto = postService.getPostDtoById(postId);
 
@@ -92,9 +94,20 @@ public class PostController {
             // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
             return "게시글이 없습니다.";
         }
-        List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
-        model.addAttribute("comment", commentDtoList);
 
+        List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
+        List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
+
+        // 현재 클라이언트의 IP 주소 가져오기
+        String clientIpAddress = getClientIP(request);
+
+        // 댓글과 좋아요 정보를 가져와서 클라이언트 IP에 해당하는 댓글과 좋아요 여부를 전달
+        for (Comment comment : commentDtoList) {
+            boolean isLiked = commentService.isCommentLikedByIp(comment.getId(), clientIpAddress);
+            commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
+        }
+
+        model.addAttribute("comment", commentLikeInfoList);
         model.addAttribute("post", postDto);
         return "readPost";
     }
