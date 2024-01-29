@@ -105,7 +105,7 @@
                     <div class="card-header">
                         <strong class="card-title">자유게시판</strong>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-5">
                         <div class="row flex-column">
                             <div class="col" style="font-size: larger" th:text="${post.title}">
                                 <!-- 제목 들어가는 부분 -->
@@ -205,17 +205,24 @@
                         </div>
                         <!-- 댓글 목록 영역 -->
                         <div class="row" style="margin-top: 10px" th:if="${comment}">
-                            <div class="col-9 align-center" th:each="comment : ${comment}">
-                                <div class="row flex-column">
-                                    <div class="col" th:text="${comment.content}">
-                                        <!-- 댓글 내용 영역-->
+                            <div class="col-9 align-center d-flex" th:each="comment : ${comment}">
+                                <div>
+                                    <div class="row d-flex">
+                                        <div class="col" th:text="${comment.content}">
+                                            <!-- 댓글 내용 영역-->
+                                        </div>
+                                        <div class="col-3 justify-content-end">
+                                            <iconify-icon icon="icon-park-outline:like" width="2rem" height="2rem"
+                                                          style="color: #545454"></iconify-icon>
+                                            123
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row" style="font-size: 13px; margin-bottom: 20px">
-                                    <div class="col d-flex usercss" style="color: #777777;">
-                                        <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
-                                        <p th:text="${comment.nickname}"></p> <p th:text="${comment.ipAddress}"></p>
-                                        2024.01.22 22:22:22
+                                    <div class="row" style="font-size: 13px; margin-bottom: 20px">
+                                        <div class="col d-flex usercss" style="color: #777777;">
+                                            <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
+                                            <p th:text="${comment.nickname}"></p> <p th:text="${comment.ipAddress}"></p>
+                                            2024.01.22 22:22:22
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -136,12 +136,14 @@
                             </tr>
                             </tbody>
                         </table>
+                        <!-- 글쓰기 버튼 -->
                         <div>
                             <a th:href="@{/post/create}">
                                 <button type="button" class="btn btn-success" style="width: 100%; font-size:
                                 medium">글쓰기</button>
                             </a>
                         </div>
+                        <!-- 페이징 번호 -->
                         <div style="margin-top: 10px">
                             <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
@@ -166,22 +168,30 @@
                                 </ul>
                             </nav>
                         </div>
+                        <!-- 게시판 검색 -->
                         <div id="search" class="" style="margin-top: 10px;">
                             <form class="form">
                                 <div class="form-row justify-content-center">
+                                    <!-- 검색 목록 -->
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            제목
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                            <button class="dropdown-item" type="button">내용</button>
-                                            <button class="dropdown-item" type="button">제목+내용</button>
-                                            <button class="dropdown-item" type="button">작성자</button>
-                                        </div>
+                                        <select class="form-control" id="exampleFormControlSelect1" style="font-size:
+                                         14px">
+                                            <option>제목</option>
+                                            <option>내용</option>
+                                            <option>제목+내용</option>
+                                            <option>작성자</option>
+                                        </select>
                                     </div>
+                                    <!-- 검색어 입력창 -->
                                     <div class="form-group col-auto">
                                         <input type="text" class="form-control" id="freeSearch" value=""
-                                               placeholder="Search">
+                                               placeholder="Search" style="font-size: 14px">
+                                    </div>
+                                    <div>
+                                        <button type="submit" style="width: 3rem; height: 3rem">
+                                            <iconify-icon icon="pepicons-pencil:enter" width="3rem" height="3rem"
+                                                          style="color: #545454"></iconify-icon>
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -191,6 +201,8 @@
             </div>
         </div>
     </main>
+    <!-- 메인영역 E -->
+
 
 
     <!-- 푸터영역 -->
@@ -212,9 +224,6 @@
     </footer>
     <!-- 푸터영역 E -->
 </div>
-
-
-<!-- 메인영역 E -->
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
