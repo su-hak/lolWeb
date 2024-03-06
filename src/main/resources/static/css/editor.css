@@ -9,7 +9,7 @@
 	--ck-sample-color-green: #279863;
 	--ck-sample-color-blue: #1a9aef;
 	--ck-sample-container-width: 100%;
-	--ck-sample-sidebar-width: 350px;
+	--ck-sample-sidebar-width: 100%;
 	--ck-sample-editor-min-height: 400px;
 	--ck-sample-editor-z-index: 10;
 }

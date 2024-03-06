@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 // PostController.java
 @Controller
@@ -100,6 +101,25 @@ public class PostController {
     model.addAttribute("post", postDto);
     return "readPost";
   }
+
+  @GetMapping("/modifyPost/{postId}")
+  public String getModifyPost(@RequestParam Long postId, Model model) {
+
+    return "modifyPost";
+  }
+
+  // 삭제 요청 처리하는 메소드
+  @DeleteMapping("/delete/{postId}")
+  public ResponseEntity<String> deleteArticle(@PathVariable long postId, @RequestBody Map<String, String> requestBody) {
+    String password = requestBody.get("password");
+
+      // 게시글을 삭제
+      postService.delete(postId, password);
+      // 삭제가 성공적으로 이루어지면 HTTP 상태 코드 200 OK를 반환합니다.
+      return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
+
+  }
+
 
   private Post convertDtoToEntity(PostDto postDto) {
     Post post = new Post();

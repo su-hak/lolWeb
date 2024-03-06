@@ -156,7 +156,7 @@
                         <div class="col">
                             <button type="button" id="modifyBtn" class="col btn btn-success"
                                     style="font-size: medium"
-                                    th:onclick="|location.href='@{/modifyPost?id={postId}(postId=${post.id})}'|">수정
+                                    th:onclick="|location.href='@{/post/modifyPost/{postId}(postId=${post.id})}'|">수정
                             </button>
                         </div>
                         <div class="col">
@@ -313,83 +313,81 @@
 </script>
 
 <!--수정 관련-->
+<!-- 수정 버튼 클릭 시 -->
 <script>
-    const modifyButton = document.getElementById('modifyBtn');
-
-    if(modifyButton){
-        // 클릭 이벤트가 감지되면 수정 API 요청
-        modifyButton.addEventListener('click', e=>{
-            let params = new URLSearchParams(location.search);
-            let id = params.get('id');
-
-            fetch(`/post/read/${id}`, {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title: document.getElementById('title').value,
-                    content: document.getElementById('content').value
-                })
-            })
-
-                .then(()=>{
-                    alert('수정이 완료되었습니다.');
-                    location.replace(`/post/read/${id}`);
-                })
-        })
-    }
+    $(document).ready(function () {
+        $("#modifyBtn").click(function () {
+            // 수정 페이지로 이동하는 로직 추가
+            let postId = $("#postId").val(); // 게시글 ID
+            location.href = `/post/modifyPost/${postId}`;
+        });
+    });
 </script>
 
 
 
 <!--삭제 관련-->
 <script>
-    $("#delBtn").click(function (e){
-        if (!test.choose) {
-            Swal.fire({
-                title: "비밀번호를 입력해주세요",
-                input: "password",
-                inputAttributes: {
-                    autocapitalize: "off"
-                },
-                showCancelButton: true,
-                confirmButtonText: "Delete",
-                showLoaderOnConfirm: true,
-                preConfirm: async (password) => {
-                    try {
-                        const postId = `/post/read/${id}` /* 여기에 해당 게시물의 ID를 가져오는 코드를 추가하세요 */;
-                        const response = await fetch(`/posts/${postId}/delete`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ password }),
-                        });
-
-                        if (!response.ok) {
-                            const errorData = await response.json();
-                            return Swal.showValidationMessage(`Error: ${JSON.stringify(errorData)}`);
-                        }
-
-                        return true; // Success, continue with the process
-                    } catch (error) {
-                        Swal.showValidationMessage(`Request failed: ${error}`);
-                    }
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Deleted',
-                        text: 'The post has been deleted.',
-                        icon: 'success',
-                    });
+    $("#delBtn").click(function () {
+        Swal.fire({
+            title: '비밀번호 입력',
+            input: 'password',
+            inputPlaceholder: '비밀번호를 입력하세요',
+            showCancelButton: true,
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            preConfirm: (password) => {
+                if (!password) {
+                    Swal.showValidationMessage('비밀번호를 입력해주세요.');
                 }
-            });
-        }})
-</script>
+                return password;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let postId = $("#postId").val(); // 게시글 ID
+                console.log(postId);
 
+                // 비밀번호가 입력되었을 경우에만 삭제 요청을 서버로 전송
+                fetch(`/post/delete/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password: result.value })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        // 삭제 요청이 성공적으로 처리되었을 때의 처리
+                        Swal.fire({
+                            icon: 'success',
+                            title: '게시글 삭제 완료',
+                            text: data,
+                            confirmButtonText: '확인'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = '/post/list'; // 삭제 성공 시 게시글 목록 페이지로 이동
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        // 오류 처리
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: '게시글 삭제 실패',
+                            text: '게시글 삭제에 실패했습니다.',
+                            confirmButtonText: '확인'
+                        });
+                    });
+            }
+        });
+    });
+</script>
 
 <!--<script>  // 스크롤을 위로 올리는 스티키바-->
 <!--    $(window).on('scroll', function () {-->
