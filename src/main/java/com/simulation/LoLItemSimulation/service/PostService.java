@@ -22,10 +22,6 @@ public class PostService {
   @Autowired
   private PostRepository postRepository;
 
-  public void savePost(Post post) {
-    // 게시글 저장 로직
-    postRepository.save(post);
-  }
   public List<Post> getAllPosts() {
     return postRepository.findAll();
   }
@@ -36,6 +32,11 @@ public class PostService {
 
     Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
     return this.postRepository.findAll(pageable);
+  }
+
+  public void savePost(Post post) {
+    // 게시글 저장 로직
+    postRepository.save(post);
   }
 
   public List<Post> delete(long postId, String password) {
@@ -86,7 +87,7 @@ public class PostService {
     postDto.setContent(post.getContent());
     postDto.setNickname(post.getNickname());
     postDto.setIpAddress(post.getIpAddress());
-
+    postDto.setCreatetime(post.getCreatetime());
 
     // 다른 필요한 변환 로직 추가
     return postDto;

@@ -29,8 +29,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 
+
 	//DB
 	implementation("org.mariadb.jdbc:mariadb-java-client")
+	runtimeOnly("com.h2database:h2")
+
 
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

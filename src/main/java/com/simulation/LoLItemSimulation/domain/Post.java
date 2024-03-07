@@ -2,7 +2,9 @@ package com.simulation.LoLItemSimulation.domain;
 
 import com.simulation.LoLItemSimulation.domain.Comment;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,17 @@ public class Post {
 
   @Column(name = "ip_address")
   private String ipAddress;
+
+  @Column(name = "createtime")
+  private LocalDateTime createtime;
+
+  public LocalDateTime getCreatetime() {
+    return createtime;
+  }
+
+  public void setCreatetime(LocalDateTime createtime) {
+    this.createtime = createtime;
+  }
 
   //    public Post(Long id, String title, String content, String nickname, String password, String ipAddress, String password1, List<Comment> comments) {
   //        this.id = id;

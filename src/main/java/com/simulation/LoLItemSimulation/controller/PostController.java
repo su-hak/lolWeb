@@ -17,8 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 // PostController.java
 @Controller
@@ -62,6 +65,10 @@ public class PostController {
     String ipAddress = getClientIP(request);
     post.setIpAddress(ipAddress);
 
+    // 글 작성일
+    LocalDateTime createtime = LocalDateTime.now();
+    post.setCreatetime(createtime);
+
     // title과 content는 HTML 폼에서의 매핑을 기다립니다.
 
     // 저장
@@ -95,6 +102,8 @@ public class PostController {
       // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
       return "게시글이 없습니다.";
     }
+
+
     List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
     model.addAttribute("comment", commentDtoList);
 
@@ -102,11 +111,38 @@ public class PostController {
     return "readPost";
   }
 
-  @GetMapping("/modifyPost/{postId}")
-  public String getModifyPost(@RequestParam Long postId, Model model) {
-
-    return "modifyPost";
+  @GetMapping("/modify/{postId}")
+  public String getModifyPost(@PathVariable Long postId, Model model) {
+    Optional<Post> postOptional = postService.getPostById(postId);
+    if (postOptional.isPresent()) {
+      Post post = postOptional.get();
+      String nickname = post.getNickname();
+      String title = post.getTitle();
+      String content = post.getContent();
+      model.addAttribute("nickname", nickname);
+      model.addAttribute("title", title);
+      model.addAttribute("content", content);
+      model.addAttribute("post", post);
+      return "modifyPost";
+    } else {
+      return "게시글이 없습니다.";
+    }
   }
+
+  @PostMapping("/modify")
+  public String modifyPost(@ModelAttribute Post post, HttpServletRequest request) {
+    // 비밀번호 확인 등
+
+    // IP 주소 설정
+    String ipAddress = getClientIP(request);
+    post.setIpAddress(ipAddress);
+
+    // 게시물 수정
+    postService.savePost(post);
+
+    return "redirect:/post/read/" + post.getId();
+  }
+
 
   // 삭제 요청 처리하는 메소드
   @DeleteMapping("/delete/{postId}")
@@ -117,7 +153,6 @@ public class PostController {
       postService.delete(postId, password);
       // 삭제가 성공적으로 이루어지면 HTTP 상태 코드 200 OK를 반환합니다.
       return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
-
   }
 
 

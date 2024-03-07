@@ -106,56 +106,48 @@
                     </div>
                     <div class="card-body" style="padding: 40px">
                         <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
-                        <form th:object="${post}" th:action="@{/post/modifyForm}" method="post">
+                        <form th:object="${post}" th:action="@{/post/modify}" method="post">
                             <div class="row flex-column" style="padding: 0 20px">
                                 <div class="col-md-6 d-flex">
-                                    <div class="form-group mb-3 d-flex" style="gap: 10px">
-                                        <label for="simpleinput">닉네임</label>
-                                        <input th:value="${nickname}" type="text" id="simpleinput"
-                                               class="form-control col-6"
-                                                style="font-size:
-                                        1.5rem">
-                                    </div>
+                                    <div class="mb-1 d-flex" style="gap: 10px">
+                                        <label for="nickname">닉네임</label>
+                                        <!-- 닉네임 표시 -->
+                                        <input th:value="${nickname}" type="text" id="nickname" name="nickname" class="form-control col-6" style="font-size: 1.5rem" readonly>                                    </div>
                                     <div class="form-group mb-3 d-flex" style="gap: 10px">
                                         <label for="password">비밀번호</label>
-                                        <input th:value="${password}" type="password" id="password"
-                                               class="form-control col-6" value=""
-                                                style="font-size:
-                                        1.5rem">
+                                        <input th:value="${password}" type="password" id="password" class="form-control col-6" value=""
+                                               style="font-size: 1.5rem">
                                     </div>
                                 </div> <!-- /.col -->
                                 <div class="col d-flex">
                                     <div class="form-group d-flex" style="gap: 10px; width: 100%">
                                         <label for="title">제　목</label>
-                                        <input th:value="${title}" type="text" id="title" class="form-control col-8"
-                                               style="font-size:
-                                        1.5rem">
+                                        <input th:value="${title}" type="text" id="title" class="form-control col-8" style="font-size: 1.5rem">
                                     </div>
                                 </div>
                             </div>
                             <!-- 글 작성 에디터 영역 -->
                             <!--ckeditor 적용 안직 못해서 주석처리-->
-<!--                            <div class="row">-->
-<!--                                <div class="centered">-->
-<!--                                    <div class="row row-editor">-->
-<!--                                        <div class="col editor-container">-->
-<!--                                            <div class="editor"></div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                            <textarea th:value="${content}" style="border: solid 1px; width: 100%; height: 500px">
-
-                            </textarea>
+                            <!--
+                            <div class="row">
+                                <div class="centered">
+                                    <div class="row row-editor">
+                                        <div class="col editor-container">
+                                            <div class="editor"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                            <textarea class="editor" th:text="${content}" style="border: solid 1px; width: 100%; height:
+                             500px"></textarea>
                             <div>
                                 <div class="row">
                                     <div class="col ds_flex">
-                                        <button type="submit" class="btn btn-success col"
-                                                    style="font-size: medium">글수정</button>
-                                        <button type="button" class="btn btn-secondary col" style="font-size:
-                                        medium;
-                                        right: 15px"
-                                                onclick="history.back();">취　소</button>
+                                        <button type="submit" class="btn btn-success col" style="font-size: medium">글수정</button>
+                                        <button type="button" class="btn btn-secondary col" style="font-size: medium; right: 15px"
+                                                onclick="history.back();">취　소
+                                        </button>
                                     </div>
                                 </div>
                             </div>
