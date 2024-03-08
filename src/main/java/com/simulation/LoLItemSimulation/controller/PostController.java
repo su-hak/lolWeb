@@ -150,7 +150,7 @@ public class PostController {
     String password = requestBody.get("password");
 
       // 게시글을 삭제
-      postService.delete(postId, password);
+      postService.deletePost(postId, password);
       // 삭제가 성공적으로 이루어지면 HTTP 상태 코드 200 OK를 반환합니다.
       return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
   }
