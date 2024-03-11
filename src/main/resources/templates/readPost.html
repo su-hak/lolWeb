@@ -157,8 +157,7 @@
                     <div class="row">
                         <div class="col">
                             <button type="button" id="modifyBtn" class="col btn btn-success"
-                                    style="font-size: medium"
-                                    th:onclick="|location.href='@{/post/modify/{postId}(postId=${post.id})}'|">수정
+                                    style="font-size: medium">수정
                             </button>
                         </div>
                         <div class="col">
@@ -319,9 +318,60 @@
 <script>
     $(document).ready(function () {
         $("#modifyBtn").click(function () {
-            // 수정 페이지로 이동하는 로직 추가
-            let postId = $("#postId").val(); // 게시글 ID
-            location.href = `/post/modify/${postId}`;
+            Swal.fire({
+                title: '비밀번호 입력',
+                input: 'password',
+                inputPlaceholder: '비밀번호를 입력하세요',
+                showCancelButton: true,
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                preConfirm: (password) => {
+                    if (!password) {
+                        Swal.showValidationMessage('비밀번호를 입력해주세요.');
+                    }
+                    return password;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let postId = $("#postId").val(); // 게시글 ID
+                    // 비밀번호가 입력되었을 경우에만 수정 페이지로 이동
+                    if (result.value) {
+                        // 비밀번호 확인을 서버로 요청하여 일치하는지 확인
+                        $.ajax({
+                            type: "POST",
+                            url: "/post/checkPassword",
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                postId: postId,
+                                password: result.value
+                            }),
+                            success: function (response) {
+                                if (response === "true") {
+                                    // 비밀번호가 일치하면 수정 페이지로 이동
+                                    window.location.href = "/post/modify/" + postId;
+                                } else {
+                                    // 비밀번호가 일치하지 않는 경우 알림창 표시
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '비밀번호가 일치하지 않습니다.',
+                                        text: '비밀번호를 다시 입력해주세요.',
+                                        confirmButtonText: '확인'
+                                    });
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '오류 발생',
+                                    text: '비밀번호 확인 중 오류가 발생했습니다.',
+                                    confirmButtonText: '확인'
+                                });
+                            }
+                        });
+                    }
+                }
+            });
         });
     });
 </script>

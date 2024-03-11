@@ -106,45 +106,50 @@
                     </div>
                     <div class="card-body" style="padding: 40px">
                         <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
-                        <form th:object="${post}" th:action="@{/post/modify}" method="post">
+                        <form th:object="${post}" th:action="@{'/post/updatePost/' + ${post.id}}" method="post" id="updatePostForm">
                             <div class="row flex-column" style="padding: 0 20px">
                                 <div class="col-md-6 d-flex">
                                     <div class="mb-1 d-flex" style="gap: 10px">
                                         <label for="nickname">닉네임</label>
                                         <!-- 닉네임 표시 -->
-                                        <input th:value="${nickname}" type="text" id="nickname" name="nickname" class="form-control col-6" style="font-size: 1.5rem" readonly>                                    </div>
+                                        <input th:field="*{nickname}" th:value="${post.nickname}" type="text" id="nickname" name="nickname"
+                                               class="form-control col-6" style="font-size: 1.5rem" readonly>
+                                    </div>
                                     <div class="form-group mb-3 d-flex" style="gap: 10px">
-                                        <label for="password">비밀번호</label>
-                                        <input th:value="${password}" type="password" id="password" class="form-control col-6" value=""
+                                        <label for="newPassword">비밀번호</label>
+                                        <input type="password" th:field="*{password}" th:value="${post.password}" id="newPassword"
+                                               name="newPassword"
+                                               class="form-control col-6"
                                                style="font-size: 1.5rem">
                                     </div>
                                 </div> <!-- /.col -->
                                 <div class="col d-flex">
                                     <div class="form-group d-flex" style="gap: 10px; width: 100%">
-                                        <label for="title">제　목</label>
-                                        <input th:value="${title}" type="text" id="title" class="form-control col-8" style="font-size: 1.5rem">
+                                        <label for="newTitle">제　목</label>
+                                        <input th:field="*{title}" th:value="${post.title}" type="text" id="newTitle"
+                                               name="newTitle"
+                                               class="form-control col-8" style="font-size: 1.5rem" required>
                                     </div>
                                 </div>
                             </div>
                             <!-- 글 작성 에디터 영역 -->
-                            <!--ckeditor 적용 안직 못해서 주석처리-->
-                            <!--
                             <div class="row">
                                 <div class="centered">
                                     <div class="row row-editor">
                                         <div class="col editor-container">
-                                            <div class="editor"></div>
+                                            <textarea class="editor" th:field="*{content}" th:text="${post.content}" id="newContent"
+                                                      name="newContent"
+                                                      style="height:500px; max-height: 500px"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            -->
-                            <textarea class="editor" th:text="${content}" style="border: solid 1px; width: 100%; height:
-                             500px"></textarea>
                             <div>
                                 <div class="row">
                                     <div class="col ds_flex">
-                                        <button type="submit" class="btn btn-success col" style="font-size: medium">글수정</button>
+                                        <button type="submit" class="btn btn-success col" style="font-size: medium"
+                                                value="Modify">
+                                            글수정</button>
                                         <button type="button" class="btn btn-secondary col" style="font-size: medium; right: 15px"
                                                 onclick="history.back();">취　소
                                         </button>
@@ -232,6 +237,41 @@
 <!--    });-->
 <!--</script>-->
 
+
+<script>
+    document.getElementById('updatePostForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 기본 동작 중지
+        var formData = new FormData(this); // 폼 데이터 가져오기
+        var jsonObject = {}; // 폼 데이터를 JSON 객체로 변환하기 위한 빈 객체 생성
+
+        // FormData를 JSON 객체로 변환
+        formData.forEach(function(value, key) {
+            jsonObject[key] = value;
+        });
+
+        // JSON 데이터를 문자열로 변환하여 서버에 전송
+        fetch(this.getAttribute('action'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonObject)
+        }).then(function(response) {
+            if (response.ok) {
+                // 성공적으로 업데이트되었음을 사용자에게 알림
+                alert('게시글이 성공적으로 업데이트되었습니다.');
+                // 원하는 처리를 수행
+            } else {
+                // 오류 처리
+                alert('게시글 업데이트에 실패했습니다.');
+            }
+        }).catch(function(error) {
+            // 오류 처리
+            console.error('게시글 업데이트 중 오류 발생:', error);
+            alert('게시글 업데이트 중 오류가 발생했습니다.');
+        });
+    });
+</script>
 
 </body>
 

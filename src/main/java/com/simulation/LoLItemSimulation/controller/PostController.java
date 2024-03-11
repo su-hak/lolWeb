@@ -9,6 +9,8 @@ import com.simulation.LoLItemSimulation.repository.PostRepository;
 import com.simulation.LoLItemSimulation.service.CommentService;
 import com.simulation.LoLItemSimulation.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -111,36 +113,51 @@ public class PostController {
     return "readPost";
   }
 
+  // 게시글 수정 페이지로 이동하는 요청 처리 메소드
   @GetMapping("/modify/{postId}")
-  public String getModifyPost(@PathVariable Long postId, Model model) {
+  public String getModifyPostPage(@PathVariable("postId") Long postId, Model model) {
+    // 게시글 정보를 가져와서 모델에 담기
     Optional<Post> postOptional = postService.getPostById(postId);
+
     if (postOptional.isPresent()) {
       Post post = postOptional.get();
-      String nickname = post.getNickname();
-      String title = post.getTitle();
-      String content = post.getContent();
-      model.addAttribute("nickname", nickname);
-      model.addAttribute("title", title);
-      model.addAttribute("content", content);
       model.addAttribute("post", post);
-      return "modifyPost";
+      return "modifyPost"; // 수정 페이지로 이동
     } else {
+      // 게시글이 없을 경우 예외처리
+      // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
       return "게시글이 없습니다.";
     }
   }
 
-  @PostMapping("/modify")
-  public String modifyPost(@ModelAttribute Post post, HttpServletRequest request) {
-    // 비밀번호 확인 등
+  // 게시글 비밀번호 확인
+  @PostMapping("/checkPassword")
+  @ResponseBody
+  public String checkPassword(@RequestBody PasswordRequest request) {
+    Long postId = request.getPostId();
+    String password = request.getPassword();
+    // postId와 password를 이용하여 게시글의 비밀번호를 확인하는 로직 작성
+    boolean passwordMatch = postService.checkPassword(postId, password);
+    return String.valueOf(passwordMatch);
+  }
 
-    // IP 주소 설정
-    String ipAddress = getClientIP(request);
-    post.setIpAddress(ipAddress);
+  // 비밀번호 확인 요청의 요청 본문을 받기 위한 클래스
+  @Getter
+  @Setter
+  static class PasswordRequest {
+    private Long postId;
+    private String password;
+    private String title;
+    private String nickname;
+  }
 
-    // 게시물 수정
-    postService.savePost(post);
 
-    return "redirect:/post/read/" + post.getId();
+  // 게시글 수정 처리 메소드
+  @PostMapping("/updatePost/{postId}")
+  public ResponseEntity<String> updatePost(@PathVariable Long postId, @RequestBody PostDto postDto) {
+    postService.updatePost(postId, postDto);
+    return ResponseEntity.ok("게시글이 성공적으로 업데이트되었습니다.");
+    //Todo: 게시글 업데이트 후 해당 게시글 read 페이지 이동하기
   }
 
 

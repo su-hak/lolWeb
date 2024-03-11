@@ -7,6 +7,7 @@ import com.simulation.LoLItemSimulation.dto.PostDto;
 import com.simulation.LoLItemSimulation.repository.CommentLikeRepository;
 import com.simulation.LoLItemSimulation.repository.CommentRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,6 +49,29 @@ public class PostService {
   public void savePost(Post post) {
     // 게시글 저장 로직
     postRepository.save(post);
+  }
+
+  // 게시글 수정 메서드
+  public void updatePost(Long postId, PostDto postDto) {
+    Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다."));
+    // 업데이트할 필드 설정
+    post.setTitle(postDto.getTitle());
+    post.setContent(postDto.getContent());
+    post.setPassword(postDto.getPassword());
+    // 업데이트된 게시글 저장
+    postRepository.save(post);
+  }
+
+  // 게시글의 비밀번호가 일치하는지 확인하는 메소드
+  public boolean checkPassword(Long postId, String password) {
+    Optional<Post> postOptional = postRepository.findById(postId);
+    if (postOptional.isPresent()) {
+      Post post = postOptional.get();
+      // DB에서 가져온 게시글의 비밀번호와 입력된 비밀번호 비교
+      return post.getPassword().equals(password);
+    }
+    return false; // 게시글이 존재하지 않는 경우
   }
 
   // 게시글 삭제 메서드
@@ -108,4 +132,6 @@ public class PostService {
     // 다른 필요한 변환 로직 추가
     return postDto;
   }
+
+
 }
