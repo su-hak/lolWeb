@@ -13,6 +13,8 @@
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" th:href="@{/css/itemSaveBtn.css}"/>
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -146,18 +148,53 @@
                             <li>
                                 <ul>
                                     <!-- 왼쪽 아이템 저장버튼 -->
-                                    <li>
-                                        <button id="left_save_btn1" type="button" class="saveItemBtn btn_green">S1</button>
-                                        <div id="left_save_box1" style="position: absolute; display: none; border: 1px dotted black">
-                                            <button type="button" class="saveHere" >저장하기</button></br>
-                                            <button type="button" class="loadThere" >불러오기</button>
+                                    <li class="sBoxController"> 
+                                        <button id="left_save_btn1" type="button" class="saveItemBtn btn_green" >S1</button> 
+                                        <div id="left_save_box1" class="saveLoadBox" > 
+                                            <button type="button" class="saveHere" data-id="1">저장하기</button> 
+                                            <button type="button" class="loadThere" data-id="1">불러오기</button> 
+                                            <p class="savedFont">저장한 아이템</p> 
+                                            <div class="saveItemBox"> 
+                                                <span class="saveItemBoxImg"><img alt=""></span> 
+                                                <span class="saveItemBoxImg"><img alt=""></span> 
+                                                <span class="saveItemBoxImg"><img alt=""></span> 
+                                                <span class="saveItemBoxImg"><img alt=""></span> 
+                                                <span class="saveItemBoxImg"><img alt=""></span> 
+                                                <span class="saveItemBoxImg"><img alt=""></span> 
+                                            </div>
+                                    </div>
+                                    </li>
+                                    <li class="sBoxController">
+                                        <button id="left_save_btn2" type="button" class="saveItemBtn btn_green" >S2</button>
+                                        <div id="left_save_box2" class="saveLoadBox" >
+                                            <button type="button" class="saveHere" data-id="2">저장하기</button>
+                                            <button type="button" class="loadThere" data-id="2">불러오기</button>
+                                            <p class="savedFont">저장한 아이템</p>
+                                            <div class="saveItemBox">
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                            </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <button id="left_save_btn2" type="button" class="saveItemBtn btn_green">S2</button>
-                                    </li>
-                                    <li>
-                                        <button id="left_save_btn3" type="button" class="saveItemBtn btn_green">S3</button>
+                                    <li class="sBoxController">
+                                        <button id="left_save_btn3" type="button" class="saveItemBtn btn_green" >S3</button>
+                                        <div id="left_save_box3" class="saveLoadBox" >
+                                            <button type="button" class="saveHere" data-id="3">저장하기</button>
+                                            <button type="button" class="loadThere" data-id="3">불러오기</button>
+                                            <p class="savedFont">저장한 아이템</p>
+                                            <div class="saveItemBox">
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                                <span class="saveItemBoxImg"><img alt=""></span>
+                                            </div>
+                                        </div>
                                     </li>
                                     <!-- 왼쪽 아이템 저장버튼 E-->
                                 </ul>
@@ -800,8 +837,15 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <!--<script src="/js/jquery.sticky.js"></script>-->
 
-<script th:src="@{/js/test.js}"></script> <!-- 모든 기능 이벤트 -->
 <script th:src="@{/js/decimal.js}"></script> <!-- 계산식 -->
+<script th:src="@{/js/itemL.js}"></script> <!-- 웹페이지 이벤트 관련 -->
+<script th:src="@{/js/itemR.js}"></script> <!-- 웹페이지 이벤트 관련 -->
+<script th:src="@{/js/itemSaveBtn.js}"></script> <!-- 웹페이지 이벤트 관련 -->
+<script th:src="@{/js/skillL.js}"></script> <!-- 웹페이지 이벤트 관련 -->
+<script th:src="@{/js/skillR.js}"></script> <!-- 웹페이지 이벤트 관련 -->
+<script th:src="@{/js/statusL.js}"></script> <!-- 웹페이지 이벤트 관련 -->
+<script th:src="@{/js/statusR.js}"></script> <!-- 모든 기능 이벤트 -->
+<script th:src="@{/js/test.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
 
