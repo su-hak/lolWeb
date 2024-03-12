@@ -15,4 +15,9 @@ public class MainController {
     public String helloPage() {
         return "index";
     }
+
+    @GetMapping("/itemTier")
+    public String itemTierList() {
+        return "itemTier";
+    }
 }

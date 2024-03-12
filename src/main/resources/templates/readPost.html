@@ -105,7 +105,7 @@
                     <div class="card-header">
                         <strong class="card-title">자유게시판</strong>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-5">
                         <div class="row flex-column">
                             <div class="col" style="font-size: larger" th:text="${post.title}">
                                 <!-- 제목 들어가는 부분 -->
@@ -114,7 +114,9 @@
                         <div class="row" style="font-size: 14px;">
                             <!-- 게시물 작성자 닉네임, 아이피, 날짜 표시 영역 -->
                             <div class="col d-flex usercss" style="color: #777777;">
-                                <p th:text="${post.nickname}"></p> <p th:text="${post.ipAddress}"></p> 2024.01.22
+                                <p th:text="${post.nickname}"></p>
+                                <p th:text="${post.ipAddress}"></p>
+                                <p th:text="${#temporals.format(post.createtime, 'yyyy-MM-dd HH:mm:ss')}"></p> <!-- 작성일 표시 -->
                             </div>
                             <!-- 게시물 조회수, 댓글, 좋아요 표시 영역 -->
                             <div class="col d-flex justify-content-end" style="gap: 10px; color: #777777;">
@@ -155,8 +157,7 @@
                     <div class="row">
                         <div class="col">
                             <button type="button" id="modifyBtn" class="col btn btn-success"
-                                    style="font-size: medium"
-                                    th:onclick="|location.href='@{/modifyPost?id={postId}(postId=${post.id})}'|">수정
+                                    style="font-size: medium">수정
                             </button>
                         </div>
                         <div class="col">
@@ -205,17 +206,24 @@
                         </div>
                         <!-- 댓글 목록 영역 -->
                         <div class="row" style="margin-top: 10px" th:if="${comment}">
-                            <div class="col-9 align-center" th:each="comment : ${comment}">
-                                <div class="row flex-column">
-                                    <div class="col" th:text="${comment.content}">
-                                        <!-- 댓글 내용 영역-->
+                            <div class="col-9 align-center d-flex" th:each="comment : ${comment}">
+                                <div>
+                                    <div class="row d-flex">
+                                        <div class="col" th:text="${comment.content}">
+                                            <!-- 댓글 내용 영역-->
+                                        </div>
+                                        <div class="col-3 justify-content-end">
+                                            <iconify-icon icon="icon-park-outline:like" width="2rem" height="2rem"
+                                                          style="color: #545454"></iconify-icon>
+                                            123
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row" style="font-size: 13px; margin-bottom: 20px">
-                                    <div class="col d-flex usercss" style="color: #777777;">
-                                        <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
-                                        <p th:text="${comment.nickname}"></p> <p th:text="${comment.ipAddress}"></p>
-                                        2024.01.22 22:22:22
+                                    <div class="row" style="font-size: 13px; margin-bottom: 20px">
+                                        <div class="col d-flex usercss" style="color: #777777;">
+                                            <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
+                                            <p th:text="${comment.nickname}"></p> <p th:text="${comment.ipAddress}"></p>
+                                            2024.01.22 22:22:22
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -306,83 +314,132 @@
 </script>
 
 <!--수정 관련-->
+<!-- 수정 버튼 클릭 시 -->
 <script>
-    const modifyButton = document.getElementById('modifyBtn');
-
-    if(modifyButton){
-        // 클릭 이벤트가 감지되면 수정 API 요청
-        modifyButton.addEventListener('click', e=>{
-            let params = new URLSearchParams(location.search);
-            let id = params.get('id');
-
-            fetch(`/post/read/${id}`, {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title: document.getElementById('title').value,
-                    content: document.getElementById('content').value
-                })
-            })
-
-                .then(()=>{
-                    alert('수정이 완료되었습니다.');
-                    location.replace(`/post/read/${id}`);
-                })
-        })
-    }
+    $(document).ready(function () {
+        $("#modifyBtn").click(function () {
+            Swal.fire({
+                title: '비밀번호 입력',
+                input: 'password',
+                inputPlaceholder: '비밀번호를 입력하세요',
+                showCancelButton: true,
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                preConfirm: (password) => {
+                    if (!password) {
+                        Swal.showValidationMessage('비밀번호를 입력해주세요.');
+                    }
+                    return password;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let postId = $("#postId").val(); // 게시글 ID
+                    // 비밀번호가 입력되었을 경우에만 수정 페이지로 이동
+                    if (result.value) {
+                        // 비밀번호 확인을 서버로 요청하여 일치하는지 확인
+                        $.ajax({
+                            type: "POST",
+                            url: "/post/checkPassword",
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                postId: postId,
+                                password: result.value
+                            }),
+                            success: function (response) {
+                                if (response === "true") {
+                                    // 비밀번호가 일치하면 수정 페이지로 이동
+                                    window.location.href = "/post/modify/" + postId;
+                                } else {
+                                    // 비밀번호가 일치하지 않는 경우 알림창 표시
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '비밀번호가 일치하지 않습니다.',
+                                        text: '비밀번호를 다시 입력해주세요.',
+                                        confirmButtonText: '확인'
+                                    });
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '오류 발생',
+                                    text: '비밀번호 확인 중 오류가 발생했습니다.',
+                                    confirmButtonText: '확인'
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
 </script>
 
 
 
 <!--삭제 관련-->
 <script>
-    $("#delBtn").click(function (e){
-        if (!test.choose) {
-            Swal.fire({
-                title: "비밀번호를 입력해주세요",
-                input: "password",
-                inputAttributes: {
-                    autocapitalize: "off"
-                },
-                showCancelButton: true,
-                confirmButtonText: "Delete",
-                showLoaderOnConfirm: true,
-                preConfirm: async (password) => {
-                    try {
-                        const postId = `/post/read/${id}` /* 여기에 해당 게시물의 ID를 가져오는 코드를 추가하세요 */;
-                        const response = await fetch(`/posts/${postId}/delete`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ password }),
-                        });
-
-                        if (!response.ok) {
-                            const errorData = await response.json();
-                            return Swal.showValidationMessage(`Error: ${JSON.stringify(errorData)}`);
-                        }
-
-                        return true; // Success, continue with the process
-                    } catch (error) {
-                        Swal.showValidationMessage(`Request failed: ${error}`);
-                    }
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Deleted',
-                        text: 'The post has been deleted.',
-                        icon: 'success',
-                    });
+    $("#delBtn").click(function () {
+        Swal.fire({
+            title: '비밀번호 입력',
+            input: 'password',
+            inputPlaceholder: '비밀번호를 입력하세요',
+            showCancelButton: true,
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            preConfirm: (password) => {
+                if (!password) {
+                    Swal.showValidationMessage('비밀번호를 입력해주세요.');
                 }
-            });
-        }})
-</script>
+                return password;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let postId = $("#postId").val(); // 게시글 ID
+                console.log(postId);
 
+                // 비밀번호가 입력되었을 경우에만 삭제 요청을 서버로 전송
+                fetch(`/post/delete/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password: result.value })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        // 삭제 요청이 성공적으로 처리되었을 때의 처리
+                        Swal.fire({
+                            icon: 'success',
+                            title: '게시글 삭제 완료',
+                            text: data,     // PostController의 ResponseEntity.ok 값
+                            confirmButtonText: '확인'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = '/post/list'; // 삭제 성공 시 게시글 목록 페이지로 이동
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        // 오류 처리
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: '게시글 삭제 실패',
+                            text: '게시글 삭제에 실패했습니다.',
+                            confirmButtonText: '확인'
+                        });
+                    });
+            }
+        });
+    });
+</script>
 
 <!--<script>  // 스크롤을 위로 올리는 스티키바-->
 <!--    $(window).on('scroll', function () {-->
