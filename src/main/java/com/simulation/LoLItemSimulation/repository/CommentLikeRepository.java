@@ -21,4 +21,9 @@ public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> 
 
   @Query("SELECT cl FROM CommentLike cl WHERE cl.comment.post.id = :postId")
   List<CommentLike> findByCommentPostId(@Param("postId") Long postId);
+  @Query("SELECT COUNT(cl) FROM CommentLike cl WHERE cl.comment.id = :commentId")
+  long countLikesByCommentId(@Param("commentId") Long commentId);
+
+  boolean existsByCommentIdAndIpAddress(Long commentId, String ipAddress);
+
 }
