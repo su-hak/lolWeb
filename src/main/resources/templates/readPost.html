@@ -38,7 +38,7 @@
                     <nav id="mainNav" class="nav col-9 justify-content-center">
                         <ul class="gnb align-items-center font-weight-bold">
                             <li><a href="#">공지사항</a></li>
-                            <li><a href="/simulation">시뮬레이터</a></li>
+                            <li><a href="/simulation">시뮬레이션</a></li>
                             <li><a href="#">아이템순위</a></li>
                             <li><a href="#">프로빌드</a></li>
                             <li><a href="#">커뮤니티</a></li>
@@ -60,7 +60,7 @@
                         <li><a href="#">패치노트</a></li>
                     </ul>
                     <ul class="align-items-center">
-                        <li><a href="/simulation">시뮬레이터</a></li>
+                        <li><a href="/simulation">시뮬레이션</a></li>
                     </ul>
                     <ul class="align-items-center">
                         <li><a href="#">아이템순위</a></li>
@@ -205,29 +205,61 @@
                             </form>
                         </div>
                         <!-- 댓글 목록 영역 -->
-                        <div class="row" style="margin-top: 10px" th:if="${comment}">
-                            <div class="col-9 align-center d-flex" th:each="comment : ${comment}">
-                                <div>
-                                    <div class="row d-flex">
-                                        <div class="col" th:text="${comment.content}">
-                                            <!-- 댓글 내용 영역-->
-                                        </div>
-                                        <div class="col-3 justify-content-end">
-                                            <iconify-icon icon="icon-park-outline:like" width="2rem" height="2rem"
-                                                          style="color: #545454"></iconify-icon>
-                                            123
-                                        </div>
-                                    </div>
-                                    <div class="row" style="font-size: 13px; margin-bottom: 20px">
-                                        <div class="col d-flex usercss" style="color: #777777;">
-                                            <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
-                                            <p th:text="${comment.nickname}"></p> <p th:text="${comment.ipAddress}"></p>
-                                            2024.01.22 22:22:22
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="row" style="margin-top: 10px" th:if="${comment}">-->
+<!--                            <div class="col-9 align-center d-flex" th:each="comment : ${comment}">-->
+<!--                                <div>-->
+<!--                                    <div class="row d-flex">-->
+<!--                                        <div class="col" th:text="${comment.content}">-->
+<!--                                            &lt;!&ndash; 댓글 내용 영역&ndash;&gt;-->
+<!--                                        </div>-->
+<!--                                        <div class="col-3 justify-content-end">-->
+<!--                                            <iconify-icon icon="icon-park-outline:like" width="2rem" height="2rem"-->
+<!--                                                          style="color: #545454"></iconify-icon>-->
+<!--                                            123-->
+<!--&lt;!&ndash;                                            <button type="button" class="likeButton"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    data-comment-id="${commentInfo.comment.id}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    th:attr="data-comment-id=${commentInfo.comment.id}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    th:class="${commentInfo.isLiked == true} ? 'likeButton liked' : 'likeButton not-liked'">좋아요</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <span class="likeCount" data-comment-id="${commentInfo.comment.id}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                  th:attr="data-like-count=${commentInfo.comment.likes.size()}, data-comment-id=${commentInfo.comment.id}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                  좋아요 수: <span class="likeCountValue"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </span>&ndash;&gt;-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="row" style="font-size: 13px; margin-bottom: 20px">-->
+<!--                                        <div class="col d-flex usercss" style="color: #777777;">-->
+<!--                                            &lt;!&ndash; 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 &ndash;&gt;-->
+<!--                                            <p th:text="${comment.nickname}"></p> <p th:text="${comment.ipAddress}"></p>-->
+<!--                                            2024.01.22 22:22:22-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <!-- 댓글 목록 표시 -->
+                        <h3>댓글 목록</h3>
+                        <li th:each="commentInfo,commentIndex : ${comment}">
+                            <!-- 순차적인 번호를 출력 -->
+                            <span th:text="${commentIndex.index + 1}"></span>.
+                            <span th:text="${commentInfo.comment.nickname}"></span>
+                            <span th:text="${commentInfo.comment.ipAddress}"></span>
+                            <span th:text="${commentInfo.comment.content}"></span>
+                            <span th:text="${commentInfo.comment.createTime}"></span>
+                            <!-- 아이디 값을 직접 전달 -->
+                            <span th:text="${commentInfo.isLiked()}"></span>
+                            <!--    <button type="button" class="likeButton"-->
+                            <!--            data-comment-id="${commentInfo.comment.id}"-->
+                            <!--            th:attr="data-comment-id=${commentInfo.comment.id}"-->
+                            <!--            th:style="${commentInfo.isLiked ? 'color: blue;' : 'color: red;'}">좋아요</button>-->
+                            <button type="button" class="likeButton"
+                                    data-comment-id="${commentInfo.comment.id}"
+                                    th:attr="data-comment-id=${commentInfo.comment.id}"
+                                    th:class="${commentInfo.isLiked == true} ? 'likeButton liked' : 'likeButton not-liked'">좋아요</button>
+                            <span class="likeCount" data-comment-id="${commentInfo.comment.id}"
+                                  th:attr="data-like-count=${commentInfo.comment.likes.size()}, data-comment-id=${commentInfo.comment.id}">
+        좋아요 수: <span class="likeCountValue"></span>
+    </span>
+                        </li>
                     </div>
                 </div>
             </div>
@@ -309,6 +341,7 @@
 
     // 버튼 클릭 시 createComment 함수 호출하도록 수정
     $(document).ready(function () {
+        updateAllCommentsLikeStatus();
         $("#commentButton").click(createComment);
     });
 </script>
@@ -436,6 +469,90 @@
                             confirmButtonText: '확인'
                         });
                     });
+            }
+        });
+    });
+
+    // 좋아요 수 갱신 함수
+    function updateLikeCount(commentId) {
+        console.log(commentId);
+        $.ajax({
+            type: "GET",
+            url: "/" + commentId + "/like/count",
+            success: function(response) {
+                console.log("RES::: ",response);
+                var likeCountValueElement = $(".likeCount[data-comment-id='" + commentId + "']");
+                console.log(likeCountValueElement);
+
+                // response가 0보다 크면 좋아요 수를 업데이트
+                if (response > 0) {
+                    console.log("좋아요가 존재합니다.");
+                    likeCountValueElement.text("좋아요 수 :: ("+response+")");
+                } else {
+                    // 좋아요가 하나도 없으면 0으로 표시
+                    console.log("좋아요가 존재하지 않슴둥.");
+                    likeCountValueElement.text("좋아요 수 :: (0)");
+                }
+
+                // 좋아요 버튼 상태에 따라 색상 변경
+                // var likeButton = $(".likeButton[data-comment-id='" + commentId + "']");
+                // var isLiked = response > 0;
+                //
+                // // 이전에 추가된 클래스를 모두 제거
+                // likeButton.removeClass("liked not-liked");
+                //
+                // // isLiked 값에 따라 적절한 클래스를 추가
+                // if (isLiked) {
+                //     likeButton.addClass("liked");
+                // } else {
+                //     likeButton.addClass("not-liked");
+                // }
+            },
+            error: function(error) {
+                console.log(error);
+                alert("좋아요 수 갱신 중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    // 초기에 모든 댓글에 대해 좋아요 수를 업데이트
+    function updateAllCommentsLikeStatus() {
+        $(".likeButton").each(function () {
+            var likeButton = $(this);
+            var commentId = likeButton.attr("data-comment-id");
+            updateLikeCount(commentId);
+        });
+    }
+    // 좋아요 버튼 클릭 시 동작
+    $(document).on("click", ".likeButton", function() {
+        var likeButton = $(this);
+        // 타임리프로부터 직접 값을 받아옴
+        var commentId = likeButton.attr("data-comment-id");
+
+        $.ajax({
+            type: "POST",
+            url: "/" + commentId + "/like",
+            contentType: "application/json",
+            data: JSON.stringify({
+                ipAddress: "dummy"
+            }),
+            success: function(response) {
+                likeButton.removeClass("liked");
+                likeButton.removeClass("not-liked");
+
+                if (response === true) {
+                    console.log("좋아요 누름")
+                    likeButton.addClass("liked");
+                } else {
+                    console.log("좋아요 취소")
+                    likeButton.addClass("not-liked");
+                }
+
+                updateLikeCount(commentId);
+            },
+            error: function(error) {
+                console.log(this.url);
+                alert("좋아요 처리 중 오류가 발생했습니다.");
             }
         });
     });

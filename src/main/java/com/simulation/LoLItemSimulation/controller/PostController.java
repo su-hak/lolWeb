@@ -1,11 +1,13 @@
 package com.simulation.LoLItemSimulation.controller;
 
 import com.simulation.LoLItemSimulation.domain.Comment;
+import com.simulation.LoLItemSimulation.domain.CommentLikeInfo;
 import com.simulation.LoLItemSimulation.domain.Post;
 import com.simulation.LoLItemSimulation.dto.CommentDto;
 import com.simulation.LoLItemSimulation.dto.PostDto;
 import com.simulation.LoLItemSimulation.repository.CommentRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
+import com.simulation.LoLItemSimulation.service.CommentLikeService;
 import com.simulation.LoLItemSimulation.service.CommentService;
 import com.simulation.LoLItemSimulation.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +45,8 @@ public class PostController {
   private CommentRepository commentRepository;
   @Autowired
   private CommentService commentService;
+  @Autowired
+  private CommentLikeService commentLikeService;
 
 
   //    @PostMapping("/create")
@@ -95,7 +100,7 @@ public class PostController {
   }
 
   @GetMapping("/read/{postId}")
-  public String readPost(@PathVariable Long postId, Model model) {
+  public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request) {
     // postId에 해당하는 게시글 정보를 가져옴
     PostDto postDto = postService.getPostDtoById(postId);
 
@@ -107,7 +112,16 @@ public class PostController {
 
 
     List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
-    model.addAttribute("comment", commentDtoList);
+    List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
+
+    String clientIpAddress = getClientIP(request);
+    log.info("client IP " +  clientIpAddress);
+    for (Comment comment : commentDtoList) {
+      boolean isLiked = commentLikeService.isCommentLikedByIp(comment.getId(), clientIpAddress);
+      log.info("is LIKE" + isLiked);
+      commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
+    }
+    model.addAttribute("comment", commentLikeInfoList);
 
     model.addAttribute("post", postDto);
     return "readPost";
