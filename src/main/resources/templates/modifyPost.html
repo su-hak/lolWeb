@@ -156,6 +156,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" th:value="${post.id}" id="postId" name="postId">
                         </form>
                     </div>
                 </div>
@@ -246,6 +247,9 @@
 
         // FormData를 JSON 객체로 변환
         formData.forEach(function(value, key) {
+            if (key !== 'password' && (value === null || value === '')) { // 비밀번호 필드이면서 값이 null 또는 빈 문자열인 경우에는 전송하지 않음
+                return;
+            }
             jsonObject[key] = value;
         });
 
@@ -259,16 +263,20 @@
         }).then(function(response) {
             if (response.ok) {
                 // 성공적으로 업데이트되었음을 사용자에게 알림
-                alert('게시글이 성공적으로 업데이트되었습니다.');
-                // 원하는 처리를 수행
+                swal.fire('게시글이 성공적으로 업데이트되었습니다.').then(function() {
+                    // 게시글의 읽기 페이지로 리디렉션
+                    var postId = document.getElementById('postId').value; // hidden input에서 postId 가져오기
+                    window.location.href = '/post/read/' + postId; // 해당 게시글의 읽기 페이지로 리디렉션
+
+                });
             } else {
                 // 오류 처리
-                alert('게시글 업데이트에 실패했습니다.');
+                swal.fire('게시글 업데이트에 실패했습니다.');
             }
         }).catch(function(error) {
             // 오류 처리
             console.error('게시글 업데이트 중 오류 발생:', error);
-            alert('게시글 업데이트 중 오류가 발생했습니다.');
+            swal.fire('게시글 업데이트 중 오류가 발생했습니다.');
         });
     });
 </script>

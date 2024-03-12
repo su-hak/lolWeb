@@ -6,11 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MainController {
-    @GetMapping("/lol")
-    public String list(Model model){
+    @GetMapping("/simulation")
+    public String simulationPage(Model model){
+        return "simulation";
+    }
+
+        @GetMapping("/lol")
+    public String listMain(Model model){
         return "lolMain";
     }
 
+    
     @GetMapping("/")
     public String helloPage() {
         return "index";
@@ -19,9 +25,5 @@ public class MainController {
     @GetMapping("/itemTier")
     public String itemTierList() {
         return "itemTier";
-    }
-    @GetMapping("/simulation")
-    public String simulation(Model model) {
-        return "simulation";
     }
 }
