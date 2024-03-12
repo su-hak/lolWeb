@@ -1,20 +1,8 @@
 
 
-#tier_thumbnail dt {
-    border-bottom: white 1px solid;
-    border-top: white 1px solid;
-}
-
-#tier_thumbnail dd{
-    border-bottom: white 1px solid;
-    height: 25px;
-    box-shadow: 0px 2px 1px 1px gray;
-    /*TODO section 색상과 같은 색으로*/
-}
-
 #main section {
     margin: 20vh 0;
-    background: #cbc9cb;
+    background: rgba(0,123,255,.25);
     height: 44vh;
     border-radius: 7px 7px 73px 7px;
     color: white;
@@ -25,6 +13,10 @@
 
 #main section button {
     color: white;
+}
+
+#sectionA {
+    position: relative;
 }
 
 
@@ -40,40 +32,89 @@
     width: 100%;
 }
 
+/****************************/
+/*      섹션 B ~ D          */
+/****************************/
 #secB_D {
     display: flex;
     justify-content: center;
     gap: 1vw;
 }
 
-
-#sectionA {
-    position: relative;
+.sub-title {
+    border-bottom: white 1px solid;
+    border-top: white 1px solid;
+    padding: 10px;
 }
 
+.sub-body {
+    padding: 10px;
+}
+/****************************/
+/*      섹션 B ~ D 끝         */
+/****************************/
+
+
+/****************************/
+/*      섹션 B 시작          */
+/****************************/
 #sectionB {
     position: relative;
-    margin: 20vh;
-    margin-top: 40vh;
+    left: 2%;
 }
+
+#tier_thumbnail dt {
+}
+
+#tier_thumbnail dd{
+    border-bottom: white 1px solid;
+    height: 25px;
+    box-shadow: 0px 2px 1px 1px gray;
+    /*TODO section 색상과 같은 색으로*/
+}
+
+#patch-version {
+    padding: 0 10px;
+    text-align: right;
+}
+
+/****************************/
+/*      섹션 B 끝          */
+/****************************/
+
+/****************************/
+/*      섹션 C 끝          */
+/****************************/
 
 #sectionC {
     position: relative;
+    left: 35%;
 }
+
+#pro_build_thumbnail {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px 25px;
+}
+
+#pro_build_thumbnail dd{
+    border-bottom: white 1px solid;
+    height: 25px;
+    box-shadow: 0px 2px 1px 1px gray;
+    width: 48%;
+}
+
+/****************************/
+/*      섹션 C 끝          */
+/****************************/
 
 #sectionD {
     position: relative;
+    left: 2%;
 }
 
 .main-sub {
     display: block;
     margin: 0 auto;
-}
-
-.sub-title {
-
-}
-
-.sub-body {
-
 }
