@@ -1,0 +1,79 @@
+
+
+#tier_thumbnail dt {
+    border-bottom: white 1px solid;
+    border-top: white 1px solid;
+}
+
+#tier_thumbnail dd{
+    border-bottom: white 1px solid;
+    height: 25px;
+    box-shadow: 0px 2px 1px 1px gray;
+    /*TODO section 색상과 같은 색으로*/
+}
+
+#main section {
+    margin: 20vh 0;
+    background: #cbc9cb;
+    height: 44vh;
+    border-radius: 7px 7px 73px 7px;
+    color: white;
+    width: 62vw;
+    border: 1px solid white;
+    box-shadow: 0px 2px 6px 1px black;
+}
+
+#main section button {
+    color: white;
+}
+
+
+#main #sectionA img {
+    position: absolute;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#secA_search {
+    position: absolute;
+    width: 100%;
+}
+
+#secB_D {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+}
+
+
+#sectionA {
+    position: relative;
+}
+
+#sectionB {
+    position: relative;
+    margin: 20vh;
+    margin-top: 40vh;
+}
+
+#sectionC {
+    position: relative;
+}
+
+#sectionD {
+    position: relative;
+}
+
+.main-sub {
+    display: block;
+    margin: 0 auto;
+}
+
+.sub-title {
+
+}
+
+.sub-body {
+
+}

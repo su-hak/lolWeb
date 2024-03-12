@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MainController {
-    @GetMapping("/simulation")
+    @GetMapping("/lol")
     public String list(Model model){
-        return "simulation";
+        return "lolMain";
     }
 
         @GetMapping("/lol")
@@ -25,5 +25,9 @@ public class MainController {
     @GetMapping("/itemTier")
     public String itemTierList() {
         return "itemTier";
+    }
+    @GetMapping("/simulation")
+    public String simulation(Model model) {
+        return "simulation";
     }
 }
