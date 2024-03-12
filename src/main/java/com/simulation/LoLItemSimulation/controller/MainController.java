@@ -11,12 +11,6 @@ public class MainController {
         return "lolMain";
     }
 
-        @GetMapping("/lol")
-    public String list(Model model){
-        return "lolMain";
-    }
-
-    
     @GetMapping("/")
     public String helloPage() {
         return "index";
