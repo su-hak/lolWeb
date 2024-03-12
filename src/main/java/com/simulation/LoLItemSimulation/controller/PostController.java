@@ -9,6 +9,8 @@ import com.simulation.LoLItemSimulation.repository.PostRepository;
 import com.simulation.LoLItemSimulation.service.CommentService;
 import com.simulation.LoLItemSimulation.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 // PostController.java
 @Controller
@@ -61,6 +67,10 @@ public class PostController {
     String ipAddress = getClientIP(request);
     post.setIpAddress(ipAddress);
 
+    // 글 작성일
+    LocalDateTime createtime = LocalDateTime.now();
+    post.setCreatetime(createtime);
+
     // title과 content는 HTML 폼에서의 매핑을 기다립니다.
 
     // 저장
@@ -94,12 +104,74 @@ public class PostController {
       // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
       return "게시글이 없습니다.";
     }
+
+
     List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
     model.addAttribute("comment", commentDtoList);
 
     model.addAttribute("post", postDto);
     return "readPost";
   }
+
+  // 게시글 수정 페이지로 이동하는 요청 처리 메소드
+  @GetMapping("/modify/{postId}")
+  public String getModifyPostPage(@PathVariable("postId") Long postId, Model model) {
+    // 게시글 정보를 가져와서 모델에 담기
+    Optional<Post> postOptional = postService.getPostById(postId);
+
+    if (postOptional.isPresent()) {
+      Post post = postOptional.get();
+      model.addAttribute("post", post);
+      return "modifyPost"; // 수정 페이지로 이동
+    } else {
+      // 게시글이 없을 경우 예외처리
+      // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
+      return "게시글이 없습니다.";
+    }
+  }
+
+  // 게시글 비밀번호 확인
+  @PostMapping("/checkPassword")
+  @ResponseBody
+  public String checkPassword(@RequestBody PasswordRequest request) {
+    Long postId = request.getPostId();
+    String password = request.getPassword();
+    // postId와 password를 이용하여 게시글의 비밀번호를 확인하는 로직 작성
+    boolean passwordMatch = postService.checkPassword(postId, password);
+    return String.valueOf(passwordMatch);
+  }
+
+  // 비밀번호 확인 요청의 요청 본문을 받기 위한 클래스
+  @Getter
+  @Setter
+  static class PasswordRequest {
+    private Long postId;
+    private String password;
+    private String title;
+    private String nickname;
+  }
+
+
+  // 게시글 수정 처리 메소드
+  @PostMapping("/updatePost/{postId}")
+  public ResponseEntity<String> updatePost(@PathVariable Long postId, @RequestBody PostDto postDto) {
+    postService.updatePost(postId, postDto);
+    return ResponseEntity.ok("게시글이 성공적으로 업데이트되었습니다.");
+    //Todo: 게시글 업데이트 후 해당 게시글 read 페이지 이동하기
+  }
+
+
+  // 삭제 요청 처리하는 메소드
+  @DeleteMapping("/delete/{postId}")
+  public ResponseEntity<String> deleteArticle(@PathVariable long postId, @RequestBody Map<String, String> requestBody) {
+    String password = requestBody.get("password");
+
+      // 게시글을 삭제
+      postService.deletePost(postId, password);
+      // 삭제가 성공적으로 이루어지면 HTTP 상태 코드 200 OK를 반환합니다.
+      return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
+  }
+
 
   private Post convertDtoToEntity(PostDto postDto) {
     Post post = new Post();

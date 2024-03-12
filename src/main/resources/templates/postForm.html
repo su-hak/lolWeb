@@ -14,6 +14,7 @@
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
     <link rel="stylesheet" th:href="@{/css/editor.css}"/>
+    <link href="../static/ckeditor5/sample/configuration-dialog/configuration-dialog.js" rel="stylesheet" type="text/css">
 
 
 
@@ -25,7 +26,7 @@
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 
-<body>
+<body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
 <div id="wrap">
     <!-- 헤더영역 -->
     <header id="header" class="header-area header-transparrent fixed-top">
@@ -137,7 +138,8 @@
                                 <div class="centered">
                                     <div class="row row-editor">
                                         <div class="col editor-container">
-                                            <textarea class="editor" th:field="*{content}"></textarea>
+                                            <textarea class="editor" th:field="*{content}"
+                                                      style="max-height: 500px"></textarea>
                                         </div>
                                     </div>
                                 </div>

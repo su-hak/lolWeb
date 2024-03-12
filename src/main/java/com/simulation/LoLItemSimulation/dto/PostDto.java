@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @Setter
 @Getter
@@ -23,5 +25,6 @@ public class PostDto {
 
   private String ipAddress;
 
+  private LocalDateTime createtime;
 
 }
