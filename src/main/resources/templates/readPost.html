@@ -206,7 +206,7 @@
                         </div>
                         <!-- 댓글 목록 영역 -->
                         <div class="row d-flex justify-content-center" style="margin-top: 10px" th:if="${comment}">
-                            <div class="col-9 d-flex" th:each="commentInfo,commentIndex : ${comment}">
+                            <div class="col-9 d-flex" th:each="commentInfo,commentIndex : ${comment}"th:name="commentId" id="commentId" th:value="${commentInfo.comment.id}">
 
                                     <div class="col-11">
                                         <div class="row" th:text="${commentInfo.comment.content}">
@@ -218,7 +218,7 @@
                                             <p th:text="${commentInfo.comment.nickname}"></p>
                                             <p th:text="${commentInfo.comment.ipAddress}"></p>
                                             <p th:text="${commentInfo.comment.createTime}"></p>
-                                            <p>삭제</p>
+                                            <button>삭제</button>
                                         </div>
                                     </div>
                                     <div class="col position-relative">
@@ -245,7 +245,7 @@
                         </div>
 
                         <h3>댓글 목록</h3>
-                        <li th:each="commentInfo,commentIndex : ${comment}" th:name="commentId" id="commentId" th:value="${commentInfo.comment.id}">
+                        <li th:each="commentInfo,commentIndex : ${comment}" th:name="commentId" id="commentId2" th:value="${commentInfo.comment.id}">
                             <!-- 순차적인 번호를 출력 -->
                             <span th:text="${commentIndex.index + 1}"></span>.
                             <span th:text="${commentInfo.comment.nickname}"></span>
@@ -321,37 +321,40 @@
         if (nickname.trim() === '') {
             alert("닉네임을 입력해주세요.");
             return;
-        }
+        }else
         if (password.trim() === '') {
             alert("비밀번호를 입력해주세요.");
             return;
-        }
+        }else
         if (content.trim() === '') {
             alert("댓글 내용을 입력해주세요.");
             return;
+        }else{
+            // Ajax를 이용한 비동기적인 댓글 작성
+            $.ajax({
+                type: "POST",
+                url: "/post/createComment",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    postId: $("#postId").val(),
+                    nickname: nickname,
+                    password: password,
+                    content: content
+                }),
+                success: function (response) {
+                    // 성공적으로 댓글이 작성되면 처리할 로직
+                    alert("댓글이 성공적으로 저장되었습니다.");
+                    location.reload();
+                },
+                error: function (error) {
+                    // 댓글 작성 중 에러 발생 시 처리할 로직
+                    alert("댓글 작성에 실패했습니다.");
+                }
+            });
         }
 
-        // Ajax를 이용한 비동기적인 댓글 작성
-        $.ajax({
-            type: "POST",
-            url: "/post/createComment",
-            contentType: "application/json",
-            data: JSON.stringify({
-                postId: $("#postId").val(),
-                nickname: nickname,
-                password: password,
-                content: content
-            }),
-            success: function (response) {
-                // 성공적으로 댓글이 작성되면 처리할 로직
-                alert("댓글이 성공적으로 저장되었습니다.");
-                location.reload();
-            },
-            error: function (error) {
-                // 댓글 작성 중 에러 발생 시 처리할 로직
-                alert("댓글 작성에 실패했습니다.");
-            }
-        });
+
+
     }
 
 
