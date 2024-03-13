@@ -1,7 +1,10 @@
+li {
+    list-style-type: none;
+}
 
 
 #main section {
-    margin: 20vh 0;
+    margin: 10vh 0;
     background: rgba(0,123,255,.25);
     height: 44vh;
     border-radius: 7px 7px 73px 7px;
@@ -20,16 +23,28 @@
 }
 
 
-#main #sectionA img {
+#sectionA #lol_main_img img {
     position: absolute;
     display: block;
     margin: 0 auto;
     width: 100%;
+    height: 100%;
+    box-shadow: 0 2px 15px 6px black;
+}
+
+#sectionA #lol_main_letter {
+    position: absolute;
+    left: 27.6%;
+}
+
+#sectionA #lol_main_letter img {
+    width: 80%;
 }
 
 #secA_search {
     position: absolute;
     width: 100%;
+    top: 0;
 }
 
 /****************************/

@@ -59,11 +59,11 @@
                 </div>
                 <div class="main-header header-sticky" style="background: #cbc9cb; border-bottom: white 1px solid;">
                     <div class="container" style="margin:0; ">
-                        <div class="row" style="margin-left: 20px;" >
+                        <div class="row" style="justify-content: space-around;" >
+                            <li class="lol_icon_img"><a href="/lol"><img src="/img/lol_Icon.png"></a></li>
                             <!-- 메뉴 -->
                             <nav id="mainNav" class="nav col-9 justify-content-left">
                                 <ul class="gnb align-items-center font-weight-bold">
-                                    <li><a href="#">HOME</a></li>
                                     <li><a href="#">공지사항</a></li>
                                     <li><a href="/simulation">시뮬레이션</a></li>
                                     <li><a href="/itemTier">아이템순위</a></li>
@@ -105,17 +105,24 @@
         </header>
         <!-- 헤더영역 E -->
         <main id="main">
-            <section id="sectionA" style="background: none; width: 90%; box-shadow: none; left: 5%">
-                <img src="/img/lolMainImg.jpg">
-                <div class="main-section" id="secA_search">
-                    <div class="new-search-body">
-                        <label for="search-engine" class="search-engine" style="display: flex;">
-                            <input id="search-engine" type="text" autocomplete="off" placeholder="궁금한 걸 검색하세요! ">
-                        </label>
+            <section id="sectionA" style="background: none; width: 100%; box-shadow: none;">
+                <div>
+                    <div id="lol_main_img">
+                        <img src="/img/lolMainImg.jpg" style="opacity: 0.7;"/>
+                    </div>
+                    <div id="lol_main_letter">
+                        <img src="/img/LoL_letter.png"/>
+                    </div>
+                    <div class="main-section" id="secA_search">
+                        <div class="new-search-body">
+                            <label for="search-engine" class="search-engine" style="display: flex;">
+                                <input id="search-engine" type="text" autocomplete="off" placeholder="궁금한 걸 검색하세요! ">
+                            </label>
+                        </div>
                     </div>
                 </div>
             </section>
-            <section id="sectionB" class="main-sub" style="margin-top: 40vh;" >
+            <section id="sectionB" class="main-sub" style="margin-top: 10vh;" >
                 <dl>
                     <dt class="sub-title">Tier</dt>
                     <dd class="sub-body">패치에 따라 변화된 아이템들의 티어를 확인 해 보세요!</dd>
