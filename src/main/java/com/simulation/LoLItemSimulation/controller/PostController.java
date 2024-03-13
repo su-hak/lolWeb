@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -130,18 +131,26 @@ public class PostController {
 
   // 게시글 수정 페이지로 이동하는 요청 처리 메소드
   @GetMapping("/modify/{postId}")
-  public String getModifyPostPage(@PathVariable("postId") Long postId, Model model) {
-    // 게시글 정보를 가져와서 모델에 담기
-    Optional<Post> postOptional = postService.getPostById(postId);
-
-    if (postOptional.isPresent()) {
-      Post post = postOptional.get();
-      model.addAttribute("post", post);
-      return "modifyPost"; // 수정 페이지로 이동
+  public ModelAndView getModifyPostPage(@PathVariable("postId") Long postId, Model model, HttpServletRequest request) {
+    // 인터넷 주소창에서 직접 입력한 요청인지 확인
+    String referer = request.getHeader("referer");
+    if (referer == null || referer.isEmpty()) {
+      // 인터넷 주소창에서 직접 입력한 요청일 경우에만 404 페이지로 리디렉션
+      return new ModelAndView("404");
     } else {
-      // 게시글이 없을 경우 예외처리
-      // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
-      return "게시글이 없습니다.";
+
+      // 게시글 정보를 가져와서 모델에 담기
+      Optional<Post> postOptional = postService.getPostById(postId);
+
+      if (postOptional.isPresent()) {
+        Post post = postOptional.get();
+        model.addAttribute("post", post);
+        return new ModelAndView("modifyPost"); // 수정 페이지로 이동
+      } else {
+        // 게시글이 없을 경우 예외처리
+        // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
+        return new ModelAndView("게시글이 없습니다.");
+      }
     }
   }
 
