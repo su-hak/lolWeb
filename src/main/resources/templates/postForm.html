@@ -109,7 +109,7 @@
                     <div class="card-header">
                         <strong class="card-title">자유게시판</strong>
                     </div>
-                    <form th:object="${post}" th:action="@{/post/submitForm}" method="post">
+                    <form th:object="${post}" th:action="@{/post/submitForm}" method="post" id="postSumitForm">
                         <div class="card-body" style="padding: 40px">
                             <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">
@@ -138,7 +138,7 @@
                                 <div class="centered">
                                     <div class="row row-editor">
                                         <div class="col editor-container">
-                                            <textarea class="editor" th:field="*{content}"
+                                            <textarea class="editor" th:field="*{content}" id="content"
                                                       style="max-height: 500px"></textarea>
                                         </div>
                                     </div>
@@ -235,6 +235,29 @@
 <!--        }-->
 <!--    });-->
 <!--</script>-->
+
+<script>
+    document.getElementById('postSumitForm').addEventListener('submit', function(event) {
+        // 폼 제출 이벤트를 가로채기
+        event.preventDefault(); // 기본 동작 중지
+
+        // 닉네임과 제목 입력 값 가져오기
+        var nickname = document.getElementById('simpleinput').value;
+        var title = document.getElementById('title').value;
+        var password = document.getElementById('password').value;
+        var content = document.getElementById('content').value;
+
+        // 만약 비밀번호 값이 없는 경우
+        if (!password || !nickname || !title || !content) {
+            // 알림창 띄우기
+            swal.fire('빈 공간을 입력해주세요.');
+            return; // 함수 종료
+        }
+
+        // 비밀번호 값이 있는 경우 폼 제출
+        document.getElementById('postSumitForm').submit();
+    });
+</script>
 
 
 </body>
