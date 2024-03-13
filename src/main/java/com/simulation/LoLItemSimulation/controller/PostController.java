@@ -214,6 +214,40 @@ public class PostController {
     return ResponseEntity.ok(comment);
   }
 
+  // 댓글 삭제시 비밀번호 확인
+  @PostMapping("/checkCommentPassword")
+  @ResponseBody
+  public String checkCommentPassword(@RequestBody CommentPasswordRequest request) {
+    Long commentId = request.getCommentId(); // 댓글 ID
+    String password = request.getPassword(); // 입력된 비밀번호
+
+    // commentId와 password를 이용하여 댓글의 비밀번호를 확인하는 로직 작성
+    boolean passwordMatch = commentService.checkCommentPassword(commentId, password);
+
+    return String.valueOf(passwordMatch);
+  }
+  @Getter
+  @Setter
+  static class CommentPasswordRequest {
+    private Long commentId;
+    private String password;
+  }
+
+  // 댓글 삭제
+  @DeleteMapping("/deleteComment/{commentId}")
+  @ResponseBody
+  public String deleteComment(@PathVariable Long commentId) {
+    boolean deleted = commentService.deleteComment(commentId);
+    if (deleted) {
+      return "댓글이 성공적으로 삭제되었습니다.";
+    } else {
+      return "댓글을 삭제하는 중 오류가 발생했습니다.";
+    }
+  }
+
+
+
+
   // 클라이언트의 실제 IP 주소를 가져오는 메서드
   private String getClientIP(HttpServletRequest request) {
     String ipAddress = request.getHeader("X-Forwarded-For");
