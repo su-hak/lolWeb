@@ -7,6 +7,7 @@ import com.simulation.LoLItemSimulation.dto.CommentDto;
 import com.simulation.LoLItemSimulation.repository.CommentLikeRepository;
 import com.simulation.LoLItemSimulation.repository.CommentRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,4 +69,39 @@ public class CommentService {
     // Comment 엔터티를 저장 또는 업데이트
     commentRepository.save(comment);
   }
+
+  // 댓글 삭제시 비밀번호 확인
+  public boolean checkCommentPassword(Long commentId, String password) {
+    // commentId를 이용하여 댓글을 데이터베이스에서 조회하고, 해당 댓글의 비밀번호를 가져옵니다.
+    Optional<Comment> commentOptional = commentRepository.findById(commentId);
+
+    // 댓글이 존재하는지 확인합니다.
+    if (commentOptional.isPresent()) {
+      Comment comment = commentOptional.get();
+      // 데이터베이스에서 가져온 댓글의 비밀번호와 입력된 비밀번호를 비교합니다.
+      return comment.getPassword().equals(password);
+    }
+    // 댓글이 존재하지 않는 경우에는 false를 반환합니다.
+    return false;
+  }
+
+  // 댓글 삭제
+  @Transactional
+  public boolean deleteComment(Long commentId) {
+    // 댓글을 데이터베이스에서 조회합니다.
+    Optional<Comment> commentOptional = commentRepository.findById(commentId);
+
+    // 댓글이 존재하는지 확인합니다.
+    if (commentOptional.isPresent()) {
+      Comment comment = commentOptional.get();
+
+      // 댓글을 삭제합니다.
+      commentRepository.delete(comment);
+
+      return true; // 댓글 삭제 성공
+    } else {
+      return false; // 댓글이 존재하지 않음
+    }
+  }
+
 }
