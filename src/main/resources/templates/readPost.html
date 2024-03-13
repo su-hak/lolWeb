@@ -99,7 +99,7 @@
 
     <!-- 메인영역 -->
     <main id="main" class="container">
-        <div class="row">
+        <div class="row col-12">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
@@ -172,7 +172,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row col-12">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
@@ -185,11 +185,11 @@
                                 <input type="hidden" th:name="postId" id="postId" th:value="${post.id}">
                                 <div class="col-2">
                                     <input type="text" id="nickname" name="nickname" style="padding: 0 2px;
-                                    width: 180px; height: 25px; border: solid 1px;
+                                    width: 150px; height: 25px; border: solid 1px;
                                     margin-bottom: 5px"
                                            placeholder="닉네임" required>
                                     <input type="password" id="password" name="password" placeholder="비밀번호"
-                                           style="padding: 0 2px;width: 180px; height:
+                                           style="padding: 0 2px;width: 150px; height:
                                      25px; border:
                                     solid 1px" required>
                                 </div>
@@ -205,38 +205,45 @@
                             </form>
                         </div>
                         <!-- 댓글 목록 영역 -->
-<!--                        <div class="row" style="margin-top: 10px" th:if="${comment}">-->
-<!--                            <div class="col-9 align-center d-flex" th:each="comment : ${comment}">-->
-<!--                                <div>-->
-<!--                                    <div class="row d-flex">-->
-<!--                                        <div class="col" th:text="${comment.content}">-->
-<!--                                            &lt;!&ndash; 댓글 내용 영역&ndash;&gt;-->
-<!--                                        </div>-->
-<!--                                        <div class="col-3 justify-content-end">-->
-<!--                                            <iconify-icon icon="icon-park-outline:like" width="2rem" height="2rem"-->
-<!--                                                          style="color: #545454"></iconify-icon>-->
-<!--                                            123-->
-<!--&lt;!&ndash;                                            <button type="button" class="likeButton"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    data-comment-id="${commentInfo.comment.id}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    th:attr="data-comment-id=${commentInfo.comment.id}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    th:class="${commentInfo.isLiked == true} ? 'likeButton liked' : 'likeButton not-liked'">좋아요</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            <span class="likeCount" data-comment-id="${commentInfo.comment.id}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                  th:attr="data-like-count=${commentInfo.comment.likes.size()}, data-comment-id=${commentInfo.comment.id}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                  좋아요 수: <span class="likeCountValue"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            </span>&ndash;&gt;-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="row" style="font-size: 13px; margin-bottom: 20px">-->
-<!--                                        <div class="col d-flex usercss" style="color: #777777;">-->
-<!--                                            &lt;!&ndash; 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 &ndash;&gt;-->
-<!--                                            <p th:text="${comment.nickname}"></p> <p th:text="${comment.ipAddress}"></p>-->
-<!--                                            2024.01.22 22:22:22-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-                        <!-- 댓글 목록 표시 -->
+                        <div class="row d-flex justify-content-center" style="margin-top: 10px" th:if="${comment}">
+                            <div class="col-9 d-flex" th:each="commentInfo,commentIndex : ${comment}">
+
+                                    <div class="col-11">
+                                        <div class="row" th:text="${commentInfo.comment.content}">
+                                            <!-- 댓글 내용 영역-->
+                                        </div>
+                                        <div class="row d-flex usercss" style="color: #777777; font-size: 13px;
+                                        margin-bottom: 20px">
+                                            <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
+                                            <p th:text="${commentInfo.comment.nickname}"></p>
+                                            <p th:text="${commentInfo.comment.ipAddress}"></p>
+                                            <p th:text="${commentInfo.comment.createTime}"></p>
+                                            <p>삭제</p>
+                                        </div>
+                                    </div>
+                                    <div class="col position-relative">
+                                        <!--댓글 좋아요 버튼-->
+                                        <div class="row p-0 d-flex justify-content-center position-absolute top-50 start-50 translate-middle">
+                                            <button type="button" class="likeButton"
+                                                    data-comment-id="${commentInfo.comment.id}"
+                                                    th:attr="data-comment-id=${commentInfo.comment.id}"
+                                                    th:class="${commentInfo.isLiked == true} ? 'likeButton liked' : 'likeButton not-liked'" style="margin-bottom: 0">
+                                                <iconify-icon icon="icon-park-outline:like" width="2rem" height="2rem"
+                                                          style="color: #ff0000"></iconify-icon>
+                                            </button>
+                                        </div>
+                                        <div class="row m-0 d-flex justify-content-center">
+                                            <span class="likeCount" style="color: #777777; font-size: 13px;
+                                        margin-bottom: 20px"
+                                                  th:attr="data-comment-id=${commentInfo.comment.id}">
+                                                <!-- 댓글 좋아요 수-->
+                                            </span>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+
                         <h3>댓글 목록</h3>
                         <li th:each="commentInfo,commentIndex : ${comment}">
                             <!-- 순차적인 번호를 출력 -->
@@ -247,10 +254,6 @@
                             <span th:text="${commentInfo.comment.createTime}"></span>
                             <!-- 아이디 값을 직접 전달 -->
                             <span th:text="${commentInfo.isLiked()}"></span>
-                            <!--    <button type="button" class="likeButton"-->
-                            <!--            data-comment-id="${commentInfo.comment.id}"-->
-                            <!--            th:attr="data-comment-id=${commentInfo.comment.id}"-->
-                            <!--            th:style="${commentInfo.isLiked ? 'color: blue;' : 'color: red;'}">좋아요</button>-->
                             <button type="button" class="likeButton"
                                     data-comment-id="${commentInfo.comment.id}"
                                     th:attr="data-comment-id=${commentInfo.comment.id}"
@@ -500,11 +503,11 @@
                 // response가 0보다 크면 좋아요 수를 업데이트
                 if (response > 0) {
                     console.log("좋아요가 존재합니다.");
-                    likeCountValueElement.text("좋아요 수 :: ("+response+")");
+                    likeCountValueElement.text(""+response+"");
                 } else {
                     // 좋아요가 하나도 없으면 0으로 표시
                     console.log("좋아요가 존재하지 않슴둥.");
-                    likeCountValueElement.text("좋아요 수 :: (0)");
+                    likeCountValueElement.text("0");
                 }
 
                 // 좋아요 버튼 상태에 따라 색상 변경
