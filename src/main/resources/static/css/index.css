@@ -126,46 +126,7 @@ body {
 
 }
 /*      메인 끝        */
-#header {
 
-}
-
-#header svg {
-    width: 20px;
-    height: 20px;
-}
-
-.e11aa111 {
-    color: white;
-}
-
-.a11aa111 {
-    color: wheat;
-    padding-right: 15px;
-    padding-left: 15px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-}
-
-#lol_main_header {
-    border-bottom: 1px solid white;
-}
-
-
-.a11aa111 img {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-}
-
-.a11aa111:hover {
-    color: #eeff00;
-}
-
-.open-search-btn {
-    color: darkgrey;
-}
 
 /*        푸터 영역           */
 
