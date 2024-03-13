@@ -259,6 +259,7 @@
                                   th:attr="data-like-count=${commentInfo.comment.likes.size()}, data-comment-id=${commentInfo.comment.id}">
         좋아요 수: <span class="likeCountValue"></span>
     </span>
+                            <button id="delCommentBtn" class="col btn btn-danger" aria-label="Try me! Example: AJAX request" style="font-size: medium">삭제</button>
                         </li>
                     </div>
                 </div>
@@ -309,10 +310,23 @@
 <!-- 댓글 등록 코드 -->
 <script>
     function createComment() {
-        // var postId = ${post.id}; // 게시글 ID
-        // var nickname = $("#nickname").val();
-        // var password = $("#password").val();
-        // var content = $("#content").val();
+        var nickname = $("#nickname").val();
+        var password = $("#password").val();
+        var content = $("#content").val();
+
+        // 필수 입력 필드가 비어 있는지 확인
+        if (nickname.trim() === '') {
+            alert("닉네임을 입력해주세요.");
+            return;
+        }
+        if (password.trim() === '') {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+        if (content.trim() === '') {
+            alert("댓글 내용을 입력해주세요.");
+            return;
+        }
 
         // Ajax를 이용한 비동기적인 댓글 작성
         $.ajax({
@@ -321,16 +335,14 @@
             contentType: "application/json",
             data: JSON.stringify({
                 postId: $("#postId").val(),
-                nickname: $("#nickname").val(),
-                password: $("#password").val(),
-                content: $("#content").val()
+                nickname: nickname,
+                password: password,
+                content: content
             }),
             success: function (response) {
                 // 성공적으로 댓글이 작성되면 처리할 로직
                 alert("댓글이 성공적으로 저장되었습니다.");
                 location.reload();
-                // 댓글 작성 후 화면 갱신
-                // updateCommentList();
             },
             error: function (error) {
                 // 댓글 작성 중 에러 발생 시 처리할 로직
@@ -338,6 +350,7 @@
             }
         });
     }
+
 
     // 버튼 클릭 시 createComment 함수 호출하도록 수정
     $(document).ready(function () {
