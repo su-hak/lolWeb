@@ -59,11 +59,46 @@
                 </div>
                 <div class="main-header header-sticky" style="background: #cbc9cb; border-bottom: white 1px solid;">
                     <div class="container" style="margin:0; ">
-                        <div class="row" style="margin-left: 20px;" >
+                        <div class="row" style="justify-content: space-around;" >
+                            <div class="lol_icon_img">
+                                <a href="/lol"><img src="/img/lol_Icon.png"></a>
+                                <div class="dropdown-game-icon">
+                                    <a href=""></a>
+                                    <div class="click_triangle" onclick="toggleDropdown()"></div>
+                                    <div class="dropdown-game-body" id="dropdown-game-body">
+                                        <!-- 로고 -->
+                                        <a href="/" class="a11aa111">
+                                            <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
+                                        </a>
+                                        <!--TODO 버튼 클릭 시 아래링크 고퀄 그래픽 느낌의 버튼-->
+                                        <!--https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C-->
+                                        <a class="a11aa111" href="/lol" style="background: #cbc9cb; box-shadow: inset 0 0 10px; color: #3300ff;">
+                                            <img src="/img/lol_Icon.png"/>
+                                            <span class="btn-check" >리그 오브 레전드</span>
+                                        </a>
+                                        <a class="a11aa111" href="/gersang">
+                                            <img src="/img/Gersang_Icon.png"/>
+                                            <span class="btn-check" >거상</span>
+                                        </a>
+                                        <a class="a11aa111" href="/maplestory">
+                                            <img src="/img/MapleStory_Icon.png"/>
+                                            <span class="btn-check">메이플 스토리</span>
+                                        </a>
+                                        <a class="a11aa111" href="/d&f">
+                                            <img src="/img/D&F_Icon.png"/>
+                                            <span class="btn-check" >던전 앤 파이터</span>
+                                        </a>
+                                        <a class="a11aa111" href="/loa">
+                                            <img src="/img/Loa_Icon.png"/>
+                                            <span class="btn-check" >로스트 아크</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- 메뉴 -->
                             <nav id="mainNav" class="nav col-9 justify-content-left">
                                 <ul class="gnb align-items-center font-weight-bold">
-                                    <li><a href="#">HOME</a></li>
                                     <li><a href="#">공지사항</a></li>
                                     <li><a href="/simulation">시뮬레이션</a></li>
                                     <li><a href="/itemTier">아이템순위</a></li>
@@ -105,47 +140,73 @@
         </header>
         <!-- 헤더영역 E -->
         <main id="main">
-            <section id="sectionA" style="background: none; width: 90%; box-shadow: none; left: 5%">
-                <img src="/img/lolMainImg.jpg">
-                <div class="main-section" id="secA_search">
-                    <div class="new-search-body">
-                        <label for="search-engine" class="search-engine" style="display: flex;">
-                            <input id="search-engine" type="text" autocomplete="off" placeholder="궁금한 걸 검색하세요! ">
-                        </label>
+            <section id="sectionA" style="background: none; width: 100%; box-shadow: none;">
+                <div>
+                    <div id="lol_main_img">
+                        <img src="/img/lolMainImg.jpg" style="opacity: 0.7;"/>
+                    </div>
+                    <div id="lol_main_letter">
+                        <img src="/img/LoL_letter.png"/>
+                    </div>
+                    <div class="main-section" id="secA_search">
+                        <div class="new-search-body">
+                            <label for="search-engine" class="search-engine" style="display: flex;">
+                                <input id="search-engine" type="text" autocomplete="off" placeholder="궁금한 걸 검색하세요! ">
+                            </label>
+                        </div>
                     </div>
                 </div>
             </section>
-            <section id="sectionB" class="main-sub" style="" >
+            <section id="sectionB" class="main-sub" style="margin-top: 10vh;" >
                 <dl>
                     <dt class="sub-title">Tier</dt>
                     <dd class="sub-body">패치에 따라 변화된 아이템들의 티어를 확인 해 보세요!</dd>
                 </dl>
                 <dl id="tier_thumbnail">
-                    <dt class="patch-version">14.4 ver</dt>
+                    <dt id="patch-version" class="sub-title">14.4 ver</dt>
                     <dd><p></p></dd>
                     <dd><p></p></dd>
                     <dd><p></p></dd>
                     <dd><p></p></dd>
                     <dd><p></p></dd>
-                    <!--TODO JS로 티어리스트 게시판 불러오기 5개만 미리보고 아래 티어리스트 게시판으로 이동하는 버튼 생성--><dd class="item-tier"></dd>
+                    <!--TODO JS로 티어리스트 게시판 불러오기 5개만 미리보고 아래 티어리스트 게시판으로 이동하는 버튼 생성-->
                 </dl>
-                <button>Tier 가기</button>
+                <button class="sub-body">Tier 가기</button>
             </section>
             <section id="sectionC" class="main-sub">
                 <dl>
                     <dt class="sub-title">Pro's build</dt>
                     <dd class="sub-body">프로들은 어떻게 앞서 나가고 있는지 확인 해 보세요!</dd>
                 </dl>
-                <dl>
-                    <button>프로 빌드 가기</button>
-                </dl>
+                <dl id="pro_build_thumbnail">
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <!--TODO JS로 프로빌드 게시판 불러오기 5개만 미리보기(한 게임 각 포지션 별로 왼vs오 마주보게) 아래 프로빌드 게시판으로 이동하는 버튼 생성-->
+            </dl>
+                    <button class="sub-body">프로 빌드 가기</button>
             </section>
             <section id="sectionD" class="main-sub">
                 <dl>
                     <dt class="sub-title">News</dt>
                     <dd class="sub-body">지금 새로운 소식을 바로 확인 해 보세요!</dd>
                 </dl>
-                <button>라이엇 뉴스</button>
+                <dl>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <dd><p></p></dd>
+                <!--TODO JS로 티어리스트 게시판 불러오기 5개만 미리보고 아래 티어리스트 게시판으로 이동하는 버튼 생성-->
+            </dl>
+                <button class="sub-body">라이엇 뉴스</button>
             </section>
         </main>
         <footer id="footer" class="footer-style">

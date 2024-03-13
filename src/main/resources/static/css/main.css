@@ -41,6 +41,10 @@ ol {
     margin-bottom : 0;
 }
 
+li {
+    list-style-type: none;
+}
+
 a {
     text-decoration: none;
     color: #000;
@@ -172,6 +176,16 @@ body {
 .nav{
     padding: 20px 0;
 }
+
+.lol_icon_img {
+    align-items: center;
+    display: flex;
+}
+
+.lol_icon_img img{
+    height: 50px;
+}
+
 
 #header .gnb {
     margin: 0;
@@ -1016,7 +1030,7 @@ body {
 }
 
 
-/* 오른쪽 시뮬레이터 */
+/* 오른쪽 시뮬레이션 */
 
 #main #sectionF #dealmeterR {
     padding: 0.625rem 3.125rem 0 0;
