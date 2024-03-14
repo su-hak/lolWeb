@@ -29,6 +29,17 @@ public class Post {
   @Column(name = "createtime")
   private LocalDateTime createtime;
 
+  @Column(name = "views")
+  private Long views;
+
+  public Long getViews() {
+    return views;
+  }
+
+  public void setViews(Long views) {
+    this.views = views;
+  }
+
   public LocalDateTime getCreatetime() {
     return createtime;
   }

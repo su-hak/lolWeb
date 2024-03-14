@@ -27,4 +27,6 @@ public class PostDto {
 
   private LocalDateTime createtime;
 
+  private Long views;
+
 }
