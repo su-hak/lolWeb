@@ -206,20 +206,19 @@
                         </div>
                         <!-- 댓글 목록 영역 -->
                         <div class="row d-flex justify-content-center" style="margin-top: 10px" th:if="${comment}">
-                            <div class="col-9 d-flex" th:each="commentInfo,commentIndex : ${comment}"th:name="commentId" id="commentId" th:value="${commentInfo.comment.id}">
-
-                                    <div class="col-11">
-                                        <div class="row" th:text="${commentInfo.comment.content}">
-                                            <!-- 댓글 내용 영역-->
-                                        </div>
-                                        <div class="row d-flex usercss" style="color: #777777; font-size: 13px;
+                            <div class="col-9 d-flex" th:each="commentInfo, commentIndex : ${comment}">
+                                <div class="col-11" th:id="'commentId_' + ${commentInfo.comment.id}">
+                                    <div class="row" th:text="${commentInfo.comment.content}">
+                                        <!-- 댓글 내용 영역-->
+                                    </div>
+                                    <div class="row d-flex usercss" style="color: #777777; font-size: 13px;
                                         margin-bottom: 20px">
-                                            <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
-                                            <p th:text="${commentInfo.comment.nickname}"></p>
-                                            <p th:text="${commentInfo.comment.ipAddress}"></p>
-                                            <p th:text="${commentInfo.comment.createTime}"></p>
-                                            <button>삭제</button>
-                                        </div>
+                                        <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
+                                        <p th:text="${commentInfo.comment.nickname}"></p>
+                                        <p th:text="${commentInfo.comment.ipAddress}"></p>
+                                        <p th:text="${commentInfo.comment.createTime}"></p>
+                                        <button id="delCommentBtn" th:attr="data-comment-id=${commentInfo.comment.id}">삭제</button>
+
                                     </div>
                                     <div class="col mx-auto">
                                         <!--댓글 좋아요 버튼-->
@@ -239,8 +238,8 @@
                                                   th:attr="data-comment-id=${commentInfo.comment.id}">
                                                 <!-- 댓글 좋아요 수-->
                                             </span>
-                                        </div>
                                     </div>
+                                </div>
 
                             </div>
                         </div>
@@ -496,6 +495,16 @@
 
     // 댓글 삭제 기능
     $("#delCommentBtn").click(function () {
+        // var commentId = $(this).closest('.d-flex').find('[id^="commentId_"]').attr('id');
+
+        // if (commentId) {
+        //     commentId = commentId.split('_')[1];
+        //     console.log(commentId); // commentId를 콘솔에 출력하여 확인
+        //     // 이하 코드는 이전과 동일합니다.
+        // } else {
+        //     console.error("Comment ID element not found.");
+        // }
+        // console.log(commentId);
         Swal.fire({
             title: '비밀번호 입력',
             input: 'password',
@@ -513,8 +522,10 @@
             if (result.isConfirmed) {
                 // 비밀번호가 입력되었을 경우에만 삭제 요청을 서버로 전송
                 var postId = $("#postId").val(); // 해당 댓글의 postId를 가져옴
-                var commentId = $("#commentId").val(); // 해당 댓글의 commentId를 가져옴
-
+                var delCommentBtn = $(this);
+                var commentId = delCommentBtn.attr("data-comment-id");
+                // var commentId = $(this).data("comment-id");
+                // console.log(commentId);
                 // 서버로부터 비밀번호 일치 여부 확인 요청을 보냄
                 $.ajax({
                     type: 'POST',
