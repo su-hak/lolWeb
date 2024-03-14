@@ -33,6 +33,7 @@ public class Post {
   @Column(name = "views")
   private Long views = 0L;
 
+
   public LocalDateTime getCreatetime() {
     return createtime;
   }
@@ -125,12 +126,14 @@ public class Post {
     this.views = views;
   }
 
+
   @OneToMany(mappedBy = "post")
   private List<PostLike> postLikes = new ArrayList<>();
 
 
   @OneToMany(mappedBy = "post")
   private List<PostHate> postHates = new ArrayList<>();
+
 
 
 }
