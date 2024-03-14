@@ -217,7 +217,7 @@
                                         <p th:text="${commentInfo.comment.nickname}"></p>
                                         <p th:text="${commentInfo.comment.ipAddress}"></p>
                                         <p th:text="${commentInfo.comment.createTime}"></p>
-                                        <button id="delCommentBtn" th:attr="data-comment-id=${commentInfo.comment.id}">삭제</button>
+                                        <button type="button" class="delCommentBtn" th:attr="data-comment-id=${commentInfo.comment.id}">삭제</button>
 
                                     </div>
                                     <div class="col mx-auto">
@@ -244,27 +244,7 @@
                             </div>
                         </div>
 
-                        <!-- 재홍이 댓글 목록-->
-                        <h3>댓글 목록</h3>
-                        <li th:each="commentInfo,commentIndex : ${comment}" th:name="commentId" id="commentId2" th:value="${commentInfo.comment.id}">
-                            <!-- 순차적인 번호를 출력 -->
-                            <span th:text="${commentIndex.index + 1}"></span>.
-                            <span th:text="${commentInfo.comment.nickname}"></span>
-                            <span th:text="${commentInfo.comment.ipAddress}"></span>
-                            <span th:text="${commentInfo.comment.content}"></span>
-                            <span th:text="${commentInfo.comment.createTime}"></span>
-                            <!-- 아이디 값을 직접 전달 -->
-                            <span th:text="${commentInfo.isLiked()}"></span>
-                            <button type="button" class="likeButton"
-                                    data-comment-id="${commentInfo.comment.id}"
-                                    th:attr="data-comment-id=${commentInfo.comment.id}"
-                                    th:class="${commentInfo.isLiked == true} ? 'likeButton liked' : 'likeButton not-liked'">좋아요</button>
-                            <span class="likeCount" data-comment-id="${commentInfo.comment.id}"
-                                  th:attr="data-like-count=${commentInfo.comment.likes.size()}, data-comment-id=${commentInfo.comment.id}">
-        좋아요 수: <span class="likeCountValue"></span>
-    </span>
-                            <button id="delCommentBtn" class="col btn btn-danger" aria-label="Try me! Example: AJAX request" style="font-size: medium">삭제</button>
-                        </li>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -313,7 +293,48 @@
 
 <!-- 댓글 등록 코드 -->
 <script>
-    function createComment() {
+    // function createComment() {
+    //     var nickname = $("#nickname").val();
+    //     var password = $("#password").val();
+    //     var content = $("#content").val();
+    //
+    //     // 필수 입력 필드가 비어 있는지 확인
+    //     if (nickname.trim() === '') {
+    //         alert("닉네임을 입력해주세요.");
+    //         return;
+    //     }else
+    //     if (password.trim() === '') {
+    //         alert("비밀번호를 입력해주세요.");
+    //         return;
+    //     }else
+    //     if (content.trim() === '') {
+    //         alert("댓글 내용을 입력해주세요.");
+    //         return;
+    //     }else{
+    //         // Ajax를 이용한 비동기적인 댓글 작성
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/post/createComment",
+    //             contentType: "application/json",
+    //             data: JSON.stringify({
+    //                 postId: $("#postId").val(),
+    //                 nickname: nickname,
+    //                 password: password,
+    //                 content: content
+    //             }),
+    //             success: function (response) {
+    //                 // 성공적으로 댓글이 작성되면 처리할 로직
+    //                 alert("댓글이 성공적으로 저장되었습니다.");
+    //                 location.reload();
+    //             },
+    //             error: function (error) {
+    //                 // 댓글 작성 중 에러 발생 시 처리할 로직
+    //                 alert("댓글 작성에 실패했습니다.");
+    //             }
+    //         });
+    //     }
+    // }
+    $("#commentButton").click(function() {
         var nickname = $("#nickname").val();
         var password = $("#password").val();
         var content = $("#content").val();
@@ -322,15 +343,13 @@
         if (nickname.trim() === '') {
             alert("닉네임을 입력해주세요.");
             return;
-        }else
-        if (password.trim() === '') {
+        } else if (password.trim() === '') {
             alert("비밀번호를 입력해주세요.");
             return;
-        }else
-        if (content.trim() === '') {
+        } else if (content.trim() === '') {
             alert("댓글 내용을 입력해주세요.");
             return;
-        }else{
+        } else {
             // Ajax를 이용한 비동기적인 댓글 작성
             $.ajax({
                 type: "POST",
@@ -342,27 +361,25 @@
                     password: password,
                     content: content
                 }),
-                success: function (response) {
+                success: function(response) {
                     // 성공적으로 댓글이 작성되면 처리할 로직
                     alert("댓글이 성공적으로 저장되었습니다.");
                     location.reload();
                 },
-                error: function (error) {
+                error: function(error) {
                     // 댓글 작성 중 에러 발생 시 처리할 로직
                     alert("댓글 작성에 실패했습니다.");
                 }
             });
         }
+    });
 
-
-
-    }
 
 
     // 버튼 클릭 시 createComment 함수 호출하도록 수정
     $(document).ready(function () {
         updateAllCommentsLikeStatus();
-        $("#commentButton").click(createComment);
+        // $("#commentButton").click(createComment);
     });
 </script>
 
@@ -494,17 +511,9 @@
     });
 
     // 댓글 삭제 기능
-    $("#delCommentBtn").click(function () {
-        // var commentId = $(this).closest('.d-flex').find('[id^="commentId_"]').attr('id');
-
-        // if (commentId) {
-        //     commentId = commentId.split('_')[1];
-        //     console.log(commentId); // commentId를 콘솔에 출력하여 확인
-        //     // 이하 코드는 이전과 동일합니다.
-        // } else {
-        //     console.error("Comment ID element not found.");
-        // }
-        // console.log(commentId);
+    // 삭제 버튼 클릭 이벤트 핸들러
+    $(".delCommentBtn").click(function () {
+        console.log("삭제버튼 클릭");
         Swal.fire({
             title: '비밀번호 입력',
             input: 'password',
@@ -522,10 +531,8 @@
             if (result.isConfirmed) {
                 // 비밀번호가 입력되었을 경우에만 삭제 요청을 서버로 전송
                 var postId = $("#postId").val(); // 해당 댓글의 postId를 가져옴
-                var delCommentBtn = $(this);
-                var commentId = delCommentBtn.attr("data-comment-id");
-                // var commentId = $(this).data("comment-id");
-                // console.log(commentId);
+                var commentId = $(this).attr("data-comment-id");
+
                 // 서버로부터 비밀번호 일치 여부 확인 요청을 보냄
                 $.ajax({
                     type: 'POST',
