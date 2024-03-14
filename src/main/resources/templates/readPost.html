@@ -180,7 +180,7 @@
                     </div>
                     <div class="card-body">
                         <!-- 댓글 작성 영역 -->
-                        <div class="row" style="font-size: 13px;">
+                        <div class="row col-10" style="font-size: 13px;">
                             <form id="commentForm" class="col d-flex">
                                 <input type="hidden" th:name="postId" id="postId" th:value="${post.id}">
                                 <div class="col-2">
@@ -221,18 +221,19 @@
                                             <button>삭제</button>
                                         </div>
                                     </div>
-                                    <div class="col position-relative">
+                                    <div class="col mx-auto">
                                         <!--댓글 좋아요 버튼-->
-                                        <div class="row p-0 d-flex justify-content-center position-absolute top-50 start-50 translate-middle">
+                                        <div class="row d-flex justify-content-center">
                                             <button type="button" class="likeButton"
                                                     data-comment-id="${commentInfo.comment.id}"
                                                     th:attr="data-comment-id=${commentInfo.comment.id}"
                                                     th:class="${commentInfo.isLiked == true} ? 'likeButton liked' : 'likeButton not-liked'" style="margin-bottom: 0">
-                                                <iconify-icon icon="icon-park-outline:like" width="2rem" height="2rem"
-                                                          style="color: #ff0000"></iconify-icon>
+                                                <iconify-icon th:unless="${commentInfo.isLiked == true}"
+                                                              icon="icon-park-outline:like" width="2rem" height="2rem" style="color: #ff0000"></iconify-icon>
+                                                <iconify-icon th:if="${commentInfo.isLiked == true}" icon="icon-park-solid:like" width="2rem" height="2rem" style="color: #ff0000"></iconify-icon>
                                             </button>
                                         </div>
-                                        <div class="row m-0 d-flex justify-content-center">
+                                        <div class="row d-flex justify-content-center">
                                             <span class="likeCount" style="color: #777777; font-size: 13px;
                                         margin-bottom: 20px"
                                                   th:attr="data-comment-id=${commentInfo.comment.id}">
@@ -244,6 +245,7 @@
                             </div>
                         </div>
 
+                        <!-- 재홍이 댓글 목록-->
                         <h3>댓글 목록</h3>
                         <li th:each="commentInfo,commentIndex : ${comment}" th:name="commentId" id="commentId2" th:value="${commentInfo.comment.id}">
                             <!-- 순차적인 번호를 출력 -->
@@ -598,19 +600,7 @@
                     likeCountValueElement.text("0");
                 }
 
-                // 좋아요 버튼 상태에 따라 색상 변경
-                // var likeButton = $(".likeButton[data-comment-id='" + commentId + "']");
-                // var isLiked = response > 0;
-                //
-                // // 이전에 추가된 클래스를 모두 제거
-                // likeButton.removeClass("liked not-liked");
-                //
-                // // isLiked 값에 따라 적절한 클래스를 추가
-                // if (isLiked) {
-                //     likeButton.addClass("liked");
-                // } else {
-                //     likeButton.addClass("not-liked");
-                // }
+
             },
             error: function(error) {
                 console.log(error);
@@ -641,17 +631,18 @@
                 ipAddress: "dummy"
             }),
             success: function(response) {
-                likeButton.removeClass("liked");
-                likeButton.removeClass("not-liked");
-
+                // 좋아요 상태에 따라 아이콘 변경
                 if (response === true) {
-                    console.log("좋아요 누름")
+                    likeButton.removeClass("not-liked");
                     likeButton.addClass("liked");
+                    likeButton.find('iconify-icon').attr('icon', 'icon-park-solid:like');
                 } else {
-                    console.log("좋아요 취소")
+                    likeButton.removeClass("liked");
                     likeButton.addClass("not-liked");
+                    likeButton.find('iconify-icon').attr('icon', 'icon-park-outline:like');
                 }
 
+                // 좋아요 수 업데이트
                 updateLikeCount(commentId);
             },
             error: function(error) {
