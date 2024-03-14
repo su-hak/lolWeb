@@ -218,7 +218,7 @@
                                         <p th:text="${commentInfo.comment.nickname}"></p>
                                         <p th:text="${commentInfo.comment.ipAddress}"></p>
                                         <p th:text="${commentInfo.comment.createTime}"></p>
-                                        <p>삭제</p>
+                                        <button type="button" class="delCommentBtn" th:attr="data-comment-id=${commentInfo.comment.id}">삭제</button>
                                     </div>
                                 </div>
                                 <div class="col mx-auto">
