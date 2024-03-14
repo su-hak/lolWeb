@@ -104,4 +104,9 @@ public class CommentService {
     }
   }
 
+  // 게시글의 총 댓글 수 조회
+  public int countCommentsByPostId(Long postId) {
+    return commentRepository.countCommentsByPostId(postId);
+  }
+
 }
