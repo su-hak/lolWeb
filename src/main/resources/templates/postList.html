@@ -113,9 +113,9 @@
                             <tr>
                                 <th class="col-1">글번호</th>
                                 <th class="col-6">글제목</th>
-                                <th class="col-3">작성자(IP)</th>
-                                <th class="col-5">작성일</th>
-                                <th class="col-5">조회수</th>
+                                <th class="col-2">작성자(IP)</th>
+                                <th class="col">작성일</th>
+                                <th class="col-2">조회수</th>
                             </tr>
                             </thead>
                             <!-- 게시판 바디 -->
@@ -125,15 +125,18 @@
                                     <p class="mb-0 text-muted" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"><!--게시물id--></p>
                                 </td>
                                 <td>
-                                    <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
-                                       th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
-                                        </p>
-                                    <p><span class="commentCountSpan"></span></p>
+                                    <div class="d-flex">
+                                        <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
+                                           th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
+                                            </p>
+                                        <p class="commentCountSpan"></p>
+                                    </div>
                                 </td>
-                                <td class="ds_flex" style="font-size: 14px; color: #777777">
+                                <td style="font-size: 14px; color: #777777">
+                                    <div class="ds_flex" >
                                     <p class="mb-0 text-muted" th:text="${post.nickname}"></p>
                                     (<p class="mb-0 text-muted" th:text="${post.ipAddress}"></p>)
-
+                                    </div>
                                 </td>
                                 <td class="text-muted" style="font-size: 14px; color: #777777">
                                     <p th:if="${post.createtime != null}"

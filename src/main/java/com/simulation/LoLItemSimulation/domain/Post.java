@@ -32,6 +32,7 @@ public class Post {
   @Column(name = "views")
   private Long views = 0L;
 
+
   public LocalDateTime getCreatetime() {
     return createtime;
   }
@@ -123,4 +124,5 @@ public class Post {
   public void setViews(Long views) {
     this.views = views;
   }
+
 }
