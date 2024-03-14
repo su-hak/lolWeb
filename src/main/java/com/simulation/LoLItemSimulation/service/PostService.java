@@ -147,5 +147,18 @@ public class PostService {
     return postDto;
   }
 
+  // 게시글 좋아요 수 카운트
+  @Autowired
+  public PostService(PostRepository postRepository, CommentRepository commentRepository) {
+    this.postRepository = postRepository;
+      this.commentRepository = commentRepository;
+  }
+
+  public int getPostLikeCount(Long postId) {
+    return postRepository.getPostLikeCount(postId);
+  }
+
+
+
 
 }

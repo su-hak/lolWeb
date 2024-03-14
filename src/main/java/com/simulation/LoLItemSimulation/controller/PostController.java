@@ -3,9 +3,11 @@ package com.simulation.LoLItemSimulation.controller;
 import com.simulation.LoLItemSimulation.domain.Comment;
 import com.simulation.LoLItemSimulation.domain.CommentLikeInfo;
 import com.simulation.LoLItemSimulation.domain.Post;
+import com.simulation.LoLItemSimulation.domain.PostLike;
 import com.simulation.LoLItemSimulation.dto.CommentDto;
 import com.simulation.LoLItemSimulation.dto.PostDto;
 import com.simulation.LoLItemSimulation.repository.CommentRepository;
+import com.simulation.LoLItemSimulation.repository.PostLikeRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
 import com.simulation.LoLItemSimulation.service.CommentLikeService;
 import com.simulation.LoLItemSimulation.service.CommentService;
@@ -50,6 +52,9 @@ public class PostController {
   private CommentService commentService;
   @Autowired
   private CommentLikeService commentLikeService;
+
+  @Autowired
+  private PostLikeRepository postLikeRepository;
 
 
   //    @PostMapping("/create")
@@ -212,8 +217,43 @@ public class PostController {
       return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
   }
 
+  // 게시글 좋아요
+  @PostMapping("/{postId}/like")
+  public ResponseEntity<Boolean> addOrRemoveLike(@PathVariable Long postId, @RequestBody Map<String, String> requestBody) {
+    String ipAddress = getClientIP(request);
 
-  private Post convertDtoToEntity(PostDto postDto) {
+    Post post = postRepository.findById(postId).orElse(null);
+
+    if (post == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    PostLike existingLike = postLikeRepository.findByPostIdAndIpAddress(postId, ipAddress);
+
+    if (existingLike != null) {
+      // 이미 좋아요를 눌렀으면 삭제
+      postLikeRepository.delete(existingLike);
+      return ResponseEntity.ok(false); // Like removed
+    } else {
+      // 좋아요 추가
+      PostLike newLike = new PostLike();
+      newLike.setPost(post);
+      newLike.setIpAddress(ipAddress);
+      postLikeRepository.save(newLike);
+      return ResponseEntity.ok(true); // Like added
+    }
+  }
+
+  // 게시글 좋아요 수 카운트
+  @GetMapping("/{postId}/like/count")
+  public ResponseEntity<Integer> getPostLikeCount(@PathVariable Long postId) {
+    int likeCount = postService.getPostLikeCount(postId);
+    return ResponseEntity.ok(likeCount);
+  }
+
+
+
+  private Post convertDtoToEntity(PostDto postDto){
     Post post = new Post();
     post.setTitle(postDto.getTitle());
     post.setContent(postDto.getContent());

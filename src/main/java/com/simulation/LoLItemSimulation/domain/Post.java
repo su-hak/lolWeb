@@ -7,6 +7,7 @@ import org.springframework.cglib.core.Local;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 // Post.java
 @Entity
@@ -124,5 +125,15 @@ public class Post {
   public void setViews(Long views) {
     this.views = views;
   }
+
+
+  @OneToMany(mappedBy = "post")
+  private List<PostLike> postLikes = new ArrayList<>();
+
+
+  @OneToMany(mappedBy = "post")
+  private List<PostHate> postHates = new ArrayList<>();
+
+
 
 }
