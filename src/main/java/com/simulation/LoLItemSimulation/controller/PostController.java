@@ -103,6 +103,9 @@ public class PostController {
 
   @GetMapping("/read/{postId}")
   public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request) {
+    // 조회수 증가
+    postService.incrementViews(postId);
+
     // postId에 해당하는 게시글 정보를 가져옴
     PostDto postDto = postService.getPostDtoById(postId);
 
@@ -111,6 +114,7 @@ public class PostController {
       // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
       return "게시글이 없습니다.";
     }
+
 
 
     List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
