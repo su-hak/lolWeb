@@ -158,6 +158,10 @@ public class PostService {
     return postRepository.getPostLikeCount(postId);
   }
 
+  public int getPostHateCount(Long postId) {
+    return postRepository.getPostHateCount(postId);
+  }
+
 
 
 
