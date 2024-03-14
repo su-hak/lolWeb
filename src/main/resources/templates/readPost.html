@@ -125,7 +125,7 @@
 
                                     12328</span>
 
-                                <span>댓글 20</span>
+                                <span id="commentCount">댓글 : 0</span>
 
                                 <span>좋아요
                                     12</span>
@@ -380,6 +380,22 @@
     $(document).ready(function () {
         updateAllCommentsLikeStatus();
         // $("#commentButton").click(createComment);
+
+        // 게시물이 로드될때 게시글의 총 댓글수 반환
+        var postId = $("#postId").val(); // 게시글의 ID를 가져옵니다.
+
+        // 게시글의 총 댓글 수를 조회하는 AJAX 요청
+        $.ajax({
+            type: "GET",
+            url: "/post/" + postId + "/commentCount",
+            success: function(response) {
+                // 성공적으로 총 댓글 수를 가져왔을 때 HTML에 표시
+                $("span#commentCount").text("댓글 : " + response);
+            },
+            error: function(error) {
+                console.error("Error:", error);
+            }
+        });
     });
 </script>
 

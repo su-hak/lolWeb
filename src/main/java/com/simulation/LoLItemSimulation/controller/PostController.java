@@ -254,6 +254,13 @@ public class PostController {
     }
   }
 
+  // 게시글의 총 댓글 수를 반환하는 엔드포인트
+  @GetMapping("/{postId}/commentCount")
+  public ResponseEntity<Integer> getCommentCount(@PathVariable Long postId) {
+    int commentCount = commentService.countCommentsByPostId(postId);
+    return ResponseEntity.ok(commentCount);
+  }
+
 
 
 
