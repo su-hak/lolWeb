@@ -140,6 +140,7 @@ public class PostService {
     postDto.setNickname(post.getNickname());
     postDto.setIpAddress(post.getIpAddress());
     postDto.setCreatetime(post.getCreatetime());
+    postDto.setViews(post.getViews());
 
     // 다른 필요한 변환 로직 추가
     return postDto;
