@@ -1,0 +1,12 @@
+/* 애니메이션 적용 */
+.animated-width {
+    position: relative;
+    width: 20%;
+    margin: 0 auto;
+    border-bottom: 1px solid black;
+    transition: width 1s;
+}
+
+#simulation:hover .animated-width {
+    width: 100%;
+}
