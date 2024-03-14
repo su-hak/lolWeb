@@ -1,12 +1,10 @@
 package com.simulation.LoLItemSimulation.controller;
 
-import com.simulation.LoLItemSimulation.domain.Comment;
-import com.simulation.LoLItemSimulation.domain.CommentLikeInfo;
-import com.simulation.LoLItemSimulation.domain.Post;
-import com.simulation.LoLItemSimulation.domain.PostLike;
+import com.simulation.LoLItemSimulation.domain.*;
 import com.simulation.LoLItemSimulation.dto.CommentDto;
 import com.simulation.LoLItemSimulation.dto.PostDto;
 import com.simulation.LoLItemSimulation.repository.CommentRepository;
+import com.simulation.LoLItemSimulation.repository.PostHateRepository;
 import com.simulation.LoLItemSimulation.repository.PostLikeRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
 import com.simulation.LoLItemSimulation.service.CommentLikeService;
@@ -55,6 +53,9 @@ public class PostController {
 
   @Autowired
   private PostLikeRepository postLikeRepository;
+
+  @Autowired
+  private PostHateRepository postHateRepository;
 
 
   //    @PostMapping("/create")
@@ -243,12 +244,45 @@ public class PostController {
       return ResponseEntity.ok(true); // Like added
     }
   }
+  // 게시글 싫어요
+  @PostMapping("/{postId}/hate")
+  public ResponseEntity<Boolean> addOrRemoveHate(@PathVariable Long postId, @RequestBody Map<String, String> requestBody) {
+    String ipAddress = getClientIP(request);
+
+    Post post = postRepository.findById(postId).orElse(null);
+
+    if (post == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    PostHate existingHate = postHateRepository.findByPostIdAndIpAddress(postId, ipAddress);
+
+    if (existingHate != null) {
+      // 이미 좋아요를 눌렀으면 삭제
+      postHateRepository.delete(existingHate);
+      return ResponseEntity.ok(false); // Like removed
+    } else {
+      // 좋아요 추가
+      PostHate newHate = new PostHate();
+      newHate.setPost(post);
+      newHate.setIpAddress(ipAddress);
+      postHateRepository.save(newHate);
+      return ResponseEntity.ok(true); // Like added
+    }
+  }
 
   // 게시글 좋아요 수 카운트
   @GetMapping("/{postId}/like/count")
   public ResponseEntity<Integer> getPostLikeCount(@PathVariable Long postId) {
     int likeCount = postService.getPostLikeCount(postId);
     return ResponseEntity.ok(likeCount);
+  }
+
+  // 게시글 싫어요 수 카운트
+  @GetMapping("/{postId}/hate/count")
+  public ResponseEntity<Integer> getPostHateCount(@PathVariable Long postId) {
+    int hateCount = postService.getPostHateCount(postId);
+    return ResponseEntity.ok(hateCount);
   }
 
 

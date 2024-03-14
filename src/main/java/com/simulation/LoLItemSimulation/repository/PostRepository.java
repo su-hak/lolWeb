@@ -21,4 +21,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
   // 게시글 좋아요 갯수 반환
   @Query("SELECT COUNT(pl) FROM PostLike pl WHERE pl.post.id = :postId")
   int getPostLikeCount(Long postId);
+
+  // 게시글 싫어요 갯수 반환
+  @Query("SELECT COUNT(pl) FROM PostHate pl WHERE pl.post.id = :postId")
+  int getPostHateCount(Long postId);
 } 
