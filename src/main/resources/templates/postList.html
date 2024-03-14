@@ -115,6 +115,7 @@
                                 <th class="col-6">글제목</th>
                                 <th class="col-3">작성자(IP)</th>
                                 <th class="col-5">작성일</th>
+                                <th class="col-5">조회수</th>
                             </tr>
                             </thead>
                             <!-- 게시판 바디 -->
@@ -138,6 +139,10 @@
                                     <p th:unless="${post.createtime != null}"> <!-- 생성일이 null일 때 빈칸 표시 -->
                                         <!-- 빈칸 -->
                                     </p>
+                                </td>
+                                <td>
+                                    <p th:value="${post.views}"></p>
+
                                 </td>
                             </tr>
                             </tbody>

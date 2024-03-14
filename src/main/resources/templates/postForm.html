@@ -247,8 +247,8 @@
         var password = document.getElementById('password').value;
         var content = document.getElementById('content').value;
 
-        // 만약 비밀번호 값이 없는 경우
-        if (!password || !nickname || !title || !content) {
+        // 만약 입력 값 중에 공백 또는 빈 문자열이 있는 경우
+        if (!nickname.trim() || !title.trim() || !password.trim() || !content.trim()) {
             // 알림창 띄우기
             swal.fire('빈 공간을 입력해주세요.');
             return; // 함수 종료

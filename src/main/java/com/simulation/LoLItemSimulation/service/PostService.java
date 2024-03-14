@@ -107,6 +107,18 @@ public class PostService {
     return postRepository.findById(id);
   }
 
+
+  // 조회수 증가 메서드
+  public void incrementViews(Long postId) {
+    Optional<Post> postOptional = postRepository.findById(postId);
+    if (postOptional.isPresent()) {
+      Post post = postOptional.get();
+      post.setViews(post.getViews() + 1);
+      postRepository.save(post);
+    }
+  }
+
+
   // 다른 필요한 메서드들 추가
   public PostDto getPostDtoById(Long postId) {
     // postId에 해당하는 게시글 정보를 불러옴
