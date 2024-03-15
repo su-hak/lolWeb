@@ -135,7 +135,8 @@
                                 <td style="font-size: 14px; color: #777777">
                                     <div class="ds_flex" >
                                     <p class="mb-0 text-muted" th:text="${post.nickname}"></p>
-                                    (<p class="mb-0 text-muted" th:text="${post.ipAddress}"></p>)
+                                    (<p class="mb-0 text-muted"
+                                        th:text="${#strings.substring(post.ipAddress, 0, 6)} + '.x.x'"></p>)
                                     </div>
                                 </td>
                                 <td class="text-muted" style="font-size: 14px; color: #777777">
