@@ -143,7 +143,15 @@
 </header>
 <!-- 헤더영역 E -->
 <main id="main">
-
+    <h1>프로 빌드</h1>
+    <div th:if="${proInfo != null}">
+        <p>Name: <span th:text="${proInfo.summonerName}"></span></p>
+        <p>Tier: <span th:text="${proInfo.tier}"></span></p>
+        <p>Rank: <span th:text="${proInfo.rank}"></span></p>
+        <p>League Points: <span th:text="${proInfo.proPoints}"></span></p>
+        <p>Wins: <span th:text="${proInfo.wins}"></span></p>
+        <p>Losses: <span th:text="${proInfo.losses}"></span></p>
+    </div>
 </main>
 <footer id="footer" class="footer-style">
     <div class="f1l1">
