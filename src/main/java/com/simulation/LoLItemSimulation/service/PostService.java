@@ -77,6 +77,8 @@ public class PostService {
 
   // 게시글 삭제 메서드
   public void deletePost(Long postId, String password) {
+    //todo : 게시물 삭제시 좋아요 싫어요 삭제 해야함
+
     // 게시글을 찾습니다.
     Optional<Post> optionalPost = postRepository.findById(postId);
 

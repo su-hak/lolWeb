@@ -287,7 +287,7 @@ public class PostController {
 
 
 
-  private Post convertDtoToEntity(PostDto postDto){
+  private Post convertDtoToEntity(PostDto postDto) {
     Post post = new Post();
     post.setTitle(postDto.getTitle());
     post.setContent(postDto.getContent());
