@@ -138,7 +138,8 @@
                                 <div class="centered">
                                     <div class="row row-editor">
                                         <div class="col editor-container">
-                                            <textarea class="editor" th:field="*{content}" id="content"
+                                            <label for="editor"></label>
+                                            <textarea class="editor" th:field="*{content}" id="editor"
                                                       style="max-height: 500px"></textarea>
                                         </div>
                                     </div>
@@ -201,8 +202,12 @@
 <script th:src="@{/js/decimal.js}"></script> <!-- 계산식 -->
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
-<script src="/ckeditor5/build/ckeditor.js"></script>
+
+<!--ckeditor 부분-->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/super-build/ckeditor.js"></script>
+<!--<script src="/ckeditor5/build/ckeditor.js"></script>-->
 <script src="/js/ckeditorscript.js"></script>
+<!--ckeditor 부분 종료 -->
 
 
 <!--<script>  // 스크롤을 위로 올리는 스티키바-->
@@ -245,7 +250,7 @@
         var nickname = document.getElementById('simpleinput').value;
         var title = document.getElementById('title').value;
         var password = document.getElementById('password').value;
-        var content = document.getElementById('content').value;
+        var content = document.getElementById('editor').value;
 
         // 만약 입력 값 중에 공백 또는 빈 문자열이 있는 경우
         if (!nickname.trim() || !title.trim() || !password.trim() || !content.trim()) {

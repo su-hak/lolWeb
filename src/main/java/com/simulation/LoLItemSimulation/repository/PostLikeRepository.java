@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
     PostLike findByPostIdAndIpAddress(Long postId, String ipAddress);
+    List<PostLike> findByPostId(Long postId);
 
     boolean existsByPostIdAndIpAddress(Long postId, String ipAddress);
 
