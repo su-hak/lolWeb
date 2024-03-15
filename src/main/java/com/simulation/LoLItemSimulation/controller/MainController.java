@@ -26,4 +26,9 @@ public class MainController {
     public String itemTierList() {
         return "itemTier";
     }
+
+    @GetMapping("/probuild")
+    public String proBuild() {
+        return "probuild";
+    }
 }

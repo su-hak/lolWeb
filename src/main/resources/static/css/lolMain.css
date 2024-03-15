@@ -124,8 +124,9 @@ li {
 
 #faker {
     position: absolute;
-    margin-top: 13px;
+    margin-top: 49px;
     width: 227px;
+    height: 321px;
     left: 58px;
     box-shadow: 0 1px 15px 7px #000000;
     border: 1px solid black;
@@ -135,8 +136,8 @@ li {
     position: absolute;
     left: -8px;
     width: 368px;
-    height: 649px;
-    top: 942px;
+    height: 500px;
+    top: 1008px;
     z-index: -1;
 }
 
