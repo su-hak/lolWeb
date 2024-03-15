@@ -212,10 +212,11 @@ public class PostController {
   public ResponseEntity<String> deleteArticle(@PathVariable long postId, @RequestBody Map<String, String> requestBody) {
     String password = requestBody.get("password");
 
-      // 게시글을 삭제
-      postService.deletePost(postId, password);
-      // 삭제가 성공적으로 이루어지면 HTTP 상태 코드 200 OK를 반환합니다.
-      return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
+    // 게시글에 연결된 좋아요와 싫어요를 먼저 삭제
+    postService.deletePostAndAssociatedLikesAndHates(postId, password);
+
+    // 삭제가 성공적으로 이루어지면 HTTP 상태 코드 200 OK를 반환합니다.
+    return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
   }
 
   // 게시글 좋아요
@@ -287,7 +288,7 @@ public class PostController {
 
 
 
-  private Post convertDtoToEntity(PostDto postDto){
+  private Post convertDtoToEntity(PostDto postDto) {
     Post post = new Post();
     post.setTitle(postDto.getTitle());
     post.setContent(postDto.getContent());

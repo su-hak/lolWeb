@@ -1,12 +1,8 @@
 package com.simulation.LoLItemSimulation.service;
 
-import com.simulation.LoLItemSimulation.domain.Comment;
-import com.simulation.LoLItemSimulation.domain.CommentLike;
-import com.simulation.LoLItemSimulation.domain.Post;
+import com.simulation.LoLItemSimulation.domain.*;
 import com.simulation.LoLItemSimulation.dto.PostDto;
-import com.simulation.LoLItemSimulation.repository.CommentLikeRepository;
-import com.simulation.LoLItemSimulation.repository.CommentRepository;
-import com.simulation.LoLItemSimulation.repository.PostRepository;
+import com.simulation.LoLItemSimulation.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +23,12 @@ import java.util.Optional;
 public class PostService {
   @Autowired
   private PostRepository postRepository;
+
+  @Autowired
+  private PostLikeRepository postLikeRepository;
+
+  @Autowired
+  private PostHateRepository postHateRepository;
 
   @Autowired
   private final CommentRepository commentRepository;
@@ -77,6 +79,8 @@ public class PostService {
 
   // 게시글 삭제 메서드
   public void deletePost(Long postId, String password) {
+    //todo : 게시물 삭제시 좋아요 싫어요 삭제 해야함
+
     // 게시글을 찾습니다.
     Optional<Post> optionalPost = postRepository.findById(postId);
 
@@ -90,9 +94,12 @@ public class PostService {
         List<Comment> comments = commentRepository.findByPostId(postId);
         commentRepository.deleteAll(comments);
 
-        // 게시글에 연결된 좋아요 정보도 모두 삭제합니다.
+        // 게시글에 연결된 댓글 좋아요 정보도 모두 삭제합니다.
         List<CommentLike> likes = commentLikeRepository.findByCommentPostId(postId);
         commentLikeRepository.deleteAll(likes);
+
+        // 게시글에 연결된 댓글 좋아요 정보도 모두 삭제합니다.
+
 
         // 게시글을 삭제합니다.
         postRepository.delete(post);
@@ -163,6 +170,34 @@ public class PostService {
   }
 
 
+  // 게시글 및 연결된 좋아요와 싫어요 삭제 메서드
+  public void deletePostAndAssociatedLikesAndHates(Long postId, String password) {
+    // 게시글을 찾습니다.
+    Optional<Post> optionalPost = postRepository.findById(postId);
+
+    // 게시글이 존재하는지 확인합니다.
+    if (optionalPost.isPresent()) {
+      Post post = optionalPost.get();
+
+      // 게시글의 비밀번호가 올바른지 확인합니다.
+      if (post.getPassword().equals(password)) {
+        // 게시글에 연결된 좋아요를 삭제합니다.
+        List<PostLike> likes = postLikeRepository.findByPostId(postId); // 수정된 부분
+        postLikeRepository.deleteAll(likes);
+
+        // 게시글에 연결된 싫어요를 삭제합니다.
+        List<PostHate> hates = postHateRepository.findByPostId(postId); // 수정된 부분
+        postHateRepository.deleteAll(hates);
+
+        // 게시글을 삭제합니다.
+        postRepository.delete(post);
+      } else {
+        throw new IllegalArgumentException("게시글 비밀번호가 일치하지 않습니다.");
+      }
+    } else {
+      throw new IllegalArgumentException("게시글을 찾을 수 없습니다.");
+    }
+  }
 
 
 }

@@ -131,8 +131,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col p-5"  style="border-top: solid 1px
-                             #e0e0e0;" th:utext="${post.content}">
+                            <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
+                            <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
+                            <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
+                                 th:utext="${post.content}">
                                 <!-- 게시물 본문 들어가는 영역 -->
                             </div>
                         </div>
@@ -287,6 +289,12 @@
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+<!--ckeditor 부분-->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/super-build/ckeditor.js"></script>
+<!--<script src="/ckeditor5/build/ckeditor.js"></script>-->
+<script src="/js/ckeditorscript.js"></script>
+<!--ckeditor 부분 종료 -->
 
 
 <!-- 댓글 등록 코드 -->
