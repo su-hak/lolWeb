@@ -1,12 +1,8 @@
 package com.simulation.LoLItemSimulation.service;
 
-import com.simulation.LoLItemSimulation.domain.Comment;
-import com.simulation.LoLItemSimulation.domain.CommentLike;
-import com.simulation.LoLItemSimulation.domain.Post;
+import com.simulation.LoLItemSimulation.domain.*;
 import com.simulation.LoLItemSimulation.dto.PostDto;
-import com.simulation.LoLItemSimulation.repository.CommentLikeRepository;
-import com.simulation.LoLItemSimulation.repository.CommentRepository;
-import com.simulation.LoLItemSimulation.repository.PostRepository;
+import com.simulation.LoLItemSimulation.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +23,12 @@ import java.util.Optional;
 public class PostService {
   @Autowired
   private PostRepository postRepository;
+
+  @Autowired
+  private PostLikeRepository postLikeRepository;
+
+  @Autowired
+  private PostHateRepository postHateRepository;
 
   @Autowired
   private final CommentRepository commentRepository;
@@ -86,13 +88,23 @@ public class PostService {
 
       // 게시글의 비밀번호가 올바른지 확인합니다.
       if (post.getPassword().equals(password)) {
+
+        // 게시글에 연결된 댓글 좋아요 정보도 모두 삭제합니다.
+        List<CommentLike> likes = commentLikeRepository.findByCommentPostId(postId);
+        commentLikeRepository.deleteAll(likes);
+
         // 게시글에 연결된 댓글을 모두 삭제합니다.
         List<Comment> comments = commentRepository.findByPostId(postId);
         commentRepository.deleteAll(comments);
 
-        // 게시글에 연결된 좋아요 정보도 모두 삭제합니다.
-        List<CommentLike> likes = commentLikeRepository.findByCommentPostId(postId);
-        commentLikeRepository.deleteAll(likes);
+        // 게시글에 연결된 좋아요를 삭제합니다.
+        List<PostLike> postLikes = postLikeRepository.findByPostId(postId); // 수정된 부분
+        postLikeRepository.deleteAll(postLikes);
+
+        // 게시글에 연결된 싫어요를 삭제합니다.
+        List<PostHate> hates = postHateRepository.findByPostId(postId); // 수정된 부분
+        postHateRepository.deleteAll(hates);
+
 
         // 게시글을 삭제합니다.
         postRepository.delete(post);
@@ -103,6 +115,8 @@ public class PostService {
       throw new IllegalArgumentException("게시글을 찾을 수 없습니다.");
     }
   }
+
+
 
   public Optional<Post> getPostById(Long id) {
     return postRepository.findById(id);
@@ -161,8 +175,6 @@ public class PostService {
   public int getPostHateCount(Long postId) {
     return postRepository.getPostHateCount(postId);
   }
-
-
 
 
 }

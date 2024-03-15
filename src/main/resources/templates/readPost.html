@@ -40,7 +40,7 @@
                             <li><a href="#">공지사항</a></li>
                             <li><a href="/simulation">시뮬레이션</a></li>
                             <li><a href="#">아이템순위</a></li>
-                            <li><a href="#">프로빌드</a></li>
+                            <li><a href="/probuild">프로빌드</a></li>
                             <li><a href="#">커뮤니티</a></li>
                         </ul>
                     </nav>
@@ -66,7 +66,7 @@
                         <li><a href="#">아이템순위</a></li>
                     </ul>
                     <ul class="align-items-center">
-                        <li><a href="#">프로빌드</a></li>
+                        <li><a href="/probuild">프로빌드</a></li>
                     </ul>
                     <ul class="align-items-center">
                         <li><a href="/post/list">자유게시판</a></li>
@@ -115,7 +115,7 @@
                             <!-- 게시물 작성자 닉네임, 아이피, 날짜 표시 영역 -->
                             <div class="col d-flex usercss" style="color: #777777;">
                                 <p th:text="${post.nickname}"></p>
-                                <p th:text="${post.ipAddress}"></p>
+                                <p th:text="${#strings.substring(post.ipAddress, 0, 6)} + '.x.x'"></p>
                                 <p th:text="${#temporals.format(post.createtime, 'yyyy-MM-dd HH:mm:ss')}"></p> <!-- 작성일 표시 -->
                             </div>
                             <!-- 게시물 조회수, 댓글, 좋아요 표시 영역 -->
@@ -130,8 +130,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col p-5"  style="border-top: solid 1px
-                             #e0e0e0;" th:utext="${post.content}">
+                            <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
+                            <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
+                            <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
+                                 th:utext="${post.content}">
                                 <!-- 게시물 본문 들어가는 영역 -->
                             </div>
                         </div>
@@ -214,7 +216,7 @@
                                         margin-bottom: 20px">
                                         <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
                                         <p th:text="${commentInfo.comment.nickname}"></p>
-                                        <p th:text="${commentInfo.comment.ipAddress}"></p>
+                                        <p th:text="${#strings.substring(commentInfo.comment.ipAddress, 0, 6)} + '.x.x'"></p>
                                         <p th:text="${commentInfo.comment.createTime}"></p>
                                         <button type="button" class="delCommentBtn" th:attr="data-comment-id=${commentInfo.comment.id}">삭제</button>
                                     </div>
@@ -286,6 +288,12 @@
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+<!--ckeditor 부분-->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/super-build/ckeditor.js"></script>
+<!--<script src="/ckeditor5/build/ckeditor.js"></script>-->
+<script src="/js/ckeditorscript.js"></script>
+<!--ckeditor 부분 종료 -->
 
 
 <!-- 댓글 등록 코드 -->

@@ -38,7 +38,7 @@
                             <li><a href="#">공지사항</a></li>
                             <li><a href="/simulation">시뮬레이션</a></li>
                             <li><a href="#">아이템순위</a></li>
-                            <li><a href="#">프로빌드</a></li>
+                            <li><a href="/probuild">프로빌드</a></li>
                             <li><a href="#">커뮤니티</a></li>
                         </ul>
                     </nav>
@@ -64,7 +64,7 @@
                         <li><a href="#">아이템순위</a></li>
                     </ul>
                     <ul class="align-items-center">
-                        <li><a href="#">프로빌드</a></li>
+                        <li><a href="/probuild">프로빌드</a></li>
                     </ul>
                     <ul class="align-items-center">
                         <li><a href="/post/list">자유게시판</a></li>
@@ -137,7 +137,8 @@
                                 <div class="centered">
                                     <div class="row row-editor">
                                         <div class="col editor-container">
-                                            <textarea class="editor" th:field="*{content}" th:text="${post.content}" id="newContent"
+                                            <textarea class="editor" th:field="*{content}" th:utext="${post.content}"
+                                                      id="editor"
                                                       name="newContent"
                                                       style="height:500px; max-height: 500px"></textarea>
                                         </div>
@@ -202,8 +203,12 @@
 <script th:src="@{/js/decimal.js}"></script> <!-- 계산식 -->
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
-<script th:src="@{/ckeditor5/build/ckeditor.js}"></script>
-<script th:src="@{/js/ckeditorscript.js}"></script>
+
+<!--ckeditor 부분-->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/super-build/ckeditor.js"></script>
+<!--<script src="/ckeditor5/build/ckeditor.js"></script>-->
+<script src="/js/ckeditorscript.js"></script>
+<!--ckeditor 부분 종료 -->
 
 
 
