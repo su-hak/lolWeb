@@ -125,10 +125,16 @@
                                     <p class="mb-0 text-muted" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"><!--게시물id--></p>
                                 </td>
                                 <td>
-                                    <div class="d-flex align-self-center">
+                                    <div class="d-flex">
                                         <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                            th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
-                                            </p>
+                                        </p>
+
+                                        <!-- isImageIncluded가 true인 경우 이미지 아이콘을 표시 -->
+                                        <div th:if="${post.isImageIncluded}">
+                                            <img src="/img/img.png"  alt="이미지 아이콘">
+                                        </div>
+
                                         <p class="commentCountSpan" style="font-size: 12px;margin-bottom: 0px;margin-top: 1px;"></p>
                                     </div>
                                 </td>
