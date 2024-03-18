@@ -21,3 +21,24 @@
     max-height: 100%;
     object-fit: cover;
 }
+
+
+/* ckeditor 포커스 상태에서 창 모양 깨지는거 임시방편*/
+.ck-sticky-panel {
+    width: 934px !important;
+}
+@media (max-width: 1200px) {
+    .ck-sticky-panel {
+        width: 748px !important;
+    }
+}
+@media (max-width: 991px) {
+    .ck-sticky-panel {
+        width: 508px !important;
+    }
+}
+@media (max-width: 767px) {
+    .ck-sticky-panel {
+        width: 328px !important;
+    }
+}

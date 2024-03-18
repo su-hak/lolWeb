@@ -217,7 +217,7 @@
                                         <!-- 댓글 작성자 닉네임, 아이피, 날짜 시간 영역 -->
                                         <p th:text="${commentInfo.comment.nickname}"></p>
                                         <p th:text="${#strings.substring(commentInfo.comment.ipAddress, 0, 6)} + '.x.x'"></p>
-                                        <p th:text="${commentInfo.comment.createTime}"></p>
+                                        <p th:text="${#temporals.format(commentInfo.comment.createTime, 'yyyy-MM-dd HH:mm:ss')}"></p>
                                         <button type="button" class="delCommentBtn" th:attr="data-comment-id=${commentInfo.comment.id}">삭제</button>
                                     </div>
                                 </div>
@@ -302,6 +302,7 @@
         var nickname = $("#nickname").val();
         var password = $("#password").val();
         var content = $("#content").val();
+        var postId = $("#postId").val();
 
         // 필수 입력 필드가 비어 있는지 확인
         if (nickname.trim() === '') {
@@ -320,7 +321,7 @@
                 url: "/post/createComment",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    postId: $("#postId").val(),
+                    postId: postId,
                     nickname: nickname,
                     password: password,
                     content: content
@@ -328,7 +329,8 @@
                 success: function(response) {
                     // 성공적으로 댓글이 작성되면 처리할 로직
                     alert("댓글이 성공적으로 저장되었습니다.");
-                    location.reload();
+                    // location.reload();
+                    window.location.reload();
                 },
                 error: function(error) {
                     // 댓글 작성 중 에러 발생 시 처리할 로직

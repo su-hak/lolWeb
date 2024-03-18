@@ -104,6 +104,17 @@ public class PostController {
   public String getPostList(@RequestParam(defaultValue = "0") int page, Model model) {
     Page<Post> paging = this.postService.getList(page);
 
+    //     페이지에서 포스트 목록을 가져옵니다.
+    List<Post> posts = paging.getContent();
+
+    // 각 포스트에 대해 isImageIncluded 값을 설정합니다.
+    for (Post post : posts) {
+      if (post.getContent() != null && post.getContent().contains("img")) {
+        post.setIsImageIncluded(true);
+      }
+    }
+
+
     model.addAttribute("paging", paging);
     return "postList";
   }
@@ -304,6 +315,9 @@ public class PostController {
     comment.setPassword(commentDto.getPassword());
     comment.setContent(commentDto.getContent());
 
+    // 댓글 작성 날짜 시간
+    LocalDateTime createTime = LocalDateTime.now();
+    comment.setCreateTime(createTime);
     // 클라이언트의 실제 IP 주소 가져오기
     String ipAddress = getClientIP(request);
     comment.setIpAddress(ipAddress);
