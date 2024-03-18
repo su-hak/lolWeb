@@ -23,22 +23,22 @@
 }
 
 
-/*.ck.ck-editor__top.ck-reset_all {*/
-/*    z-index: var(--ck-z-modal);*/
-/*    position: sticky;*/
-/*    top: 0;*/
-/*}*/
-
-/*.ck.ck-sticky-panel__placeholder {*/
-/*    display : none !important;*/
-/*}*/
-
-/*.ck.ck-sticky-panel .ck-sticky-panel__content_sticky {*/
-/*    position: unset;*/
-/*}*/
-
-
 /* ckeditor 포커스 상태에서 창 모양 깨지는거 임시방편*/
 .ck-sticky-panel {
     width: 934px !important;
+}
+@media (max-width: 1200px) {
+    .ck-sticky-panel {
+        width: 748px !important;
+    }
+}
+@media (max-width: 991px) {
+    .ck-sticky-panel {
+        width: 508px !important;
+    }
+}
+@media (max-width: 767px) {
+    .ck-sticky-panel {
+        width: 328px !important;
+    }
 }
