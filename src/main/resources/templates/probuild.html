@@ -1,3 +1,4 @@
+<!-- probuild.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -144,15 +145,28 @@
 <!-- 헤더영역 E -->
 <main id="main">
     <h1>프로 빌드</h1>
-    <div th:if="${proInfo != null}">
-        <p>Name: <span th:text="${proInfo.summonerName}"></span></p>
-        <p>Tier: <span th:text="${proInfo.tier}"></span></p>
-        <p>Rank: <span th:text="${proInfo.rank}"></span></p>
-        <p>League Points: <span th:text="${proInfo.proPoints}"></span></p>
-        <p>Wins: <span th:text="${proInfo.wins}"></span></p>
-        <p>Losses: <span th:text="${proInfo.losses}"></span></p>
+    <div th:if="${leagueEntries == null}">
+        <p>No data available</p>
     </div>
+    <!-- leagueEntries가 null이 아닌 경우에만 데이터를 출력하도록 합니다 -->
+    <div th:unless="${leagueEntries != null}">
+        <div th:each="entry : ${leagueEntries}">
+<!--            <p th: text="${entry}"></p>-->
+            <p>Name: <span th:text="${entry.summonerName}"></span></p>
+            <p>Tier: <span th:text="${entry.tier}"></span></p>
+            <p>Rank: <span th:text="${entry.rank}"></span></p>
+            <p>League Points: <span th:text="${entry.leaguePoints}"></span></p>
+            <p>Wins: <span th:text="${entry.wins}"></span></p>
+            <p>Losses: <span th:text="${entry.losses}"></span></p>
+            <!-- 다음 데이터 항목에 대한 출력 코드를 추가로 작성하십시오 -->
+        </div>
+    </div>
+    <!-- leagueEntries가 null인 경우, 즉 데이터가 없는 경우에는 메시지를 출력합니다 -->
+<!--    <div th:unless="${#lists.size(leagueEntries) > 0}">-->
+<!--        <p>No data available</p>-->
+<!--    </div>-->
 </main>
+
 <footer id="footer" class="footer-style">
     <div class="f1l1">
         <div class="footer-notice-wrap">

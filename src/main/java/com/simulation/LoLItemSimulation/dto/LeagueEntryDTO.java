@@ -1,3 +1,4 @@
+// LeagueEntryDTO.java
 package com.simulation.LoLItemSimulation.dto;
 
 public class LeagueEntryDTO {
@@ -14,4 +15,5 @@ public class LeagueEntryDTO {
     private boolean veteran;
     private boolean freshBlood;
     private boolean inactive;
+
 }

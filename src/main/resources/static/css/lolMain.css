@@ -2,7 +2,12 @@ li {
     list-style-type: none;
 }
 
-
+.wrap {
+    background: #fff9e1;
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: 0 1px 6px 1px gray;
+}
 
 #main section {
     margin: 20vh 0;
@@ -33,9 +38,22 @@ li {
     box-shadow: 0 2px 15px 6px black;
 }
 
+#secA_carry_logo {
+    position: absolute;
+    top: 10%;
+    left: 17%;
+    width: 252px;
+    height: 69px;
+}
+
+#secA_carry_logo h1 {
+    font-size: 70px;
+}
+
 #sectionA #lol_main_letter {
     position: absolute;
-    left: 33.1%;
+    left: 50%;
+    top: 2%;
 }
 
 #sectionA #lol_main_letter img {
