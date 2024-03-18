@@ -33,6 +33,9 @@ public class Post {
   @Column(name = "views")
   private Long views = 0L;
 
+  @Transient
+  private Boolean isImageIncluded = false;
+
 
   public LocalDateTime getCreatetime() {
     return createtime;
@@ -134,6 +137,10 @@ public class Post {
   @OneToMany(mappedBy = "post")
   private List<PostHate> postHates = new ArrayList<>();
 
-
+  public void setIsImageIncluded(boolean bImage)
+  {
+    isImageIncluded = bImage;
+  }
+  public boolean getIsImageIncluded() {return this.isImageIncluded; }
 
 }
