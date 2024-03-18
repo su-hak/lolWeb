@@ -273,14 +273,14 @@
         $("td p.view-post-btn").each(function() {
             var postId = $(this).attr("data-post-id");
             var commentCountSpan = $(this).closest("tr").find(".commentCountSpan");
-            console.log(postId);
+            //console.log(postId);
             // 게시글의 총 댓글 수를 조회하는 AJAX 요청
             $.ajax({
                 type: "GET",
-                url: "/post/" + postId + "/commentCount",
+                url: "/comment/" + postId + "/commentCount",
                 success: function(response) {
                     // 성공적으로 총 댓글 수를 가져왔을 때 HTML에 표시
-                    console.log(response);
+              //      console.log(response);
                     commentCountSpan.text("[" + response + "]");
                 }.bind(this), // 함수 내부에서 this를 사용하기 위해 bind를 사용하여 컨텍스트를 유지합니다.
                 error: function(error) {
@@ -298,21 +298,26 @@
     function searchPost(){
         var option = document.getElementById("searchOption").value;
         var keyword = document.getElementById("freeSearch").value;
-
-        // 선택된 옵션에 따라 검색 쿼리 생성
-        var query;
-        if (option === "title"){
-            query = "?title=" + keyword;
-        } else if (option === "content") {
-            query = "?content=" + keyword;
-        } else if (option === "titleContent"){
-            query = "?title=" + keyword + "&content=" + keyword;
-        } else if (option === "nickname"){
-            query = "?nickname=" + keyword;
-        }
+        console.log(keyword)
 
         // 생성된 검색 쿼리를 이용하여 페이지 이동
-        window.location.href = "/post/list" + query;
+        $.ajax({
+            type: "GET",
+            url: "/post/list/search",
+            data :{
+                type : option,
+                keyword : keyword
+            },
+            success: function(response) {
+                // 성공적으로 응답을 받았을 때 처리할 작업
+                console.log(response);
+                // 예시로, 받은 응답(response)을 이용하여 화면 갱신 작업을 수행할 수 있습니다.
+            },
+            error: function(error) {
+                // 요청이 실패했을 때 처리할 작업
+                console.error("Error:", error);
+            }
+        });
     }
 
 </script>
