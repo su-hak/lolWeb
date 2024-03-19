@@ -36,6 +36,9 @@ public class Post {
   @Transient
   private Boolean isImageIncluded = false;
 
+  @Transient
+  private Long commentCount = 0L;
+
 
   public LocalDateTime getCreatetime() {
     return createtime;
@@ -142,5 +145,8 @@ public class Post {
     isImageIncluded = bImage;
   }
   public boolean getIsImageIncluded() {return this.isImageIncluded; }
+
+  public void setCommentCount(long commentCount) {this.commentCount = commentCount;}
+  public Long getCommentCount() {return this.commentCount;}
 
 }
