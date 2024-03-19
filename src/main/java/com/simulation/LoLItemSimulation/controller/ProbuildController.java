@@ -28,8 +28,6 @@ public class ProbuildController {
         String division = "I";
 
         // ProbuildService의 getLeagueInfo 메서드를 호출하여 해당 큐, 티어, 디비전에 속한 모든 정보를 가져옵니다.
-        /*LeagueEntryDTO[] leagueEntries = probuildService.getLeagueInfo(queue, tier, division);*/
-        /*leagueEntries.add(new LeagueEntryDTO());*/
         List<LeagueEntryDTO> leagueEntries = new ArrayList<>(); // ArrayList 생성
         for (LeagueEntryDTO entry : probuildService.getLeagueInfo(queue, tier, division)) {
             leagueEntries.add(entry);

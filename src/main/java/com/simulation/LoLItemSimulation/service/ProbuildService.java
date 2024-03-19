@@ -18,7 +18,6 @@ import java.util.List;
 public class ProbuildService {
     private final String apiKey = "RGAPI-bede6e6e-c776-4560-8026-44b4d52113c1"; // 여기에 실제 API 키를 넣습니다.
     private RestTemplate restTemplate;
-    private List<List<String>> matchIdsByPuuid = new ArrayList<>();
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
         this.restTemplate = restTemplateBuilder.build();
@@ -36,6 +35,7 @@ public class ProbuildService {
             for (LeagueEntryDTO entry : leagueEntries) {
                 setPuuidBySummonerName(entry);
                 setMatchIdsByPuuid(entry);
+                /*setProbuild(entry);*/
             }
             return leagueEntries;
         } catch (Exception e) {
@@ -66,26 +66,36 @@ public class ProbuildService {
         String url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/" + puuid + "/ids?start=0&count=1&api_key=" + apiKey;
         try {
             String[] matchIds = restTemplate1.getForObject(url, String[].class);
-            entry.setMatchIds(Arrays.asList(matchIds));
+            // matchIds가 null이 아닌 경우에만 설정
+            if (matchIds != null) {
+                entry.setMatchIds(Arrays.asList(matchIds));
+            } else {
+                System.out.println("MatchIds is null. Skipping setting matchIds.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-/*    public List<String> getMatchIdsByPuuid(String puuid) {
-        if (puuid == null) {
-            return Collections.emptyList(); // 또는 적절한 처리 방법 선택
-        }
-        String url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/" + puuid + "/ids?start=0&count=1&api_key=" + apiKey;
-        try {
-            String[] matchIds = restTemplate.getForObject(url, String[].class);
-            return Arrays.asList(matchIds);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Collections.emptyList(); // 또는 적절한 처리 방법 선택
+   /* private void setProbuild(LeagueEntryDTO pro) {
+        // matchIds가 null이 아닌 경우에만 api 호출
+        if (pro.getMatchIds() != null) {
+            RestTemplate restTemplate1 = new RestTemplate();
+            String matchIds = pro.getMatchIds().toString();
+            String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "?api_key=" + apiKey;
+            try {
+                String[] build = restTemplate1.getForObject(url, String[].class);
+                // 화면에 응답 데이터를 출력
+                System.out.println("build:");
+                for (String match : build) {
+                    System.out.println(match);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("matchIds is null. Skipping API call.");
         }
     }*/
-
 }
 

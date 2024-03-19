@@ -21,17 +21,16 @@ public class LeagueEntryDTO {
     public void setPuuid(String puuid) {
         this.puuid = puuid;
     }
-
     public String getPuuid() {
         return puuid;
     }
 
+    // matchID 가져오기
     private List<String> matchIds;
 
     public List<String> getMatchIds() {
         return matchIds;
     }
-
     public void setMatchIds(List<String> matchIds) {
         this.matchIds = matchIds;
     }

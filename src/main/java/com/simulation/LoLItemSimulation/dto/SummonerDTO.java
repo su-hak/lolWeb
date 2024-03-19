@@ -18,12 +18,6 @@ public class SummonerDTO {
         return puuid;
     }
 
-    private List<String> matchIds;
-
-    public List<String> getMatchIds() {
-        return matchIds;
-    }
-
 
     @Override
     public String toString() {
@@ -35,7 +29,6 @@ public class SummonerDTO {
                 ", profileIconId=" + profileIconId +
                 ", revisionDate=" + revisionDate +
                 ", summonerLevel=" + summonerLevel +
-                ", matchIds=" + matchIds +
                 '}';
     }
 }
