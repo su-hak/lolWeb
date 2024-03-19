@@ -120,29 +120,16 @@
                             </thead>
                             <!-- 게시판 바디 -->
                             <tbody>
-
-                            <tr th:each="post, loop : ${paging}"> <!-- 게시물이 반복되어 리스트로 표시 -->
+                            <tr th:each="post, loop : ${searchPaging}"> <!-- 게시물이 반복되어 리스트로 표시 -->
                                 <td style="font-size: 14px; color: #777777">
-                                    <p class="mb-0 text-muted" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"><!--게시물id--></p>
+                                    <p class="mb-0 text-muted" th:text="${searchPaging.getTotalElements - (searchPaging.number * searchPaging.size) - loop.index}"><!--게시물id--></p>
                                 </td>
                                 <td>
                                     <div class="d-flex">
                                         <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                            th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
                                         </p>
-
-
-                                        <!-- isImageIncluded가 true인 경우 이미지 아이콘을 표시 -->
-                                        <div th:if="${post.isImageIncluded}">
-                                            <img src="/img/img_icon.png" alt="이미지 아이콘">
-                                        </div>
-
-                                        <div th:if="${post.commentCount > 0}">
-                                            <span style="font-size: 12px;margin-bottom: 0px;margin-top: 1px;" th:text="'[' + ${post.commentCount} + ']' "></span>
-                                        </div>
-
-<!--                                        <p class="commentCountSpan" style="font-size: 12px;margin-bottom: 0px;margin-top: 1px;"></p>-->
-
+                                        <p class="commentCountSpan"></p>
                                     </div>
                                 </td>
                                 <td style="font-size: 14px; color: #777777">
@@ -175,23 +162,23 @@
                         </div>
                         <!-- 페이징 번호 -->
                         <div style="margin-top: 10px">
-                            <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
+                            <nav th:if="${!searchPaging.isEmpty()}" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
-                                    <li th:classappend="${!paging.hasPrevious()} ? 'disabled'" class="page-item">
-                                        <a th:href="@{|?page=${paging.number-1}|}" class="page-link"
+                                    <li th:classappend="${!searchPaging.hasPrevious()} ? 'disabled'" class="page-item">
+                                        <a th:href="@{|?page=${searchPaging.number-1}|}" class="page-link"
                                            aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
-                                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                                        th:classappend="${page == paging.number} ? 'active'"
+                                    <li th:each="page: ${#numbers.sequence(0, searchPaging.totalPages-1)}"
+                                        th:if="${page >= searchPaging.number-5 and page <= searchPaging.number+5}"
+                                        th:classappend="${page == searchPaging.number} ? 'active'"
                                         class="page-item">
                                         <a th:text="${page+1}" th:href="@{|?page=${page}|}" class="page-link">1</a>
                                     </li>
 
-                                    <li th:classappend="${!paging.hasNext} ? 'disabled'" class="page-item">
-                                        <a th:href="@{|?page=${paging.number+1}|}" class="page-link" aria-label="Next">
+                                    <li th:classappend="${!searchPaging.hasNext} ? 'disabled'" class="page-item">
+                                        <a th:href="@{|?page=${searchPaging.number+1}|}" class="page-link" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
@@ -283,7 +270,6 @@
 
 
         // 게시물이 로드될때 각 게시글의 총 댓글수 반환
-
         $("td p.view-post-btn").each(function() {
             var postId = $(this).attr("data-post-id");
             var commentCountSpan = $(this).closest("tr").find(".commentCountSpan");
@@ -302,7 +288,6 @@
                 }
             });
         });
-
     });
 
 
@@ -324,7 +309,6 @@
         // 수집한 데이터를 포함하여 해당 URL로 리디렉션합니다.
         window.location.href = url;
     }
-
 
 </script>
 

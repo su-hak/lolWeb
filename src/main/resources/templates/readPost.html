@@ -318,7 +318,7 @@
             // Ajax를 이용한 비동기적인 댓글 작성
             $.ajax({
                 type: "POST",
-                url: "/post/createComment",
+                url: "/comment/createComment",
                 contentType: "application/json",
                 data: JSON.stringify({
                     postId: postId,
@@ -356,7 +356,7 @@
         // 게시글의 총 댓글 수를 조회하는 AJAX 요청
         $.ajax({
             type: "GET",
-            url: "/post/" + postId + "/commentCount",
+            url: "/comment/" + postId + "/commentCount",
             success: function(response) {
                 // 성공적으로 총 댓글 수를 가져왔을 때 HTML에 표시
                 $("span#commentCount").text("댓글 : " + response);
@@ -521,7 +521,7 @@
                 // 서버로부터 비밀번호 일치 여부 확인 요청을 보냄
                 $.ajax({
                     type: 'POST',
-                    url: '/post/checkCommentPassword',
+                    url: '/comment/checkCommentPassword',
                     contentType: 'application/json',
                     data: JSON.stringify({commentId: commentId, password: result.value }),
                     success: function (data) {
@@ -530,7 +530,7 @@
                             // 비밀번호가 일치할 경우 삭제 요청을 서버로 전송
                             $.ajax({
                                 type: 'DELETE',
-                                url: '/post/deleteComment/' + commentId,
+                                url: '/comment/deleteComment/' + commentId,
                                 success: function (data) {
                                     // 삭제 요청이 성공적으로 처리되었을 때의 처리
                                     Swal.fire({
@@ -712,7 +712,7 @@
         console.log(commentId);
         $.ajax({
             type: "GET",
-            url: "/" + commentId + "/like/count",
+            url: "/comment/" + commentId + "/like/count",
             success: function(response) {
                 console.log("RES::: ",response);
                 var likeCountValueElement = $(".likeCount[data-comment-id='" + commentId + "']");
@@ -753,7 +753,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/" + commentId + "/like",
+            url: "/comment/" + commentId + "/like",
             contentType: "application/json",
             data: JSON.stringify({
                 ipAddress: "dummy"

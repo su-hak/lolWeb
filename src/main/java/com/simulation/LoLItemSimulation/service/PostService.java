@@ -167,6 +167,7 @@ public class PostService {
     this.postRepository = postRepository;
       this.commentRepository = commentRepository;
   }
+  private static final int PAGE_SIZE = 10; //
 
   public int getPostLikeCount(Long postId) {
     return postRepository.getPostLikeCount(postId);
@@ -176,5 +177,22 @@ public class PostService {
     return postRepository.getPostHateCount(postId);
   }
 
+//  public Page<Post> searchPostsByTitleContaining(String keyword, int page) {
+//    return postRepository.searchByTitleContaining(keyword, PageRequest.of(page, PAGE_SIZE));
+//
+//  }
 
+  public Page<Post> searchPosts(String type, String keyword, int page) {
+    if (type.equals("title")) {
+      return postRepository.findByTitleContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+    } else if (type.equals("content")) {
+      return postRepository.findByContentContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+    } else if (type.equals("titleContent")) {
+      return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, PageRequest.of(page, PAGE_SIZE));
+    } else if (type.equals("nickname")) {
+      return postRepository.findByNicknameContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+    } else {
+      return null;
+    }
+  }
 }

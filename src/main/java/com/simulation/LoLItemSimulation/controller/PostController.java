@@ -17,7 +17,6 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -117,8 +115,41 @@ public class PostController {
     }
 
     model.addAttribute("paging", paging);
+//    model.addAttribute("searchPaging", null);
     return "postList";
   }
+
+  // 검색
+  @GetMapping("/list/search")
+  public String getPostSearchList(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam("option") String type,
+                                  @RequestParam("keyword") String keyword,
+                                  Model model) {
+    System.out.println(type);
+    System.out.println(keyword);
+    Page<Post> paging = postService.searchPosts(type ,keyword, page);
+
+//    model.asMap().remove("paging");
+//    model.addAttribute("paging", null);
+    model.addAttribute("searchPaging", paging);
+    System.out.println(paging);
+    return "postSearchList";
+  }
+//  @GetMapping("/list/search")
+//  @ResponseBody
+//  public Page<Post> getPostSearchList(@RequestParam(defaultValue = "0") int page,
+//                                      @RequestParam("type") String type,
+//                                      @RequestParam("keyword") String keyword) {
+//    System.out.println(type);
+//    System.out.println(keyword);
+//    Page<Post> paging = postService.searchPosts(type ,keyword, page);
+//    System.out.println(paging);
+//    return paging;
+//  }
+
+
+
+
 
   @GetMapping("/read/{postId}")
   public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session) {
@@ -306,66 +337,9 @@ public class PostController {
     post.setContent(postDto.getContent());
     return post;
   }
-  @PostMapping(value = "/createComment", consumes = "application/json")
-  public ResponseEntity<Comment> createComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {
-    // 댓글 생성 로직...
-    log.info("v파라미터 확인 :  " + commentDto.toString());
-    Comment comment = new Comment();
-    comment.setPostId(commentDto.getPostId());
-    comment.setNickname(commentDto.getNickname());
-    comment.setPassword(commentDto.getPassword());
-    comment.setContent(commentDto.getContent());
 
-    // 댓글 작성 날짜 시간
-    LocalDateTime createTime = LocalDateTime.now();
-    comment.setCreateTime(createTime);
-    // 클라이언트의 실제 IP 주소 가져오기
-    String ipAddress = getClientIP(request);
-    comment.setIpAddress(ipAddress);
-    log.info("댓글생성 확인 : " + comment);
-    // 댓글을 저장
-    commentRepository.save(comment);
 
-    return ResponseEntity.ok(comment);
-  }
 
-  // 댓글 삭제시 비밀번호 확인
-  @PostMapping("/checkCommentPassword")
-  @ResponseBody
-  public String checkCommentPassword(@RequestBody CommentPasswordRequest request) {
-    Long commentId = request.getCommentId(); // 댓글 ID
-    String password = request.getPassword(); // 입력된 비밀번호
-
-    // commentId와 password를 이용하여 댓글의 비밀번호를 확인하는 로직 작성
-    boolean passwordMatch = commentService.checkCommentPassword(commentId, password);
-
-    return String.valueOf(passwordMatch);
-  }
-  @Getter
-  @Setter
-  static class CommentPasswordRequest {
-    private Long commentId;
-    private String password;
-  }
-
-  // 댓글 삭제
-  @DeleteMapping("/deleteComment/{commentId}")
-  @ResponseBody
-  public String deleteComment(@PathVariable Long commentId) {
-    boolean deleted = commentService.deleteComment(commentId);
-    if (deleted) {
-      return "댓글이 성공적으로 삭제되었습니다.";
-    } else {
-      return "댓글을 삭제하는 중 오류가 발생했습니다.";
-    }
-  }
-
-  // 게시글의 총 댓글 수를 반환하는 엔드포인트
-  @GetMapping("/{postId}/commentCount")
-  public ResponseEntity<Integer> getCommentCount(@PathVariable Long postId) {
-    int commentCount = commentService.countCommentsByPostId(postId);
-    return ResponseEntity.ok(commentCount);
-  }
 
 
 
@@ -390,5 +364,6 @@ public class PostController {
     }
     return ipAddress;
   }
+
 
 }
