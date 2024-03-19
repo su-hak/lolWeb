@@ -24,16 +24,17 @@ public class ProbuildController {
     public String getLeagueInfo(Model model) {
         // 호출할 때 사용할 큐, 티어, 디비전 정보를 지정합니다
         String queue = "RANKED_SOLO_5x5";
-        String tier = "DIAMOND";
+        String tier = "CHALLENGER";
         String division = "I";
 
         // ProbuildService의 getLeagueInfo 메서드를 호출하여 해당 큐, 티어, 디비전에 속한 모든 정보를 가져옵니다.
         /*LeagueEntryDTO[] leagueEntries = probuildService.getLeagueInfo(queue, tier, division);*/
-        List<LeagueEntryDTO> leagueEntries = new ArrayList<>(); // ArrayList 생성
         /*leagueEntries.add(new LeagueEntryDTO());*/
+        List<LeagueEntryDTO> leagueEntries = new ArrayList<>(); // ArrayList 생성
         for (LeagueEntryDTO entry : probuildService.getLeagueInfo(queue, tier, division)) {
             leagueEntries.add(entry);
         }
+
 
         // 가져온 정보를 모델에 추가하여 view로 전달합니다.
         model.addAttribute("leagueEntries", leagueEntries);
@@ -41,4 +42,5 @@ public class ProbuildController {
         // 해당 정보를 보여줄 view의 이름을 반환합니다
         return "probuild";
     }
+
 }
