@@ -112,8 +112,9 @@ public class PostController {
       if (post.getContent() != null && post.getContent().contains("img")) {
         post.setIsImageIncluded(true);
       }
+      int commentCount = commentService.countCommentsByPostId(post.getId());
+      post.setCommentCount(commentCount);
     }
-
 
     model.addAttribute("paging", paging);
     return "postList";
