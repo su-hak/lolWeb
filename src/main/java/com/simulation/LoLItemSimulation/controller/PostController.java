@@ -103,24 +103,41 @@ public class PostController {
     Page<Post> paging = this.postService.getList(page);
 
     model.addAttribute("paging", paging);
+//    model.addAttribute("searchPaging", null);
     return "postList";
   }
 
   // 검색
-
   @GetMapping("/list/search")
   public String getPostSearchList(@RequestParam(defaultValue = "0") int page,
-                                  @RequestParam("type") String type,
+                                  @RequestParam("option") String type,
                                   @RequestParam("keyword") String keyword,
                                   Model model) {
     System.out.println(type);
     System.out.println(keyword);
     Page<Post> paging = postService.searchPosts(type ,keyword, page);
 
-    model.addAttribute("paging", paging);
+//    model.asMap().remove("paging");
+//    model.addAttribute("paging", null);
+    model.addAttribute("searchPaging", paging);
     System.out.println(paging);
-    return "postList";
+    return "postSearchList";
   }
+//  @GetMapping("/list/search")
+//  @ResponseBody
+//  public Page<Post> getPostSearchList(@RequestParam(defaultValue = "0") int page,
+//                                      @RequestParam("type") String type,
+//                                      @RequestParam("keyword") String keyword) {
+//    System.out.println(type);
+//    System.out.println(keyword);
+//    Page<Post> paging = postService.searchPosts(type ,keyword, page);
+//    System.out.println(paging);
+//    return paging;
+//  }
+
+
+
+
 
   @GetMapping("/read/{postId}")
   public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session) {
