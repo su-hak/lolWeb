@@ -1,3 +1,4 @@
+// MainController.java
 package com.simulation.LoLItemSimulation.controller;
 
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,8 @@ public class MainController {
         return "itemTier";
     }
 
-    @GetMapping("/probuild")
-    public String proBuild() {
-        return "probuild";
-    }
+//    @GetMapping("/probuild")
+//    public String proBuild() {
+//        return "probuild";
+//    }
 }

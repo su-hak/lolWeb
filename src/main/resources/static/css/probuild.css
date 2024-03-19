@@ -7,6 +7,6 @@
     transition: width 1s;
 }
 
-#simulation:hover .animated-width {
+#probuild:hover .animated-width {
     width: 100%;
 }

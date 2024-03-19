@@ -102,6 +102,18 @@ public class PostController {
   public String getPostList(@RequestParam(defaultValue = "0") int page, Model model) {
     Page<Post> paging = this.postService.getList(page);
 
+    //     페이지에서 포스트 목록을 가져옵니다.
+    List<Post> posts = paging.getContent();
+
+    // 각 포스트에 대해 isImageIncluded 값을 설정합니다.
+    for (Post post : posts) {
+      if (post.getContent() != null && post.getContent().contains("img")) {
+        post.setIsImageIncluded(true);
+      }
+      int commentCount = commentService.countCommentsByPostId(post.getId());
+      post.setCommentCount(commentCount);
+    }
+
     model.addAttribute("paging", paging);
 //    model.addAttribute("searchPaging", null);
     return "postList";

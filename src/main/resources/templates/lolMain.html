@@ -140,11 +140,16 @@
         </header>
         <!-- 헤더영역 E -->
         <main id="main">
+            <div class="wrap">
             <section id="sectionA" style="background: none; width: 100%; box-shadow: none;">
                 <div>
                     <div id="lol_main_img">
-                        <img src="/img/lolMainImg.jpg" style="opacity: 0.7;"/>
+                        <img src="/img/lolMainImg.jpg" style="display: none; opacity: 0.7;"/>
                     </div>
+                    <a href="/" id="secA_carry_logo" class="carry-logo">
+                        <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
+                    </a>
+                    <h1 style="position: absolute; top: 14%; left: 47%; color: black; font-size: 250%; font-weight: 900;">X</h1>
                     <div id="lol_main_letter">
                         <img src="/img/LoL_letter.png"/>
                     </div>
@@ -157,11 +162,16 @@
                     </div>
                 </div>
             </section>
-            <img src="/img/kindread.png" style=" position: absolute; margin-top: 90px; height:351px; right: 0; " />
-            <section id="sectionB" class="main-sub" style="margin-top: 10vh;" >
+            <div id="lol-tier-img">
+                <img src="/img/kindread.png" />
+                <p>
+                <span>패치에 따라 변화된 아이템들의
+                    티어를 확인 해 보세요!</span> <br/>
+                </p>
+            </div>
+            <section id="sectionB" class="main-sub" style="margin-top: 10vh; " >
                 <dl>
                     <dt class="sub-title">Tier</dt>
-                    <dd class="sub-body">패치에 따라 변화된 아이템들의 티어를 확인 해 보세요!</dd>
                 </dl>
                 <dl id="tier_thumbnail">
                     <dt id="patch-version" class="sub-title">14.4 ver</dt>
@@ -174,8 +184,9 @@
                 </dl>
                 <button class="sub-body">Tier 가기</button>
             </section>
+            <div style="height: 717px;">
+                <img id="secC-bg" src="/img/Azir.jpg"/>
             <img id="faker" src="/img/faker.jpg" />
-            <img id="faker-frame" src="/img/faker-frame.png"/>
             <section id="sectionC" class="main-sub">
                 <dl>
                     <dt class="sub-title">Pro's build</dt>
@@ -194,8 +205,9 @@
                 <dd><p></p></dd>
                 <!--TODO JS로 프로빌드 게시판 불러오기 5개만 미리보기(한 게임 각 포지션 별로 왼vs오 마주보게) 아래 프로빌드 게시판으로 이동하는 버튼 생성-->
             </dl>
-                    <button class="sub-body">프로 빌드 가기</button>
+                    <button class="sub-body" style="color: black;">프로 빌드 가기</button>
             </section>
+            </div>
             <div id="lol-news-img">
                 <img src="/img/akali.png" />
                 <p>
@@ -204,7 +216,6 @@
                     <span>- 뉴스특파원 아칼리</span>
                 </p>
             </div>
-
             <section id="sectionD" class="main-sub">
                 <dl>
                     <dt class="sub-title">News</dt>
@@ -220,6 +231,7 @@
             </dl>
                 <button class="sub-body">라이엇 뉴스</button>
             </section>
+            </div>
         </main>
         <footer id="footer" class="footer-style">
             <div class="f1l1">

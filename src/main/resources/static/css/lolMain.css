@@ -2,10 +2,15 @@ li {
     list-style-type: none;
 }
 
-
+.wrap {
+    background: #fff9e1;
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: 0 1px 6px 1px gray;
+}
 
 #main section {
-    margin: 10vh 0;
+    margin: 20vh 0;
     background: linear-gradient(120deg, #98a4b9, #0058f3);
     height: 44vh;
     border-radius: 7px 7px 73px 7px;
@@ -33,9 +38,22 @@ li {
     box-shadow: 0 2px 15px 6px black;
 }
 
+#secA_carry_logo {
+    position: absolute;
+    top: 10%;
+    left: 17%;
+    width: 252px;
+    height: 69px;
+}
+
+#secA_carry_logo h1 {
+    font-size: 70px;
+}
+
 #sectionA #lol_main_letter {
     position: absolute;
-    left: 33.1%;
+    left: 50%;
+    top: 2%;
 }
 
 #sectionA #lol_main_letter img {
@@ -46,6 +64,44 @@ li {
     position: absolute;
     width: 100%;
     top: 0;
+}
+
+#lol-tier-img {
+    position: absolute;
+}
+
+#lol-tier-img img {
+    position: absolute;
+    margin-top: 90px;
+    height:351px;
+    left: 676px;
+}
+
+#lol-tier-img p {
+    position: relative;
+    color: white;
+    font-size: 13px;
+    font-style: oblique;
+    background: #C9BCFA;
+    border-radius: 0.4em 0.4em 0.4em 0;
+    left: 743px;
+    top: 32px;
+    width: 209px;
+    padding: 10px;
+}
+
+#lol-tier-img p:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 40%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: #C9BCFA;
+    border-bottom: 0;
+    margin-left: 0;
+    margin-bottom: -20px;
 }
 
 /****************************/
@@ -92,6 +148,7 @@ li {
 #patch-version {
     padding: 0 10px;
     text-align: right;
+    border-top: none;
 }
 
 /****************************/
@@ -99,32 +156,29 @@ li {
 /****************************/
 
 /****************************/
-/*      섹션 C 끝          */
+/*      섹션 C 시작          */
 /****************************/
 
 #sectionC {
     position: relative;
     left: 35%;
+    bottom: -19vh;
+    background: none !important;
+    color: black !important;
 }
 
-#pro_build_thumbnail {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px 25px;
+
+#secC-bg {
+    position: absolute;
+    width: 1022px;
+    height: 717px;
+    opacity: 0.6;
 }
-#212529
-#343A40
-#pro_build_thumbnail dd{
-    border-bottom: white 1px solid;
-    height: 25px;
-    box-shadow: 0px 2px 1px 1px gray;
-    width: 48%;
-}
+
 
 #faker {
     position: absolute;
-    margin-top: 49px;
+    margin-top: 182px;
     width: 227px;
     height: 321px;
     left: 58px;
@@ -141,6 +195,21 @@ li {
     z-index: -1;
 }
 
+#pro_build_thumbnail {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px 25px;
+}
+
+#pro_build_thumbnail dd{
+    border-bottom: white 1px solid;
+    height: 25px;
+    box-shadow: 0px 2px 1px 1px gray;
+    width: 48%;
+}
+
+
 /****************************/
 /*      섹션 C 끝          */
 /****************************/
@@ -155,7 +224,7 @@ li {
 
 #lol-news-img img {
     position: absolute;
-    margin-top: -21px;
+    margin-top: 62px;
     height:277px;
     left: 581px;
     z-index: 1;
@@ -170,7 +239,7 @@ li {
     background: #04535b;
     border-radius: 0.4em 0.4em 0.4em 0;
     left: 743px;
-    top: -30px;
+    top: 33px;
     width: 150px;
     padding: 10px;
     opacity: 0.6;
@@ -192,7 +261,7 @@ li {
 }
 
 #lol-news-img span:nth-child(3) {
-    font-size: 10px;
+    font-size: 11px;
 }
 
 /****************************/
