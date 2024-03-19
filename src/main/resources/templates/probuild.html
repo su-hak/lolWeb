@@ -145,27 +145,29 @@
 <!-- 헤더영역 E -->
 <main id="main">
     <h1>프로 빌드</h1>
-    <div th:if="${leagueEntries == null}">
-        <p>No data available</p>
-    </div>
-    <!-- leagueEntries가 null이 아닌 경우에만 데이터를 출력하도록 합니다 -->
-    <div th:unless="${leagueEntries != null}">
-        <div th:each="entry : ${leagueEntries}">
-<!--            <p th: text="${entry}"></p>-->
-            <p>Name: <span th:text="${entry.summonerName}"></span></p>
-            <p>Tier: <span th:text="${entry.tier}"></span></p>
-            <p>Rank: <span th:text="${entry.rank}"></span></p>
-            <p>League Points: <span th:text="${entry.leaguePoints}"></span></p>
-            <p>Wins: <span th:text="${entry.wins}"></span></p>
-            <p>Losses: <span th:text="${entry.losses}"></span></p>
-            <!-- 다음 데이터 항목에 대한 출력 코드를 추가로 작성하십시오 -->
+    <!-- Check if leagueEntries is not empty -->
+    <div th:if="${not #lists.isEmpty(leagueEntries)}">
+        <!-- Loop through each entry in leagueEntries -->
+        <div style="font-size: 10px; border: 1px solid black;" th:each="entry : ${leagueEntries}">
+            <!-- Display data for each entry -->
+            <p>Name: <span th:text="${entry.getSummonerName()}"></span></p>
+            <p>Riot-Id: <span th:text="${entry.getLeagueId()}"></span></p>
+            <p>LP: <span th:text="${entry.getLeaguePoints()}"></span></p>
+            <p>Win: <span th:text="${entry.getWins()}"></span></p>
+            <p>Loss: <span th:text="${entry.getLosses()}"></span></p>
+            <p>Type: <span th:text="${entry.getQueueType()}"></span></p>
+            <p>Rank: <span th:text="${entry.getRank()}"></span></p>
+            <p>Tier: <span th:text="${entry.getTier()}"></span></p>
+            <p>Id: <span th:text="${entry.getSummonerId()}"></span></p>
+            <!-- Add more fields as needed -->
         </div>
     </div>
-    <!-- leagueEntries가 null인 경우, 즉 데이터가 없는 경우에는 메시지를 출력합니다 -->
-<!--    <div th:unless="${#lists.size(leagueEntries) > 0}">-->
-<!--        <p>No data available</p>-->
-<!--    </div>-->
+    <!-- If leagueEntries is empty, display a message -->
+    <div th:unless="${not #lists.isEmpty(leagueEntries)}">
+        <p>No data available</p>
+    </div>
 </main>
+
 
 <footer id="footer" class="footer-style">
     <div class="f1l1">
