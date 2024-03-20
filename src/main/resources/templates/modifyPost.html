@@ -14,7 +14,8 @@
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
     <link rel="stylesheet" th:href="@{/css/editor.css}"/>
-    <link href="../static/ckeditor5/sample/configuration-dialog/configuration-dialog.js" rel="stylesheet" type="text/css">
+
+    <script src="/build/ckeditor.js"></script>
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -143,6 +144,13 @@
                                                       id="editor"
                                                       name="newContent"
                                                       style="min-height:500px;"></textarea>
+                                            <script>
+                                                ClassicEditor
+                                                    .create( document.querySelector( '#editor' ), {
+                                                    } )
+                                                    .then( /* ... */ )
+                                                    .catch( /* ... */ );
+                                            </script>
                                         </div>
                                     </div>
                                 </div>

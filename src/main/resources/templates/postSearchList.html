@@ -119,7 +119,7 @@
                             </tr>
                             </thead>
                             <!-- 게시판 바디 -->
-                            <tbody>
+                            <tbody th:if="${searchPaging != null and not #lists.isEmpty(searchPaging)}">
                             <tr th:each="post, loop : ${searchPaging}"> <!-- 게시물이 반복되어 리스트로 표시 -->
                                 <td style="font-size: 14px; color: #777777">
                                     <p class="mb-0 text-muted" th:text="${searchPaging.getTotalElements - (searchPaging.number * searchPaging.size) - loop.index}"><!--게시물id--></p>
@@ -167,36 +167,12 @@
                                 medium">글쓰기</button>
                             </a>
                         </div>
-                        <!-- 페이징 번호 -->
-<!--                        <div style="margin-top: 10px">-->
-<!--                            <nav th:if="${!searchPaging.isEmpty()}" aria-label="Page navigation example">-->
-<!--                                <ul class="pagination justify-content-center">-->
-<!--                                    <li th:classappend="${!searchPaging.hasPrevious()} ? 'disabled'" class="page-item">-->
-<!--                                        <a th:href="@{|?page=${searchPaging.number-1}|}" class="page-link"-->
-<!--                                           aria-label="Previous">-->
-<!--                                            <span aria-hidden="true">&laquo;</span>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    <li th:each="page: ${#numbers.sequence(0, searchPaging.totalPages-1)}"-->
-<!--                                        th:if="${page >= searchPaging.number-5 and page <= searchPaging.number+5}"-->
-<!--                                        th:classappend="${page == searchPaging.number} ? 'active'"-->
-<!--                                        class="page-item">-->
-<!--                                        <a th:text="${page+1}" th:href="@{|?page=${page}|}" class="page-link">1</a>-->
-<!--                                    </li>-->
 
-<!--                                    <li th:classappend="${!searchPaging.hasNext} ? 'disabled'" class="page-item">-->
-<!--                                        <a th:href="@{|?page=${searchPaging.number+1}|}" class="page-link" aria-label="Next">-->
-<!--                                            <span aria-hidden="true">&raquo;</span>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                            </nav>-->
-<!--                        </div>-->
                         <div style="margin-top: 10px">
                             <nav th:if="${!searchPaging.isEmpty()}" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                                     <li th:classappend="${!searchPaging.hasPrevious()} ? 'disabled'" class="page-item">
-                                        <a th:href="@{|/post/list/search?option=${type}&keyword=${keyword}&page=${(searchPaging.number == 0) ? 0 : searchPaging.number-1}|}" class="page-link" aria-label="Previous">
+                                        <a th:href="@{|/post/list/search?option=${type}&keyword=${keyword}&page=${searchPaging.number-1}|}" class="page-link" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -213,10 +189,6 @@
                                 </ul>
                             </nav>
                         </div>
-
-
-
-
                         <!-- 게시판 검색 -->
                         <div id="search" class="" style="margin-top: 10px;">
                             <form class="form">
@@ -301,6 +273,26 @@
 <script src="/js/ckeditorscript.js"></script>
 
 <script>
+    window.onload = function() {
+        // URL의 쿼리 파라미터에서 페이지 번호를 가져옵니다.
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
+        const type = urlParams.get('option');
+        const keyword = urlParams.get('keyword');
+
+        // 페이지 번호가 없으면 기본값인 0으로 설정합니다.
+        const pageNumber = page ? page : 0;
+
+        // 현재 URL에서 페이지 번호를 제거합니다.
+        const baseUrl = window.location.href.split('?')[0];
+
+        // 새로운 URL을 생성하여 페이지 번호를 추가합니다.
+        const newUrl = `${baseUrl}?option=${type}&keyword=${keyword}&page=${pageNumber}`;
+
+        // 브라우저의 URL을 새로운 URL로 변경합니다.
+        history.pushState({}, '', newUrl);
+    }
+
     $(document).ready(function () {
         // 각 게시물의 "보러가기" 버튼 클릭 이벤트 처리
         $(".view-post-btn").click(function () {

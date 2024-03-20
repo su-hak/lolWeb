@@ -159,8 +159,6 @@ public class PostController {
       post.setCommentCount(commentCount);
     }
 
-//    model.asMap().remove("paging");
-//    model.addAttribute("paging", null);
     model.addAttribute("searchPaging", paging);
     model.addAttribute("type", type);
     model.addAttribute("keyword", keyword);
@@ -168,17 +166,6 @@ public class PostController {
     System.out.println(paging);
     return "postSearchList";
   }
-//  @GetMapping("/list/search")
-//  @ResponseBody
-//  public Page<Post> getPostSearchList(@RequestParam(defaultValue = "0") int page,
-//                                      @RequestParam("type") String type,
-//                                      @RequestParam("keyword") String keyword) {
-//    System.out.println(type);
-//    System.out.println(keyword);
-//    Page<Post> paging = postService.searchPosts(type ,keyword, page);
-//    System.out.println(paging);
-//    return paging;
-//  }
 
 
 
