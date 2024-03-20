@@ -148,6 +148,17 @@ public class PostController {
     System.out.println(keyword);
     Page<Post> paging = postService.searchPosts(type ,keyword, page);
 
+    List<Post> posts = paging.getContent();
+
+    // 각 포스트에 대해 isImageIncluded 값을 설정합니다.
+    for (Post post : posts) {
+      if (post.getContent() != null && post.getContent().contains("img")) {
+        post.setIsImageIncluded(true);
+      }
+      int commentCount = commentService.countCommentsByPostId(post.getId());
+      post.setCommentCount(commentCount);
+    }
+
 //    model.asMap().remove("paging");
 //    model.addAttribute("paging", null);
     model.addAttribute("searchPaging", paging);

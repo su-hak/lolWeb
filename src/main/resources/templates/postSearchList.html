@@ -129,7 +129,14 @@
                                         <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                            th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
                                         </p>
-                                        <p class="commentCountSpan"></p>
+                                        <!-- isImageIncluded가 true인 경우 이미지 아이콘을 표시 -->
+                                        <div th:if="${post.isImageIncluded}">
+                                            <img src="/img/img_icon.png" alt="이미지 아이콘">
+                                        </div>
+
+                                        <div th:if="${post.commentCount > 0}">
+                                            <span style="font-size: 12px;margin-bottom: 0px;margin-top: 1px;" th:text="'[' + ${post.commentCount} + ']' "></span>
+                                        </div>
                                     </div>
                                 </td>
                                 <td style="font-size: 14px; color: #777777">
@@ -270,24 +277,24 @@
 
 
         // 게시물이 로드될때 각 게시글의 총 댓글수 반환
-        $("td p.view-post-btn").each(function() {
-            var postId = $(this).attr("data-post-id");
-            var commentCountSpan = $(this).closest("tr").find(".commentCountSpan");
-            //console.log(postId);
-            // 게시글의 총 댓글 수를 조회하는 AJAX 요청
-            $.ajax({
-                type: "GET",
-                url: "/comment/" + postId + "/commentCount",
-                success: function(response) {
-                    // 성공적으로 총 댓글 수를 가져왔을 때 HTML에 표시
-                    //      console.log(response);
-                    commentCountSpan.text("[" + response + "]");
-                }.bind(this), // 함수 내부에서 this를 사용하기 위해 bind를 사용하여 컨텍스트를 유지합니다.
-                error: function(error) {
-                    console.error("Error:", error);
-                }
-            });
-        });
+        // $("td p.view-post-btn").each(function() {
+        //     var postId = $(this).attr("data-post-id");
+        //     var commentCountSpan = $(this).closest("tr").find(".commentCountSpan");
+        //     //console.log(postId);
+        //     // 게시글의 총 댓글 수를 조회하는 AJAX 요청
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "/comment/" + postId + "/commentCount",
+        //         success: function(response) {
+        //             // 성공적으로 총 댓글 수를 가져왔을 때 HTML에 표시
+        //             //      console.log(response);
+        //             commentCountSpan.text("[" + response + "]");
+        //         }.bind(this), // 함수 내부에서 this를 사용하기 위해 bind를 사용하여 컨텍스트를 유지합니다.
+        //         error: function(error) {
+        //             console.error("Error:", error);
+        //         }
+        //     });
+        // });
     });
 
 
