@@ -196,7 +196,7 @@
                             <nav th:if="${!searchPaging.isEmpty()}" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                                     <li th:classappend="${!searchPaging.hasPrevious()} ? 'disabled'" class="page-item">
-                                        <a th:href="@{|/post/list/search?option=${type}&keyword=${keyword}&page=${searchPaging.number-1}|}" class="page-link" aria-label="Previous">
+                                        <a th:href="@{|/post/list/search?option=${type}&keyword=${keyword}&page=${(searchPaging.number == 0) ? 0 : searchPaging.number-1}|}" class="page-link" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -216,6 +216,7 @@
 
 
 
+
                         <!-- 게시판 검색 -->
                         <div id="search" class="" style="margin-top: 10px;">
                             <form class="form">
@@ -232,11 +233,19 @@
                                     </div>
                                     <!-- 검색어 입력창 -->
                                     <div class="form-group col-auto">
+                                        <!--                                        <input type="text" class="form-control" id="freeSearch" value=""-->
+                                        <!--                                               placeholder="Search" style="font-size: 14px">-->
                                         <input type="text" class="form-control" id="freeSearch" value=""
-                                               placeholder="Search" style="font-size: 14px">
+                                               placeholder="Search" style="font-size: 14px" onkeypress="handleKeyPress(event)">
                                     </div>
+
                                     <div>
-                                        <button type="button" style="width: 3rem; height: 3rem" onclick="searchPost()">
+                                        <!--                                        <button type="button" style="width: 3rem; height: 3rem" onclick="searchPost()">-->
+                                        <!--                                            <iconify-icon icon="pepicons-pencil:enter" width="3rem" height="3rem"-->
+                                        <!--                                                          style="color: #545454"></iconify-icon>-->
+                                        <!--                                        </button>-->
+
+                                        <button type="button" style="width: 3rem; height: 3rem" onclick="handleButtonClick()">
                                             <iconify-icon icon="pepicons-pencil:enter" width="3rem" height="3rem"
                                                           style="color: #545454"></iconify-icon>
                                         </button>
@@ -326,6 +335,18 @@
 
 
 <script>
+    function handleKeyPress(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault(); // 엔터 키의 기본 동작 방지 (폼 제출 방지)
+            searchPost(); // searchPost() 함수 호출
+        }
+    }
+
+    // 버튼 클릭 이벤트 처리
+    function handleButtonClick() {
+        searchPost(); // searchPost() 함수 호출
+    }
+
     function searchPost() {
         var option = $("#searchOption").val();
         var keyword = $("#freeSearch").val();
@@ -342,39 +363,6 @@
     }
 
 </script>
-
-
-
-<!--<script>  // 스크롤을 위로 올리는 스티키바-->
-<!--    $(window).on('scroll', function () {-->
-<!--        var scroll = $(window).scrollTop();-->
-<!--        if (scroll < 245) {-->
-<!--            $(".header-sticky").removeClass("sticky-bar");-->
-<!--        } else {-->
-<!--            $(".header-sticky").addClass("sticky-bar");-->
-<!--        }-->
-<!--    });-->
-
-<!--    $(window).on('scroll', function () {-->
-<!--        var scroll = $(window).scrollTop();-->
-<!--        if (scroll < 245) {-->
-<!--            $(".header-sticky").removeClass("sticky");-->
-<!--        } else {-->
-<!--            $(".header-sticky").addClass("sticky");-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-
-
-<!--<script>  //스크롤 내리면 헤더영역 애니메이션-->
-<!--    $(window).scroll(function () {-->
-<!--        if ($(window).scrollTop() > 100) {-->
-<!--            $("#header").addClass("animated");-->
-<!--        } else {-->
-<!--            $("#header").removeClass('animated');-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
 
 
 </body>
