@@ -37,6 +37,7 @@ public class LeagueEntryDTO {
 
 
     // MATCH-V5 matchId가 필요
+    private List<MatchDetailDTO.Participant> participants;
     private String championName;
     private int item0;
     private int item1;
@@ -47,7 +48,13 @@ public class LeagueEntryDTO {
     private int item6;
     private int kills;
     private int deaths;
+    private int assists;
     private String teamPosition;
+    private int championId;
+    private int summoner1Id;
+    private int summoner2Id;
+    private int totalDamageDealt;
+
 
 
 
@@ -210,4 +217,51 @@ public class LeagueEntryDTO {
         this.losses = losses;
     }
 
+    public int getAssists() {
+        return assists;
+    }
+
+    public void setAssists(int assists) {
+        this.assists = assists;
+    }
+
+    public int getChampionId() {
+        return championId;
+    }
+
+    public void setChampionId(int championId) {
+        this.championId = championId;
+    }
+
+    public int getSummoner1Id() {
+        return summoner1Id;
+    }
+
+    public void setSummoner1Id(int summoner1Id) {
+        this.summoner1Id = summoner1Id;
+    }
+
+    public int getSummoner2Id() {
+        return summoner2Id;
+    }
+
+    public void setSummoner2Id(int summoner2Id) {
+        this.summoner2Id = summoner2Id;
+    }
+
+    public int getTotalDamageDealt() {
+        return totalDamageDealt;
+    }
+
+    public void setTotalDamageDealt(int totalDamageDealt) {
+        this.totalDamageDealt = totalDamageDealt;
+    }
+
+    public List<MatchDetailDTO.Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<MatchDetailDTO.Participant> participants) {
+        this.participants = participants;
+    }
 }

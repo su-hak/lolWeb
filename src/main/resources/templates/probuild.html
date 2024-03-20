@@ -151,20 +151,37 @@
         <div style="font-size: 10px; border: 1px solid black;" th:each="entry : ${leagueEntries}">
             <!-- Display data for each entry -->
             <p>Name: <span th:text="${entry.getSummonerName()}"></span></p>
-            <p>Riot-Id: <span th:text="${entry.getLeagueId()}"></span></p>
             <p>LP: <span th:text="${entry.getLeaguePoints()}"></span></p>
             <p>Win: <span th:text="${entry.getWins()}"></span></p>
             <p>Loss: <span th:text="${entry.getLosses()}"></span></p>
             <p>Type: <span th:text="${entry.getQueueType()}"></span></p>
-            <p>Rank: <span th:text="${entry.getRank()}"></span></p>
             <p>Tier: <span th:text="${entry.getTier()}"></span></p>
-            <p>Id: <span th:text="${entry.getSummonerId()}"></span></p>
-            <p>Puuid: <span th:text="${entry.getPuuid()}"></span></p>
-            <p>MatchId: <span th:text="${entry.getMatchIds()}"></span></p>
-            <!--<p>Item0: <span th:text="${entry.getItem0()()}"></span></p>
-            <p>Item1: <span th:text="${entry.getItem1()()}"></span></p>
-            <p>Item2: <span th:text="${entry.getItem2()()}"></span></p>-->
-            <!-- Add more fields as needed -->
+            <!--<p>Puuid: <span th:text="${entry.getPuuid()}"></span></p>
+            <p>MatchId: <span th:text="${entry.getMatchIds()}"></span></p>-->
+
+            <!-- Loop through each match -->
+            <div th:each="matchId : ${entry.getMatchIds()}">
+                <!-- Fetch match details -->
+                <!-- This part fetches match details and participant information, you can implement it here -->
+                <!-- For demonstration purpose, I'm just displaying matchId -->
+                <p>MatchId: <span th:text="${matchId}"></span></p>
+                <!-- Loop through each participant in the match -->
+                <!-- Here you can add your code to display each participant's information -->
+                <div style="display: flex;" th:each="participant : ${entry.getParticipants()}">
+                    <p>Summoner Name: <span th:text="${participant.summonerName}"></span></p>
+                    <p>Kills: <span th:text="${participant.getKills()}"></span></p>
+                    <p>Deaths: <span th:text="${participant.getDeaths()}"></span></p>
+                    <p>Item0: <span th:text="${participant.getItem0()}"></span></p>
+                    <p>Item1: <span th:text="${participant.getItem1()}"></span></p>
+                    <p>Item2: <span th:text="${participant.getItem2()}"></span></p>
+                    <p>Item3: <span th:text="${participant.getItem3()}"></span></p>
+                    <p>Item4: <span th:text="${participant.getItem4()}"></span></p>
+                    <p>Item5: <span th:text="${participant.getItem5()}"></span></p>
+                    <p>Item6: <span th:text="${participant.getItem6()}"></span></p>
+                    <!-- Add more participant fields as needed -->
+                </div>
+            </div>
+            <!-- End of match loop -->
         </div>
     </div>
     <!-- If leagueEntries is empty, display a message -->
