@@ -1,7 +1,7 @@
 package com.simulation.LoLItemSimulation.controller;
 
+import com.simulation.LoLItemSimulation.config.PhotoUtil;
 import com.simulation.LoLItemSimulation.domain.*;
-import com.simulation.LoLItemSimulation.dto.CommentDto;
 import com.simulation.LoLItemSimulation.dto.PostDto;
 import com.simulation.LoLItemSimulation.repository.CommentRepository;
 import com.simulation.LoLItemSimulation.repository.PostHateRepository;
@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
@@ -55,6 +56,10 @@ public class PostController {
   @Autowired
   private PostHateRepository postHateRepository;
 
+  @Autowired
+  private PhotoUtil photoUtil;
+
+
 
   //    @PostMapping("/create")
   //    public ResponseEntity<String> createPost(@RequestBody PostDto postDto) {
@@ -69,6 +74,20 @@ public class PostController {
   //        postService.savePost(post);
   //        return new ResponseEntity<>("게시글이 생성되었습니다.", HttpStatus.CREATED);
   //    }
+
+
+  // 파일 업로드
+  @PostMapping("/upload")
+  public ModelAndView upload(MultipartHttpServletRequest request) {
+    ModelAndView mav = new ModelAndView("jsonView");
+
+    String uploadPath = photoUtil.ckUpload(request);
+
+    mav.addObject("uploaded", true);
+    mav.addObject("url", uploadPath);
+    return mav;
+  }
+
   @PostMapping("/submitForm")
   public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request) {
     // 닉네임, 비밀번호 설정
@@ -129,9 +148,23 @@ public class PostController {
     System.out.println(keyword);
     Page<Post> paging = postService.searchPosts(type ,keyword, page);
 
+    List<Post> posts = paging.getContent();
+
+    // 각 포스트에 대해 isImageIncluded 값을 설정합니다.
+    for (Post post : posts) {
+      if (post.getContent() != null && post.getContent().contains("img")) {
+        post.setIsImageIncluded(true);
+      }
+      int commentCount = commentService.countCommentsByPostId(post.getId());
+      post.setCommentCount(commentCount);
+    }
+
 //    model.asMap().remove("paging");
 //    model.addAttribute("paging", null);
     model.addAttribute("searchPaging", paging);
+    model.addAttribute("type", type);
+    model.addAttribute("keyword", keyword);
+
     System.out.println(paging);
     return "postSearchList";
   }
