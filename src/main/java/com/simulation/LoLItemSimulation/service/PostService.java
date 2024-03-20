@@ -175,43 +175,48 @@ public class PostService {
     return postRepository.getPostHateCount(postId);
   }
 
-//  public Page<Post> searchPostsByTitleContaining(String keyword, int page) {
-//    return postRepository.searchByTitleContaining(keyword, PageRequest.of(page, PAGE_SIZE));
-//
-//  }
-
 //  public Page<Post> searchPosts(String type, String keyword, int page) {
+//    List<Sort.Order> sorts = new ArrayList<>();
+//    sorts.add(Sort.Order.desc("createtime")); // createdAt 필드를 기준으로 내림차순 정렬
+//
+//    Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+//
 //    if (type.equals("title")) {
-//      return postRepository.findByTitleContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+//      return postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
 //    } else if (type.equals("content")) {
-//      return postRepository.findByContentContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+//      return postRepository.findByContentContainingIgnoreCase(keyword, pageable);
 //    } else if (type.equals("titleContent")) {
-//      return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, PageRequest.of(page, PAGE_SIZE));
+//      return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
 //    } else if (type.equals("nickname")) {
-//      return postRepository.findByNicknameContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+//      return postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
 //    } else {
 //      return null;
+//
+//
 //    }
 //  }
+public Page<Post> searchPosts(String type, String keyword, int page) {
+  List<Sort.Order> sorts = new ArrayList<>();
+  sorts.add(Sort.Order.desc("createtime")); // createdAt 필드를 기준으로 내림차순 정렬
 
-  public Page<Post> searchPosts(String type, String keyword, int page) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("createtime")); // createdAt 필드를 기준으로 내림차순 정렬
+  Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
-    Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+  Page<Post> posts;
 
-    if (type.equals("title")) {
-      return postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
-    } else if (type.equals("content")) {
-      return postRepository.findByContentContainingIgnoreCase(keyword, pageable);
-    } else if (type.equals("titleContent")) {
-      return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
-    } else if (type.equals("nickname")) {
-      return postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
-    } else {
-      return null;
-
-
-    }
+  if (type.equals("title")) {
+    posts = postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+  } else if (type.equals("content")) {
+    posts = postRepository.findByContentContainingIgnoreCase(keyword, pageable);
+  } else if (type.equals("titleContent")) {
+    posts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
+  } else if (type.equals("nickname")) {
+    posts = postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
+  } else {
+    posts = Page.empty(); // 빈 페이지 반환
   }
+
+  // 검색 결과가 없을 때의 추가 작업은 필요하지 않습니다.
+
+  return posts;
+}
 }
