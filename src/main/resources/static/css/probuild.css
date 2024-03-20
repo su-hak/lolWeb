@@ -10,3 +10,18 @@
 #probuild:hover .animated-width {
     width: 100%;
 }
+
+/*    main 시작    */
+
+#match-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.match-user-info {
+    display: flex;
+    border: 1px solid black;
+    padding: 10px;
+    gap: 10px;
+}
+/*    main 끝    */

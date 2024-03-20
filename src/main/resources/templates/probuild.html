@@ -160,24 +160,34 @@
             <p>MatchId: <span th:text="${entry.getMatchIds()}"></span></p>-->
 
             <!-- Loop through each match -->
-            <div th:each="matchId : ${entry.getMatchIds()}">
+            <div id="match-box" th:each="matchId : ${entry.getMatchIds()}">
                 <!-- Fetch match details -->
                 <!-- This part fetches match details and participant information, you can implement it here -->
                 <!-- For demonstration purpose, I'm just displaying matchId -->
-                <p>MatchId: <span th:text="${matchId}"></span></p>
+                <p>MatchId: <span th:text="${matchId}"></span></p><br/>
                 <!-- Loop through each participant in the match -->
                 <!-- Here you can add your code to display each participant's information -->
-                <div style="display: flex;" th:each="participant : ${entry.getParticipants()}">
-                    <p>Summoner Name: <span th:text="${participant.summonerName}"></span></p>
-                    <p>Kills: <span th:text="${participant.getKills()}"></span></p>
-                    <p>Deaths: <span th:text="${participant.getDeaths()}"></span></p>
-                    <p>Item0: <span th:text="${participant.getItem0()}"></span></p>
-                    <p>Item1: <span th:text="${participant.getItem1()}"></span></p>
-                    <p>Item2: <span th:text="${participant.getItem2()}"></span></p>
-                    <p>Item3: <span th:text="${participant.getItem3()}"></span></p>
-                    <p>Item4: <span th:text="${participant.getItem4()}"></span></p>
-                    <p>Item5: <span th:text="${participant.getItem5()}"></span></p>
-                    <p>Item6: <span th:text="${participant.getItem6()}"></span></p>
+                <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
+                        <dl><dt>Summoner Name </dt>
+                        <dd th:text="${participant.summonerName}"></dd></dl>
+                        <dl><dt>Kills </dt>
+                        <dd th:text="${participant.getKills()}"></dd></dl>
+                        <dl><dt>Deaths </dt>
+                        <dd th:text="${participant.getDeaths()}"></dd></dl>
+                        <dl><dt>Item0 </dt>
+                        <dd th:text="${participant.getItem0()}"></dd></dl>
+                        <dl><dt>Item1 </dt>
+                        <dd th:text="${participant.getItem1()}"></dd></dl>
+                        <dl><dt>Item2 </dt>
+                        <dd th:text="${participant.getItem2()}"></dd></dl>
+                        <dl><dt>Item3 </dt>
+                        <dd th:text="${participant.getItem3()}"></dd></dl>
+                        <dl><dt>Item4 </dt>
+                        <dd th:text="${participant.getItem4()}"></dd></dl>
+                        <dl><dt>Item5 </dt>
+                        <dd th:text="${participant.getItem5()}"></dd></dl>
+                        <dl><dt>Item6 </dt>
+                        <dd th:text="${participant.getItem6()}"></dd></dl>
                     <!-- Add more participant fields as needed -->
                 </div>
             </div>

@@ -90,71 +90,6 @@ public class ProbuildService {
             e.printStackTrace();
         }
     }
-    /*private void setProbuild(LeagueEntryDTO pro) {
-        // matchIds가 null이 아니고 비어 있지 않은 경우에만 api 호출
-        if (pro.getMatchIds() != null && !pro.getMatchIds().isEmpty()) {
-            RestTemplate restTemplate1 = new RestTemplate();
-            List<String> matchIdsList = pro.getMatchIds();
-            System.out.println(matchIdsList + "matchIdsList");
-
-            // 각 요소에서 대괄호를 제거하고 안에 있는 문자열만 추출하여 matchIds로 저장
-            String matchIds = matchIdsList.get(0).replaceAll("\\[|\\]", ""); // 대괄호 제거
-            System.out.println(matchIds + "matchIds");
-
-            // matchIds가 빈 문자열이 아닌 경우에만 API 호출
-            if (!matchIds.isEmpty()) {
-                String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "?api_key=" + apiKey;
-                System.out.println("matchIds url :" + url);
-                try {
-                    MatchDetailDTO matchDetail = restTemplate1.getForObject(url, MatchDetailDTO.class);
-                    if (matchDetail != null && matchDetail.getInfo() != null && matchDetail.getInfo().getParticipants() != null) {
-                        // 킬 수, 죽음 수, 아이템 정보를 LeagueEntryDTO 객체에 저장
-                        List<MatchDetailDTO.Participant> participants = matchDetail.getInfo().getParticipants();
-                        for (MatchDetailDTO.Participant participant : participants) {
-                            if (participant.getSummonerName().equals(pro.getSummonerName())) {
-                                pro.setSummonerName(participant.getSummonerName());
-                                pro.setChampionName(participant.getChampionName());
-                                pro.setSummoner1Id(participant.getSummoner1Id());
-                                pro.setSummoner2Id(participant.getSummoner2Id());
-                                pro.setKills(participant.getKills());
-                                pro.setDeaths(participant.getDeaths());
-                                pro.setAssists(participant.getAssists());
-                                pro.setItem0(participant.getItem0());
-                                pro.setItem0(participant.getItem1());
-                                pro.setItem0(participant.getItem2());
-                                pro.setItem0(participant.getItem3());
-                                pro.setItem0(participant.getItem4());
-                                pro.setItem0(participant.getItem5());
-                                pro.setItem0(participant.getItem6());
-                                pro.setTotalDamageDealt(participant.getTotalDamageDealt());
-                                // 추가적인 아이템 정보를 저장할 수 있습니다.
-                                break;
-                            }
-                        }
-                    }
-                    *//*if (matchDetail != null && matchDetail.getInfo() != null && matchDetail.getInfo().getParticipants() != null) {
-                        for (MatchDetailDTO.Participant participant : matchDetail.getInfo().getParticipants()) {
-                            String summonerName = participant.getSummonerName();
-                            int kills = participant.getKills();
-                            int deaths = participant.getDeaths();
-                            int item0 = participant.getItem0();
-
-                            System.out.println("Summoner Name: " + summonerName);
-                            System.out.println("Kills: " + kills);
-                            System.out.println("Deaths: " + deaths);
-                            System.out.println("item 0: " + item0);
-                        }
-                    }*//*
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("matchIds is empty. Skipping API call.");
-            }
-        } else {
-            System.out.println("matchIds is null or empty. Skipping API call.");
-        }
-    }*/
     private void setProbuild(LeagueEntryDTO pro) {
         // matchIds가 null이 아니고 비어 있지 않은 경우에만 api 호출
         if (pro.getMatchIds() != null && !pro.getMatchIds().isEmpty()) {
@@ -172,7 +107,16 @@ public class ProbuildService {
 
                     if (matchDetail != null && matchDetail.getInfo() != null && matchDetail.getInfo().getParticipants() != null) {
                         // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
-                        pro.setParticipants(matchDetail.getInfo().getParticipants());
+                        // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
+                        List<MatchDetailDTO.Participant> participants = matchDetail.getInfo().getParticipants();
+                        for (MatchDetailDTO.Participant participant : participants) {
+                            String summonerName = participant.getSummonerName();
+                            // 만약 summonerName이 빈 문자열이면 "닉네임 알 수 없음"으로 설정
+                            if (summonerName.isEmpty()) {
+                                participant.setSummonerName("\"알 수 없는 소환사\"");
+                            }
+                        }
+                        pro.setParticipants(participants);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
