@@ -6,10 +6,7 @@ import com.simulation.LoLItemSimulation.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -117,7 +114,6 @@ public class PostService {
   }
 
 
-
   public Optional<Post> getPostById(Long id) {
     return postRepository.findById(id);
   }
@@ -147,6 +143,7 @@ public class PostService {
     // Post 엔터티를 PostDto로 변환
     return convertEntityToDto(post);
   }
+
   public PostDto convertEntityToDto(Post post) {
     PostDto postDto = new PostDto();
     postDto.setId(post.getId());
@@ -165,8 +162,9 @@ public class PostService {
   @Autowired
   public PostService(PostRepository postRepository, CommentRepository commentRepository) {
     this.postRepository = postRepository;
-      this.commentRepository = commentRepository;
+    this.commentRepository = commentRepository;
   }
+
   private static final int PAGE_SIZE = 10; //
 
   public int getPostLikeCount(Long postId) {
@@ -182,17 +180,38 @@ public class PostService {
 //
 //  }
 
+//  public Page<Post> searchPosts(String type, String keyword, int page) {
+//    if (type.equals("title")) {
+//      return postRepository.findByTitleContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+//    } else if (type.equals("content")) {
+//      return postRepository.findByContentContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+//    } else if (type.equals("titleContent")) {
+//      return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, PageRequest.of(page, PAGE_SIZE));
+//    } else if (type.equals("nickname")) {
+//      return postRepository.findByNicknameContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+//    } else {
+//      return null;
+//    }
+//  }
+
   public Page<Post> searchPosts(String type, String keyword, int page) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("createtime")); // createdAt 필드를 기준으로 내림차순 정렬
+
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
     if (type.equals("title")) {
-      return postRepository.findByTitleContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+      return postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
     } else if (type.equals("content")) {
-      return postRepository.findByContentContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+      return postRepository.findByContentContainingIgnoreCase(keyword, pageable);
     } else if (type.equals("titleContent")) {
-      return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, PageRequest.of(page, PAGE_SIZE));
+      return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
     } else if (type.equals("nickname")) {
-      return postRepository.findByNicknameContainingIgnoreCase(keyword, PageRequest.of(page, PAGE_SIZE));
+      return postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
     } else {
       return null;
+
+
     }
   }
 }
