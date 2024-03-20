@@ -360,7 +360,26 @@
 <!--        }-->
 <!--    });-->
 <!--</script>-->
+<script>
+    // 페이지 로드 시 실행되는 함수
+    window.onload = function() {
+        // URL의 쿼리 파라미터에서 페이지 번호를 가져옵니다.
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
 
+        // 페이지 번호가 없으면 기본값인 0으로 설정합니다.
+        const pageNumber = page ? page : 0;
+
+        // 현재 URL에서 페이지 번호를 제거합니다.
+        const baseUrl = window.location.href.split('?')[0];
+
+        // 새로운 URL을 생성하여 페이지 번호를 추가합니다.
+        const newUrl = `${baseUrl}?page=${pageNumber}`;
+
+        // 브라우저의 URL을 새로운 URL로 변경합니다.
+        history.pushState({}, '', newUrl);
+    }
+</script>
 
 </body>
 
