@@ -214,11 +214,19 @@
                                     </div>
                                     <!-- 검색어 입력창 -->
                                     <div class="form-group col-auto">
+<!--                                        <input type="text" class="form-control" id="freeSearch" value=""-->
+<!--                                               placeholder="Search" style="font-size: 14px">-->
                                         <input type="text" class="form-control" id="freeSearch" value=""
-                                               placeholder="Search" style="font-size: 14px">
+                                               placeholder="Search" style="font-size: 14px" onkeypress="handleKeyPress(event)">
                                     </div>
+
                                     <div>
-                                        <button type="button" style="width: 3rem; height: 3rem" onclick="searchPost()">
+<!--                                        <button type="button" style="width: 3rem; height: 3rem" onclick="searchPost()">-->
+<!--                                            <iconify-icon icon="pepicons-pencil:enter" width="3rem" height="3rem"-->
+<!--                                                          style="color: #545454"></iconify-icon>-->
+<!--                                        </button>-->
+
+                                        <button type="button" style="width: 3rem; height: 3rem" onclick="handleButtonClick()">
                                             <iconify-icon icon="pepicons-pencil:enter" width="3rem" height="3rem"
                                                           style="color: #545454"></iconify-icon>
                                         </button>
@@ -310,6 +318,18 @@
 
 
 <script>
+    function handleKeyPress(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault(); // 엔터 키의 기본 동작 방지 (폼 제출 방지)
+            searchPost(); // searchPost() 함수 호출
+        }
+    }
+
+    // 버튼 클릭 이벤트 처리
+    function handleButtonClick() {
+        searchPost(); // searchPost() 함수 호출
+    }
+
     function searchPost() {
         var option = $("#searchOption").val();
         var keyword = $("#freeSearch").val();
@@ -326,6 +346,26 @@
     }
 
 
+</script>
+<script>
+    // 페이지 로드 시 실행되는 함수
+    window.onload = function() {
+        // URL의 쿼리 파라미터에서 페이지 번호를 가져옵니다.
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
+
+        // 페이지 번호가 없으면 기본값인 0으로 설정합니다.
+        const pageNumber = page ? page : 0;
+
+        // 현재 URL에서 페이지 번호를 제거합니다.
+        const baseUrl = window.location.href.split('?')[0];
+
+        // 새로운 URL을 생성하여 페이지 번호를 추가합니다.
+        const newUrl = `${baseUrl}?page=${pageNumber}`;
+
+        // 브라우저의 URL을 새로운 URL로 변경합니다.
+        history.pushState({}, '', newUrl);
+    }
 </script>
 
 
