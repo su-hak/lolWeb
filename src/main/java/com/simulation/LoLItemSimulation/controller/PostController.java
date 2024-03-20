@@ -162,6 +162,9 @@ public class PostController {
 //    model.asMap().remove("paging");
 //    model.addAttribute("paging", null);
     model.addAttribute("searchPaging", paging);
+    model.addAttribute("type", type);
+    model.addAttribute("keyword", keyword);
+
     System.out.println(paging);
     return "postSearchList";
   }
