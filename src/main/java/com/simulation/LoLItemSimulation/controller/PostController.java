@@ -171,8 +171,10 @@ public class PostController {
 
 
 
+
   @GetMapping("/read/{postId}")
-  public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session) {
+  public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
+                         @RequestParam(name = "page", required = false, defaultValue = "1") int page) {
     // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
     String sessionKey = "postViewTime_" + postId;
     LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
@@ -210,6 +212,7 @@ public class PostController {
     // 모델에 댓글 정보와 게시글 정보를 추가하여 게시글 읽기 페이지로 반환
     model.addAttribute("comment", commentLikeInfoList);
     model.addAttribute("post", postDto);
+    model.addAttribute("page", page);
     return "readPost";
   }
 
@@ -264,9 +267,10 @@ public class PostController {
   // 게시글 수정 처리 메소드
   @PostMapping("/updatePost/{postId}")
   public ResponseEntity<String> updatePost(@PathVariable Long postId, @RequestBody PostDto postDto) {
+    postDto.setCreatetime(LocalDateTime.now());
     postService.updatePost(postId, postDto);
     return ResponseEntity.ok("게시글이 성공적으로 업데이트되었습니다.");
-    //Todo: 게시글 업데이트 후 해당 게시글 read 페이지 이동하기
+//Todo: 게시글 업데이트 후 해당 게시글 read 페이지 이동하기
   }
 
 
