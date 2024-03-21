@@ -136,12 +136,13 @@
 
 
                                         <!-- isImageIncluded가 true인 경우 이미지 아이콘을 표시 -->
-                                        <div th:if="${post.isImageIncluded}">
-                                            <img src="/img/img_icon.png" alt="이미지 아이콘">
+                                        <div th:if="${post.isImageIncluded}" >
+                                            <img src="/img/img_icon.png" alt="이미지 아이콘" style="width: 12px; margin-bottom: 4px;">
                                         </div>
 
                                         <div th:if="${post.commentCount > 0}">
-                                            <span style="font-size: 12px;margin-bottom: 0px;margin-top: 1px;" th:text="'[' + ${post.commentCount} + ']' "></span>
+                                            <span style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="'[' + ${post.commentCount} + ']' "></span>
                                         </div>
 
 <!--                                        <p class="commentCountSpan" style="font-size: 12px;margin-bottom: 0px;margin-top: 1px;"></p>-->
