@@ -168,8 +168,9 @@
 
                         </div>
                         <div class="col">
-                            <a href="/post/list"><button class="col btn btn-info" style="font-size: medium">목록
-                            </button></a>
+                            <a th:href="@{'/post/list?page=' + ${page}}">
+                                <button class="col btn btn-info" style="font-size: medium">목록</button>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -59,6 +59,7 @@ public class PostService {
     post.setTitle(postDto.getTitle());
     post.setContent(postDto.getContent());
     post.setPassword(postDto.getPassword());
+    post.setCreatetime(postDto.getCreatetime());
     // 업데이트된 게시글 저장
     postRepository.save(post);
   }
