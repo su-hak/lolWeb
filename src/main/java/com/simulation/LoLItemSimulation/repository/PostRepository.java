@@ -30,7 +30,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
   // 제목으로 검색
 
   Page<Post> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
-  Page<Post> findByContentContainingIgnoreCase(String keyword, Pageable pageable);
+  @Query(value = "SELECT * FROM post p WHERE CAST(p.content AS CHAR) LIKE %:keyword%", nativeQuery = true)
+  Page<Post> findByContentContainingKeyword(@Param("keyword") String keyword, Pageable pageable);
+// content의 타입이 BLOB이라서 위와같은 형태로 CAST해준다음 질의를 해야함.
   Page<Post> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleKeyword, String contentKeyword,Pageable pageable);
   Page<Post> findByNicknameContainingIgnoreCase(String keyword, Pageable pageable);
 } 

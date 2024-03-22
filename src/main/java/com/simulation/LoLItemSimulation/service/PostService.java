@@ -59,6 +59,7 @@ public class PostService {
     post.setTitle(postDto.getTitle());
     post.setContent(postDto.getContent());
     post.setPassword(postDto.getPassword());
+    post.setCreatetime(postDto.getCreatetime());
     // 업데이트된 게시글 저장
     postRepository.save(post);
   }
@@ -195,28 +196,28 @@ public class PostService {
 //
 //    }
 //  }
-public Page<Post> searchPosts(String type, String keyword, int page) {
-  List<Sort.Order> sorts = new ArrayList<>();
-  sorts.add(Sort.Order.desc("createtime")); // createdAt 필드를 기준으로 내림차순 정렬
+  public Page<Post> searchPosts(String type, String keyword, int page) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("createtime")); // createdAt 필드를 기준으로 내림차순 정렬
 
-  Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
-  Page<Post> posts;
+    Page<Post> posts;
 
-  if (type.equals("title")) {
-    posts = postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
-  } else if (type.equals("content")) {
-    posts = postRepository.findByContentContainingIgnoreCase(keyword, pageable);
-  } else if (type.equals("titleContent")) {
-    posts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
-  } else if (type.equals("nickname")) {
-    posts = postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
-  } else {
-    posts = Page.empty(); // 빈 페이지 반환
+    if (type.equals("title")) {
+      posts = postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+    } else if (type.equals("content")) {
+      posts = postRepository.findByContentContainingKeyword(keyword, pageable);
+    } else if (type.equals("titleContent")) {
+      posts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
+    } else if (type.equals("nickname")) {
+      posts = postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
+    } else {
+      posts = Page.empty(); // 빈 페이지 반환
+    }
+
+    // 검색 결과가 없을 때의 추가 작업은 필요하지 않습니다.
+
+    return posts;
   }
-
-  // 검색 결과가 없을 때의 추가 작업은 필요하지 않습니다.
-
-  return posts;
-}
 }

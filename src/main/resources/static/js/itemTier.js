@@ -76,6 +76,26 @@ $.ajax({
                 && !allItemsL.description.includes('장신구')
                 && allItemsL.description.indexOf('<stats></stats>') === -1; // <stats></stats> 값이 null인 경우 출력하지 않음
         });
+        // TUI Grid를 초기화하고 rankerData를 설정합니다.
+        const grid = new tui.Grid({
+            el: document.getElementById('grid'),
+            data: filterItemsL,
+            bodyHeight: 20 * 40,
+            scrollX: false,
+            scrollY: true,
+            columns: [
+                {
+                    header: '아이템명',
+                    name: 'name',
+                    filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
+                },
+                {
+                    header: '설명',
+                    name: 'description'
+                },
+                // 다른 열들을 추가할 수 있습니다.
+            ]
+        });
 
 
         console.log(filterItemsL);
@@ -534,3 +554,45 @@ function defaultAll() {
         $("#iBox" + callIdx).html('<iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>');
     }
 }
+
+
+
+/*랭킹선수정보 API 요청*/
+ // let rankerData = []; // 비어 있는 rankerData 배열을 초기화합니다.
+ //
+ // $.ajax({
+ //     url: "https://kr.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?api_key=RGAPI-8bf9a6e0-8044-454c-b456-0e8bfa615cb3",
+ //     method: 'GET',
+ //     success: function(responseData) {
+ //         console.log(responseData); // 데이터 확인을 위해 콘솔에 출력
+ //         // 여기서 데이터를 처리하거나 원하는 작업을 수행하세요
+ //
+ //         rankerData = responseData; // 받아온 데이터를 rankerData에 할당합니다.
+ //
+ //         // TUI Grid를 초기화하고 rankerData를 설정합니다.
+ //          const grid = new tui.Grid({
+ //              el: document.getElementById('grid'),
+ //              data: rankerData,
+ //              bodyHeight: 20 * 40,
+ //              scrollX: false,
+ //              scrollY: true,
+ //              columns: [
+ //                  {
+ //                      header: 'Name',
+ //                      name: 'summonerName',
+ //                      filter: { type: 'text', showApplyBtn: true, showClearBtn: true }
+ //                  },
+ //                  {
+ //                      header: 'League Points',
+ //                      name: 'leaguePoints'
+ //                  },
+ //                  // 다른 열들을 추가할 수 있습니다.
+ //              ]
+ //          });
+ //     },
+ //     error: function(xhr, status, error) {
+ //         console.error('API 요청에 문제가 있습니다.');
+ //     }
+ // });
+
+

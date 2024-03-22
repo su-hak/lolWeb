@@ -114,7 +114,7 @@
                                 <th class="col-1">글번호</th>
                                 <th class="col-6">글제목</th>
                                 <th class="col-2">작성자(IP)</th>
-                                <th class="col">작성일</th>
+                                <th class="col">작성일/수정일</th>
                                 <th class="col-2">조회수</th>
                             </tr>
                             </thead>
@@ -127,18 +127,22 @@
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
-                                           th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
-                                        </p>
+
+                                        <a th:href="@{'/post/read/' + ${post.id} + '?page=' + ${paging.number}}">
+                                            <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
+                                               th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
+                                            </p>
+                                        </a>
 
 
                                         <!-- isImageIncluded가 true인 경우 이미지 아이콘을 표시 -->
-                                        <div th:if="${post.isImageIncluded}">
-                                            <img src="/img/img_icon.png" alt="이미지 아이콘">
+                                        <div th:if="${post.isImageIncluded}" >
+                                            <img src="/img/img_icon.png" alt="이미지 아이콘" style="width: 12px; margin-bottom: 4px;">
                                         </div>
 
                                         <div th:if="${post.commentCount > 0}">
-                                            <span style="font-size: 12px;margin-bottom: 0px;margin-top: 1px;" th:text="'[' + ${post.commentCount} + ']' "></span>
+                                            <span style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="'[' + ${post.commentCount} + ']' "></span>
                                         </div>
 
 <!--                                        <p class="commentCountSpan" style="font-size: 12px;margin-bottom: 0px;margin-top: 1px;"></p>-->
