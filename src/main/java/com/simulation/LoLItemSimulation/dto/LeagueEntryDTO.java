@@ -55,9 +55,6 @@ public class LeagueEntryDTO {
     private int summoner2Id;
     private int totalDamageDealt;
 
-
-
-
     public String getChampionName() {
         return championName;
     }

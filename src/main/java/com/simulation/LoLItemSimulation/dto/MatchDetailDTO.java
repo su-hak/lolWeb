@@ -30,6 +30,7 @@ public class MatchDetailDTO {
         private String championName;
         private int kills;
         private int deaths;
+        private int assists;
         private int championId;
         private int summoner1Id;
         private int summoner2Id;
@@ -40,7 +41,6 @@ public class MatchDetailDTO {
         private int item4;
         private int item5;
         private int item6;
-        private int assists;
         private int totalDamageDealt;
 
         public String getSummonerName() {
