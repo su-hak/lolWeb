@@ -107,9 +107,23 @@
                     </div>
                     <div class="card-body p-5">
                         <!-- table -->
-                        <table class="table table-borderless table-hover">
+                        <table class="table table-borderless table-hover" th:if="${have != false and not #lists.isEmpty(have)}">
                             <!-- 게시판 헤더 -->
                             <thead>
+                            <td colspan="5" class="searchResult">
+                                <span>검색타입 : </span>
+                                <span class="searchType" th:value="${type}" th:text="${type == 'title' ? '제목' : (type == 'content' ? '내용' : (type == 'titleContent' ? '제목 + 내용' : '작성자'))}"></span>,
+                                <span>검색어 : </span>
+                                <span class="searchKeyword" th:value="${keyword}" th:text="${keyword}"></span>로 검색한 결과입니다.
+                            </td>
+
+                            <td>
+                                <a th:href="@{/post/list}">
+                                    <button type="button" class="btn btn-outline-secondary">
+                                        초기화
+                                    </button>
+                                </a>
+                            </td>
                             <tr>
                                 <th class="col-1">글번호</th>
                                 <th class="col-6">글제목</th>
@@ -119,16 +133,22 @@
                             </tr>
                             </thead>
                             <!-- 게시판 바디 -->
-                            <tbody th:if="${searchPaging != null and not #lists.isEmpty(searchPaging)}">
+                            <tbody>
                             <tr th:each="post, loop : ${searchPaging}"> <!-- 게시물이 반복되어 리스트로 표시 -->
                                 <td style="font-size: 14px; color: #777777">
                                     <p class="mb-0 text-muted" th:text="${searchPaging.getTotalElements - (searchPaging.number * searchPaging.size) - loop.index}"><!--게시물id--></p>
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
-                                           th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
-                                        </p>
+                                        <a th:href="@{'/post/read/' + ${post.id} + '?page=' + ${searchPaging.number}}">
+                                            <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
+                                               th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
+                                            </p>
+                                            <br>
+                                            <p class="mb-0 text-muted postContent" th:value="${post.content}"
+                                               th:data-post-id="${post.id}" style="font-size: 14px; display: none"></p>
+                                        </a>
+
                                         <!-- isImageIncluded가 true인 경우 이미지 아이콘을 표시 -->
                                         <div th:if="${post.isImageIncluded}">
                                             <img src="/img/img_icon.png" alt="이미지 아이콘">
@@ -141,7 +161,7 @@
                                 </td>
                                 <td style="font-size: 14px; color: #777777">
                                     <div class="ds_flex" >
-                                        <p class="mb-0 text-muted" th:text="${post.nickname}"></p>
+                                        <p class="mb-0 text-muted postNickname" th:text="${post.nickname}"></p>
                                         (<p class="mb-0 text-muted"
                                             th:text="${#strings.substring(post.ipAddress, 0, 6)} + '.x.x'"></p>)
                                     </div>
@@ -159,6 +179,34 @@
                                 </td>
                             </tr>
                             </tbody>
+                        </table>
+                        <table  class="table table-borderless table-hover" th:if="${have == false or #lists.isEmpty(have)}">
+                            <thead>
+                            <!-- 검색어 출력 -->
+                            <td colspan="5" class="searchResult">
+                                <span>검색타입 : </span>
+                                <span class="searchType" th:value="${type}" th:text="${type == 'title' ? '제목' : (type == 'content' ? '내용' : (type == 'titleContent' ? '제목 + 내용' : '작성자'))}"></span>,
+                                <span>검색어 : </span>
+                                <span class="searchKeyword" th:value="${keyword}" th:text="${keyword}"></span>로 검색한 결과가 없습니다.
+                            </td>
+
+
+                            <!-- 초기화 버튼 -->
+                            <td>
+                                <a th:href="@{/post/list}">
+                                    <button type="button" class="btn btn-outline-secondary">
+                                        초기화
+                                    </button>
+                                </a>
+                            </td>
+                            <tr>
+                                <th class="col-1">글번호</th>
+                                <th class="col-6">글제목</th>
+                                <th class="col-2">작성자(IP)</th>
+                                <th class="col">작성일</th>
+                                <th class="col-2">조회수</th>
+                            </tr>
+                            </thead>
                         </table>
                         <!-- 글쓰기 버튼 -->
                         <div>
@@ -272,6 +320,9 @@
 <script src="/ckeditor5/build/ckeditor.js"></script>
 <script src="/js/ckeditorscript.js"></script>
 
+
+
+
 <script>
     window.onload = function() {
         // URL의 쿼리 파라미터에서 페이지 번호를 가져옵니다.
@@ -294,34 +345,108 @@
     }
 
     $(document).ready(function () {
-        // 각 게시물의 "보러가기" 버튼 클릭 이벤트 처리
-        $(".view-post-btn").click(function () {
-            var postId = $(this).data("post-id"); // 해당 버튼에 저장된 게시물 ID 가져오기
-            window.location.href = "/post/read/" + postId; // 해당 게시물로 이동
-        });
+        // 서버에서 검색 타입과 키워드를 가져와서 강조 함수 호출
+        var highlightType = $(".searchType").attr("value");
+        var highlightKeyword = $(".searchKeyword").attr("value");
 
+        console.log(highlightType)
+        console.log(highlightKeyword)
 
-        // 게시물이 로드될때 각 게시글의 총 댓글수 반환
-        // $("td p.view-post-btn").each(function() {
-        //     var postId = $(this).attr("data-post-id");
-        //     var commentCountSpan = $(this).closest("tr").find(".commentCountSpan");
-        //     //console.log(postId);
-        //     // 게시글의 총 댓글 수를 조회하는 AJAX 요청
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "/comment/" + postId + "/commentCount",
-        //         success: function(response) {
-        //             // 성공적으로 총 댓글 수를 가져왔을 때 HTML에 표시
-        //             //      console.log(response);
-        //             commentCountSpan.text("[" + response + "]");
-        //         }.bind(this), // 함수 내부에서 this를 사용하기 위해 bind를 사용하여 컨텍스트를 유지합니다.
-        //         error: function(error) {
-        //             console.error("Error:", error);
-        //         }
-        //     });
-        // });
+        // 검색어 강조 함수 호출
+        highlightSearchText(highlightType, highlightKeyword);
     });
 
+    function highlightSearchText(option, keyword) {
+        // 검색 키워드를 대소문자 구분 없이 검색하기 위해 정규 표현식을 사용합니다.
+        var regex = new RegExp(keyword, "gi");
+
+        if(option === "title"){
+            // 각 요소를 반복하면서 검색어가 포함된 부분을 찾아 색칠합니다.
+            $(".view-post-btn").each(function () {
+                var text = $(this).text(); // 요소의 텍스트 내용 가져오기
+                var highlightedText = text.replace(regex, '<span style="background-color: yellow;">$&</span>'); // 검색어 색칠
+
+                // 색칠된 텍스트로 요소의 내용을 업데이트합니다.
+                $(this).html(highlightedText);
+            });
+        }
+        else if(option === "nickname"){
+            $(".postNickname").each(function () {
+                var text = $(this).text(); // 요소의 텍스트 내용 가져오기
+                var highlightedText = text.replace(regex, '<span style="background-color: yellow;">$&</span>'); // 검색어 색칠
+
+                // 색칠된 텍스트로 요소의 내용을 업데이트합니다.
+                $(this).html(highlightedText);
+            });
+        }
+        else if (option === "titleContent") {
+            $(".view-post-btn").each(function () {
+                var text = $(this).text(); // 요소의 텍스트 내용 가져오기
+                var highlightedText = text.replace(regex, '<span style="background-color: yellow;">$&</span>'); // 검색어 색칠
+
+                // 색칠된 텍스트로 요소의 내용을 업데이트합니다.
+                $(this).html(highlightedText);
+                var postContent = $(this).siblings(".postContent").attr("value") // postContent 변수에 value 저장
+
+                // 키워드의 인덱스 찾기
+                var keywordIndex = postContent.indexOf(keyword);
+
+                if (keywordIndex !== -1) { // 키워드가 포함된 경우에만 처리
+                    // 키워드 앞의 3글자와 뒤의 3글자 추출
+                    var startIndex = Math.max(0, keywordIndex - 3);
+                    var endIndex = Math.min(keywordIndex + keyword.length + 3, postContent.length);
+                    var visibleText = postContent.substring(startIndex, endIndex);
+
+                    // 키워드를 색칠하여 보이도록 설정
+                    var result = visibleText.replace(keyword, '<span style="background-color: yellow;">' + keyword + '</span>');
+
+                    // 새로운 노드를 생성하여 업데이트
+                    var newNode = document.createElement('span');
+                    newNode.innerHTML = result;
+                    $(this).siblings(".postContent").html(newNode); // postContent에 새로운 노드 추가
+                    $(this).siblings(".postContent").css("display", "block");
+                }
+            });
+
+        }else if (option === "content") {
+            $(".view-post-btn").each(function () {
+                var postContent = $(this).siblings(".postContent").attr("value") // postContent 변수에 value 저장
+
+                // 키워드의 인덱스 찾기
+                var keywordIndex = postContent.indexOf(keyword);
+
+                if (keywordIndex !== -1) { // 키워드가 포함된 경우에만 처리
+                    // 키워드 앞의 3글자와 뒤의 3글자 추출
+                    var startIndex = Math.max(0, keywordIndex - 3);
+                    var endIndex = Math.min(keywordIndex + keyword.length + 3, postContent.length);
+                    var visibleText = postContent.substring(startIndex, endIndex);
+
+                    // 키워드를 색칠하여 보이도록 설정
+                    var result = visibleText.replace(keyword, '<span style="background-color: yellow;">' + keyword + '</span>');
+
+                    // 새로운 노드를 생성하여 업데이트
+                    var newNode = document.createElement('span');
+                    newNode.innerHTML = result;
+                    $(this).siblings(".postContent").html(newNode); // postContent에 새로운 노드 추가
+                    $(this).siblings(".postContent").css("display", "block");
+                }
+            });
+
+        }
+
+
+
+
+
+
+
+    }
+
+    function highlightText(text, keyword) {
+        // 키워드를 대소문자 구분 없이 검색하기 위해 정규 표현식을 사용합니다.
+        var regex = new RegExp(keyword, "gi");
+        return text.replace(regex, '<span style="background-color: yellow;">$&</span>');
+    }
 
 </script>
 
@@ -354,6 +479,10 @@
         window.location.href = url;
     }
 
+    function clearSearch() {
+        $("#freeSearch").val(""); // 검색어 필드를 비웁니다.
+        searchPost(); // 검색을 초기화하고 전체 목록을 보여줍니다.
+    }
 </script>
 
 
