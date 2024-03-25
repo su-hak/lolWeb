@@ -14,6 +14,8 @@ public class WebConfig implements WebMvcConfigurer {
     return new MappingJackson2JsonView();
   }
 
+
+  
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     // "/uploads/**" URL 패턴으로 요청이 들어오면 "file:/저장된_경로/" 에서 파일을 찾도록 설정합니다.
