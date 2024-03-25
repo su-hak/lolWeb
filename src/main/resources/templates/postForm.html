@@ -16,10 +16,10 @@
     <link rel="stylesheet" th:href="@{/css/editor.css}"/>
 
     <!-- ckeditor -->
-<!--    <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>-->
-    <script src="/build/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+<!--    <script src="/build/ckeditor.js"></script>-->
     <!-- 이미지 업로드 어댑터 -->
-<!--    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>-->
+    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
 
 
@@ -147,11 +147,21 @@
                                             <textarea class="editor" th:field="*{content}" id="editor"></textarea>
                                             <!--에디터 설정-->
                                             <script>
+                                                let myEditor;
+
                                                 ClassicEditor
-                                                    .create( document.querySelector( '#editor' ), {
-                                                    } )
-                                                    .then( /* ... */ )
-                                                    .catch( /* ... */ );
+                                                    .create(document.querySelector('#editor'), {
+                                                        ckfinder: {
+                                                            uploadUrl : '/post/upload'
+                                                        }
+                                                    })
+                                                    .then(editor => {
+                                                        myEditor = editor;
+                                                        console.log('Editor was initialized');
+                                                    })
+                                                    .catch(error => {
+                                                        console.error(error);
+                                                    });
                                             </script>
                                         </div>
                                     </div>
