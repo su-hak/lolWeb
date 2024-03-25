@@ -9,6 +9,7 @@ import com.simulation.LoLItemSimulation.repository.PostLikeRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
 import com.simulation.LoLItemSimulation.service.CommentLikeService;
 import com.simulation.LoLItemSimulation.service.CommentService;
+import com.simulation.LoLItemSimulation.service.FirebaseStorageService;
 import com.simulation.LoLItemSimulation.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,9 +22,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +62,15 @@ public class PostController {
   @Autowired
   private PhotoUtil photoUtil;
 
+  private final FirebaseStorageService storageService;
+
+  @Autowired
+  public PostController(FirebaseStorageService storageService) {
+    this.storageService = storageService;
+  }
 
 
-  //    @PostMapping("/create")
+    //    @PostMapping("/create")
   //    public ResponseEntity<String> createPost(@RequestBody PostDto postDto) {
   //        // DTO를 엔터티로 변환 후 저장 로직
   //        Post post = convertDtoToEntity(postDto);
@@ -77,16 +86,33 @@ public class PostController {
 
 
   // 파일 업로드
+//  @PostMapping("/upload")
+//  public ModelAndView upload(MultipartHttpServletRequest request) {
+//    ModelAndView mav = new ModelAndView("jsonView");
+//
+//    String uploadPath = photoUtil.ckUpload(request);
+//
+//    mav.addObject("uploaded", true);
+//    mav.addObject("url", uploadPath);
+//    return mav;
+//  }
   @PostMapping("/upload")
-  public ModelAndView upload(MultipartHttpServletRequest request) {
+  public ModelAndView upload(@RequestParam("file") MultipartFile file) {
     ModelAndView mav = new ModelAndView("jsonView");
 
-    String uploadPath = photoUtil.ckUpload(request);
+    try {
+      String imageUrl = storageService.uploadImage(file);
+      mav.addObject("uploaded", true);
+      mav.addObject("url", imageUrl);
+    } catch (IOException e) {
+      mav.addObject("uploaded", false);
+      mav.addObject("error", "Failed to upload image.");
+      e.printStackTrace();
+    }
 
-    mav.addObject("uploaded", true);
-    mav.addObject("url", uploadPath);
     return mav;
   }
+
 
   @PostMapping("/submitForm")
   public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request) {
