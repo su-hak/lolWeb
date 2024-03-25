@@ -1,5 +1,7 @@
 package com.simulation.LoLItemSimulation.controller;
 
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.internal.FirebaseService;
 import com.simulation.LoLItemSimulation.config.PhotoUtil;
 import com.simulation.LoLItemSimulation.domain.*;
 import com.simulation.LoLItemSimulation.dto.PostDto;
@@ -7,10 +9,7 @@ import com.simulation.LoLItemSimulation.repository.CommentRepository;
 import com.simulation.LoLItemSimulation.repository.PostHateRepository;
 import com.simulation.LoLItemSimulation.repository.PostLikeRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
-import com.simulation.LoLItemSimulation.service.CommentLikeService;
-import com.simulation.LoLItemSimulation.service.CommentService;
-import com.simulation.LoLItemSimulation.service.FirebaseStorageService;
-import com.simulation.LoLItemSimulation.service.PostService;
+import com.simulation.LoLItemSimulation.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
@@ -18,6 +17,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +48,7 @@ public class PostController {
 
   @Autowired
   private CommentRepository commentRepository;
+
   @Autowired
   private CommentService commentService;
   @Autowired
@@ -62,13 +63,8 @@ public class PostController {
   @Autowired
   private PhotoUtil photoUtil;
 
-  @Autowired
-  private FirebaseStorageService storageService;
-
-  @Autowired
-  public PostController(FirebaseStorageService storageService) {
-    this.storageService = storageService;
-  }
+// @Autowired
+// private FireBaseService fireBaseService;
 
 
   //    @PostMapping("/create")
@@ -88,21 +84,25 @@ public class PostController {
 
   // 파일 업로드
   @PostMapping("/upload")
-  public ModelAndView upload(@RequestParam("file") MultipartFile file) {
+  public ModelAndView upload(MultipartHttpServletRequest request) {
     ModelAndView mav = new ModelAndView("jsonView");
-
     try {
-      String imageUrl = storageService.uploadImage(file);
-      mav.addObject("uploaded", true);
-      mav.addObject("url", imageUrl);
-    } catch (IOException e) {
+      MultipartFile file = request.getFile("upload");
+      if (file != null) {
+        String uploadPath = photoUtil.uploadToFirebase(file);
+        mav.addObject("uploaded", true);
+        mav.addObject("url", uploadPath);
+      } else {
+        mav.addObject("uploaded", false);
+        mav.addObject("error", "업로드할 파일을 찾을 수 없습니다.");
+      }
+    } catch (Exception e) {
       mav.addObject("uploaded", false);
-      mav.addObject("error", "Failed to upload image.");
-      e.printStackTrace();
+      mav.addObject("error", "파일 업로드에 실패했습니다: " + e.getMessage());
     }
-
     return mav;
   }
+
 
   @PostMapping("/submitForm")
   public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request) {

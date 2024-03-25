@@ -1,69 +1,55 @@
 package com.simulation.LoLItemSimulation.config;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
 public class PhotoUtil {
 
-  public String ckUpload(MultipartHttpServletRequest request) {
+  @Value("${app.firebase-bucket}")
+  private String firebaseBucket;
 
-    MultipartFile uploadFile = request.getFile("upload");
-
-    String fileName = getFileName(uploadFile);
-    String uploadPath = request.getContextPath() + "/uploads/" + fileName;
-
-    /*톰캣서버 설정시 */
-//    String realPath = getPath(request);
-//    String savePath = realPath + fileName;
-//    uploadFile(savePath, uploadFile);
-
-    /*외부 경로 설정시 */
-    String realPath2 = "gs://lolweb-ae249.appspot.com/images/";
-    String savePath2 = realPath2 + fileName;
-    uploadFile(savePath2, uploadFile);
-
-
-    return uploadPath;
-  }
-
-  private void uploadFile(String savePath, MultipartFile uploadFile) {
-    File file = new File(savePath);
+  public String uploadToFirebase(MultipartFile file) {
     try {
-      uploadFile.transferTo(file);
+      // Authenticate with Google Cloud Storage
+      GoogleCredentials credentials = GoogleCredentials.fromStream(Objects.requireNonNull(getClass().getResourceAsStream(
+              "/serviceAccountKey.json")));
+      Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+
+      // Get a reference to the Firebase Storage bucket
+      Bucket bucket = storage.get(firebaseBucket);
+
+      // Generate a unique file name
+      String fileName = generateUniqueFileName(file);
+
+      // Upload file to Firebase Storage
+      byte[] fileBytes = file.getBytes();
+      Blob blob = bucket.create(fileName, fileBytes);
+
+      // Return the download URL of the uploaded file
+      return blob.getMediaLink();
     } catch (IOException e) {
-      throw new RuntimeException("파일 업로드를 실패했습니다.", e);
+      throw new RuntimeException("Failed to upload the file to Firebase Storage", e);
     }
   }
 
-  private String getFileName(MultipartFile uploadFile) {
-    String originalFileName = uploadFile.getOriginalFilename();
-    String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-    return UUID.randomUUID() + ext;
-  }
-
-  private String getPath(MultipartHttpServletRequest request) {
-    // 톰캣 사용시 위에 getPath(MultipartHttpServletRequest request) 사용
-    // 실제 파일 저장 경로 : 톰캣 서버에 임시저장, 서버 재시작 하면 파일 지워짐.
-    String realPath = request.getServletContext().getRealPath("/uploads/");
-
-
-    Path directoryPath = Paths.get(realPath);
-    if (!Files.exists(directoryPath)) {
-      try {
-        Files.createDirectories(directoryPath);
-      } catch (IOException e) {
-        throw new RuntimeException("업로드 경로를 생성할 수 없습니다.", e);
-      }
-    }
-    return realPath;
+  private String generateUniqueFileName(MultipartFile file) {
+    String originalFileName = file.getOriginalFilename();
+    String ext = originalFileName != null ? originalFileName.substring(originalFileName.lastIndexOf(".")) : "";
+    return UUID.randomUUID().toString() + ext;
   }
 }
