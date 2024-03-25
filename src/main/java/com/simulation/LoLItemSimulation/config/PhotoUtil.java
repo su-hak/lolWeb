@@ -27,7 +27,7 @@ public class PhotoUtil {
 //    uploadFile(savePath, uploadFile);
 
     /*외부 경로 설정시 */
-    String realPath2 = "C:/Users/it/Desktop/LEEJH/lolWeb_Main/src/main/resources/static/uploads/";
+    String realPath2 = "gs://lolweb-ae249.appspot.com/images/";
     String savePath2 = realPath2 + fileName;
     uploadFile(savePath2, uploadFile);
 

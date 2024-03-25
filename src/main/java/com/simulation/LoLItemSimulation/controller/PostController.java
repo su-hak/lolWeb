@@ -62,7 +62,8 @@ public class PostController {
   @Autowired
   private PhotoUtil photoUtil;
 
-  private final FirebaseStorageService storageService;
+  @Autowired
+  private FirebaseStorageService storageService;
 
   @Autowired
   public PostController(FirebaseStorageService storageService) {
@@ -70,7 +71,7 @@ public class PostController {
   }
 
 
-    //    @PostMapping("/create")
+  //    @PostMapping("/create")
   //    public ResponseEntity<String> createPost(@RequestBody PostDto postDto) {
   //        // DTO를 엔터티로 변환 후 저장 로직
   //        Post post = convertDtoToEntity(postDto);
@@ -86,16 +87,6 @@ public class PostController {
 
 
   // 파일 업로드
-//  @PostMapping("/upload")
-//  public ModelAndView upload(MultipartHttpServletRequest request) {
-//    ModelAndView mav = new ModelAndView("jsonView");
-//
-//    String uploadPath = photoUtil.ckUpload(request);
-//
-//    mav.addObject("uploaded", true);
-//    mav.addObject("url", uploadPath);
-//    return mav;
-//  }
   @PostMapping("/upload")
   public ModelAndView upload(@RequestParam("file") MultipartFile file) {
     ModelAndView mav = new ModelAndView("jsonView");
@@ -112,7 +103,6 @@ public class PostController {
 
     return mav;
   }
-
 
   @PostMapping("/submitForm")
   public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request) {
