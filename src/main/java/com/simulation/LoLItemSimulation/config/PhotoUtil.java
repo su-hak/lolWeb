@@ -19,18 +19,18 @@ public class PhotoUtil {
     MultipartFile uploadFile = request.getFile("upload");
 
     String fileName = getFileName(uploadFile);
-
-    /*톰캣서버 설정시 */
-    String realPath = getPath(request);
-
-    /*외부 경로 설정시 */
-//    String realPath = getPath();
-
-    String savePath = realPath + fileName;
-
     String uploadPath = request.getContextPath() + "/uploads/" + fileName;
 
-    uploadFile(savePath, uploadFile);
+    /*톰캣서버 설정시 */
+//    String realPath = getPath(request);
+//    String savePath = realPath + fileName;
+//    uploadFile(savePath, uploadFile);
+
+    /*외부 경로 설정시 */
+    String realPath2 = "C:/Users/admin/Desktop/LEE/lolWeb/src/main/resources/static/uploads/";
+    String savePath2 = realPath2 + fileName;
+    uploadFile(savePath2, uploadFile);
+
 
     return uploadPath;
   }
@@ -55,10 +55,6 @@ public class PhotoUtil {
     // 실제 파일 저장 경로 : 톰캣 서버에 임시저장, 서버 재시작 하면 파일 지워짐.
     String realPath = request.getServletContext().getRealPath("/uploads/");
 
-    // 외부 파일 경로 설정 : 프로젝트 내의 업로드 경로로 설정
-    // 업로드 후 프로젝트 경로 업데이트 후 이미지 보여짐
-    // 프로젝트 밖 경로 설정시 잘 안됨.
-//    String realPath = "C:/Users/admin/Desktop/LEE/lolWeb/src/main/resources/static/uploads/";
 
     Path directoryPath = Paths.get(realPath);
     if (!Files.exists(directoryPath)) {
