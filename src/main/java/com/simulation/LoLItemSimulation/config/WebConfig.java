@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     // "/uploads/**" URL 패턴으로 요청이 들어오면 "file:/저장된_경로/" 에서 파일을 찾도록 설정합니다.
     registry.addResourceHandler("/uploads/**")
-            .addResourceLocations("file:/C:/Users/admin/Desktop/LEE/lolWeb/src/main/resources/static/uploads/");
+            .addResourceLocations("file:/C:/Users/it/Desktop/LEEJH/lolWeb_Main/src/main/resources/static/uploads/");
   }
 
 }
