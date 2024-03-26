@@ -97,21 +97,32 @@ public class PostController {
 //    return mav;
 //  }
   @PostMapping("/upload")
-  public ModelAndView upload(@RequestParam("file") MultipartFile file) {
-    ModelAndView mav = new ModelAndView("jsonView");
 
-    try {
-      String imageUrl = storageService.uploadImage(file);
-      mav.addObject("uploaded", true);
-      mav.addObject("url", imageUrl);
-    } catch (IOException e) {
-      mav.addObject("uploaded", false);
-      mav.addObject("error", "Failed to upload image.");
-      e.printStackTrace();
+  public ModelAndView upload(MultipartHttpServletRequest request) {
+      ModelAndView mav = new ModelAndView("jsonView");
+
+      try {
+
+        MultipartFile file = request.getFile("upload");
+        if (file != null) {
+          String uploadPath = photoUtil.uploadToFirebase(file);
+          mav.addObject("uploaded", true);
+          mav.addObject("url", uploadPath);
+        } else {
+          mav.addObject("uploaded", false);
+          mav.addObject("error", "업로드할 파일을 찾을 수 없습니다.");
+        }
+      } catch (Exception e) {
+        mav.addObject("uploaded", false);
+        mav.addObject("error", "Failed to upload image.");
+        e.printStackTrace();
+        mav.addObject("error", "파일 업로드에 실패했습니다: " + e.getMessage());
+      }
+
+      return mav;
     }
 
-    return mav;
-  }
+
 
 
 
