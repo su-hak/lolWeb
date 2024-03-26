@@ -23,7 +23,7 @@ function calculateKda(kills, deaths, assists) {
 
 function search() {
     // 입력 상자에서 검색어 가져오기
-    var searchText = document.getElementById('searchBox').value.toLowerCase().replace(/\s/g, '');
+    var searchText = document.getElementById('searchBox').value.toLowerCase()/*.replace(/\s/g, '')*/;
 
     // 모든 match 요소들을 가져와서 반복합니다.
     var matches = document.getElementsByClassName('match');
@@ -39,8 +39,8 @@ function search() {
             var summonerName = matchBox.querySelector('#summonerName');
             var championName = matchBox.querySelector('#championName');
             // 변수의 텍스트 내용
-            var summonerNameText = summonerName.innerText.toLowerCase().replace(/\s/g, '');
-            var championNameText = championName.innerText.toLowerCase().replace(/\s/g, '');
+            var summonerNameText = summonerName.innerText.toLowerCase()/*.replace(/\s/g, '')*/;
+            var championNameText = championName.innerText.toLowerCase()/*.replace(/\s/g, '')*/;
 
             // 검색어와 일치하는 항목이 있으면 해당 match를 표시하고 플래그를 true로 설정합니다.
             if (summonerNameText.indexOf(searchText) !== -1 || championNameText.indexOf(searchText) !== -1) {
@@ -70,3 +70,78 @@ function search() {
     }
 
 }
+
+
+
+/*
+function loadPage(page) {
+    window.location.href = '/probuild?page=' + page;
+}
+*/
+
+document.addEventListener("DOMContentLoaded", function () {
+    var currentPage = getUrlParameter("page") || 1;
+    currentPage = parseInt(currentPage);
+    var totalPages = 10; // 총 페이지 수
+    var maxVisibleBtn = 5; // 최대로 보이는 페이지 버튼 수
+
+    updatePageButtons(currentPage, totalPages);
+
+    function updatePageButtons(currentPage, totalPages) {
+        var pageBtn = document.getElementById("pageBtn");
+        pageBtn.innerHTML = ""; // 기존 페이지 버튼 초기화
+
+        // 시작 페이지 번호 계산
+        var startPage = Math.max(1, currentPage - Math.floor(maxVisibleBtn / 2));
+
+        // 끝 페이지 번호 계산
+        var endPage = Math.min(totalPages, startPage + maxVisibleBtn - 1);
+
+        // 이전 페이지 버튼 추가
+        if (currentPage > 1) {
+            var prevButton = document.createElement("button");
+            prevButton.innerHTML = "이전";
+            prevButton.onclick = function () {
+                loadPage(currentPage - 1);
+            };
+            pageBtn.appendChild(prevButton);
+        }
+
+        // 페이지 버튼 추가
+        for (var i = startPage; i <= endPage; i++) {
+            var button = document.createElement("button");
+            button.innerHTML = i;
+            if (i === currentPage) {
+                button.disabled = true; // 현재 페이지 버튼은 비활성화
+            } else {
+                button.onclick = function () {
+                    loadPage(parseInt(this.innerHTML));
+                };
+            }
+            pageBtn.appendChild(button);
+        }
+
+        // 다음 페이지 버튼 추가
+        if (currentPage < totalPages) {
+            var nextButton = document.createElement("button");
+            nextButton.innerHTML = "다음";
+            nextButton.onclick = function () {
+                loadPage(currentPage + 1);
+            };
+            pageBtn.appendChild(nextButton);
+        }
+    }
+
+    function loadPage(page) {
+        window.location.href = '/probuild?page=' + page;
+    }
+
+    // URL에서 쿼리 매개변수 가져오기
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+});

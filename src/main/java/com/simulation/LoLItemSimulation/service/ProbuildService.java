@@ -5,6 +5,10 @@ import com.simulation.LoLItemSimulation.dto.MatchDetailDTO;
 import com.simulation.LoLItemSimulation.dto.ParticipantDTO;
 import com.simulation.LoLItemSimulation.dto.SummonerDTO;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -18,40 +22,47 @@ import java.util.List;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-684e86af-ad53-4469-b62e-d861041de299"; // 여기에 실제 API 키를 넣습니다.
+    private final String apiKey = "RGAPI-f1c7093d-ac23-449f-963e-0f67a54b5979"; // 여기에 실제 API 키를 넣습니다.
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public LeagueEntryDTO[] getLeagueInfo(String queue, String tier, String division) {
+    public Page<LeagueEntryDTO> getLeagueInfo(String queue, String tier, String division, int limit, int page) {
+        int offset = (page - 1) * limit;
+
         RestTemplate restTemplate = new RestTemplate();
         System.out.println("qu : " + queue + "  tier : " + tier + " division  : " + division);
-        String url = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/" + queue + "/" + tier + "/" + division + "?api_key=" + apiKey;
+        String url = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/" + queue + "/" + tier + "/" + division + "?api_key=" + apiKey + "&start=" + offset + "&limit=" + limit;
         System.out.println(" url ::" + url);
 
         try {
             LeagueEntryDTO[] leagueEntries = restTemplate.getForObject(url, LeagueEntryDTO[].class);
-            // puuid 설정 (전체)
-            /*for (LeagueEntryDTO entry : leagueEntries) {
+            /*// puuid 설정 (전체)
+            for (LeagueEntryDTO entry : leagueEntries) {
                 setPuuidBySummonerName(entry);
                 setMatchIdsByPuuid(entry);
                 setProbuild(entry);
             }*/
+            /*
             // 3개
             List<LeagueEntryDTO> limitedEntries = new ArrayList<>();
             for (int i = 0; i < Math.min(3, leagueEntries.length); i++) {
                 limitedEntries.add(leagueEntries[i]);
-            }
+            }*/
 
+            int totalCount = leagueEntries.length;
+
+/*
             // puuid 설정
-            for (LeagueEntryDTO entry : limitedEntries) {
+            for (LeagueEntryDTO entry : leagueEntries) {
                 setPuuidBySummonerName(entry);
                 setMatchIdsByPuuid(entry);
                 setProbuild(entry);
-            }
-            return leagueEntries;
+            }*/
+            return new PageImpl<>(Arrays.asList(leagueEntries), PageRequest.of(page, limit), totalCount);
+            /*return leagueEntries;*/
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -106,7 +117,6 @@ public class ProbuildService {
                     MatchDetailDTO matchDetail = restTemplate1.getForObject(url, MatchDetailDTO.class);
 
                     if (matchDetail != null && matchDetail.getInfo() != null && matchDetail.getInfo().getParticipants() != null) {
-                        // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
                         // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
                         List<MatchDetailDTO.Participant> participants = matchDetail.getInfo().getParticipants();
                         for (MatchDetailDTO.Participant participant : participants) {

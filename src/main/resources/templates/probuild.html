@@ -149,7 +149,7 @@
         <input type="text" id="searchBox" oninput="search()" placeholder="닉네임이나 챔피언을 검색하세요 (띄어쓰기 구별)">
     </div>
     <!-- Check if leagueEntries is not empty -->
-    <div class="entry" th:if="${not #lists.isEmpty(leagueEntries)}">
+    <div id="leagueEntriesContainer" class="entry" th:if="${not #lists.isEmpty(leagueEntries)}">
         <!-- Loop through each entry in leagueEntries -->
         <div class="match" style="font-size: 10px; border: 1px solid black;" th:each="entry : ${leagueEntries}">
             <!-- Display data for each entry -->
@@ -159,8 +159,8 @@
             <p>Loss: <span th:text="${entry.getLosses()}"></span></p>
             <p>Type: <span th:text="${entry.getQueueType()}"></span></p>
             <p>Tier: <span th:text="${entry.getTier()}"></span></p>
-            <!--<p>Puuid: <span th:text="${entry.getPuuid()}"></span></p>
-            <p>MatchId: <span th:text="${entry.getMatchIds()}"></span></p>-->
+            <p>Puuid: <span th:text="${entry.getPuuid()}"></span></p>
+            <p>MatchId: <span th:text="${entry.getMatchIds()}"></span></p>
 
             <!-- Loop through each match -->
             <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
@@ -209,10 +209,16 @@
         </div>
     </div>
     <!-- If leagueEntries is empty, display a message -->
-    <div th:unless="${not #lists.isEmpty(leagueEntries)}">
+    <div id="doDataMessage" th:unless="${not #lists.isEmpty(leagueEntries)}">
         <p>No data available</p>
     </div>
+
+    <!-- Add dynamic pagination buttons -->
+    <div class="page_btn" id="pageBtn">
+        <!--<button class="page-btn" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" th:text="${pageNum + 1}" th:attr="data-page=${pageNum}" onclick="loadPage(this.getAttribute('data-page'))"></button>-->
+    </div>
 </main>
+
 <footer id="footer" class="footer-style">
     <div class="f1l1">
         <div class="footer-notice-wrap">

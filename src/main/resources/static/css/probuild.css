@@ -32,4 +32,9 @@
 #kda {
     display: flex;
 }
+
+.page_btn {
+    display: flex;
+    gap: 10px;
+}
 /*    main 끝    */
