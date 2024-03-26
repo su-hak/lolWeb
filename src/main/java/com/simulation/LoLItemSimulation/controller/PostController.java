@@ -62,13 +62,6 @@ public class PostController {
   @Autowired
   private PhotoUtil photoUtil;
 
-  private final FirebaseStorageService storageService;
-
-  @Autowired
-  public PostController(FirebaseStorageService storageService) {
-    this.storageService = storageService;
-  }
-
 
     //    @PostMapping("/create")
   //    public ResponseEntity<String> createPost(@RequestBody PostDto postDto) {
@@ -97,7 +90,6 @@ public class PostController {
 //    return mav;
 //  }
   @PostMapping("/upload")
-
   public ModelAndView upload(MultipartHttpServletRequest request) {
       ModelAndView mav = new ModelAndView("jsonView");
 
@@ -120,12 +112,7 @@ public class PostController {
       }
 
       return mav;
-    }
-
-
-
-
-
+  }
 
 
   @PostMapping("/submitForm")
