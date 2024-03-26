@@ -14,7 +14,7 @@ li {
     height: 44vh;
     border-radius: 7px 7px 73px 7px;
     color: white;
-    width: 62vw;
+    width: 33vw;
     border: 1px solid white;
     box-shadow: 0px 2px 6px 1px black;
 }
@@ -28,7 +28,7 @@ li {
 }
 
 
-#sectionA #lol_main_img img {
+.lol_main_img img {
     position: absolute;
     display: block;
     margin: 0 auto;
@@ -69,6 +69,7 @@ li {
 #lol-tier-img img {
     position: relative;
     height: 351px;
+    margin-left: 25px;
 }
 
 .lol-tier-img_p {
@@ -78,13 +79,13 @@ li {
     font-style: oblique;
     background: #C9BCFA;
     border-radius: 0.4em 0.4em 0.4em 0;
-    left: 743px;
-    top: -50px;
+    right: 420px;
+    top: 40px;
     width: 209px;
     padding: 10px;
 }
 
-#lol-tier-img p:after {
+.lol-tier-img_p:after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -250,5 +251,4 @@ li {
 /****************************/
 .main-sub {
     display: block;
-    margin: auto auto;
 }
