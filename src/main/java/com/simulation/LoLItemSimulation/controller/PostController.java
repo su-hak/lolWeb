@@ -128,6 +128,9 @@ public class PostController {
 
 
 
+
+
+
   @PostMapping("/submitForm")
   public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request) {
     // 닉네임, 비밀번호 설정
