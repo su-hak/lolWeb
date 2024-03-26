@@ -21,7 +21,8 @@
     "@ckeditor/ckeditor5-table": "41.2.1",
     "@ckeditor/ckeditor5-undo": "41.2.1",
     "@ckeditor/ckeditor5-upload": "41.2.1",
-    "@ckeditor/ckeditor5-word-count": "41.2.1"
+    "@ckeditor/ckeditor5-word-count": "41.2.1",
+    "firebase": "^10.9.0"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-core": "41.2.1",

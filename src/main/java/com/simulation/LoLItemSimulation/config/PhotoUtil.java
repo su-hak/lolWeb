@@ -11,37 +11,46 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 @Component
 public class PhotoUtil {
 
   @Value("${app.firebase-bucket}")
-  private String firebaseBucket;
+  private String bucketName;
+
+  @Value("${app.upload-dir}")
+  private String uploadDir;
 
   public String uploadToFirebase(MultipartFile file) {
     try {
       // Authenticate with Google Cloud Storage
-      GoogleCredentials credentials = GoogleCredentials.fromStream(Objects.requireNonNull(getClass().getResourceAsStream(
-              "/serviceAccountKey.json")));
+      GoogleCredentials credentials = GoogleCredentials.fromStream(getClass().getResourceAsStream(
+              "/firebaseServiceAccountKey.json"));
       Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
 
       // Get a reference to the Firebase Storage bucket
-      Bucket bucket = storage.get(firebaseBucket);
+      Bucket bucket = storage.get(bucketName);
 
       // Generate a unique file name
       String fileName = generateUniqueFileName(file);
 
-      // Upload file to Firebase Storage
+      // Upload file to Firebase Storage with content type
       byte[] fileBytes = file.getBytes();
-      Blob blob = bucket.create(fileName, fileBytes);
+      Blob blob = bucket.create(
+              fileName, // 파일 이름
+              fileBytes, // 파일 내용
+              file.getContentType() // 컨텐츠 유형
+      );
 
-      // Return the download URL of the uploaded file
-      return blob.getMediaLink();
+      // Construct the download URL of the uploaded file
+      String downloadUrl = "https://firebasestorage.googleapis.com/v0/b/"
+              + bucket.getName() + "/o/"
+              + URLEncoder.encode(fileName, "UTF-8")
+              + "?alt=media&token=" + blob.getGeneratedId(); // 토큰 추가
+
+      return downloadUrl;
     } catch (IOException e) {
       throw new RuntimeException("Failed to upload the file to Firebase Storage", e);
     }

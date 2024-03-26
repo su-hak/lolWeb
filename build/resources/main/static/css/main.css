@@ -432,7 +432,7 @@ body {
 /* -------------- 공지사항 모달창 설정 --------------*/
 
 /* 공지 모달 전체사이즈 */
-.modal {
+.noticeModal {
     display: none;
     position: fixed;
     top: 54%;
@@ -562,7 +562,7 @@ body {
 } */
 
 @media (max-width:1024px) {
-    .modal {
+    .noticeModal {
         display: none;
         position: fixed;
         top: 54%;
