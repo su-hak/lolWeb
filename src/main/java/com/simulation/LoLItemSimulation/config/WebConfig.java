@@ -8,19 +8,17 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
   @Bean
   MappingJackson2JsonView jsonView() {
-    //
     return new MappingJackson2JsonView();
   }
 
-
-  
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    // "/uploads/**" URL 패턴으로 요청이 들어오면 "file:/저장된_경로/" 에서 파일을 찾도록 설정합니다.
+    // Google Cloud Storage의 리소스 경로를 사용하여 리소스 핸들러 추가
     registry.addResourceHandler("/uploads/**")
-            .addResourceLocations("file:/C:/Users/it/Desktop/LEEJH/lolWeb_Main/src/main/resources/static/uploads/");
+            .addResourceLocations("https://storage.googleapis.com/lolweb-ae249.appspot.com/");
   }
-
 }
+
