@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- 파비콘 -->
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"> <!-- 파비콘 -->
 
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
@@ -19,162 +20,166 @@
     <link rel="stylesheet" th:href="@{/css/carryMain.css}"/>
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css" rel="stylesheet">
 
     <title>Carry.kr</title>
 </head>
 <body>
-        <!-- 헤더영역 -->
-        <header id="header" class="header-area header-transparrent fixed-top">
-            <div>
-                <div class="game-nav-bar" style="font-size: 13px; ">
-                    <div id="lol_main_header" class="col d-flex align-items-center">
-                        <!-- 로고 -->
-                        <a href="/" class="carry-logo">
-                            <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
-                        </a>
-                        <!--TODO 버튼 클릭 시 아래링크 고퀄 그래픽 느낌의 버튼-->
-                        <!--https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C-->
-                        <a class="a11aa111" href="/lol" style="background: white; box-shadow: inset 0 0 10px; color: #3300ff;">
-                            <img src="/img/lol_Icon.png"/>
-                            <span class="btn-check" id="btnradio1">리그 오브 레전드</span>
-                        </a>
-                        <a class="a11aa111" href="/gersang" style="border-left:1px solid white;">
-                            <img src="/img/Gersang_Icon.png"/>
-                            <span class="btn-check" id="btnradio2">거상</span>
-                        </a>
-                        <a class="a11aa111" href="/maplestory">
-                            <img src="/img/MapleStory_Icon.png"/>
-                            <span class="btn-check" id="btnradio3">메이플 스토리</span>
-                        </a>
-                        <a class="a11aa111" href="/d&f">
-                            <img src="/img/D&F_Icon.png"/>
-                            <span class="btn-check" id="btnradio4">던전 앤 파이터</span>
-                        </a>
-                        <a class="a11aa111" href="/loa">
-                            <img src="/img/Loa_Icon.png"/>
-                            <span class="btn-check" id="btnradio5">로스트 아크</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="main-header header-sticky" style=" border-bottom: white 1px solid;">
-                    <div class="container" style="margin:0; ">
-                        <div class="row" style="justify-content: space-around;" >
-                            <div class="lol_icon_img">
-                                <a href="/lol"><img src="/img/lol_Icon.png"></a>
-                                <div class="dropdown-game-icon">
-                                    <a href=""></a>
-                                    <div class="click_triangle" onclick="toggleDropdown(this)"></div>
-                                    <div class="dropdown-game-body" style="display: none;">
-                                        <!-- 로고 -->
-                                        <a href="/" class="carry-logo">
-                                            <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
-                                        </a>
-                                        <!--TODO 버튼 클릭 시 아래링크 고퀄 그래픽 느낌의 버튼-->
-                                        <!--https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C-->
-                                        <a class="a11aa111" href="/lol" style="background: white; box-shadow: inset 0 0 10px; color: #3300ff;">
-                                            <img src="/img/lol_Icon.png"/>
-                                            <span class="btn-check" >리그 오브 레전드</span>
-                                        </a>
-                                        <a class="a11aa111" href="/gersang">
-                                            <img src="/img/Gersang_Icon.png"/>
-                                            <span class="btn-check" >거상</span>
-                                        </a>
-                                        <a class="a11aa111" href="/maplestory">
-                                            <img src="/img/MapleStory_Icon.png"/>
-                                            <span class="btn-check">메이플 스토리</span>
-                                        </a>
-                                        <a class="a11aa111" href="/d&f">
-                                            <img src="/img/D&F_Icon.png"/>
-                                            <span class="btn-check" >던전 앤 파이터</span>
-                                        </a>
-                                        <a class="a11aa111" href="/loa">
-                                            <img src="/img/Loa_Icon.png"/>
-                                            <span class="btn-check" >로스트 아크</span>
-                                        </a>
-                                    </div>
-                                </div>
+<!-- 헤더영역 -->
+<header class="header-area header-transparrent fixed-top" id="header">
+    <div>
+        <div class="game-nav-bar" style="font-size: 13px; ">
+            <div class="col d-flex align-items-center" id="lol_main_header">
+                <!-- 로고 -->
+                <a class="carry-logo" href="/">
+                    <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
+                </a>
+                <!--TODO 버튼 클릭 시 아래링크 고퀄 그래픽 느낌의 버튼-->
+                <!--https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C-->
+                <a class="a11aa111" href="/lol" style="background: white; box-shadow: inset 0 0 10px; color: #3300ff;">
+                    <img src="/img/lol_Icon.png"/>
+                    <span class="btn-check" id="btnradio1">리그 오브 레전드</span>
+                </a>
+                <a class="a11aa111" href="/gersang" style="border-left:1px solid white;">
+                    <img src="/img/Gersang_Icon.png"/>
+                    <span class="btn-check" id="btnradio2">거상</span>
+                </a>
+                <a class="a11aa111" href="/maplestory">
+                    <img src="/img/MapleStory_Icon.png"/>
+                    <span class="btn-check" id="btnradio3">메이플 스토리</span>
+                </a>
+                <a class="a11aa111" href="/d&f">
+                    <img src="/img/D&F_Icon.png"/>
+                    <span class="btn-check" id="btnradio4">던전 앤 파이터</span>
+                </a>
+                <a class="a11aa111" href="/loa">
+                    <img src="/img/Loa_Icon.png"/>
+                    <span class="btn-check" id="btnradio5">로스트 아크</span>
+                </a>
+            </div>
+        </div>
+        <div class="main-header header-sticky" style=" border-bottom: white 1px solid;">
+            <div class="container" style="margin:0; ">
+                <div class="row" style="justify-content: space-around;">
+                    <div class="lol_icon_img">
+                        <a href="/lol"><img src="/img/lol_Icon.png"></a>
+                        <div class="dropdown-game-icon">
+                            <a href=""></a>
+                            <div class="click_triangle" onclick="toggleDropdown(this)"></div>
+                            <div class="dropdown-game-body" style="display: none;">
+                                <!-- 로고 -->
+                                <a class="carry-logo" href="/">
+                                    <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
+                                </a>
+                                <!--TODO 버튼 클릭 시 아래링크 고퀄 그래픽 느낌의 버튼-->
+                                <!--https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C-->
+                                <a class="a11aa111" href="/lol"
+                                   style="background: white; box-shadow: inset 0 0 10px; color: #3300ff;">
+                                    <img src="/img/lol_Icon.png"/>
+                                    <span class="btn-check">리그 오브 레전드</span>
+                                </a>
+                                <a class="a11aa111" href="/gersang">
+                                    <img src="/img/Gersang_Icon.png"/>
+                                    <span class="btn-check">거상</span>
+                                </a>
+                                <a class="a11aa111" href="/maplestory">
+                                    <img src="/img/MapleStory_Icon.png"/>
+                                    <span class="btn-check">메이플 스토리</span>
+                                </a>
+                                <a class="a11aa111" href="/d&f">
+                                    <img src="/img/D&F_Icon.png"/>
+                                    <span class="btn-check">던전 앤 파이터</span>
+                                </a>
+                                <a class="a11aa111" href="/loa">
+                                    <img src="/img/Loa_Icon.png"/>
+                                    <span class="btn-check">로스트 아크</span>
+                                </a>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- 메뉴 -->
-                            <nav id="mainNav" class="nav col-9 justify-content-left">
-                                <ul class="gnb align-items-center font-weight-bold">
-                                    <li><a href="#">공지사항</a></li>
-                                    <li><a href="/simulation">시뮬레이션</a></li>
-                                    <li><a href="/itemTier">아이템순위</a></li>
-                                    <li><a href="/probuild">챌린저 빌드</a></li>
-                                    <li><a href="#">커뮤니티</a></li>
-                                </ul>
-                            </nav>
-                        </div>
+                    <!-- 메뉴 -->
+                    <nav class="nav col-9 justify-content-left" id="mainNav">
+                        <ul class="gnb align-items-center font-weight-bold">
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="/simulation">시뮬레이션</a></li>
+                            <li><a href="/itemTier">아이템순위</a></li>
+                            <li><a href="/probuild">챌린저 빌드</a></li>
+                            <li><a href="#">커뮤니티</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--서브 메뉴-->
+    <div class="row" id="sub_nav" style=" border-bottom: solid 1px #000000">
+        <div class="col-1"></div>
+        <div class="col nav justify-content-center" style="padding-left : 1rem; gap: 5rem; font-weight: 500">
+            <ul class="align-items-center">
+                <li><a href="#">공지사항</a></li>
+                <li><a href="#">패치노트</a></li>
+            </ul>
+            <ul class="align-items-center">
+                <li><a href="/simulation">시뮬레이션</a></li>
+            </ul>
+            <ul class="align-items-center">
+                <li><a href="#">아이템순위</a></li>
+            </ul>
+            <ul class="align-items-center">
+                <li><a href="/probuild">챌린저 빌드</a></li>
+            </ul>
+            <ul class="align-items-center">
+                <li><a href="/post/list">자유게시판</a></li>
+                <li><a href="#">유머게시판</a></li>
+                <li><a href="#">아이템공유</a></li>
+                <li><a href="#">매드무비</a></li>
+                <li><a href="#">커뮤니티</a></li>
+            </ul>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</header>
+<!-- 헤더영역 E -->
+<main id="main">
+    <div class="wrap">
+        <section id="sectionA" style="background: none; width: 100%; box-shadow: none;">
+            <div>
+                <div id="lol_main_img">
+                    <img src="/img/lolMainImg.jpg" class="backgroundImg" style="opacity: 0.7; object-fit: cover; transition: opacity 1s
+                    ease 0s;">
+                </div>
+                <!--                <a class="carry-logo" href="/" id="secA_carry_logo">-->
+                <!--                    <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>-->
+                <!--                </a>-->
+                <!--                <h1 style="position: absolute; top: 14%; left: 47%; color: black; font-size: 250%; font-weight: 900;">-->
+                <!--                    X</h1>-->
+                <!--                <div id="lol_main_letter">-->
+                <!--                    <img src="/img/LoL_letter.png"/>-->
+                <!--                </div>-->
+                <div class="main-section" id="secA_search">
+                    <div class="new-search-body">
+                        <label class="search-engine" for="search-engine" style="display: flex;">
+                            <input autocomplete="off" id="search-engine" placeholder="궁금한 걸 검색하세요! " type="text">
+                        </label>
                     </div>
                 </div>
             </div>
-            <!--서브 메뉴-->
-            <div id="sub_nav" class="row" style=" border-bottom: solid 1px #000000">
-                <div class="col-1"></div>
-                <div class="col nav justify-content-center" style="padding-left : 1rem; gap: 5rem; font-weight: 500">
-                    <ul class="align-items-center">
-                        <li><a href="#">공지사항</a></li>
-                        <li><a href="#">패치노트</a></li>
-                    </ul>
-                    <ul class="align-items-center">
-                        <li><a href="/simulation">시뮬레이션</a></li>
-                    </ul>
-                    <ul class="align-items-center">
-                        <li><a href="#">아이템순위</a></li>
-                    </ul>
-                    <ul class="align-items-center">
-                        <li><a href="/probuild">챌린저 빌드</a></li>
-                    </ul>
-                    <ul class="align-items-center">
-                        <li><a href="/post/list">자유게시판</a></li>
-                        <li><a href="#">유머게시판</a></li>
-                        <li><a href="#">아이템공유</a></li>
-                        <li><a href="#">매드무비</a></li>
-                        <li><a href="#">커뮤니티</a></li>
-                    </ul>
-                </div>
-                <div class="col-1"></div>
+        </section>
+        <div id="lol-tier-img" class="col d-flex-column align-items-center" style="height:800px; margin-top: 100px;">
+            <div class="row d-flex justify-content-center">
+                <img src="/img/kindread.png">
             </div>
-        </header>
-        <!-- 헤더영역 E -->
-        <main id="main">
-            <div class="wrap">
-            <section id="sectionA" style="background: none; width: 100%; box-shadow: none;">
-                <div>
-                    <div id="lol_main_img">
-                        <img src="/img/lolMainImg.jpg" style="display: none; opacity: 0.7;"/>
-                    </div>
-                    <a href="/" id="secA_carry_logo" class="carry-logo">
-                        <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
-                    </a>
-                    <h1 style="position: absolute; top: 14%; left: 47%; color: black; font-size: 250%; font-weight: 900;">X</h1>
-                    <div id="lol_main_letter">
-                        <img src="/img/LoL_letter.png"/>
-                    </div>
-                    <div class="main-section" id="secA_search">
-                        <div class="new-search-body">
-                            <label for="search-engine" class="search-engine" style="display: flex;">
-                                <input id="search-engine" type="text" autocomplete="off" placeholder="궁금한 걸 검색하세요! ">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <div id="lol-tier-img">
-                <img src="/img/kindread.png" />
-                <p>
+            <p class="lol-tier-img_p">
                 <span>패치에 따라 변화된 아이템들의
-                    티어를 확인 해 보세요!</span> <br/>
-                </p>
-            </div>
-            <section id="sectionB" class="main-sub" style="margin-top: 10vh; " >
+                    티어를 확인 해 보세요!</span> <br>
+            </p>
+            <section class="col main-sub" id="sectionB">
                 <dl>
                     <dt class="sub-title">Tier</dt>
                 </dl>
                 <dl id="tier_thumbnail">
-                    <dt id="patch-version" class="sub-title">14.4 ver</dt>
+                    <dt class="sub-title" id="patch-version">14.4 ver</dt>
                     <dd><p></p></dd>
                     <dd><p></p></dd>
                     <dd><p></p></dd>
@@ -184,44 +189,47 @@
                 </dl>
                 <button class="sub-body">Tier 가기</button>
             </section>
-            <div style="height: 717px;">
-                <img id="secC-bg" src="/img/Azir.jpg"/>
-            <img id="faker" src="/img/faker.jpg" />
-            <section id="sectionC" class="main-sub">
+        </div>
+        <div class="backgroundImg col d-flex justify-content-center" style="height: 666px; margin: 50px 0; background-image: url(/img/Azir.jpg); opacity:
+        0.7;
+        background-size: cover; transition: opacity
+             1s ease 0s;">
+            <section class="main-sub align-self-center" id="sectionC">
                 <dl>
                     <dt class="sub-title">Pro's build</dt>
                     <dd class="sub-body">프로들은 어떻게 앞서 나가고 있는지 확인 해 보세요!</dd>
                 </dl>
                 <dl id="pro_build_thumbnail">
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <!--TODO JS로 챌린저 빌드 게시판 불러오기 5개만 미리보기(한 게임 각 포지션 별로 왼vs오 마주보게) 아래 챌린저 빌드 게시판으로 이동하는 버튼 생성-->
-            </dl>
-                    <button class="sub-body" style="color: black;">프로 빌드 가기</button>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <dd><p></p></dd>
+                    <!--TODO JS로 챌린저 빌드 게시판 불러오기 5개만 미리보기(한 게임 각 포지션 별로 왼vs오 마주보게) 아래 챌린저 빌드 게시판으로 이동하는 버튼 생성-->
+                </dl>
+                <button class="sub-body" style="color: black;">프로 빌드 가기</button>
             </section>
-            </div>
-            <div id="lol-news-img">
-                <img src="/img/akali.png" />
-                <p>
+            <img id="faker" src="/img/faker.jpg"/>
+        </div>
+        <div id="lol-news-img">
+            <img src="/img/akali.png"/>
+            <p>
                 <span>난 누구보다 빠르게 <br/>
                     또 남들과는 다르게</span> <br/>
-                    <span>- 뉴스특파원 아칼리</span>
-                </p>
-            </div>
-            <section id="sectionD" class="main-sub">
-                <dl>
-                    <dt class="sub-title">News</dt>
-                    <dd class="sub-body">지금 새로운 소식을 바로 확인 해 보세요!</dd>
-                </dl>
-                <dl>
+                <span>- 뉴스특파원 아칼리</span>
+            </p>
+        </div>
+        <section class="main-sub" id="sectionD">
+            <dl>
+                <dt class="sub-title">News</dt>
+                <dd class="sub-body">지금 새로운 소식을 바로 확인 해 보세요!</dd>
+            </dl>
+            <dl>
                 <dd><p></p></dd>
                 <dd><p></p></dd>
                 <dd><p></p></dd>
@@ -229,59 +237,60 @@
                 <dd><p></p></dd>
                 <!--TODO JS로 티어리스트 게시판 불러오기 5개만 미리보고 아래 티어리스트 게시판으로 이동하는 버튼 생성-->
             </dl>
-                <button class="sub-body">라이엇 뉴스</button>
-            </section>
+            <button class="sub-body">라이엇 뉴스</button>
+        </section>
+    </div>
+</main>
+<footer class="footer-style" id="footer">
+    <div class="f1l1">
+        <div class="footer-notice-wrap">
+            <div class="f1l1b1">
+                <svg><!--TODO 로고 아이콘--></svg>
+                <svg><!--TODO 로고 스펠--></svg>
             </div>
-        </main>
-        <footer id="footer" class="footer-style">
-            <div class="f1l1">
-                <div class="footer-notice-wrap">
-                    <div class="f1l1b1">
-                        <svg><!--TODO 로고 아이콘--></svg>
-                        <svg><!--TODO 로고 스펠--></svg>
-                    </div>
-                    <div class="f1l1b2">
-                        <h1 class="title">Permission</h1>
-                        <svg><!--TODO 롤 아이콘--></svg>
-                        <svg><!--TODO AK 아이콘--></svg>
-                        <svg><!--TODO LOA 아이콘--></svg>
-                        <svg><!--TODO 각종 게임사 아이콘등등--></svg>
-                    </div>
-                    <div class="split-line"><!--TODO 칸 나누는 선 링크 https://getbootstrap.kr/docs/5.1/helpers/vertical-rule/--></div>
-                </div>
-                <section class="f1r1b4">
-                    <div class="copyright">
-                        copyright &copy; 2023 <a href="https://github.com/su-hak/Avengers" style="color: #fffc57;">Avengers</a> All rights reserved.
-                    </div>
-                    <div>
+            <div class="f1l1b2">
+                <h1 class="title">Permission</h1>
+                <svg><!--TODO 롤 아이콘--></svg>
+                <svg><!--TODO AK 아이콘--></svg>
+                <svg><!--TODO LOA 아이콘--></svg>
+                <svg><!--TODO 각종 게임사 아이콘등등--></svg>
+            </div>
+            <div class="split-line"><!--TODO 칸 나누는 선 링크 https://getbootstrap.kr/docs/5.1/helpers/vertical-rule/--></div>
+        </div>
+        <section class="f1r1b4">
+            <div class="copyright">
+                copyright &copy; 2023 <a href="https://github.com/su-hak/Avengers" style="color: #fffc57;">Avengers</a>
+                All rights reserved.
+            </div>
+            <div>
             <span>
                 이 사이트는 Riot Games의 보증을 받지 않으며 Riot Games 또는 공식적으로 관련된 사람의 견해나 의견을 반영하지 않습니다.
             </span><br>
-                        <span>
+                <span>
                 리그 오브 레전드를 제작하거나 관리하는 데 있어 League of Legends 및 Riot Games는 Riot Games의 상표 또는 등록 상표입니다. Inc. 리그 오브 레전드 © Riot Games, Inc.
             </span>
 
-                    </div>
-                </section>
             </div>
-        </footer>
-    <!-- 푸터영역 E -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-    <!--<script src="/js/jquery.sticky.js"></script>-->
+        </section>
+    </div>
+</footer>
+<!-- 푸터영역 E -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script crossorigin="anonymous"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<!--<script src="/js/jquery.sticky.js"></script>-->
 
-    <script th:src="@{/js/test.js}"></script> <!-- 모든 기능 이벤트 -->
-    <script th:src="@{/js/decimal.js}"></script> <!-- 계산식 -->
-    <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
-    <script th:src="@{/js/main/index.js}"></script> <!-- 메인 페이지 -->
-    <script th:src="@{/js/main/lolMain.js}"></script> <!--롤 메인 페이지 -->
-    <script th:src="@{/js/lol_common.js}"></script> <!--롤 공통 -->
+<script th:src="@{/js/test.js}"></script> <!-- 모든 기능 이벤트 -->
+<script th:src="@{/js/decimal.js}"></script> <!-- 계산식 -->
+<script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
+<script th:src="@{/js/main/index.js}"></script> <!-- 메인 페이지 -->
+<script th:src="@{/js/main/lolMain.js}"></script> <!--롤 메인 페이지 -->
+<script th:src="@{/js/lol_common.js}"></script> <!--롤 공통 -->
 
 </body>
 </html>

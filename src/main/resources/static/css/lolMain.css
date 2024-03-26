@@ -10,7 +10,6 @@ li {
 }
 
 #main section {
-    margin: 20vh 0;
     background: linear-gradient(120deg, #98a4b9, #0058f3);
     height: 44vh;
     border-radius: 7px 7px 73px 7px;
@@ -66,26 +65,21 @@ li {
     top: 0;
 }
 
-#lol-tier-img {
-    position: absolute;
-}
 
 #lol-tier-img img {
-    position: absolute;
-    margin-top: 90px;
-    height:351px;
-    left: 676px;
+    position: relative;
+    height: 351px;
 }
 
-#lol-tier-img p {
-    position: relative;
+.lol-tier-img_p {
+    position: absolute;
     color: white;
     font-size: 13px;
     font-style: oblique;
     background: #C9BCFA;
     border-radius: 0.4em 0.4em 0.4em 0;
     left: 743px;
-    top: 32px;
+    top: -50px;
     width: 209px;
     padding: 10px;
 }
@@ -131,8 +125,7 @@ li {
 /*      섹션 B 시작          */
 /****************************/
 #sectionB {
-    position: relative;
-    left: 2%;
+
 }
 
 #tier_thumbnail dt {
@@ -160,28 +153,16 @@ li {
 /****************************/
 
 #sectionC {
-    position: relative;
     left: 35%;
     bottom: -19vh;
-    background: none !important;
     color: black !important;
-}
-
-
-#secC-bg {
-    position: absolute;
-    width: 1022px;
-    height: 717px;
-    opacity: 0.6;
 }
 
 
 #faker {
     position: absolute;
-    margin-top: 182px;
     width: 227px;
-    height: 321px;
-    left: 58px;
+    /*height: 321px;*/
     box-shadow: 0 1px 15px 7px #000000;
     border: 1px solid black;
 }
@@ -269,5 +250,5 @@ li {
 /****************************/
 .main-sub {
     display: block;
-    margin: 0 auto;
+    margin: auto auto;
 }

@@ -9,6 +9,7 @@ import com.simulation.LoLItemSimulation.repository.PostLikeRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
 import com.simulation.LoLItemSimulation.service.CommentLikeService;
 import com.simulation.LoLItemSimulation.service.CommentService;
+import com.simulation.LoLItemSimulation.service.FirebaseStorageService;
 import com.simulation.LoLItemSimulation.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,9 +22,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +63,7 @@ public class PostController {
   private PhotoUtil photoUtil;
 
 
-
-  //    @PostMapping("/create")
+    //    @PostMapping("/create")
   //    public ResponseEntity<String> createPost(@RequestBody PostDto postDto) {
   //        // DTO를 엔터티로 변환 후 저장 로직
   //        Post post = convertDtoToEntity(postDto);
@@ -77,16 +79,41 @@ public class PostController {
 
 
   // 파일 업로드
+//  @PostMapping("/upload")
+//  public ModelAndView upload(MultipartHttpServletRequest request) {
+//    ModelAndView mav = new ModelAndView("jsonView");
+//
+//    String uploadPath = photoUtil.ckUpload(request);
+//
+//    mav.addObject("uploaded", true);
+//    mav.addObject("url", uploadPath);
+//    return mav;
+//  }
   @PostMapping("/upload")
   public ModelAndView upload(MultipartHttpServletRequest request) {
-    ModelAndView mav = new ModelAndView("jsonView");
+      ModelAndView mav = new ModelAndView("jsonView");
 
-    String uploadPath = photoUtil.ckUpload(request);
+      try {
 
-    mav.addObject("uploaded", true);
-    mav.addObject("url", uploadPath);
-    return mav;
+        MultipartFile file = request.getFile("upload");
+        if (file != null) {
+          String uploadPath = photoUtil.uploadToFirebase(file);
+          mav.addObject("uploaded", true);
+          mav.addObject("url", uploadPath);
+        } else {
+          mav.addObject("uploaded", false);
+          mav.addObject("error", "업로드할 파일을 찾을 수 없습니다.");
+        }
+      } catch (Exception e) {
+        mav.addObject("uploaded", false);
+        mav.addObject("error", "Failed to upload image.");
+        e.printStackTrace();
+        mav.addObject("error", "파일 업로드에 실패했습니다: " + e.getMessage());
+      }
+
+      return mav;
   }
+
 
   @PostMapping("/submitForm")
   public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request) {
@@ -251,6 +278,54 @@ public class PostController {
     model.addAttribute("post", postDto);
     model.addAttribute("page", page);
     return "readPost";
+  }
+
+  // search read 작업 type이랑 keyword가 필요해서 따로팜
+  @GetMapping("/readSearch/{postId}")
+  public String readSearchPost(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
+                               @RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam("option") String type,
+                               @RequestParam("keyword") String keyword) {
+    // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
+    String sessionKey = "postViewTime_" + postId;
+    LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
+    LocalDateTime currentTime = LocalDateTime.now();
+
+    // 마지막 조회 시간이 없거나 오늘 처음 조회한 경우에만 조회수를 증가시킴
+    if (lastViewTime == null || lastViewTime.toLocalDate().isBefore(currentTime.toLocalDate())) {
+      // 조회수 증가
+      postService.incrementViews(postId);
+
+      // 세션에 마지막 조회 시간 저장
+      session.setAttribute(sessionKey, currentTime);
+    }
+
+    // postId에 해당하는 게시글 정보를 가져옴
+    PostDto postDto = postService.getPostDtoById(postId);
+
+    if (postDto == null) {
+      // 게시글이 없을 경우 예외처리
+      // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
+      return "게시글이 없습니다.";
+    }
+
+    // 해당 게시글에 연결된 댓글 정보를 가져옴
+    List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
+    List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
+
+    String clientIpAddress = getClientIP(request);
+    log.info("client IP " +  clientIpAddress);
+    for (Comment comment : commentDtoList) {
+      boolean isLiked = commentLikeService.isCommentLikedByIp(comment.getId(), clientIpAddress);
+      commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
+    }
+
+    // 모델에 댓글 정보와 게시글 정보를 추가하여 게시글 읽기 페이지로 반환
+    model.addAttribute("comment", commentLikeInfoList);
+    model.addAttribute("post", postDto);
+    model.addAttribute("page", page);
+    model.addAttribute("type", type);
+    model.addAttribute("keyword", keyword);
+    return "readSearchPost";
   }
 
 

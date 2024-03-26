@@ -39,6 +39,9 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	// firebase
+	implementation("com.google.firebase:firebase-admin:8.1.0")
 }
 
 tasks.withType<Test> {
