@@ -38,12 +38,37 @@ public class PostService {
     return postRepository.findAll();
   }
 
-  public Page<Post> getList(int page) {
+  public Page<Post> getList(int page, String sort) {
     List<Sort.Order> sorts = new ArrayList<>();
     sorts.add(Sort.Order.desc("id"));
 
     Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
     return this.postRepository.findAll(pageable);
+  }
+
+  public Page<Post> getSortedPosts(int page, String sortBy) {
+    Sort sort = Sort.by(sortBy);
+
+    if (sortBy.equals("id")) {
+      sort = Sort.by(Sort.Direction.DESC, "id");
+    } else if (sortBy.equals("date")) {
+      sort = Sort.by(Sort.Direction.DESC, "createtime");
+    }else if (sortBy.equals("replyCount")) {
+      return getPostsSortedByCommentCount(page);
+    }else if (sortBy.equals("nickname")) {
+      sort = Sort.by(Sort.Direction.DESC, "nickname");
+    }else if (sortBy.equals("viewCount")) {
+      sort = Sort.by(Sort.Direction.DESC, "views");
+    }
+
+    Pageable pageable = PageRequest.of(page, 10, sort);
+
+    return postRepository.findAll(pageable);
+  }
+
+  public Page<Post> getPostsSortedByCommentCount(int page) {
+    Pageable pageable = PageRequest.of(page, 10);
+    return postRepository.findAllPostsSortedByCommentCount(pageable);
   }
 
   public void savePost(Post post) {

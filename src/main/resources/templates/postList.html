@@ -103,8 +103,25 @@
             <div class="col">
                 <div class="card shadow">
                     <div class="card-header">
-                        자유게시판
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="align-self: flex-start;">자유게시판</span>
+                            <div style="display: flex; align-items: flex-end;">
+                                <span style="margin-right: 5px;">정렬 :</span>
+                                <!-- 정렬 목록 -->
+                                <div class="dropdown">
+                                    <select class="form-control" id="sortOption" style="font-size: 14px;width: 120px;" onchange="sortPostListByItem()">
+                                        <option value="id" th:selected="${sort eq 'id'}">글번호</option>
+                                        <option value="date" th:selected="${sort eq 'date'}">작성일</option>
+                                        <option value="title" th:selected="${sort eq 'title'}">글제목</option>
+                                        <option value="replyCount" th:selected="${sort eq 'replyCount'}">댓글수</option>
+                                        <option value="nickname" th:selected="${sort eq 'nickname'}">작성자</option>
+                                        <option value="viewCount" th:selected="${sort eq 'viewCount'}">조회수</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="card-body p-5">
                         <!-- table -->
                         <table class="table table-borderless table-hover">
@@ -114,7 +131,7 @@
                                 <th class="col-1">글번호</th>
                                 <th class="col-6">글제목</th>
                                 <th class="col-2">작성자(IP)</th>
-                                <th class="col">작성일/수정일</th>
+                                <th class="col">작성일</th>
                                 <th class="col-2">조회수</th>
                             </tr>
                             </thead>
@@ -128,7 +145,7 @@
                                 <td>
                                     <div class="d-flex">
 
-                                        <a th:href="@{'/post/read/' + ${post.id} + '?page=' + ${paging.number}}">
+                                        <a th:href="@{'/post/read/' + ${post.id} + '?page=' + ${paging.number} +'&sort=' + ${sort}}">
                                             <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                                th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
                                             </p>
@@ -182,7 +199,7 @@
                             <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                                     <li th:classappend="${!paging.hasPrevious()} ? 'disabled'" class="page-item">
-                                        <a th:href="@{|?page=${paging.number-1}|}" class="page-link"
+                                        <a th:href="@{|?page=${paging.number-1}&sort=${sort}|}" class="page-link"
                                            aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
@@ -191,11 +208,11 @@
                                         th:if="${page >= paging.number-5 and page <= paging.number+5}"
                                         th:classappend="${page == paging.number} ? 'active'"
                                         class="page-item">
-                                        <a th:text="${page+1}" th:href="@{|?page=${page}|}" class="page-link">1</a>
+                                        <a th:text="${page+1}" th:href="@{|?page=${page}&sort=${sort}|}" class="page-link">1</a>
                                     </li>
 
                                     <li th:classappend="${!paging.hasNext} ? 'disabled'" class="page-item">
-                                        <a th:href="@{|?page=${paging.number+1}|}" class="page-link" aria-label="Next">
+                                        <a th:href="@{|?page=${paging.number+1}&sort=${sort}|}" class="page-link" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
@@ -349,77 +366,38 @@
         window.location.href = url;
     }
 
+    function sortPostListByItem() {
+        var selectedValue = $("#sortOption").val();
+        var url = "/post/list?sort=" + selectedValue;
 
-</script>
-<script>
-    // 페이지 로드 시 실행되는 함수
-    window.onload = function() {
-        // URL의 쿼리 파라미터에서 페이지 번호를 가져옵니다.
-        const urlParams = new URLSearchParams(window.location.search);
-        const page = urlParams.get('page');
+        window.location.href = url;
 
-        // 페이지 번호가 없으면 기본값인 0으로 설정합니다.
-        const pageNumber = page ? page : 0;
-
-        // 현재 URL에서 페이지 번호를 제거합니다.
-        const baseUrl = window.location.href.split('?')[0];
-
-        // 새로운 URL을 생성하여 페이지 번호를 추가합니다.
-        const newUrl = `${baseUrl}?page=${pageNumber}`;
-
-        // 브라우저의 URL을 새로운 URL로 변경합니다.
-        history.pushState({}, '', newUrl);
+        // 아래 코드를 사용하면 postController의 list 부분이 2번 호출되어 위 window.location.href = url을 사용함.
+        // var xhr = new XMLHttpRequest();
+        // xhr.open("GET", url, true);
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState === 4 && xhr.status === 200) {
+        //         // setCookie("sortOption", selectedValue, 30);
+        //         location.reload();
+        //     }
+        // };
+        // xhr.send();
     }
+
 </script>
 
-
-
-<!--<script>  // 스크롤을 위로 올리는 스티키바-->
-<!--    $(window).on('scroll', function () {-->
-<!--        var scroll = $(window).scrollTop();-->
-<!--        if (scroll < 245) {-->
-<!--            $(".header-sticky").removeClass("sticky-bar");-->
-<!--        } else {-->
-<!--            $(".header-sticky").addClass("sticky-bar");-->
-<!--        }-->
-<!--    });-->
-
-<!--    $(window).on('scroll', function () {-->
-<!--        var scroll = $(window).scrollTop();-->
-<!--        if (scroll < 245) {-->
-<!--            $(".header-sticky").removeClass("sticky");-->
-<!--        } else {-->
-<!--            $(".header-sticky").addClass("sticky");-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-
-
-<!--<script>  //스크롤 내리면 헤더영역 애니메이션-->
-<!--    $(window).scroll(function () {-->
-<!--        if ($(window).scrollTop() > 100) {-->
-<!--            $("#header").addClass("animated");-->
-<!--        } else {-->
-<!--            $("#header").removeClass('animated');-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
 <script>
     // 페이지 로드 시 실행되는 함수
     window.onload = function() {
         // URL의 쿼리 파라미터에서 페이지 번호를 가져옵니다.
         const urlParams = new URLSearchParams(window.location.search);
         const page = urlParams.get('page');
-
         // 페이지 번호가 없으면 기본값인 0으로 설정합니다.
         const pageNumber = page ? page : 0;
-
         // 현재 URL에서 페이지 번호를 제거합니다.
         const baseUrl = window.location.href.split('?')[0];
-
         // 새로운 URL을 생성하여 페이지 번호를 추가합니다.
         const newUrl = `${baseUrl}?page=${pageNumber}`;
-
         // 브라우저의 URL을 새로운 URL로 변경합니다.
         history.pushState({}, '', newUrl);
     }
