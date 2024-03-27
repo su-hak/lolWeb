@@ -145,10 +145,13 @@ public class PostController {
   }
 
   @GetMapping("/list")
-  public String getPostList(@RequestParam(defaultValue = "0") int page, Model model) {
-    Page<Post> paging = this.postService.getList(page);
+  public String getPostList(@RequestParam(defaultValue = "0") int page,
+                            @RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
+                            Model model) {
+//    Page<Post> paging = this.postService.getList(page, sort);
+    Page<Post> paging = this.postService.getSortedPosts(page, sort);
 
-    //     페이지에서 포스트 목록을 가져옵니다.
+    // 페이지에서 포스트 목록을 가져옵니다.
     List<Post> posts = paging.getContent();
 
     // 각 포스트에 대해 isImageIncluded 값을 설정합니다.
@@ -161,6 +164,7 @@ public class PostController {
     }
 
     model.addAttribute("paging", paging);
+    model.addAttribute("sort", sort);
 //    model.addAttribute("searchPaging", null);
     return "postList";
   }
@@ -231,14 +235,10 @@ public class PostController {
   }
 
 
-
-
-
-
-
   @GetMapping("/read/{postId}")
   public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
-                         @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+                         @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                         @RequestParam(name = "sort", required = false, defaultValue = "id") String sort) {
     // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
     String sessionKey = "postViewTime_" + postId;
     LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
@@ -277,6 +277,7 @@ public class PostController {
     model.addAttribute("comment", commentLikeInfoList);
     model.addAttribute("post", postDto);
     model.addAttribute("page", page);
+    model.addAttribute("sort", sort);
     return "readPost";
   }
 

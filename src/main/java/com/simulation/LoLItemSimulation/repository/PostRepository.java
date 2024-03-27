@@ -37,4 +37,16 @@ public interface PostRepository extends JpaRepository<Post, Long> {
   // 나중에 이미지 문제 해결하면 다시 사용할 코드
   Page<Post> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleKeyword, String contentKeyword,Pageable pageable);
   Page<Post> findByNicknameContainingIgnoreCase(String keyword, Pageable pageable);
+
+  //게시글 정렬을 위한 코드
+  @Query("SELECT p, COUNT(c) AS commentCount " +
+          "FROM Post p LEFT JOIN Comment c ON p.id = c.post.id " +
+          "GROUP BY p " +
+          "ORDER BY commentCount DESC")
+  Page<Object[]> findAllSortedByCommentCount(Pageable pageable);
+
+  default Page<Post> findAllPostsSortedByCommentCount(Pageable pageable) {
+    Page<Object[]> result = findAllSortedByCommentCount(pageable);
+    return result.map(array -> (Post) array[0]);
+  }
 } 
