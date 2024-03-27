@@ -145,7 +145,7 @@
     <div class="wrap">
         <section id="sectionA" style="background: none; width: 100%; box-shadow: none;">
             <div>
-                <div id="lol_main_img">
+                <div class="lol_main_img">
                     <img src="/img/lolMainImg.jpg" class="backgroundImg" style="opacity: 0.7; object-fit: cover; transition: opacity 1s
                     ease 0s;">
                 </div>
@@ -166,55 +166,57 @@
                 </div>
             </div>
         </section>
-        <div id="lol-tier-img" class="col d-flex-column align-items-center" style="height:800px; margin-top: 100px;">
-            <div class="row d-flex justify-content-center">
+        <div id="lol-tier-img" class="col d-flex justify-content-center align-items-center" style="height:500px; margin: 100px 0;">
+            <div class="d-flex justify-content-center align-items-end">
+                <section class="main-sub" id="sectionB">
+                    <dl>
+                        <dt class="sub-title">Tier</dt>
+                    </dl>
+                    <dl id="tier_thumbnail">
+                        <dt class="sub-title" id="patch-version">14.4 ver</dt>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <!--TODO JS로 티어리스트 게시판 불러오기 5개만 미리보고 아래 티어리스트 게시판으로 이동하는 버튼 생성-->
+                    </dl>
+                    <button class="sub-body">Tier 가기</button>
+                </section>
                 <img src="/img/kindread.png">
+                <p class="lol-tier-img_p">
+                    <span>패치에 따라 변화된 아이템들의 티어를 확인 해 보세요!</span>
+                </p>
             </div>
-            <p class="lol-tier-img_p">
-                <span>패치에 따라 변화된 아이템들의
-                    티어를 확인 해 보세요!</span> <br>
-            </p>
-            <section class="col main-sub" id="sectionB">
-                <dl>
-                    <dt class="sub-title">Tier</dt>
-                </dl>
-                <dl id="tier_thumbnail">
-                    <dt class="sub-title" id="patch-version">14.4 ver</dt>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <!--TODO JS로 티어리스트 게시판 불러오기 5개만 미리보고 아래 티어리스트 게시판으로 이동하는 버튼 생성-->
-                </dl>
-                <button class="sub-body">Tier 가기</button>
-            </section>
         </div>
-        <div class="backgroundImg col d-flex justify-content-center" style="height: 666px; margin: 50px 0; background-image: url(/img/Azir.jpg); opacity:
-        0.7;
-        background-size: cover; transition: opacity
-             1s ease 0s;">
-            <section class="main-sub align-self-center" id="sectionC">
-                <dl>
-                    <dt class="sub-title">Pro's build</dt>
-                    <dd class="sub-body">프로들은 어떻게 앞서 나가고 있는지 확인 해 보세요!</dd>
-                </dl>
-                <dl id="pro_build_thumbnail">
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <dd><p></p></dd>
-                    <!--TODO JS로 챌린저 빌드 게시판 불러오기 5개만 미리보기(한 게임 각 포지션 별로 왼vs오 마주보게) 아래 챌린저 빌드 게시판으로 이동하는 버튼 생성-->
-                </dl>
-                <button class="sub-body" style="color: black;">프로 빌드 가기</button>
-            </section>
-            <img id="faker" src="/img/faker.jpg"/>
+        <div class="col d-flex justify-content-center align-items-center" style="height:500px; margin: 100px 0;">
+            <div class="lol_main_img">
+                <img src="/img/Azir.jpg" class="backgroundImg" style="opacity: 0.7; object-fit: cover; transition: opacity 1s
+                    ease 0s;">
+            </div>
+            <div class="d-flex justify-content-center align-items-end">
+                <img src="/img/faker.jpg">
+                <section class="main-sub align-self-center" id="sectionC">
+                    <dl>
+                        <dt class="sub-title">Pro's build</dt>
+                        <dd class="sub-body">프로들은 어떻게 앞서 나가고 있는지 확인 해 보세요!</dd>
+                    </dl>
+                    <dl id="pro_build_thumbnail">
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <!--TODO JS로 챌린저 빌드 게시판 불러오기 5개만 미리보기(한 게임 각 포지션 별로 왼vs오 마주보게) 아래 챌린저 빌드 게시판으로 이동하는 버튼 생성-->
+                    </dl>
+                    <button class="sub-body" style="color: black;">프로 빌드 가기</button>
+                </section>
+            </div>
         </div>
         <div id="lol-news-img">
             <img src="/img/akali.png"/>

@@ -15,7 +15,10 @@
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
     <link rel="stylesheet" th:href="@{/css/editor.css}"/>
 
-    <script src="/build/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+    <!--    <script src="/build/ckeditor.js"></script>-->
+    <!-- 이미지 업로드 어댑터 -->
+    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -145,11 +148,21 @@
                                                       name="newContent"
                                                       style="min-height:500px;"></textarea>
                                             <script>
+                                                let myEditor;
+
                                                 ClassicEditor
-                                                    .create( document.querySelector( '#editor' ), {
-                                                    } )
-                                                    .then( /* ... */ )
-                                                    .catch( /* ... */ );
+                                                    .create(document.querySelector('#editor'), {
+                                                        ckfinder: {
+                                                            uploadUrl : '/post/upload'
+                                                        }
+                                                    })
+                                                    .then(editor => {
+                                                        myEditor = editor;
+                                                        console.log('Editor was initialized');
+                                                    })
+                                                    .catch(error => {
+                                                        console.error(error);
+                                                    });
                                             </script>
                                         </div>
                                     </div>

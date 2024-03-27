@@ -238,7 +238,7 @@ public class PostController {
 
   @GetMapping("/read/{postId}")
   public String readPost(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
-                         @RequestParam(name = "page", required = false, defaultValue = "1") int page) {
+                         @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
     // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
     String sessionKey = "postViewTime_" + postId;
     LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
