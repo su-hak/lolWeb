@@ -223,7 +223,7 @@ public class PostService {
 //  }
   public Page<Post> searchPosts(String type, String keyword, int page) {
     List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("createtime")); // createdAt 필드를 기준으로 내림차순 정렬
+    sorts.add(Sort.Order.desc("id")); // id 필드를 기준으로 내림차순 정렬
 
     Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
