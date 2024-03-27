@@ -22,7 +22,7 @@ import java.util.List;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-f1c7093d-ac23-449f-963e-0f67a54b5979"; // 여기에 실제 API 키를 넣습니다.
+    private final String apiKey = "RGAPI-988a7579-c55f-4bfc-8a94-8c141bb29995"; // 여기에 실제 API 키를 넣습니다.
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
