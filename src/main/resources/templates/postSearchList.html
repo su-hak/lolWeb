@@ -103,6 +103,11 @@
             <div class="col">
                 <div class="card shadow">
                     <div class="card-header">
+                        <div id="loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white;">
+                                <h2>Loading...</h2>
+                            </div>
+                        </div>
                         <div style="display: flex; justify-content: space-between;">
                             <span style="align-self: flex-start;">자유게시판</span>
                             <div class="setType" th:value="${type}"></div>
@@ -343,6 +348,8 @@
 
 
 <script>
+    // 페이지 로딩 시작 시에 로딩 창을 표시합니다.
+    document.getElementById('loading').style.display = 'block';
     window.onload = function() {
         // URL의 쿼리 파라미터에서 페이지 번호를 가져옵니다.
         const urlParams = new URLSearchParams(window.location.search);
@@ -362,6 +369,12 @@
 
         // 브라우저의 URL을 새로운 URL로 변경합니다.
         history.pushState({}, '', newUrl);
+        hideLoading();
+    }
+    // 로딩 창을 숨기는 함수
+    function hideLoading() {
+        console.log("hide");
+        document.getElementById('loading').style.display = 'none';
     }
 
     $(document).ready(function () {
