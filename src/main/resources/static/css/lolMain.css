@@ -9,12 +9,24 @@ li {
     box-shadow: 0 1px 6px 1px gray;
 }
 
+.lol_main_img{
+    position: relative;
+    height: 44vh;
+}
+
+.new-search-body {
+    position: absolute;
+    bottom: 80px;
+    left: 25%;
+    width: 50%;
+}
+
 #main section {
     background: linear-gradient(120deg, #98a4b9, #0058f3);
-    height: 44vh;
     border-radius: 7px 7px 73px 7px;
     color: white;
-    width: 33vw;
+    width: 33vw; !important;
+    height: 18vw;
     border: 1px solid white;
     box-shadow: 0px 2px 6px 1px black;
 }
@@ -25,16 +37,27 @@ li {
 
 #sectionA {
     position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 44vh;
+    box-shadow: 0 2px 15px 6px black;
 }
 
 
-.lol_main_img img {
+.backgroundImg {
     position: absolute;
     display: block;
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    box-shadow: 0 2px 15px 6px black;
+    opacity: 0.7;
+    object-fit: cover;
+    transition: transform 1s ease, opacity 1s ease;
+}
+
+.backgroundImg:hover {
+    transform: scale(1.1); /* 이미지를 10% 확대 */
+    opacity: 1; /* 마우스를 올렸을 때 투명도 조정 */
 }
 
 #secA_carry_logo {
@@ -65,10 +88,13 @@ li {
     top: 0;
 }
 
+.relative{
+    position: relative;
+}
+
 
 #lol-tier-img img {
-    position: relative;
-    height: 351px;
+    height: 250px;
     margin-left: 25px;
 }
 
@@ -77,10 +103,10 @@ li {
     color: white;
     font-size: 13px;
     font-style: oblique;
-    background: #C9BCFA;
+    background: #04535b;
     border-radius: 0.4em 0.4em 0.4em 0;
-    right: 420px;
-    top: 40px;
+    right: -20px;
+    top: -85px;
     width: 209px;
     padding: 10px;
 }
@@ -93,7 +119,7 @@ li {
     width: 0;
     height: 0;
     border: 10px solid transparent;
-    border-top-color: #C9BCFA;
+    border-top-color: #04535b;
     border-bottom: 0;
     margin-left: 0;
     margin-bottom: -20px;
@@ -153,6 +179,7 @@ li {
 /*      섹션 C 시작          */
 /****************************/
 
+
 #sectionC {
     left: 35%;
     bottom: -19vh;
@@ -204,30 +231,36 @@ li {
     left: 2%;
 }
 
-#lol-news-img img {
+#akaliImage {
     position: absolute;
-    margin-top: 62px;
+    top: -183px;
+    left: -108px;
     height:277px;
-    left: 581px;
-    z-index: 1;
-    opacity: 0.6;
+    z-index: 2;
 }
 
-#lol-news-img p {
-    position: relative;
+#bladimirImage{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 1;
+}
+
+.lol-news-img_p {
+    position: absolute;
     color: white;
     font-size: 13px;
     font-style: oblique;
     background: #04535b;
     border-radius: 0.4em 0.4em 0.4em 0;
-    left: 743px;
-    top: 33px;
+    left: 43px;
+    top: -186px;
     width: 150px;
     padding: 10px;
     opacity: 0.6;
 }
 
-#lol-news-img p:after {
+.lol-news-img_p:after {
     content: '';
     position: absolute;
     bottom: 0;

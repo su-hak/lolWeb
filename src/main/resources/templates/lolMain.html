@@ -143,12 +143,14 @@
 <!-- 헤더영역 E -->
 <main id="main">
     <div class="wrap">
-        <section id="sectionA" style="background: none; width: 100%; box-shadow: none;">
-            <div>
-                <div class="lol_main_img">
-                    <img src="/img/lolMainImg.jpg" class="backgroundImg" style="opacity: 0.7; object-fit: cover; transition: opacity 1s
-                    ease 0s;">
-                </div>
+        <div id="sectionA">
+            <img src="/img/lolMainImg.jpg" class="backgroundImg">
+            <div class="new-search-body">
+                <label class="search-engine" for="search-engine" style="display: flex;">
+                    <input autocomplete="off" id="search-engine" placeholder="궁금한 걸 검색하세요! " type="text">
+                </label>
+            </div>
+
                 <!--                <a class="carry-logo" href="/" id="secA_carry_logo">-->
                 <!--                    <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>-->
                 <!--                </a>-->
@@ -157,15 +159,7 @@
                 <!--                <div id="lol_main_letter">-->
                 <!--                    <img src="/img/LoL_letter.png"/>-->
                 <!--                </div>-->
-                <div class="main-section" id="secA_search">
-                    <div class="new-search-body">
-                        <label class="search-engine" for="search-engine" style="display: flex;">
-                            <input autocomplete="off" id="search-engine" placeholder="궁금한 걸 검색하세요! " type="text">
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
         <div id="lol-tier-img" class="col d-flex justify-content-center align-items-center" style="height:500px; margin: 100px 0;">
             <div class="d-flex justify-content-center align-items-end">
                 <section class="main-sub" id="sectionB">
@@ -183,19 +177,20 @@
                     </dl>
                     <button class="sub-body">Tier 가기</button>
                 </section>
-                <img src="/img/kindread.png">
-                <p class="lol-tier-img_p">
-                    <span>패치에 따라 변화된 아이템들의 티어를 확인 해 보세요!</span>
-                </p>
+                <div class="relative">
+                    <p class="lol-tier-img_p">
+                        <span>패치에 따라 변화된 아이템들의 티어를 확인 해 보세요!</span>
+                    </p>
+                    <img src="/img/kindread.png">
+                </div>
             </div>
         </div>
-        <div class="col d-flex justify-content-center align-items-center" style="height:500px; margin: 100px 0;">
-            <div class="lol_main_img">
-                <img src="/img/Azir.jpg" class="backgroundImg" style="opacity: 0.7; object-fit: cover; transition: opacity 1s
-                    ease 0s;">
-            </div>
-            <div class="d-flex justify-content-center align-items-end">
-                <img src="/img/faker.jpg">
+        <div id="sectionC_Container" class="col relative d-flex justify-content-center align-items-center"
+             style="height:700px; overflow: hidden; box-shadow: 0 2px 15px 6px black;">
+            <img src="/img/Azir.jpg" class="backgroundImg">
+
+            <div class="d-flex justify-content-center align-items-center" style="position: absolute">
+                <img src="/img/faker.jpg" style="height: 350px; margin-right: 25px">
                 <section class="main-sub align-self-center" id="sectionC">
                     <dl>
                         <dt class="sub-title">Pro's build</dt>
@@ -218,29 +213,35 @@
                 </section>
             </div>
         </div>
-        <div id="lol-news-img">
-            <img src="/img/akali.png"/>
-            <p>
-                <span>난 누구보다 빠르게 <br/>
-                    또 남들과는 다르게</span> <br/>
-                <span>- 뉴스특파원 아칼리</span>
-            </p>
+        <div id="lol-news-img" class="col relative d-flex justify-content-center align-items-center" style="height:700px;
+        margin: 100px 0;">
+            <div class="d-flex justify-content-center align-items-top">
+                <section class="main-sub" id="sectionD">
+                    <dl>
+                        <dt class="sub-title">News</dt>
+                        <dd class="sub-body">지금 새로운 소식을 바로 확인 해 보세요!</dd>
+                    </dl>
+                    <dl>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <dd><p></p></dd>
+                        <!--TODO JS로 티어리스트 게시판 불러오기 5개만 미리보고 아래 티어리스트 게시판으로 이동하는 버튼 생성-->
+                    </dl>
+                    <button class="sub-body">라이엇 뉴스</button>
+                </section>
+                <div class="relative" style="width: 200px; margin-left: 25px">
+                    <p class="lol-news-img_p">
+                        <span>난 누구보다 빠르게 <br/>
+                        또 남들과는 다르게</span> <br/>
+                        <span>- 뉴스특파원 아칼리</span>
+                    </p>
+                    <img src="/img/akali.png" id="akaliImage"/>
+                </div>
+            </div>
+            <img src="/img/bladimir.png" id="bladimirImage">
         </div>
-        <section class="main-sub" id="sectionD">
-            <dl>
-                <dt class="sub-title">News</dt>
-                <dd class="sub-body">지금 새로운 소식을 바로 확인 해 보세요!</dd>
-            </dl>
-            <dl>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <dd><p></p></dd>
-                <!--TODO JS로 티어리스트 게시판 불러오기 5개만 미리보고 아래 티어리스트 게시판으로 이동하는 버튼 생성-->
-            </dl>
-            <button class="sub-body">라이엇 뉴스</button>
-        </section>
     </div>
 </main>
 <footer class="footer-style" id="footer">
