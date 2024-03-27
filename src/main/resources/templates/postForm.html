@@ -17,7 +17,7 @@
 
     <!-- ckeditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
-<!--    <script src="/build/ckeditor.js"></script>-->
+    <!--    <script src="/build/ckeditor.js"></script>-->
     <!-- 이미지 업로드 어댑터 -->
     <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
@@ -25,8 +25,6 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-
-
 
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
@@ -150,23 +148,116 @@
                                             <label for="editor"></label>
                                             <textarea class="editor" th:field="*{content}" id="editor"></textarea>
                                             <!--에디터 설정-->
+                                            <!--                                            <script>-->
+                                            <!--                                                let myEditor;-->
+
+                                            <!--                                                ClassicEditor-->
+                                            <!--                                                    .create(document.querySelector('#editor'), {-->
+                                            <!--                                                        ckfinder: {-->
+                                            <!--                                                            uploadUrl : '/post/upload'-->
+                                            <!--                                                        }-->
+                                            <!--                                                    })-->
+                                            <!--                                                    .then(editor => {-->
+                                            <!--                                                        myEditor = editor;-->
+                                            <!--                                                        console.log('Editor was initialized');-->
+                                            <!--                                                    })-->
+                                            <!--                                                    .catch(error => {-->
+                                            <!--                                                        console.error(error);-->
+                                            <!--                                                    });-->
+                                            <!--                                            </script>-->
                                             <script>
                                                 let myEditor;
+
+                                                // 업로드 중 여부를 나타내는 변수
+                                                let uploading = false;
 
                                                 ClassicEditor
                                                     .create(document.querySelector('#editor'), {
                                                         ckfinder: {
-                                                            uploadUrl : '/post/upload'
+                                                            uploadUrl: '/post/upload'
                                                         }
                                                     })
                                                     .then(editor => {
                                                         myEditor = editor;
                                                         console.log('Editor was initialized');
+
+                                                        // 파일 업로드 후 처리
+                                                        myEditor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                                                            return {
+                                                                upload: () => {
+                                                                    // 업로드 중 플래그 설정
+                                                                    uploading = true;
+
+                                                                    // 로딩 창 표시
+                                                                    showLoading();
+
+                                                                    return loader.file
+                                                                        .then(file => {
+                                                                            return new Promise((resolve, reject) => {
+                                                                                var formData = new FormData();
+                                                                                formData.append('upload', file);
+
+                                                                                var xhr = new XMLHttpRequest();
+                                                                                xhr.open('POST', '/post/upload', true);
+                                                                                xhr.onload = function() {
+                                                                                    // 업로드 완료 후 플래그 해제
+                                                                                    uploading = false;
+
+                                                                                    if (xhr.status === 200) {
+                                                                                        var response = JSON.parse(xhr.responseText);
+                                                                                        if (response.uploaded) {
+                                                                                            // 업로드가 성공하면 버튼을 변경
+                                                                                            document.getElementById('submitBtn').type = 'submit';
+                                                                                            document.getElementById('submitBtn').textContent = '글쓰기';
+                                                                                        } else {
+                                                                                            alert(response.error);
+                                                                                        }
+                                                                                        resolve({ default: response.url });
+                                                                                    } else {
+                                                                                        reject('Upload failed. Status: ' + xhr.status);
+                                                                                    }
+                                                                                };
+                                                                                xhr.send(formData);
+                                                                            });
+                                                                        })
+                                                                        .finally(() => {
+                                                                            // 로딩 창 숨기기
+                                                                            hideLoading();
+                                                                        });
+                                                                }
+                                                            };
+                                                        };
                                                     })
                                                     .catch(error => {
                                                         console.error(error);
                                                     });
+
+                                                function showLoading() {
+                                                    // 모달 창을 표시
+                                                    $('#loadingModal').modal('show');
+                                                }
+
+                                                function hideLoading() {
+                                                    // 모달 창을 숨김
+                                                    $('#loadingModal').modal('hide');
+                                                }
                                             </script>
+                                            <!-- 모달 창 -->
+                                            <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel"
+                                                 aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body text-center">
+                                                            <div class="spinner-border text-primary" role="status">
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
+                                                            <p>이미지 업로드 중입니다...<br>잠시만 기다려주세요</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
