@@ -109,7 +109,7 @@
                                 <span style="margin-right: 5px;">정렬 :</span>
                                 <!-- 정렬 목록 -->
                                 <div class="dropdown">
-                                    <select class="form-control" id="sortOption" style="font-size: 14px;width: 120px;">
+                                    <select class="form-control" id="sortOption" style="font-size: 14px;width: 120px;" onchange="sortPostListByItem()">
                                         <option value="id" th:selected="${sort eq 'id'}">글번호</option>
                                         <option value="date" th:selected="${sort eq 'date'}">작성일</option>
                                         <option value="title" th:selected="${sort eq 'title'}">글제목</option>
@@ -363,6 +363,12 @@
         // URLSearchParams 객체를 사용하여 URL에 쿼리 매개변수를 추가합니다.
         var url = "/post/list/search?" + params.toString();
         // 수집한 데이터를 포함하여 해당 URL로 리디렉션합니다.
+        window.location.href = url;
+    }
+
+    function sortPostListByItem() {
+        var selectedValue = $("#sortOption").val();
+        var url = "/post/list?sort=" + selectedValue;
         window.location.href = url;
     }
 

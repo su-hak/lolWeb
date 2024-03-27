@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -221,11 +220,27 @@ public class PostService {
 //
 //    }
 //  }
-  public Page<Post> searchPosts(String type, String keyword, int page) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("id")); // id 필드를 기준으로 내림차순 정렬
+  public Page<Post> searchPosts(String type, String keyword, int page, String sortBy) {
+//    List<Sort.Order> sorts = new ArrayList<>();
+//    sorts.add(Sort.Order.desc("id")); // id 필드를 기준으로 내림차순 정렬
 
-    Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+    Sort sort = Sort.by(sortBy);
+
+    if (sortBy.equals("id")) {
+      sort = Sort.by(Sort.Direction.DESC, "id");
+    } else if (sortBy.equals("date")) {
+      sort = Sort.by(Sort.Direction.DESC, "createtime");
+    }else if (sortBy.equals("replyCount")) {
+      return getPostsSortedByCommentCount(page);
+    }else if (sortBy.equals("nickname")) {
+      sort = Sort.by(Sort.Direction.DESC, "nickname");
+    }else if (sortBy.equals("viewCount")) {
+      sort = Sort.by(Sort.Direction.DESC, "views");
+    }
+
+    Pageable pageable = PageRequest.of(page, 10, sort);
+
+//    Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
 
     Page<Post> posts;
 

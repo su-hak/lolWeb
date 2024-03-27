@@ -103,8 +103,27 @@
             <div class="col">
                 <div class="card shadow">
                     <div class="card-header">
-                        자유게시판
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="align-self: flex-start;">자유게시판</span>
+                            <div class="setType" th:value="${type}"></div>
+                            <div class="setKeyword" th:value="${keyword}"></div>
+                            <div style="display: flex; align-items: flex-end;">
+                                <span style="margin-right: 5px;">정렬 :</span>
+                                <!-- 정렬 목록 -->
+                                <div class="dropdown">
+                                    <select class="form-control" id="sortOption" style="font-size: 14px;width: 120px;" onchange="sortPostListByItem()">
+                                        <option value="id" th:selected="${sort eq 'id'}">글번호</option>
+                                        <option value="date" th:selected="${sort eq 'date'}">작성일</option>
+                                        <option value="title" th:selected="${sort eq 'title'}">글제목</option>
+                                        <option value="replyCount" th:selected="${sort eq 'replyCount'}">댓글수</option>
+                                        <option value="nickname" th:selected="${sort eq 'nickname'}">작성자</option>
+                                        <option value="viewCount" th:selected="${sort eq 'viewCount'}">조회수</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="card-body p-5">
                         <!-- table -->
                         <table class="table table-borderless table-hover" th:if="${have != false and not #lists.isEmpty(have)}">
@@ -330,6 +349,7 @@
         const page = urlParams.get('page');
         const type = urlParams.get('option');
         const keyword = urlParams.get('keyword');
+        var selectedValue = $("#sortOption").val();
 
         // 페이지 번호가 없으면 기본값인 0으로 설정합니다.
         const pageNumber = page ? page : 0;
@@ -338,7 +358,7 @@
         const baseUrl = window.location.href.split('?')[0];
 
         // 새로운 URL을 생성하여 페이지 번호를 추가합니다.
-        const newUrl = `${baseUrl}?option=${type}&keyword=${keyword}&page=${pageNumber}`;
+        const newUrl = `${baseUrl}?option=${type}&keyword=${keyword}&page=${pageNumber}&sort=${selectedValue}`;
 
         // 브라우저의 URL을 새로운 URL로 변경합니다.
         history.pushState({}, '', newUrl);
@@ -356,6 +376,29 @@
         highlightSearchText(highlightType, highlightKeyword);
     });
 
+    // 정렬 기준 함수
+    function sortPostListByItem() {
+        var selectedValue = $("#sortOption").val();
+        var type = $(".setType").attr("value");
+        var keyword = $(".setKeyword").attr("value");
+
+        // var url = "/post/list?sort=" + selectedValue;
+        // var selectedValue = $("#sortOption").val();
+        // 필요한 데이터를 수집하고 이를 URL에 추가합니다.
+        // URLSearchParams 객체를 생성하고 쿼리 매개변수를 추가합니다.
+        var params = new URLSearchParams();
+        params.append('option', type);
+        params.append('keyword', keyword);
+        params.append('sort', selectedValue)
+
+        // URLSearchParams 객체를 사용하여 URL에 쿼리 매개변수를 추가합니다.
+        var url = "/post/list/search?" + params.toString();
+        // 수집한 데이터를 포함하여 해당 URL로 리디렉션합니다.
+        // window.location.href = url;
+        window.location.href = url;
+    }
+
+    // 검색어 색칠 함수
     function highlightSearchText(option, keyword) {
         // 검색 키워드를 대소문자 구분 없이 검색하기 위해 정규 표현식을 사용합니다.
         var regex = new RegExp(keyword, "gi");
@@ -467,11 +510,13 @@
     function searchPost() {
         var option = $("#searchOption").val();
         var keyword = $("#freeSearch").val();
+        var selectedValue = $("#sortOption").val();
         // 필요한 데이터를 수집하고 이를 URL에 추가합니다.
         // URLSearchParams 객체를 생성하고 쿼리 매개변수를 추가합니다.
         var params = new URLSearchParams();
         params.append('option', option);
         params.append('keyword', keyword);
+        params.append('sort', selectedValue)
 
         // URLSearchParams 객체를 사용하여 URL에 쿼리 매개변수를 추가합니다.
         var url = "/post/list/search?" + params.toString();
