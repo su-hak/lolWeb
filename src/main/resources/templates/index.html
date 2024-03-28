@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- 파비콘 -->
+    <!--    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> &lt;!&ndash; 파비콘 &ndash;&gt;-->
 
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
@@ -16,142 +17,146 @@
     <link rel="stylesheet" th:href="@{/css/index.css}"/>
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css" rel="stylesheet">
 
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 <body>
-<header id="header" class="header-area header-transparrent fixed-top">
-        <div>
-            <div class="game-nav-bar" style="font-size: 13px;">
-                <div class="col d-flex align-items-center ">
-                    <!-- 로고 -->
-                    <a href="/" class="a11aa111">
-                        <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
-                    </a>
-                    <!--TODO 버튼 클릭 시 아래링크 고퀄 그래픽 느낌의 버튼-->
-                    <!--https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C-->
-                        <a class="a11aa111" href="/lol">
-                        <img src="/img/lol_Icon.png"/>
-                        <span class="btn-check" id="btnradio1">리그 오브 레전드</span>
-                    </a>
-                    <a class="a11aa111" href="/gersang">
-                        <img src="/img/Gersang_Icon.png"/>
-                        <span class="btn-check" id="btnradio2">거상</span>
-                    </a>
-                    <a class="a11aa111" href="/maplestory">
-                        <img src="/img/MapleStory_Icon.png"/>
-                        <span class="btn-check" id="btnradio3">메이플 스토리</span>
-                    </a>
-                    <a class="a11aa111" href="/d&f">
-                        <img src="/img/D&F_Icon.png"/>
-                        <span class="btn-check" id="btnradio4">던전 앤 파이터</span>
-                    </a>
-                    <a class="a11aa111" href="/loa">
-                        <img src="/img/Loa_Icon.png"/>
-                        <span class="btn-check" id="btnradio5">로스트 아크</span>
-                    </a>
+<!-- 최상단 네비바 -->
+<nav class="site-header sticky-top py-1" style="background: #8360CE; ">
+    <div class="container d-flex flex-column flex-md-row color-white">
+        <a href="/" style="margin-right: 20px">
+            <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/lol">
+            <span class="btn-two blue mini" id="btnradio1">
+                <img src="/img/lol_Icon.png" style="height: 20px"/>
+                리그 오브 레전드
+            </span>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
+            <span class="btn-two blue mini" id="btnradio2">
+                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                거상
+            </span>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
+            <span class="btn-two blue mini" id="btnradio3">
+                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                메이플 스토리
+            </span>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
+            <span class="btn-two blue mini" id="btnradio4">
+                <img src="/img/D&F_Icon.png" style="height: 20px"/>던전 앤 파이터
+            </span>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
+            <span class="btn-two blue mini" id="btnradio5">
+                <img src="/img/Loa_Icon.png" style="height: 20px"/>로스트 아크
+            </span>
+        </a>
+    </div>
+</nav>
+<div id="topNavMenuPage">
+    <div class="container">
+        <!--검색 창-->
+        <div id="search-body" style="">
+            <div class="main-section">
+                <img src="/img/kindread.png" style="width: 25%;"/>
+                <div class="new-search-body">
+                    <label class="search-engine" for="search-engine" style="display: flex;">
+                        <!--<span id="searching" class="align-items-center">
+                            <iconify-icon class="search-icon" icon="mdi:cloud-search" width="30"
+                                          height="30"></iconify-icon>
+                        </span>-->
+                        <input autocomplete="off" id="search-engine" placeholder="궁금한 걸 검색하세요! " type="text">
+                    </label>
                 </div>
             </div>
+            <div class="games-Btn"></div>
+            <div class="search-body-area">검색결과가 여기에 나타납니다.</div>
         </div>
-</header>
-<div class="container">
-    <!--검색 창-->
-    <div id ="search-body" style="">
-        <div class="main-section">
-            <img src="/img/kindread.png" style="width: 25%;"/>
-            <div class="new-search-body">
-                <label for="search-engine" class="search-engine" style="display: flex;">
-                            <!--<span id="searching" class="align-items-center">
-                                <iconify-icon class="search-icon" icon="mdi:cloud-search" width="30"
-                                              height="30"></iconify-icon>
-                            </span>-->
-                    <input id="search-engine" type="text" autocomplete="off" placeholder="궁금한 걸 검색하세요! ">
+        <!--검색 창 END-->
+        <!--뉴스 시작-->
+        <div class="main-section" id="news-modal">
+            <div class="b1a1">
+                <!--TODO NEWs 커뮤니티 끌고 올 위치-->
+                <!--TODO 게임메카 참고(소속 기자 있는 듯) https://www.gamemeca.com/news.php#-->
+                <h1 class="title">News</h1>
+                <div class="news-modal-body"><!--TODO news.html 호출--></div>
+            </div>
+            <div class="b1a2">
+                <!--TODO 각종 소셜 연결 링크-->
+            </div>
+        </div>
+        <!--뉴스 시작-->
+        <!--게임 이미지 버튼-->
+        <div class="main-section" id="main">
+            <div class="game-sort-menu">
+                <h1 class="title">All Games</h1>
+                <label class="drop-down-controller">
+
+                    <div id="game-sort-button">
+                        <span class="drop-down-text">Sort</span>
+                        <svg><!--TODO 아래방향 화살표 --></svg>
+                    </div>
+
+                    <ul class="drop-down-box">
+                        <li><span>인기게임 순</span></li>
+                        <li><span>가나다 순</span></li>
+                    </ul>
+
                 </label>
             </div>
+            <div class="main-choice-btn">
+                <a href="/lol">
+                    <div class="game-image">
+                        <img src="img/LeagueOfLegends.jpg">
+                    </div>
+                    <div class="game-title">
+                        <span>리그 오브 레전드</span>
+                    </div>
+                </a>
+                <a href="/members">
+                    <div class="game-image">
+                        <img src="img/Gersang.jpg">
+                    </div>
+                    <div class="game-title">
+                        <span>거상</span>
+                    </div>
+                </a>
+                <a href="/members">
+                    <div class="game-image">
+                        <img src="img/Maplestory.jpg">
+                    </div>
+                    <div class="game-title">
+                        <span>메이플 스토리</span>
+                    </div>
+                </a>
+                <a href="/members">
+                    <div class="game-image">
+                        <img src="img/Dungeon&fighter.jpg">
+                    </div>
+                    <div class="game-title">
+                        <span>던전 앤 파이터</span>
+                    </div>
+                </a>
+                <a href="/members">
+                    <div class="game-image">
+                        <img src="img/Loa.jpg">
+                    </div>
+                    <div class="game-title">
+                        <span>로스트 아크</span>
+                    </div>
+                </a>
+            </div>
         </div>
-        <div class="games-Btn"></div>
-        <div class="search-body-area">검색결과가 여기에 나타납니다.</div>
-    </div>
-    <!--검색 창 END-->
-    <!--뉴스 시작-->
-    <div id="news-modal" class="main-section">
-        <div class="b1a1">
-            <!--TODO NEWs 커뮤니티 끌고 올 위치-->
-            <!--TODO 게임메카 참고(소속 기자 있는 듯) https://www.gamemeca.com/news.php#-->
-            <h1 class="title">News</h1>
-            <div class="news-modal-body"><!--TODO news.html 호출--></div>
-        </div>
-        <div class="b1a2">
-            <!--TODO 각종 소셜 연결 링크-->
-        </div>
-    </div>
-    <!--뉴스 시작-->
-    <!--게임 이미지 버튼-->
-    <div id="main" class="main-section">
-        <div class="game-sort-menu">
-            <h1 class="title">All Games</h1>
-            <label class="drop-down-controller">
-
-                <div id="game-sort-button">
-                    <span class="drop-down-text">Sort</span>
-                    <svg><!--TODO 아래방향 화살표 --></svg>
-                </div>
-
-                <ul class="drop-down-box">
-                    <li><span>인기게임 순</span></li>
-                    <li><span>가나다 순</span></li>
-                </ul>
-
-            </label>
-        </div>
-        <div class="main-choice-btn">
-            <a href="/lol">
-                <div class="game-image">
-                    <img src="img/LeagueOfLegends.jpg">
-                </div>
-                <div class="game-title">
-                    <span>리그 오브 레전드</span>
-                </div>
-            </a>
-            <a href="/members">
-                <div class="game-image">
-                    <img src="img/Gersang.jpg">
-                </div>
-                <div class="game-title">
-                    <span>거상</span>
-                </div>
-            </a>
-            <a href="/members">
-                <div class="game-image">
-                    <img src="img/Maplestory.jpg">
-                </div>
-                <div class="game-title">
-                    <span>메이플 스토리</span>
-                </div>
-            </a>
-            <a href="/members">
-                <div class="game-image">
-                    <img src="img/Dungeon&fighter.jpg">
-                </div>
-                <div class="game-title">
-                    <span>던전 앤 파이터</span>
-                </div>
-            </a>
-            <a href="/members">
-                <div class="game-image">
-                    <img src="img/Loa.jpg">
-                </div>
-                <div class="game-title">
-                    <span>로스트 아크</span>
-                </div>
-            </a>
-        </div>
-    </div>
-    <!--게임 이미지 버튼-->
-</div> <!-- /container -->
+        <!--게임 이미지 버튼-->
+    </div> <!-- /container -->
+</div>
 <!-- 푸터영역 -->
-<footer id="footer" class="footer-style">
+<footer class="footer-style" id="footer">
     <div class="f1l1">
         <div class="footer-notice-wrap">
             <div class="f1l1b1">
@@ -169,7 +174,8 @@
         </div>
         <section class="f1r1b4">
             <div class="copyright">
-                copyright &copy; 2023 <a href="https://github.com/su-hak/Avengers" style="color: #fffc57;">Avengers</a> All rights reserved.
+                copyright &copy; 2023 <a href="https://github.com/su-hak/Avengers" style="color: #fffc57;">Avengers</a>
+                All rights reserved.
             </div>
             <div>
             <span>
@@ -185,20 +191,19 @@
 </footer>
 <!-- 푸터영역 E -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+<script crossorigin="anonymous"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <!--<script src="/js/jquery.sticky.js"></script>-->
 
 <script th:src="@{/js/test.js}"></script> <!-- 모든 기능 이벤트 -->
 <script th:src="@{/js/decimal.js}"></script> <!-- 계산식 -->
-<script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
+<!--<script th:src="@{/js/web.js}"></script> &lt;!&ndash; 웹페이지 이벤트 관련 &ndash;&gt;-->
 <script th:src="@{/js/main/index.js}"></script> <!-- 메인 페이지 -->
-
 
 </body>
 </html>

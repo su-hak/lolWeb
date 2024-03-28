@@ -92,6 +92,20 @@ body {
     background-color:#fffbea;
 }
 
+@media (max-width: 770px) {
+    html {
+        min-width: 770px;
+        overflow-x: hidden; /* 수평 스크롤 막기 */
+    }
+}
+
+/*@media (min-width: 576px) {*/
+/*    .container {*/
+/*        !* max-width를 100%로 설정하여 부모 요소의 너비에 맞추도록 설정 *!*/
+/*        max-width: 100%;*/
+/*    }*/
+/*}*/
+
 
 /* 초기화  E */
 
@@ -119,76 +133,35 @@ body {
 /*      HEADER 시작          */
 /****************************/
 
-#header {
-    /*height: 80px;*/
-    align-items: center;
-    background-image: linear-gradient(120deg, #98a4b9, #0058f3);
-    color: rgb(255, 255, 255);
+/* btn-two class */
+.btn-two {
+    color: white;
+    padding: 15px 25px;
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.21);
+    border-bottom-color: rgba(0,0,0,0.34);
+    text-shadow:0 1px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.34) inset,
+    0 2px 0 -1px rgba(0,0,0,0.13),
+    0 3px 0 -1px rgba(0,0,0,0.08),
+    0 3px 13px -1px rgba(0,0,0,0.21);
+}
+.btn-two:active {
+    top: 1px;
+    border-color: rgba(0,0,0,0.34) rgba(0,0,0,0.21) rgba(0,0,0,0.21);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
+    position: relative;
 }
 
-#header .inner {
-    padding: 20px;
-    display: flex;
-    align-items: center;
+.btn-two.mini {
+    padding: 4px 12px;
+    font-size: 12px;
 }
-@media (max-width : 768px) {
-    #header .inner {
-        display: block;
-        padding: 20px 0;
-    }
+.btn-two.blue {
+    background-color: #4a8f9a;
 }
 
-#header .inner a {
-    text-decoration: none;
-}
-
-#header .inner h1 {
-    padding: 0px 50px 0px 0px;
-    font-size: 30px;
-    font-weight: bold;
-    color: #fff;
-}
-
-.animated {
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-
-#header.animated {
-    box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.15);
-}
-
-/*@media (max-width : 1000px) {*/
-/*    #header .inner h1 { padding: 0 25px 0 0; }*/
-/*}*/
-/*@media (max-width : 768px) {*/
-/*    #header .inner h1 {*/
-/*        text-align: center;*/
-/*        align-items: center;*/
-/*        align-content: center;*/
-/*        padding: 0;*/
-
-/*        !*display: none; !*테스트용*!*!*/
-/*    }*/
-/*}*/
-
-/* 헤더 네비 */
-
-.nav{
-    padding: 20px 0;
-}
-
-.lol_icon_img {
-    align-items: center;
-    display: flex;
-}
-
-.lol_icon_img img{
-    height: 50px;
-}
-
+/* btn-two class End */
 
 
 /* 드롭다운 버튼 스타일링 */
@@ -548,68 +521,6 @@ body {
     z-index: 999;
 }
 
-/* 공지 모달 반응형 */
-/* @media (max-width:1600px) {
-    .modal { max-width: calc(100% - 160px); }
-}
-
-@media (max-width:1400px) {
-    .inner { max-width: calc(100% - 140px); }
-}
-
-@media (max-width:1200px) {
-    .inner { max-width: calc(100% - 120px); }
-} */
-
-@media (max-width:1024px) {
-    .noticeModal {
-        display: none;
-        position: fixed;
-        top: 54%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 200px;
-        width: 80%;
-        height: 850px;
-        background-color: rgba(0, 0, 0, 0);
-        /* border: 0px solid #fff; */
-    }
-    .modal_contents {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-    }
-    .modal_content {
-        margin-top: 10px;
-        width: 400px;
-        height: 50%;
-        background: rgba(0, 0, 0, 0);
-        padding: 30px;
-        color: #FFF;
-        border: 0;
-    }
-    .text_close {
-        position: fixed;
-        top: 1%;
-        /* left: 50.4%;
-        transform: translate(-50%, -50%); */
-        margin-top: 50px;
-        color: #04f023;
-        text-align: center;
-        z-index: 999;
-    }
-}
-
-/* @media (max-width:768px) {
-    .inner { max-width: calc(100% - 40px); }
-} */
-
-
-/* ------------ 공지 모달창 설정 ------------*/
-
-
-
 
 /* 메인영역 */
 
@@ -639,16 +550,6 @@ body {
 }
 
 
-/* 배경페이지 */
-#main {
-    min-height: 960px;
-}
-@media (max-width : 768px) {
-    #main {
-        height: 1600px;
-    }
-}
-
 
 
 #main #sectionB .video {
@@ -673,7 +574,6 @@ body {
 
 @media (max-width : 768px) {
     #main {
-        background-color: #888888;
     }
     #main #sectionB {
         display: none;
@@ -1197,6 +1097,5 @@ body {
 @media (max-width : 768px) {
     .footer-style{
         height: 150px;
-        padding: 10px 30px;
     }
 }
