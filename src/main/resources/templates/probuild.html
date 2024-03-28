@@ -26,122 +26,72 @@
     <title>Carry.kr</title>
 </head>
 <body>
-<!-- 헤더영역 -->
-<header id="header" class="header-area header-transparrent fixed-top">
-    <div>
-        <div class="game-nav-bar" style="font-size: 13px; ">
-            <div id="lol_main_header" class="col d-flex align-items-center">
-                <!-- 로고 -->
-                <a href="/" class="carry-logo">
-                    <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
-                </a>
-                <!--TODO 버튼 클릭 시 아래링크 고퀄 그래픽 느낌의 버튼-->
-                <!--https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C-->
-                <a class="a11aa111" href="/lol" style="background: white; box-shadow: inset 0 0 10px; color: #3300ff;">
-                    <img src="/img/lol_Icon.png"/>
-                    <span class="btn-check" id="btnradio1">리그 오브 레전드</span>
-                </a>
-                <a class="a11aa111" href="/gersang" style="border-left:1px solid white;">
-                    <img src="/img/Gersang_Icon.png"/>
-                    <span class="btn-check" id="btnradio2">거상</span>
-                </a>
-                <a class="a11aa111" href="/maplestory">
-                    <img src="/img/MapleStory_Icon.png"/>
-                    <span class="btn-check" id="btnradio3">메이플 스토리</span>
-                </a>
-                <a class="a11aa111" href="/d&f">
-                    <img src="/img/D&F_Icon.png"/>
-                    <span class="btn-check" id="btnradio4">던전 앤 파이터</span>
-                </a>
-                <a class="a11aa111" href="/loa">
-                    <img src="/img/Loa_Icon.png"/>
-                    <span class="btn-check" id="btnradio5">로스트 아크</span>
-                </a>
-            </div>
-        </div>
-        <div class="main-header header-sticky" style=" border-bottom: white 1px solid;">
-            <div class="container" style="margin:0; ">
-                <div class="row" style="justify-content: space-around;" >
-                    <div class="lol_icon_img">
-                        <a href="/lol"><img src="/img/lol_Icon.png"></a>
-                        <div class="dropdown-game-icon">
-                            <a href=""></a>
-                            <div class="click_triangle" onclick="toggleDropdown(this)"></div>
-                            <div class="dropdown-game-body" style="display: none;">
-                                <!-- 로고 -->
-                                <a href="/" class="carry-logo">
-                                    <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
-                                </a>
-                                <!--TODO 버튼 클릭 시 아래링크 고퀄 그래픽 느낌의 버튼-->
-                                <!--https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C-->
-                                <a class="a11aa111" href="/lol" style="background: white; box-shadow: inset 0 0 10px; color: #3300ff;">
-                                    <img src="/img/lol_Icon.png"/>
-                                    <span class="btn-check" >리그 오브 레전드</span>
-                                </a>
-                                <a class="a11aa111" href="/gersang">
-                                    <img src="/img/Gersang_Icon.png"/>
-                                    <span class="btn-check" >거상</span>
-                                </a>
-                                <a class="a11aa111" href="/maplestory">
-                                    <img src="/img/MapleStory_Icon.png"/>
-                                    <span class="btn-check">메이플 스토리</span>
-                                </a>
-                                <a class="a11aa111" href="/d&f">
-                                    <img src="/img/D&F_Icon.png"/>
-                                    <span class="btn-check" >던전 앤 파이터</span>
-                                </a>
-                                <a class="a11aa111" href="/loa">
-                                    <img src="/img/Loa_Icon.png"/>
-                                    <span class="btn-check" >로스트 아크</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 메뉴 -->
-                    <nav id="mainNav" class="nav col-9 justify-content-left">
-                        <ul class="gnb align-items-center font-weight-bold">
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="/simulation">시뮬레이션</a></li>
-                            <li><a href="/itemTier">아이템순위</a></li>
-                            <li id="probuild"><a href="/probuild" style="color: black;">챌린저 빌드</a>
-                                <p class="animated-width"></p>
-                            </li>
-                            <li><a href="#">커뮤니티</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+<!-- 최상단 네비바 -->
+<nav class="site-header sticky-top py-1" style="background: #8360CE; ">
+    <div class="container d-flex flex-column flex-md-row color-white">
+        <a href="/" style="margin-right: 20px">
+            <h1 class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/lol">
+            <span class="btn-two blue mini" id="btnradio1">
+                <img src="/img/lol_Icon.png" style="height: 20px"/>
+                리그 오브 레전드
+            </span>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
+            <span class="btn-two blue mini" id="btnradio2">
+                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                거상
+            </span>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
+            <span class="btn-two blue mini" id="btnradio3">
+                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                메이플 스토리
+            </span>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
+            <span class="btn-two blue mini" id="btnradio4">
+                <img src="/img/D&F_Icon.png" style="height: 20px"/>던전 앤 파이터
+            </span>
+        </a>
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
+            <span class="btn-two blue mini" id="btnradio5">
+                <img src="/img/Loa_Icon.png" style="height: 20px"/>로스트 아크
+            </span>
+        </a>
+    </div>
+</nav>
+<!--롤 메뉴-->
+<nav class="navbar navbar-expand-lg sticky-top py-1 navbar-light bg-light" style="height: 47px; font-size: 14px; font-weight: bolder">
+    <div class="container">
+        <a class="navbar-brand" href="#">리그 오브 레전드 >> </a>
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarNav" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="navMenu nav-item">
+                    <a class="nav-link" href="#">메인</a>
+                </li>
+                <li class="navMenu nav-item">
+                    <a class="nav-link" href="#">공지사항</a>
+                </li>
+                <li class="navMenu nav-item">
+                    <a class="nav-link navMenu" href="/itemTier">아이템티어</a>
+                </li>
+                <li class="navMenu nav-item">
+                    <a class="nav-link navMenu" href="/probuild">프로빌드</a>
+                </li>
+                <li class="navMenu nav-item">
+                    <a class="nav-link navMenu" href="/post/list">게시판</a>
+                </li>
+            </ul>
         </div>
     </div>
-    <!--서브 메뉴-->
-    <div id="sub_nav" class="row" style=" border-bottom: solid 1px #000000">
-        <div class="col"></div>
-        <div class="col nav justify-content-center" style="padding-left : 1rem; gap: 5rem; font-weight: 500">
-            <ul class="align-items-center">
-                <li><a href="#">공지사항</a></li>
-                <li><a href="#">패치노트</a></li>
-            </ul>
-            <ul class="align-items-center">
-                <li><a href="/simulation">시뮬레이션</a></li>
-            </ul>
-            <ul class="align-items-center">
-                <li><a href="#">아이템순위</a></li>
-            </ul>
-            <ul class="align-items-center">
-                <li><a href="/probuild">챌린저 빌드</a></li>
-            </ul>
-            <ul class="align-items-center">
-                <li><a href="/post/list">자유게시판</a></li>
-                <li><a href="#">유머게시판</a></li>
-                <li><a href="#">아이템공유</a></li>
-                <li><a href="#">매드무비</a></li>
-                <li><a href="#">커뮤니티</a></li>
-            </ul>
-        </div>
-        <div class="col"></div>
-    </div>
-</header>
+</nav>
+<!--롤 메뉴 End-->
 <!-- 헤더영역 E -->
 <main id="main">
     <div class="main-title">
