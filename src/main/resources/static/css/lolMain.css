@@ -1,10 +1,11 @@
-li {
-    list-style-type: none;
+.color-white{
+    color: #FFFFFF;
 }
+
 
 .wrap {
     background: #fff9e1;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     box-shadow: 0 1px 6px 1px gray;
 }
@@ -21,12 +22,16 @@ li {
     width: 50%;
 }
 
+.navbar-brand{
+    font-size: 14px;
+}
+
 #main section {
     background: linear-gradient(120deg, #98a4b9, #0058f3);
     border-radius: 7px 7px 73px 7px;
     color: white;
-    width: 33vw; !important;
-    height: 18vw;
+    width: 33vw;
+    height: 18vw !important;
     border: 1px solid white;
     box-shadow: 0px 2px 6px 1px black;
 }
@@ -244,6 +249,7 @@ li {
     bottom: 0px;
     right: -95px;
     z-index: 1;
+    width: 30%;
 }
 
 .lol-news-img_p {
