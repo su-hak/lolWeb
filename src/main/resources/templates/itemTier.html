@@ -68,8 +68,9 @@
     </div>
 </nav>
 <!--롤 메뉴-->
-<nav class="navbar navbar-expand-lg sticky-top py-1 navbar-light bg-light" style="height: 47px; font-size: 14px; font-weight: bolder">
-    <div class="container">
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light" style="padding: 9px 0; font-size: 14px;
+font-weight: bolder">
+    <div class="container" style="padding: 0 15px;">
         <a class="navbar-brand" href="#">리그 오브 레전드 >> </a>
         <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                 data-target="#navbarNav" data-toggle="collapse" type="button">
@@ -78,10 +79,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="navMenu nav-item">
-                    <a class="nav-link" href="#">메인</a>
+                    <a class="nav-link" href="#">공지사항</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link" href="#">공지사항</a>
+                    <a class="nav-link navMenu" href="/simulation">시뮬레이터</a>
                 </li>
                 <li class="navMenu nav-item">
                     <a class="nav-link navMenu" href="/itemTier">아이템티어</a>
@@ -97,21 +98,9 @@
     </div>
 </nav>
 <!--롤 메뉴 End-->
-<div id="wrap">
+<div style="margin: 50px 0">
     <!-- 메인영역 -->
     <main class="container d-flex" id="main">
-        <div class="" id="itemTierItemList" style="width: 360px;">
-            <div class="card shadow">
-                <div class="card-body">
-                    <!-- 아이템 검색창 -->
-                    <input autocomplete="on" class="form-control mx-auto mb-2 sticky" id="left-item-search" placeholder="아이템 검색..."
-                           type="text">
-                    <!-- 아이템 목록창 -->
-                    <div class="row mx-auto" id="item-list">
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- 아이템 티어 리스트-->
         <div class="col">
             <div class="card shadow">
@@ -127,27 +116,30 @@
                 </div>
             </div>
         </div>
-
     </main>
-
-
-    <!-- 푸터영역 -->
-    <footer class="footer-style" id="footer">
-        <div class="copyright">
-            copyright &copy; 2023 <a href="https://github.com/su-hak/Avengers" style="color: #fffc57;">Avengers</a> All
-            rights reserved.
-        </div>
-        <div>
-                <span>
-                    이 사이트는 Riot Games의 보증을 받지 않으며 Riot Games 또는 공식적으로 관련된 사람의 견해나 의견을 반영하지 않습니다.
-                </span>
-            <span>
-                    리그 오브 레전드를 제작하거나 관리하는 데 있어 League of Legends 및 Riot Games는 Riot Games의 상표 또는 등록 상표입니다. Inc. 리그 오브 레전드 © Riot Games, Inc.
-                </span>
-        </div>
-    </footer>
-    <!-- 푸터영역 E -->
 </div>
+
+<!-- 푸터영역 -->
+<footer class="footer-style" id="footer">
+    <div class="f1l1">
+        <section class="f1r1b4">
+            <div class="copyright">
+                copyright &copy; 2023 <a href="https://github.com/su-hak/Avengers" style="color: #fffc57;">Avengers</a>
+                All rights reserved.
+            </div>
+            <div>
+            <span>
+                이 사이트는 Riot Games의 보증을 받지 않으며 Riot Games 또는 공식적으로 관련된 사람의 견해나 의견을 반영하지 않습니다.
+            </span><br>
+                <span>
+                리그 오브 레전드를 제작하거나 관리하는 데 있어 League of Legends 및 Riot Games는 Riot Games의 상표 또는 등록 상표입니다. Inc. 리그 오브 레전드 © Riot Games, Inc.
+            </span>
+
+            </div>
+        </section>
+    </div>
+</footer>
+<!-- 푸터영역 E -->
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
