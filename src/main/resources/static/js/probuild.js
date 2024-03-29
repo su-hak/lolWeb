@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     var ddEle = document.querySelectorAll('.match-info');
+    var entries = document.querySelectorAll('.match');
+    var userRankInfo = document.querySelectorAll('.user-rank-info');
 
     ddEle.forEach(function (ddEle) {
         var kills = parseFloat(ddEle.querySelector('#kills').textContent);
@@ -8,7 +10,63 @@ document.addEventListener('DOMContentLoaded', function () {
         var kdaResult = ddEle.querySelector('.kda-result');
         var kda = calculateKda(kills, deaths, assists);
         kdaResult.textContent = kda;
+
+        if (kda.includes('Perfect Kill')) {
+            kdaResult.style.color = 'orange';
+        } else if (kda >= 4) {
+            kdaResult.style.color = 'red';
+        } else if (kda >= 3) {
+            kdaResult.style.color = 'blue';
+        } else if (kda > 2) {
+            kdaResult.style.color = 'green';
+        }
     });
+
+    entries.forEach(function (entry) {
+        var summonerName = entry.querySelector('#nickName span').textContent;
+
+        // 해당 entry에 대한 모든 participants 가져오기
+        var participants = entry.querySelectorAll('.match-user-info');
+
+        participants.forEach(function (participant) {
+            var participantSummonerName = participant.querySelector('#summonerName dd').textContent;
+            var championName = participant.querySelector('#championName dd').textContent;
+
+            // participant.summonerName = entry.summonerName인 경우
+            if (participantSummonerName === summonerName) {
+                var whatUseChamp = entry.querySelector('.what-use-champ');
+
+                // 'p' 요소 다음 위치에 추가
+                var championImgSrc = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championName + ".png";
+                var championImg = document.createElement('img');
+                championImg.src = championImgSrc;
+                championImg.alt = championName + " 이미지";
+                championImg.id = "participant_champion";
+
+                var pElement = whatUseChamp.querySelector('p');
+                pElement.insertAdjacentElement('beforebegin', championImg);
+                // whatUseChamp.insertBefore(championImg, pElement.nextSibling);
+            }
+        });
+    });
+
+    userRankInfo.forEach(function (entry) {
+        var tierText = entry.querySelector('#RankTier span').textContent;
+
+        // 이미지 경로 설정
+        var imgSrc = "./Img/Rank_Tier/" + tierText + ".png";
+
+        // 이미지 엘리먼트 생성
+        var img = new Image();
+        img.src = imgSrc;
+        img.alt = tierText + " 이미지";
+        img.className = "tier-img";
+
+        var rankTier = entry.querySelector('#RankTier');
+        rankTier.innerHTML = '';
+        rankTier.appendChild(img);
+    });
+    getChampionImg();
 });
 
 // KDA를 계산하는 함수
@@ -145,3 +203,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+function getChampionImg() {
+    $('.championName').each(function (index, element) {
+        // 현재 반복문의 텍스트
+        var championName = $(element).text().trim();
+
+        // 챔피언 이름 api에 넣어서 이미지 호출
+        var championImgSrc = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championName + ".png";
+
+        // 이미지 엘리먼트를 생성하고 속성을 설정
+        var championImg = $("<img>", {
+            src: championImgSrc,
+            alt: championName + " 이미지",
+            class: "championName-img"
+        });
+        // 해당 요소에 이미지 추가
+        $(element).empty().append(championImg);
+    });
+}

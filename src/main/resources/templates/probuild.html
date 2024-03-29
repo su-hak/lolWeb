@@ -101,61 +101,69 @@
     <!-- Check if leagueEntries is not empty -->
     <div id="leagueEntriesContainer" class="entry" th:if="${not #lists.isEmpty(leagueEntries)}">
         <!-- Loop through each entry in leagueEntries -->
-        <div class="match" style="font-size: 10px; border: 1px solid black;" th:each="entry : ${leagueEntries}">
-            <!-- Display data for each entry -->
-            <p id="nickName">Name: <span th:text="${entry.getSummonerName()}"></span></p>
-            <p>LP: <span th:text="${entry.getLeaguePoints()}"></span></p>
-            <p>Win: <span th:text="${entry.getWins()}"></span></p>
-            <p>Loss: <span th:text="${entry.getLosses()}"></span></p>
-            <p>Type: <span th:text="${entry.getQueueType()}"></span></p>
-            <p>Tier: <span th:text="${entry.getTier()}"></span></p>
-            <p>Puuid: <span th:text="${entry.getPuuid()}"></span></p>
+        <div class="match" th:each="entry : ${leagueEntries}">
+            <div class="what-use-champ">
+                <p id="nickName"><span th:text="${entry.getSummonerName()}"></span></p>
+            </div>
+            <div class="user-rank-info">
+                <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
+                <div>
+                <p>LP: <span th:text="${entry.getLeaguePoints()}"></span></p>
+                <dl id="winrate">
+                    <dt>W / L</dt>
+                    <div style="display: flex;">
+                    <dd id="win" th:text="${entry.getWins()}"></dd>
+                    <span>&nbsp/&nbsp</span>
+                    <dd id="lose" th:text="${entry.getLosses()}"></dd>
+                    <dd id="winrate_result"></dd>
+                    </div>
+                </dl>
+                </div>
+            </div>
+            <!--<p>Type: <span th:text="${entry.getQueueType()}"></span></p>-->
+            <!--<p>Puuid: <span th:text="${entry.getPuuid()}"></span></p>
             <p>MatchId: <span th:text="${entry.getMatchIds()}"></span></p>
-
+-->
             <!-- Loop through each match -->
             <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
-                <!-- Fetch match details -->
-                <!-- This part fetches match details and participant information, you can implement it here -->
-                <!-- For demonstration purpose, I'm just displaying matchId -->
-                <p>MatchId: <span th:text="${matchId}"></span></p><br/>
-                <!-- Loop through each participant in the match -->
-                <!-- Here you can add your code to display each participant's information -->
+                <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
                 <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
                     <div class="match-user">
-                        <dl id="summonerName"><dt>Summoner Name </dt>
-                            <dd th:text="${participant.summonerName}"></dd></dl>
-                        <dl id="championName"><dt>Champion </dt>
+                        <dl id="championName" class="championName">
                             <dd th:text="${participant.championName}"></dd></dl>
-                    </div>
-                    <div class="match-info">
-                        <dl id="kda"><dt>KDA </dt>
-                            <dd id="kills" th:text="${participant.getKills()}"></dd>
-                            <span>/</span>
-                            <dd id="deaths" th:text="${participant.getDeaths()}"></dd>
-                            <span>/</span>
-                            <dd id="assists" th:text="${participant.getAssists()}"></dd>
-                            <span>/</span>
-                            <dd class="kda-result"></dd>
-                        </dl>
-                        <dl><dt>Item0 </dt>
-                            <dd th:text="${participant.getItem0()}"></dd></dl>
-                        <dl><dt>Item1 </dt>
-                            <dd th:text="${participant.getItem1()}"></dd></dl>
-                        <dl><dt>Item2 </dt>
-                            <dd th:text="${participant.getItem2()}"></dd></dl>
-                        <dl><dt>Item3 </dt>
-                            <dd th:text="${participant.getItem3()}"></dd></dl>
-                        <dl><dt>Item4 </dt>
-                            <dd th:text="${participant.getItem4()}"></dd></dl>
-                        <dl><dt>Item5 </dt>
-                            <dd th:text="${participant.getItem5()}"></dd></dl>
-                        <dl><dt>Item6 </dt>
-                            <dd th:text="${participant.getItem6()}"></dd></dl>
-                        <!-- Add more participant fields as needed -->
+                        <dl id="summonerName">
+                            <dd th:text="${participant.summonerName}"></dd></dl>
+                        <div class="match-info">
+                            <dl id="kda">
+                                <dd id="kills" th:text="${participant.getKills()}"></dd>
+                                <dd id="deaths" th:text="${participant.getDeaths()}"></dd>
+                                <dd id="assists" th:text="${participant.getAssists()}"></dd>
+                                <dd class="kda-result"></dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- End of match loop -->
+            <div class="build-up" th:each="matchId : ${entry.getMatchIds()}">
+                <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
+                <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
+                    <div class="match-user">
+                        <dl id="" class="">
+                            <dd th:text="${participant.championName}"></dd></dl>
+                        <dl id="">
+                            <dd th:text="${participant.summonerName}"></dd></dl>
+                        <div class="match-info">
+                            <dl id="">
+                                <dd id="" th:text="${participant.getKills()}"></dd>
+                                <dd id="" th:text="${participant.getDeaths()}"></dd>
+                                <dd id="" th:text="${participant.getAssists()}"></dd>
+                                <dd class="kda-result"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- If leagueEntries is empty, display a message -->
