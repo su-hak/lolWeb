@@ -20,7 +20,6 @@
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 <body>
-
 <!-- 최상단 네비바 -->
 <nav class="site-header sticky-top py-1" style="background: #8360CE; ">
     <div class="container d-flex flex-column flex-md-row color-white">
@@ -55,7 +54,6 @@
                 <img src="/img/Loa_Icon.png" style="height: 20px"/>로스트 아크
             </span>
         </a>
-
     </div>
 </nav>
 <!--롤 메뉴-->
@@ -89,7 +87,7 @@ font-weight: bolder">
     </div>
 </nav>
 <!--롤 메뉴 End-->
-<div class="" id="lolMain" style="/*margin-top: 10rem*/">
+<div id="lolMain">
     <div class="wrap">
         <div id="sectionA">
             <img class="backgroundImg" src="/img/lolMainImg.jpg">
@@ -209,7 +207,16 @@ font-weight: bolder">
 <!-- 푸터영역 E -->
 
 
-<script th:src="@{/js/main/lolMain.js}"></script> <!--롤 메인 페이지 -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script crossorigin="anonymous"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+<!--<script th:src="@{/js/main/lolMain.js}"></script> &lt;!&ndash;롤 메인 페이지 &ndash;&gt;-->
 <script th:src="@{/js/lol_common.js}"></script> <!--롤 공통 -->
 
 
