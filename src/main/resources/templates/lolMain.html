@@ -20,7 +20,6 @@
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 <body>
-
 <!-- 최상단 네비바 -->
 <nav class="site-header sticky-top py-1" style="background: #8360CE; ">
     <div class="container d-flex flex-column flex-md-row color-white">
@@ -55,12 +54,12 @@
                 <img src="/img/Loa_Icon.png" style="height: 20px"/>로스트 아크
             </span>
         </a>
-
     </div>
 </nav>
 <!--롤 메뉴-->
-<nav class="navbar navbar-expand-lg sticky-top py-1 navbar-light bg-light" style="height: 47px; font-size: 14px; font-weight: bolder">
-    <div class="container">
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light" style="padding: 9px 0; font-size: 14px;
+font-weight: bolder">
+    <div class="container" style="padding: 0 15px;">
         <a class="navbar-brand" href="#">리그 오브 레전드 >> </a>
         <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                 data-target="#navbarNav" data-toggle="collapse" type="button">
@@ -69,10 +68,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="navMenu nav-item">
-                    <a class="nav-link" href="#">메인</a>
+                    <a class="nav-link" href="#">공지사항</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link" href="#">공지사항</a>
+                    <a class="nav-link navMenu" href="/simulation">시뮬레이터</a>
                 </li>
                 <li class="navMenu nav-item">
                     <a class="nav-link navMenu" href="/itemTier">아이템티어</a>
@@ -88,7 +87,7 @@
     </div>
 </nav>
 <!--롤 메뉴 End-->
-<div class="container" id="lolMain" style="margin-top: 10rem">
+<div id="lolMain">
     <div class="wrap">
         <div id="sectionA">
             <img class="backgroundImg" src="/img/lolMainImg.jpg">
@@ -153,7 +152,7 @@
             </div>
         </div>
         <div class="col relative d-flex justify-content-center align-items-center" id="lol-news-img" style="height:700px;
-        margin: 100px 0; overflow: hidden;">
+        margin-top: 100px; overflow: hidden;">
             <div class="d-flex justify-content-center align-items-top" style="min-width: 633px !important;">
                 <section class="main-sub" id="sectionD">
                     <dl>
@@ -208,7 +207,16 @@
 <!-- 푸터영역 E -->
 
 
-<script th:src="@{/js/main/lolMain.js}"></script> <!--롤 메인 페이지 -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script crossorigin="anonymous"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+<!--<script th:src="@{/js/main/lolMain.js}"></script> &lt;!&ndash;롤 메인 페이지 &ndash;&gt;-->
 <script th:src="@{/js/lol_common.js}"></script> <!--롤 공통 -->
 
 
