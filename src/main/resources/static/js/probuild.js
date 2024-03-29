@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var ddEle = document.querySelectorAll('.match-info');
     var entries = document.querySelectorAll('.match');
     var userRankInfo = document.querySelectorAll('.user-rank-info');
+    var winRate = document.querySelectorAll('.winrate');
 
     ddEle.forEach(function (ddEle) {
         var kills = parseFloat(ddEle.querySelector('#kills').textContent);
@@ -19,6 +20,22 @@ document.addEventListener('DOMContentLoaded', function () {
             kdaResult.style.color = 'blue';
         } else if (kda > 2) {
             kdaResult.style.color = 'green';
+        }
+    });
+
+    winRate.forEach(function (winrate) {
+        var win = parseFloat(winrate.querySelector('#win').textContent);
+        var lose = parseFloat(winrate.querySelector('#lose').textContent);
+        var winrateResult = winrate.querySelector('.winrate_result');
+        var winRate = calculateWinrate(win, lose);
+        winrateResult.textContent = winRate;
+
+        if (winRate >= 70) {
+            winrateResult.style.color = 'orange';
+        } else if (winRate >= 60) {
+            winrateResult.style.color = 'blue';
+        } else if (winRate >= 50) {
+            winrateResult.style.color = 'green';
         }
     });
 
@@ -76,6 +93,15 @@ function calculateKda(kills, deaths, assists) {
         return kdaValue.toFixed(2);
     } else {
         return (kills + assists) + "Perfect Kill";
+    }
+}
+
+function calculateWinrate(win,lose) {
+    if (win + lose !== 0) {
+        var winRate = (win / (win + lose)) * 100;
+        return winRate.toFixed(1) + "%";
+    } else {
+        return 0;
     }
 }
 

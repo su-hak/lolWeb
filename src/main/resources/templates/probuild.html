@@ -109,13 +109,13 @@
                 <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
                 <div>
                 <p>LP: <span th:text="${entry.getLeaguePoints()}"></span></p>
-                <dl id="winrate">
+                <dl class="winrate">
                     <dt>W / L</dt>
                     <div style="display: flex;">
                     <dd id="win" th:text="${entry.getWins()}"></dd>
                     <span>&nbsp/&nbsp</span>
                     <dd id="lose" th:text="${entry.getLosses()}"></dd>
-                    <dd id="winrate_result"></dd>
+                    &nbsp;<dd class="winrate_result"></dd>
                     </div>
                 </dl>
                 </div>
@@ -145,8 +145,8 @@
                 </div>
             </div>
             <!-- End of match loop -->
-            <div class="build-up" th:each="matchId : ${entry.getMatchIds()}">
-                <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
+            <!--<div class="build-up" th:each="matchId : ${entry.getMatchIds()}">
+                &lt;!&ndash;<p>MatchId: <span th:text="${matchId}"></span></p><br/>&ndash;&gt;
                 <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
                     <div class="match-user">
                         <dl id="" class="">
@@ -163,7 +163,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
     <!-- If leagueEntries is empty, display a message -->
