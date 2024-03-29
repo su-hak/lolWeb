@@ -17,7 +17,7 @@ function initializestatusL() {
 function getChampionList() {
     $.ajax({
         type: "get",
-        url: "https://ddragon.leagueoflegends.com/cdn/13.24.1/data/ko_KR/champion.json",
+        url: "https://ddragon.leagueoflegends.com/cdn/14.6.1/data/ko_KR/champion.json",
         success: function (data) {
             var champions = Object.values(data.data);
             // 챔피언 이름을 기준으로 정렬
@@ -44,7 +44,7 @@ function displayChampionList(champions) {
         });
 
         const championImg = $("<img>", {
-            src: "https://ddragon.leagueoflegends.com/cdn/13.24.1/img/champion/" + champion.id + ".png",
+            src: "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + champion.id + ".png",
             alt: champion.name + " 이미지",
             class: "champion-img"
         });
@@ -102,7 +102,7 @@ function searchChampion() {
 // 챔피언 선택시 초상화 설정
 function updateChampionButtonImage(championId) {
     const championBtnImg = $("#left-champ-portrait");
-    championBtnImg.attr("src", "https://ddragon.leagueoflegends.com/cdn/13.24.1/img/champion/" + championId + ".png");
+    championBtnImg.attr("src", "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championId + ".png");
 }
 
 // 현재 레벨을 부르는 함수
@@ -117,7 +117,7 @@ function detailedChampL(id, callback){
     let detail;
     $.ajax({
         type: "get",
-        url: "https://ddragon.leagueoflegends.com/cdn/13.24.1/data/ko_KR/champion/"+id+".json",
+        url: "https://ddragon.leagueoflegends.com/cdn/14.6.1/data/ko_KR/champion/"+id+".json",
         success: function (data) {
             var dtch = Object.values(data.data); // 챔피언 데이터 배열 추출
             console.log("dtch :" + dtch);

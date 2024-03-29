@@ -55,7 +55,7 @@ function searchItemR() {
 // API 가져오기
 $.ajax({
     type: "get",
-    url: "https://ddragon.leagueoflegends.com/cdn/13.24.1/data/ko_KR/item.json",
+    url: "https://ddragon.leagueoflegends.com/cdn/14.6.1/data/ko_KR/item.json",
     success: function (data) {
         allitemsR = Object.values(data.data); //아이템 데이터 배열 추출
 
@@ -123,7 +123,7 @@ $.ajax({
             var itemBox = $("<div>").addClass("item_box_list");
             var itemImg = $("<img>", {
                 id: 'item-imgR-' + index,
-                src: "https://ddragon.leagueoflegends.com/cdn/13.24.1/img/item/" + data.image.full,
+                src: "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + data.image.full,
                 alt: data.name + " 이미지",
                 class: "item-img",
                 value: index
@@ -226,7 +226,7 @@ $("#item-listR").click(function (e) {
         // callIdx = $(e.target).closest('.iBox').index();
         console.log("saveditemsR :: ",saveditemsR);
         var itemDataR = filteritemsR[e.target.getAttribute("value")];
-        var imgSrcR = "https://ddragon.leagueoflegends.com/cdn/13.24.1/img/item/" + filteritemsR[e.target.getAttribute("value")].image.full;
+        var imgSrcR = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + filteritemsR[e.target.getAttribute("value")].image.full;
 
         $('#iBox' + callIdxR).empty();
         $('#iBox' + callIdxR).css({

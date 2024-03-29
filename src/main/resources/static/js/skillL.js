@@ -7,7 +7,7 @@ function setChampSpellsL(id) {
             var skillButtonId = "skill" + (i + 1); // 스킬버튼 id
             var skillInputId = "left-skill" + (i + 1) + "-num"; // 스킬 레벨 표시 id 변수선언
             var skillLevelInput = document.getElementById(skillInputId);
-            var skillImageSrc = "https://ddragon.leagueoflegends.com/cdn/13.24.1/img/spell/" + dtch[0].spells[i].id + ".png";   // 각 스킬 이미지
+            var skillImageSrc = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/spell/" + dtch[0].spells[i].id + ".png";   // 각 스킬 이미지
             var skillDescription = dtch[0].spells[i].description; // 스킬 설명 정보 추가
 
             console.log ("챔피언 스킬정보 불러오기 성공 : " + skillButtonId + skillInputId + skillLevelInput + skillImageSrc + skillDescription);

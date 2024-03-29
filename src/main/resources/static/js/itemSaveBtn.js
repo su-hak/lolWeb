@@ -38,7 +38,7 @@ $('.saveHere').click(function () {
 
     for (let i = 0; i < savedItemsLBtn[buttonId].length; i++) {
         if (savedItemsLBtn[buttonId][i] !== undefined && savedItemsLBtn[buttonId][i] !== 'empty') {
-            const imgSrc = "https://ddragon.leagueoflegends.com/cdn/13.24.1/img/item/" + savedItemsLBtn[buttonId][i].image.full;
+            const imgSrc = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + savedItemsLBtn[buttonId][i].image.full;
             const savedImg = $(saveItemBoxImgs[i]);
             const itemName = savedItemsLBtn[buttonId][i].name;
 
@@ -85,7 +85,7 @@ $('.loadThere').click(function () {
 
     for (let i = 0; i < itemsToLoad.length; i++) {
         if (itemsToLoad[i] !== undefined && itemsToLoad[i] !== 'empty') {
-            var imgSrc = "https://ddragon.leagueoflegends.com/cdn/13.24.1/img/item/" + itemsToLoad[i].image.full;
+            var imgSrc = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + itemsToLoad[i].image.full;
 
             $('#iBox' + i).empty();
             var loadIBox = $('#iBox' + i);
