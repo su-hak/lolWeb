@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (kda.includes('Perfect Kill')) {
             kdaResult.style.color = 'orange';
-        } else if (kda >= 4) {
+        } else if (kda >= 5) {
             kdaResult.style.color = 'red';
-        } else if (kda >= 3) {
+        } else if (kda >= 4) {
             kdaResult.style.color = 'blue';
-        } else if (kda > 2) {
+        } else if (kda >= 3) {
             kdaResult.style.color = 'green';
         }
     });
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var lose = parseFloat(winrate.querySelector('#lose').textContent);
         var winrateResult = winrate.querySelector('.winrate_result');
         var winRate = calculateWinrate(win, lose);
-        winrateResult.textContent = winRate;
+        console.log(winRate);
 
         if (winRate >= 70) {
             winrateResult.style.color = 'orange';
@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (winRate >= 50) {
             winrateResult.style.color = 'green';
         }
+
+        winrateResult.textContent = winRate.toFixed(1) + "%";
     });
 
     entries.forEach(function (entry) {
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var tierText = entry.querySelector('#RankTier span').textContent;
 
         // 이미지 경로 설정
-        var imgSrc = "./Img/Rank_Tier/" + tierText + ".png";
+        var imgSrc = "./Img/Rank_Tier/" + "Rank=" + tierText + ".png";
 
         // 이미지 엘리먼트 생성
         var img = new Image();
@@ -99,7 +101,7 @@ function calculateKda(kills, deaths, assists) {
 function calculateWinrate(win,lose) {
     if (win + lose !== 0) {
         var winRate = (win / (win + lose)) * 100;
-        return winRate.toFixed(1) + "%";
+        return winRate;
     } else {
         return 0;
     }

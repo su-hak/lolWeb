@@ -107,15 +107,18 @@
             </div>
             <div class="user-rank-info">
                 <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
-                <div>
-                <p>LP: <span th:text="${entry.getLeaguePoints()}"></span></p>
-                <dl class="winrate">
-                    <dt>W / L</dt>
-                    <div style="display: flex;">
-                    <dd id="win" th:text="${entry.getWins()}"></dd>
+                <div style="display: flex;">
+                    <span th:text="${entry.getQueueType()}"></span>
                     <span>&nbsp/&nbsp</span>
-                    <dd id="lose" th:text="${entry.getLosses()}"></dd>
-                    &nbsp;<dd class="winrate_result"></dd>
+                <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
+                    <span>&nbsp/&nbsp</span>
+                <dl class="winrate">
+                    <div style="display: flex;">
+                    <dd id="win" th:text="|${entry.getWins()}W|"></dd>&nbsp;
+
+                    <dd id="lose" th:text="|${entry.getLosses()}L|"></dd>
+                        <span>&nbsp/&nbsp Winrate&nbsp</span>
+                        &nbsp;<dd class="winrate_result"></dd>
                     </div>
                 </dl>
                 </div>
