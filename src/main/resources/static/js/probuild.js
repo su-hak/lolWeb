@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
         rankTier.appendChild(img);
     });
     getChampionImg();
+    getMostChampImg();
 });
 
 // KDA를 계산하는 함수
@@ -248,5 +249,33 @@ function getChampionImg() {
         });
         // 해당 요소에 이미지 추가
         $(element).empty().append(championImg);
+    });
+}
+
+function getMostChampImg() {
+    $('.most-champion-img span').each(function (index, element) {
+        var championId = $(element).text().trim().split(',');
+        console.log('championId', championId);
+
+        var allChampion = "https://ddragon.leagueoflegends.com/cdn/14.6.1/data/en_US/champion.json"
+
+        $.getJSON(allChampion, function (data) {
+            console.log('data', data);
+
+            championId.forEach(function (championIds) {
+                console.log('championIds', championIds);
+
+                var championKey = Object.values(data.data).find(champion => champion.key === championIds);
+                console.log('championKey', championKey);
+
+                if (championKey) {
+                    var img = document.createElement("img");
+                    img.src = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championKey.image.full;
+                    img.alt = championKey.name;
+                    $(element).empty().append(img);
+                    console.log('img', img);
+                }
+            });
+        });
     });
 }

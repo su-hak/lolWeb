@@ -1,22 +1,20 @@
 // ProbuildService.java
 package com.simulation.LoLItemSimulation.service;
 
-import com.simulation.LoLItemSimulation.dto.MatchDetailDTO;
-import com.simulation.LoLItemSimulation.dto.MatchTimelineDTO;
-import com.simulation.LoLItemSimulation.dto.SummonerDTO;
+import com.simulation.LoLItemSimulation.dto.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import com.simulation.LoLItemSimulation.dto.LeagueEntryDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-f8e50a33-8f24-4728-a14a-d040aee5b3b1"; // 여기에 실제 API 키를 넣습니다.
+    private final String apiKey = "RGAPI-e8191e07-1cea-4e4f-9a14-57f507bd6784"; // 여기에 실제 API 키를 넣습니다.
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -52,6 +50,7 @@ public class ProbuildService {
             // puuid 설정 // entry : limitedEntries로 바꿔야 3개의 forEach문 변수가 적용 됨.
             for (LeagueEntryDTO entry : limitedEntries) {
                 setPuuidBySummonerName(entry);
+                setChampionPoints(entry);
                 setMatchIdsByPuuid(entry);
                 setProbuild(entry);
                 setProbuildTimeline(entry);
@@ -76,9 +75,35 @@ public class ProbuildService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("summonerName ::" + url);
     }
 
+    private void setChampionPoints(LeagueEntryDTO entryDTO) {
+        RestTemplate restTemplate = new RestTemplate();
+        String puuid = entryDTO.getPuuid();
+        String url = "https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/" + puuid + "?api_key=" + apiKey;
 
+        try {
+            ChampionMasteryDTO[] championMastery = restTemplate.getForObject(url, ChampionMasteryDTO[].class);
+            Arrays.sort(championMastery, Comparator.comparingInt(ChampionMasteryDTO::getChampionPoints).reversed());
+
+            List<Integer> topoChampionIds = new ArrayList<>();
+            int count = 0;
+            for (ChampionMasteryDTO masteryDTO : championMastery) {
+                topoChampionIds.add(masteryDTO.getChampionId());
+                count++;
+                if (count == 3) {
+                    break;
+                }
+            }
+            entryDTO.setChampionId(topoChampionIds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("championId ::" + url);
+    }
+
+    // matchIds 가져오기
     private void setMatchIdsByPuuid(LeagueEntryDTO entry) {
         RestTemplate restTemplate1 = new RestTemplate();
         String puuid = entry.getPuuid();
@@ -94,7 +119,10 @@ public class ProbuildService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("puuid ::" + url);
     }
+
+    // matchId로 매칭 게임 정보 가져오기
     private void setProbuild(LeagueEntryDTO pro) {
         // matchIds가 null이 아니고 비어 있지 않은 경우에만 api 호출
         if (pro.getMatchIds() != null && !pro.getMatchIds().isEmpty()) {
@@ -136,6 +164,7 @@ public class ProbuildService {
 
     // timestamp / 1000 = 초 단위
     // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
+    // 인게임 Timeline 가져오기
     private void setProbuildTimeline(LeagueEntryDTO timeline) {
         // matchIds가 null이 아니고 비어 있지 않은 경우에만 api 호출
         if (timeline.getMatchIds() != null && !timeline.getMatchIds().isEmpty()) {

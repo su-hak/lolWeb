@@ -103,30 +103,32 @@
         <!-- Loop through each entry in leagueEntries -->
         <div class="match" th:each="entry : ${leagueEntries}">
             <div class="what-use-champ">
+                <span class="info-title">Champion</span>
                 <p id="nickName"><span th:text="${entry.getSummonerName()}"></span></p>
             </div>
+            <div class="most-champion-img" style="display: flex; flex-direction: column;">
+                <p class="info-title" style="padding-bottom: 1px;">Most3</p>
+                <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
+            </div>
             <div class="user-rank-info">
-                <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
-                <div style="display: flex;">
-                    <span th:text="${entry.getQueueType()}"></span>
-                    <span>&nbsp/&nbsp</span>
+                <div style="display: block;">
+                        <p class="info-title" th:text="${entry.getQueueType()}"></p>
+                        <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
                 <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
-                    <span>&nbsp/&nbsp</span>
-                <dl class="winrate">
-                    <div style="display: flex;">
-                    <dd id="win" th:text="|${entry.getWins()}W|"></dd>&nbsp;
 
-                    <dd id="lose" th:text="|${entry.getLosses()}L|"></dd>
-                        <span>&nbsp/&nbsp Winrate&nbsp</span>
-                        &nbsp;<dd class="winrate_result"></dd>
+                    <div class="winrate">
+                    <span id="win" th:text="|${entry.getWins()}W|"></span>&nbsp;
+                    <span id="lose" th:text="|${entry.getLosses()}L|"></span>
+                        <span>&nbsp/&nbsp</span>
+                        &nbsp;<span class="winrate_result"></span>
                     </div>
-                </dl>
                 </div>
             </div>
             <!--<p>Type: <span th:text="${entry.getQueueType()}"></span></p>-->
             <!--<p>Puuid: <span th:text="${entry.getPuuid()}"></span></p>
             <p>MatchId: <span th:text="${entry.getMatchIds()}"></span></p>
 -->
+            <div class="user-time-line"></div>
             <!-- Loop through each match -->
             <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
                 <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
