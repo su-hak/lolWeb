@@ -164,41 +164,71 @@ public class ProbuildService {
         }
     }
 
-    private int findParticipantIdByPuuid(String puuid, List<ParticipantDTO> participants) {
-        for (ParticipantDTO participant : participants) {
-            if (participant.getPuuid().equals(puuid)) {
-                return participant.getParticipantId();
-            }
-        }
-        return -1; // 해당 puuid에 해당하는 participantId를 찾지 못한 경우
-    }
-
-
     // timestamp / 1000 = 초 단위
     // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
     // 인게임 Timeline 가져오기
-    private void setProbuildTimeline(LeagueEntryDTO timeline) {
-        String puuid = timeline.getPuuid();
-        List<ParticipantDTO> participants = timeline.getParticipants();
+    private void setProbuildTimeline(LeagueEntryDTO entry) {
+        RestTemplate restTemplate = new RestTemplate();
 
-        int participantId = findParticipantIdByPuuid(puuid, participants);
-        if (participantId == -1) {
-            System.out.println("ParticipantId not found for puuid: " + puuid);
-            return;
-        }
+        List<String> matchIdsList = entry.getMatchIds();
 
-        List<MatchTimelineDTO> events = getEventsByParticipantId(participantId);
-
-        for (MatchTimelineDTO event : events) {
-            System.out.println("Timestamp ::" + event.getTimestamp());
-        }
-
-        List<String> matchIdsList = timeline.getMatchIds();
         // 각 요소에서 대괄호를 제거하고 안에 있는 문자열만 추출하여 matchIds로 저장
         String matchIds = matchIdsList.get(0).replaceAll("\\[|\\]", ""); // 대괄호 제거
 
-        String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "/timeline?api_key=" + apiKey;
-        System.out.println("Timeline ::" + url);
+        // matchIds가 빈 문자열이 아닌 경우에만 API 호출
+        if (!matchIds.isEmpty()) {
+            String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "/timeline?api_key=" + apiKey;
+            try {
+                MatchTimelineDTO matchTimeline = restTemplate.getForObject(url, MatchTimelineDTO.class);
+
+                // 매치에 참가한 모든 플레이어의 정보를 가져옴
+                List<MatchTimelineDTO.Participant> participants = matchTimeline.getInfo().getParticipants();
+                List<MatchTimelineDTO.Frame> frames = matchTimeline.getInfo().getFrames();
+                System.out.println("participants ::" + participants);
+                System.out.println("frames ::" + frames);
+
+                // url의 puuid와 같은 배열에 있는 participantId를 가져오기 위해 LeagueEntryDTO에 저장된 puuid를 사용
+                String entryPuuid = entry.getPuuid(); // LeagueEntryDTO에 저장된 puuid 가져오기
+                for (MatchTimelineDTO.Participant participant : participants) {
+                    // LeagueEntryDTO에 저장된 puuid와 url의 puuid를 비교
+                    if (participant.getPuuid().equals(entryPuuid)) {
+                        // puuid가 일치하는 경우 해당하는 participantId를 출력
+                        System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());
+                        entry.setParticipantId(participant.getParticipantId());
+
+                        int targetId = entry.getParticipantId();
+                        if (participant.getParticipantId() == targetId) {
+                            System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());
+
+                            // 해당 Participant의 모든 항목들을 출력
+                            if (frames != null) {
+                                for (MatchTimelineDTO.Frame frame : frames) {
+                                    List<MatchTimelineDTO.Event> events = frame.getEvents();
+                                    if (events != null) {
+                                        for (MatchTimelineDTO.Event event : events) {
+                                            if (event.getParticipantId() == targetId) {
+                                                entry.setItemId(event.getItemId());
+                                                entry.setTimestamp(event.getTimestamp());
+                                                entry.setType(event.getType());
+                                                System.out.println("ParticipantId: " + event.getParticipantId());
+                                                System.out.println("itemId: " + event.getItemId());
+                                                System.out.println("timestamp: " + event.getTimestamp());
+                                                System.out.println("type: " + event.getType());
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                System.out.println("frames is null");
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("Timeline ::" + url);
+        }
     }
 
 }

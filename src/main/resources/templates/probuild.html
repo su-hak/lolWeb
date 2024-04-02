@@ -123,14 +123,17 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="user-time-line" th:each="matchIds : ${entry.getMatchIds()}">
-                <div class="" th:each="itemTimeline : ${entry.getItemTimelines()}">
-                    <div th:if="${itemTimeline.participantId == entry.getParticipantId()}">
-                        <p th:text="${itemTimeline.getItemId()}"></p>
-                        <p th:text="${itemTimeline.getTimestamp()}"></p>
+            <div class="user-time-line" th:each="matchId : ${entry.getMatchIds()}">
+                <div class="" th:each="info : ${entry.getInfo()}">
+                    <div th:each="frame : ${info.getFrames()}">
+                        <div th:each="event : ${frame.getEvents()}">
+                            <p th:text="${event.getParticipantId()}"></p>
+                            <p th:text="${event.getItemId()}"></p>
+                            <p th:text="${event.getTimestamp()}"></p>
+                        </div>
                     </div>
                 </div>
-            </div>-->
+            </div>
 
             <!-- Loop through each match -->
             <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">

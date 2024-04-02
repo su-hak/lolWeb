@@ -32,16 +32,9 @@ public class MatchDetailDTO {
         private int deaths;
         private int assists;
         private int championId;
-        private int summoner1Id;
-        private int summoner2Id;
-        private int item0;
-        private int item1;
-        private int item2;
-        private int item3;
-        private int item4;
-        private int item5;
-        private int item6;
         private int totalDamageDealt;
+        private int participantId;
+        private String puuid;
 
         public String getSummonerName() {
             return summonerName;
@@ -91,84 +84,32 @@ public class MatchDetailDTO {
             this.championId = championId;
         }
 
-        public int getSummoner1Id() {
-            return summoner1Id;
-        }
-
-        public void setSummoner1Id(int summoner1Id) {
-            this.summoner1Id = summoner1Id;
-        }
-
-        public int getSummoner2Id() {
-            return summoner2Id;
-        }
-
-        public void setSummoner2Id(int summoner2Id) {
-            this.summoner2Id = summoner2Id;
-        }
-
-        public int getItem0() {
-            return item0;
-        }
-
-        public void setItem0(int item0) {
-            this.item0 = item0;
-        }
-
-        public int getItem1() {
-            return item1;
-        }
-
-        public void setItem1(int item1) {
-            this.item1 = item1;
-        }
-
-        public int getItem2() {
-            return item2;
-        }
-
-        public void setItem2(int item2) {
-            this.item2 = item2;
-        }
-
-        public int getItem3() {
-            return item3;
-        }
-
-        public void setItem3(int item3) {
-            this.item3 = item3;
-        }
-
-        public int getItem4() {
-            return item4;
-        }
-
-        public void setItem4(int item4) {
-            this.item4 = item4;
-        }
-
-        public int getItem5() {
-            return item5;
-        }
-
-        public void setItem5(int item5) {
-            this.item5 = item5;
-        }
-
-        public int getItem6() {
-            return item6;
-        }
-
-        public void setItem6(int item6) {
-            this.item6 = item6;
-        }
-
         public int getTotalDamageDealt() {
             return totalDamageDealt;
         }
 
+        public void etTotalDamageDealt(int totalDamageDealt) {
+            this.totalDamageDealt = totalDamageDealt;
+        }
+
         public void setTotalDamageDealt(int totalDamageDealt) {
             this.totalDamageDealt = totalDamageDealt;
+        }
+
+        public int getParticipantId() {
+            return participantId;
+        }
+
+        public void setParticipantId(int participantId) {
+            this.participantId = participantId;
+        }
+
+        public String getPuuid() {
+            return puuid;
+        }
+
+        public void setPuuid(String puuid) {
+            this.puuid = puuid;
         }
     }
     private String matchId;

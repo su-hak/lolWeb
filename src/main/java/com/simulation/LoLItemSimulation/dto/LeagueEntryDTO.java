@@ -282,6 +282,38 @@ public class LeagueEntryDTO {
     public void setWardType(String wardType) {
         this.wardType = wardType;
     }
+
+    // Timeline
+    private List<MatchTimelineDTO.Info> info;
+
+    public List<MatchTimelineDTO.Info> getInfo() {
+        return info;
+    }
+
+    public void setInfo(List<MatchTimelineDTO.Info> info) {
+        this.info = info;
+    }
+
+    private List<MatchTimelineDTO.Frame> frames;
+
+    public List<MatchTimelineDTO.Frame> getFrame() {
+        return frames;
+    }
+
+    public void setFrame(List<MatchTimelineDTO.Frame> frames) {
+
+        this.frames = frames;
+    }
+
+    private List<MatchTimelineDTO.Event> events;
+    public List<MatchTimelineDTO.Event> getEvent() {
+        return events;
+    }
+
+    public void setEvent(List<MatchTimelineDTO.Event> events) {
+
+        this.events = events;
+    }
 }
 
 
