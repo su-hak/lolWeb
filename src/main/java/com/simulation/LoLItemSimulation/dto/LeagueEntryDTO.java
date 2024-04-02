@@ -38,6 +38,16 @@ public class LeagueEntryDTO {
 
     // MATCH-V5 matchId가 필요
     private List<MatchDetailDTO.Participant> participants;
+    private int participantId;
+   /* private List<MatchTimelineDTO.ItemTimeline> itemTimelines;*/
+    public int getParticipantId() {
+        return participantId;
+    }
+
+    public void setParticipantId(int participantId) {
+        this.participantId = participantId;
+    }
+
     private String championName;
     private int kills;
     private int deaths;
@@ -206,6 +216,73 @@ public class LeagueEntryDTO {
     }
 
     public void setParticipants(List<MatchDetailDTO.Participant> participants) {
+
         this.participants = participants;
     }
+/*
+    public List<MatchTimelineDTO.ItemTimeline> getItemTimelines() {
+        return itemTimelines;
+    }
+
+    public void setItemTimelines(List<MatchTimelineDTO.ItemTimeline> itemTimelines) {
+        this.itemTimelines = itemTimelines;
+    }*/
+
+    private int itemId;
+    private int timestamp;
+    private String type;
+    private String levelUpType;
+    private int skillSlot;
+    private String wardType;
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public int getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(int timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLevelUpType() {
+        return levelUpType;
+    }
+
+    public void setLevelUpType(String levelUpType) {
+        this.levelUpType = levelUpType;
+    }
+
+    public int getSkillSlot() {
+        return skillSlot;
+    }
+
+    public void setSkillSlot(int skillSlot) {
+        this.skillSlot = skillSlot;
+    }
+
+    public String getWardType() {
+        return wardType;
+    }
+
+    public void setWardType(String wardType) {
+        this.wardType = wardType;
+    }
 }
+
+
+

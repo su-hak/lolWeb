@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-e8191e07-1cea-4e4f-9a14-57f507bd6784"; // 여기에 실제 API 키를 넣습니다.
+    private final String apiKey = "RGAPI-7a1e1dee-f2be-40bf-9b08-c880570cee1c"; // 여기에 실제 API 키를 넣습니다.
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -135,6 +136,7 @@ public class ProbuildService {
             // matchIds가 빈 문자열이 아닌 경우에만 API 호출
             if (!matchIds.isEmpty()) {
                 String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "?api_key=" + apiKey;
+
                 try {
                     MatchDetailDTO matchDetail = restTemplate1.getForObject(url, MatchDetailDTO.class);
 
@@ -162,39 +164,42 @@ public class ProbuildService {
         }
     }
 
+    private int findParticipantIdByPuuid(String puuid, List<ParticipantDTO> participants) {
+        for (ParticipantDTO participant : participants) {
+            if (participant.getPuuid().equals(puuid)) {
+                return participant.getParticipantId();
+            }
+        }
+        return -1; // 해당 puuid에 해당하는 participantId를 찾지 못한 경우
+    }
+
+
     // timestamp / 1000 = 초 단위
     // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
     // 인게임 Timeline 가져오기
     private void setProbuildTimeline(LeagueEntryDTO timeline) {
-        // matchIds가 null이 아니고 비어 있지 않은 경우에만 api 호출
-        if (timeline.getMatchIds() != null && !timeline.getMatchIds().isEmpty()) {
-            RestTemplate restTemplate1 = new RestTemplate();
-            List<String> matchIdsList = timeline.getMatchIds();
+        String puuid = timeline.getPuuid();
+        List<ParticipantDTO> participants = timeline.getParticipants();
 
-            // 각 요소에서 대괄호를 제거하고 안에 있는 문자열만 추출하여 matchIds로 저장
-            String matchIds = matchIdsList.get(0).replaceAll("\\[|\\]", ""); // 대괄호 제거
-
-            // matchIds가 빈 문자열이 아닌 경우에만 API 호출
-            if (!matchIds.isEmpty()) {
-                String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "/timeline" + "?api_key=" + apiKey;
-                try {
-                    MatchTimelineDTO timelines = restTemplate1.getForObject(url, MatchTimelineDTO.class);
-
-                    if (timelines != null && timelines.getEvents() != null && timelines.getEvents().getItemTimeline() != null) {
-                        // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
-                        List<MatchTimelineDTO.ItemTimeline> ItemTimeline = timelines.getEvents().getItemTimeline();
-
-                    }
-                    System.out.println("Timeline url ::" + url);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("matchIds is empty. Skipping API call.");
-            }
-        } else {
-            System.out.println("matchIds is null or empty. Skipping API call.");
+        int participantId = findParticipantIdByPuuid(puuid, participants);
+        if (participantId == -1) {
+            System.out.println("ParticipantId not found for puuid: " + puuid);
+            return;
         }
+
+        List<MatchTimelineDTO> events = getEventsByParticipantId(participantId);
+
+        for (MatchTimelineDTO event : events) {
+            System.out.println("Timestamp ::" + event.getTimestamp());
+        }
+
+        List<String> matchIdsList = timeline.getMatchIds();
+        // 각 요소에서 대괄호를 제거하고 안에 있는 문자열만 추출하여 matchIds로 저장
+        String matchIds = matchIdsList.get(0).replaceAll("\\[|\\]", ""); // 대괄호 제거
+
+        String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "/timeline?api_key=" + apiKey;
+        System.out.println("Timeline ::" + url);
     }
+
 }
 

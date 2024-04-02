@@ -1,31 +1,8 @@
 package com.simulation.LoLItemSimulation.dto;
 
-import java.util.List;
 
 public class MatchTimelineDTO {
-    private Events events;
 
-    public Events getEvents() {
-        return events;
-    }
-
-    public void setEvents(Events events) {
-        this.events = events;
-    }
-
-    public static class Events {
-        private List<ItemTimeline> itemTimeline;
-
-        public List<ItemTimeline> getItemTimeline() {
-            return itemTimeline;
-        }
-
-        public void setItemTimeline(List<ItemTimeline> itemTimeline) {
-            this.itemTimeline = itemTimeline;
-        }
-    }
-
-    public static class ItemTimeline {
         private int itemId;
         private int participantId;
         private int timestamp;
@@ -89,5 +66,5 @@ public class MatchTimelineDTO {
         public void setWardType(String wardType) {
             this.wardType = wardType;
         }
-    }
+
 }

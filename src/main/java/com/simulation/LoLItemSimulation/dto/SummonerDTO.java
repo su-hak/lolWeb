@@ -14,6 +14,7 @@ public class SummonerDTO {
     private long revisionDate;
     private long summonerLevel;
 
+
     public String getPuuid() {
         return puuid;
     }

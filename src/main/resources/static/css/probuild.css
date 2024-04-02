@@ -94,7 +94,7 @@
 }
 
 #RankTier img{
-    width: 100%;
+    width: 60%;
 }
 
 .what-use-champ {
@@ -104,6 +104,7 @@
 
 .most-champion-img {
     display: flex;
+    flex-direction: column;
     gap: 2px;
 }
 

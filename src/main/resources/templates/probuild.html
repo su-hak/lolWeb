@@ -102,20 +102,19 @@
     <div id="leagueEntriesContainer" class="entry" th:if="${not #lists.isEmpty(leagueEntries)}">
         <!-- Loop through each entry in leagueEntries -->
         <div class="match" th:each="entry : ${leagueEntries}">
-            <div class="what-use-champ">
-                <span class="info-title">Champion</span>
-                <p id="nickName"><span th:text="${entry.getSummonerName()}"></span></p>
-            </div>
-            <div class="most-champion-img" style="display: flex; flex-direction: column;">
-                <p class="info-title" style="padding-bottom: 1px;">Most3</p>
-                <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
-            </div>
+                <div class="what-use-champ">
+                    <span class="info-title">Champion</span>
+                    <p id="nickName"><span th:text="${entry.getSummonerName()}"></span></p>
+                </div>
+                <div class="most-champion-img">
+                    <p class="info-title" style="padding-bottom: 1px;">Most3</p>
+                    <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
+                </div>
             <div class="user-rank-info">
                 <div style="display: block;">
                         <p class="info-title" th:text="${entry.getQueueType()}"></p>
                         <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
                 <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
-
                     <div class="winrate">
                     <span id="win" th:text="|${entry.getWins()}W|"></span>&nbsp;
                     <span id="lose" th:text="|${entry.getLosses()}L|"></span>
@@ -124,11 +123,15 @@
                     </div>
                 </div>
             </div>
-            <!--<p>Type: <span th:text="${entry.getQueueType()}"></span></p>-->
-            <!--<p>Puuid: <span th:text="${entry.getPuuid()}"></span></p>
-            <p>MatchId: <span th:text="${entry.getMatchIds()}"></span></p>
--->
-            <div class="user-time-line"></div>
+            <!--<div class="user-time-line" th:each="matchIds : ${entry.getMatchIds()}">
+                <div class="" th:each="itemTimeline : ${entry.getItemTimelines()}">
+                    <div th:if="${itemTimeline.participantId == entry.getParticipantId()}">
+                        <p th:text="${itemTimeline.getItemId()}"></p>
+                        <p th:text="${itemTimeline.getTimestamp()}"></p>
+                    </div>
+                </div>
+            </div>-->
+
             <!-- Loop through each match -->
             <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
                 <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
@@ -150,25 +153,6 @@
                 </div>
             </div>
             <!-- End of match loop -->
-            <!--<div class="build-up" th:each="matchId : ${entry.getMatchIds()}">
-                &lt;!&ndash;<p>MatchId: <span th:text="${matchId}"></span></p><br/>&ndash;&gt;
-                <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
-                    <div class="match-user">
-                        <dl id="" class="">
-                            <dd th:text="${participant.championName}"></dd></dl>
-                        <dl id="">
-                            <dd th:text="${participant.summonerName}"></dd></dl>
-                        <div class="match-info">
-                            <dl id="">
-                                <dd id="" th:text="${participant.getKills()}"></dd>
-                                <dd id="" th:text="${participant.getDeaths()}"></dd>
-                                <dd id="" th:text="${participant.getAssists()}"></dd>
-                                <dd class="kda-result"></dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
         </div>
     </div>
     <!-- If leagueEntries is empty, display a message -->
