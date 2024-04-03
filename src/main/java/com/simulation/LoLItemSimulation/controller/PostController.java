@@ -143,6 +143,34 @@ public class PostController {
     model.addAttribute("post", new Post());
     return "postForm";
   }
+  @GetMapping("/simulCreate")
+  public String simulCreate(Model model) {
+    model.addAttribute("post", new Post());
+    return "simulCreate";
+  }
+  @GetMapping("/simulRead")
+  public String simulRead(Model model) {
+    model.addAttribute("post", new Post());
+    return "simulRead";
+  }
+
+  @GetMapping("/rouletteCreate")
+  public String rouletteCreate(Model model) {
+    model.addAttribute("post", new Post());
+    return "rouletteCreate";
+  }
+
+  @GetMapping("/movieCreate")
+  public String movieCreate(Model model) {
+    model.addAttribute("post", new Post());
+    return "movieCreate";
+  }
+
+  @GetMapping("/pollCreate")
+  public String pollCreate(Model model) {
+    model.addAttribute("post", new Post());
+    return "pollCreate";
+  }
 
   @GetMapping("/list")
   public String getPostList(@RequestParam(defaultValue = "0") int page,
