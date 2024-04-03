@@ -95,7 +95,7 @@ function calculateKda(kills, deaths, assists) {
         var kdaValue = (kills + assists) / deaths;
         return kdaValue.toFixed(2);
     } else {
-        return (kills + assists) + "Perfect Kill";
+        return "Perfect Kill";
     }
 }
 

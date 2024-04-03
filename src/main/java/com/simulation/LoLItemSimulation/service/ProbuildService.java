@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-e8191e07-1cea-4e4f-9a14-57f507bd6784"; // 여기에 실제 API 키를 넣습니다.
+    private final String apiKey = "RGAPI-7a1e1dee-f2be-40bf-9b08-c880570cee1c"; // 여기에 실제 API 키를 넣습니다.
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -135,6 +136,7 @@ public class ProbuildService {
             // matchIds가 빈 문자열이 아닌 경우에만 API 호출
             if (!matchIds.isEmpty()) {
                 String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "?api_key=" + apiKey;
+
                 try {
                     MatchDetailDTO matchDetail = restTemplate1.getForObject(url, MatchDetailDTO.class);
 
@@ -165,36 +167,69 @@ public class ProbuildService {
     // timestamp / 1000 = 초 단위
     // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
     // 인게임 Timeline 가져오기
-    private void setProbuildTimeline(LeagueEntryDTO timeline) {
-        // matchIds가 null이 아니고 비어 있지 않은 경우에만 api 호출
-        if (timeline.getMatchIds() != null && !timeline.getMatchIds().isEmpty()) {
-            RestTemplate restTemplate1 = new RestTemplate();
-            List<String> matchIdsList = timeline.getMatchIds();
+    private void setProbuildTimeline(LeagueEntryDTO entry) {
+        RestTemplate restTemplate = new RestTemplate();
 
-            // 각 요소에서 대괄호를 제거하고 안에 있는 문자열만 추출하여 matchIds로 저장
-            String matchIds = matchIdsList.get(0).replaceAll("\\[|\\]", ""); // 대괄호 제거
+        List<String> matchIdsList = entry.getMatchIds();
 
-            // matchIds가 빈 문자열이 아닌 경우에만 API 호출
-            if (!matchIds.isEmpty()) {
-                String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "/timeline" + "?api_key=" + apiKey;
-                try {
-                    MatchTimelineDTO timelines = restTemplate1.getForObject(url, MatchTimelineDTO.class);
+        // 각 요소에서 대괄호를 제거하고 안에 있는 문자열만 추출하여 matchIds로 저장
+        String matchIds = matchIdsList.get(0).replaceAll("\\[|\\]", ""); // 대괄호 제거
 
-                    if (timelines != null && timelines.getEvents() != null && timelines.getEvents().getItemTimeline() != null) {
-                        // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
-                        List<MatchTimelineDTO.ItemTimeline> ItemTimeline = timelines.getEvents().getItemTimeline();
+        // matchIds가 빈 문자열이 아닌 경우에만 API 호출
+        if (!matchIds.isEmpty()) {
+            String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "/timeline?api_key=" + apiKey;
+            try {
+                MatchTimelineDTO matchTimeline = restTemplate.getForObject(url, MatchTimelineDTO.class);
 
+                // 매치에 참가한 모든 플레이어의 정보를 가져옴
+                List<MatchTimelineDTO.Participant> participants = matchTimeline.getInfo().getParticipants();
+                List<MatchTimelineDTO.Frame> frames = matchTimeline.getInfo().getFrames();
+                System.out.println("participants ::" + participants);
+                System.out.println("frames ::" + frames);
+
+                // url의 puuid와 같은 배열에 있는 participantId를 가져오기 위해 LeagueEntryDTO에 저장된 puuid를 사용
+                String entryPuuid = entry.getPuuid(); // LeagueEntryDTO에 저장된 puuid 가져오기
+                for (MatchTimelineDTO.Participant participant : participants) {
+                    // LeagueEntryDTO에 저장된 puuid와 url의 puuid를 비교
+                    if (participant.getPuuid().equals(entryPuuid)) {
+                        // puuid가 일치하는 경우 해당하는 participantId를 출력
+                        System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());
+                        entry.setParticipantId(participant.getParticipantId());
+
+                        int targetId = entry.getParticipantId();
+                        if (participant.getParticipantId() == targetId) {
+                            System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());
+
+                            // 해당 Participant의 모든 항목들을 출력
+                            if (frames != null) {
+                                for (MatchTimelineDTO.Frame frame : frames) {
+                                    List<MatchTimelineDTO.Event> events = frame.getEvents();
+                                    if (events != null) {
+                                        for (MatchTimelineDTO.Event event : events) {
+                                            if (event.getParticipantId() == targetId) {
+                                                entry.setItemId(event.getItemId());
+                                                entry.setTimestamp(event.getTimestamp());
+                                                entry.setType(event.getType());
+                                                System.out.println("ParticipantId: " + event.getParticipantId());
+                                                System.out.println("itemId: " + event.getItemId());
+                                                System.out.println("timestamp: " + event.getTimestamp());
+                                                System.out.println("type: " + event.getType());
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                System.out.println("frames is null");
+                            }
+                        }
                     }
-                    System.out.println("Timeline url ::" + url);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            } else {
-                System.out.println("matchIds is empty. Skipping API call.");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } else {
-            System.out.println("matchIds is null or empty. Skipping API call.");
+            System.out.println("Timeline ::" + url);
         }
     }
+
 }
 
