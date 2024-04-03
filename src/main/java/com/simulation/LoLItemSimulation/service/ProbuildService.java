@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-7a1e1dee-f2be-40bf-9b08-c880570cee1c"; // 여기에 실제 API 키를 넣습니다.
+    private final String apiKey = "RGAPI-2718ecc6-31e4-4328-b174-e6fc23dddb4b";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -204,16 +204,19 @@ public class ProbuildService {
                             if (frames != null) {
                                 for (MatchTimelineDTO.Frame frame : frames) {
                                     List<MatchTimelineDTO.Event> events = frame.getEvents();
+                                    entry.setFrame(frames);
                                     if (events != null) {
                                         for (MatchTimelineDTO.Event event : events) {
                                             if (event.getParticipantId() == targetId) {
                                                 entry.setItemId(event.getItemId());
                                                 entry.setTimestamp(event.getTimestamp());
                                                 entry.setType(event.getType());
-                                                System.out.println("ParticipantId: " + event.getParticipantId());
-                                                System.out.println("itemId: " + event.getItemId());
-                                                System.out.println("timestamp: " + event.getTimestamp());
-                                                System.out.println("type: " + event.getType());
+                                                entry.setEvent(events);
+
+                                                System.out.println("ParticipantId: " + entry.getParticipantId());
+                                                System.out.println("itemId: " + entry.getItemId());
+                                                System.out.println("timestamp: " + entry.getTimestamp());
+                                                System.out.println("type: " + entry.getType());
                                             }
                                         }
                                     }

@@ -21,6 +21,7 @@ public class LeagueEntryDTO {
     public void setPuuid(String puuid) {
         this.puuid = puuid;
     }
+
     public String getPuuid() {
         return puuid;
     }
@@ -31,6 +32,7 @@ public class LeagueEntryDTO {
     public List<String> getMatchIds() {
         return matchIds;
     }
+
     public void setMatchIds(List<String> matchIds) {
         this.matchIds = matchIds;
     }
@@ -38,15 +40,6 @@ public class LeagueEntryDTO {
 
     // MATCH-V5 matchId가 필요
     private List<MatchDetailDTO.Participant> participants;
-    private int participantId;
-   /* private List<MatchTimelineDTO.ItemTimeline> itemTimelines;*/
-    public int getParticipantId() {
-        return participantId;
-    }
-
-    public void setParticipantId(int participantId) {
-        this.participantId = participantId;
-    }
 
     private String championName;
     private int kills;
@@ -187,21 +180,6 @@ public class LeagueEntryDTO {
         this.championPoints = championPoints;
     }
 
-    public int getSummoner1Id() {
-        return summoner1Id;
-    }
-
-    public void setSummoner1Id(int summoner1Id) {
-        this.summoner1Id = summoner1Id;
-    }
-
-    public int getSummoner2Id() {
-        return summoner2Id;
-    }
-
-    public void setSummoner2Id(int summoner2Id) {
-        this.summoner2Id = summoner2Id;
-    }
 
     public int getTotalDamageDealt() {
         return totalDamageDealt;
@@ -219,14 +197,50 @@ public class LeagueEntryDTO {
 
         this.participants = participants;
     }
-/*
-    public List<MatchTimelineDTO.ItemTimeline> getItemTimelines() {
-        return itemTimelines;
+
+
+    // Timeline
+    private List<MatchTimelineDTO.Info> info;
+
+    public List<MatchTimelineDTO.Info> getInfo() {
+        return info;
     }
 
-    public void setItemTimelines(List<MatchTimelineDTO.ItemTimeline> itemTimelines) {
-        this.itemTimelines = itemTimelines;
-    }*/
+    public void setInfo(List<MatchTimelineDTO.Info> info) {
+        this.info = info;
+    }
+
+    private List<MatchTimelineDTO.Frame> frames;
+
+    public List<MatchTimelineDTO.Frame> getFrame() {
+        return frames;
+    }
+
+    public void setFrame(List<MatchTimelineDTO.Frame> frames) {
+
+        this.frames = frames;
+    }
+
+    private List<MatchTimelineDTO.Event> events;
+
+    public List<MatchTimelineDTO.Event> getEvent() {
+        return events;
+    }
+
+    public void setEvent(List<MatchTimelineDTO.Event> events) {
+
+        this.events = events;
+    }
+
+    private int participantId;
+
+    public int getParticipantId() {
+        return participantId;
+    }
+
+    public void setParticipantId(int participantId) {
+        this.participantId = participantId;
+    }
 
     private int itemId;
     private int timestamp;
@@ -234,6 +248,7 @@ public class LeagueEntryDTO {
     private String levelUpType;
     private int skillSlot;
     private String wardType;
+
 
     public int getItemId() {
         return itemId;
@@ -259,61 +274,7 @@ public class LeagueEntryDTO {
         this.type = type;
     }
 
-    public String getLevelUpType() {
-        return levelUpType;
-    }
 
-    public void setLevelUpType(String levelUpType) {
-        this.levelUpType = levelUpType;
-    }
-
-    public int getSkillSlot() {
-        return skillSlot;
-    }
-
-    public void setSkillSlot(int skillSlot) {
-        this.skillSlot = skillSlot;
-    }
-
-    public String getWardType() {
-        return wardType;
-    }
-
-    public void setWardType(String wardType) {
-        this.wardType = wardType;
-    }
-
-    // Timeline
-    private List<MatchTimelineDTO.Info> info;
-
-    public List<MatchTimelineDTO.Info> getInfo() {
-        return info;
-    }
-
-    public void setInfo(List<MatchTimelineDTO.Info> info) {
-        this.info = info;
-    }
-
-    private List<MatchTimelineDTO.Frame> frames;
-
-    public List<MatchTimelineDTO.Frame> getFrame() {
-        return frames;
-    }
-
-    public void setFrame(List<MatchTimelineDTO.Frame> frames) {
-
-        this.frames = frames;
-    }
-
-    private List<MatchTimelineDTO.Event> events;
-    public List<MatchTimelineDTO.Event> getEvent() {
-        return events;
-    }
-
-    public void setEvent(List<MatchTimelineDTO.Event> events) {
-
-        this.events = events;
-    }
 }
 
 
