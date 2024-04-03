@@ -17,18 +17,21 @@
     <link rel="stylesheet" th:href="@{/css/lolMain.css}"/>
     <link rel="stylesheet" th:href="@{/css/editor.css}"/>
 
+    <!-- ckeditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
     <!--    <script src="/build/ckeditor.js"></script>-->
     <!-- 이미지 업로드 어댑터 -->
     <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
 
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 
-<body>
+<body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
 <!-- 최상단 네비바 -->
 <nav class="site-header sticky-top py-1" style="background: #8360CE; ">
     <div class="container d-flex flex-column flex-md-row color-white">
@@ -104,45 +107,48 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">자유게시판</strong>
+                        <strong class="card-title">룰렛게시판</strong>
                     </div>
-                    <div class="card-body" style="padding: 40px">
-                        <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
-                        <form th:object="${post}" th:action="@{'/post/updatePost/' + ${post.id}}" method="post" id="updatePostForm">
+                    <form th:object="${post}" th:action="@{/post/submitForm}" method="post" id="postSumitForm">
+                        <div class="card-body" style="padding: 40px">
+                            <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">
                                 <div class="col-md-6 d-flex">
-                                    <div class="mb-3 d-flex" style="gap: 10px">
-                                        <label for="nickname">닉네임</label>
-                                        <!-- 닉네임 표시 -->
-                                        <input th:field="*{nickname}" th:value="${post.nickname}" type="text" id="nickname" name="nickname"
-                                               class="form-control col-6" style="font-size: 1.5rem" readonly>
+                                    <div class="form-group mb-3 d-flex" style="gap: 10px">
+                                        <label for="simpleinput">닉네임</label>
+                                        <input type="text" id="simpleinput" class="form-control col-6" style="font-size:
+                                    1.5rem" th:field="*{nickname}">
                                     </div>
                                     <div class="form-group mb-3 d-flex" style="gap: 10px">
-                                        <label for="newPassword">비밀번호</label>
-                                        <input type="password" th:field="*{password}" th:value="${post.password}" id="newPassword"
-                                               name="newPassword"
-                                               class="form-control col-6"
-                                               style="font-size: 1.5rem">
+                                        <label for="password">비밀번호</label>
+                                        <input type="password" id="password" class="form-control col-6" value="" style="font-size:
+                                    1.5rem" th:field="*{password}">
                                     </div>
                                 </div> <!-- /.col -->
                                 <div class="col d-flex">
                                     <div class="form-group d-flex" style="gap: 10px; width: 100%">
-                                        <label for="newTitle">제　목</label>
-                                        <input th:field="*{title}" th:value="${post.title}" type="text" id="newTitle"
-                                               name="newTitle"
-                                               class="form-control col-8" style="font-size: 1.5rem" required>
+                                        <label for="title">제　목</label>
+                                        <input type="text" id="title" class="form-control col-8" style="font-size:
+                                    1.5rem" th:field="*{title}">
+                                    </div>
+                                    <div class="form-check align-content-center">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                                               style="margin: 6px -17px;" checked>
+                                            <label class="form-check-label" for="defaultCheck1" style="">
+                                            룰렛
+                                        </label>
                                     </div>
                                 </div>
                             </div>
+
                             <!-- 글 작성 에디터 영역 -->
                             <div class="row">
                                 <div class="centered">
                                     <div class="row row-editor">
                                         <div class="col editor-container">
-                                            <textarea class="editor" th:field="*{content}" th:utext="${post.content}"
-                                                      id="editor"
-                                                      name="newContent"
-                                                      style="min-height:500px;"></textarea>
+                                            <label for="editor"></label>
+                                            <textarea class="editor" th:field="*{content}" id="editor"></textarea>
+                                            <!--에디터 설정-->
                                             <!--                                            <script>-->
                                             <!--                                                let myEditor;-->
 
@@ -251,6 +257,8 @@ font-weight: bolder">
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -258,23 +266,44 @@ font-weight: bolder">
                             <div>
                                 <div class="row">
                                     <div class="col ds_flex">
-                                        <button type="submit" id="submitBtn" class="btn btn-success col" style="font-size: medium"
-                                                value="Modify">
-                                            글수정</button>
-                                        <button type="button" class="btn btn-secondary col" style="font-size: medium; right: 15px"
-                                                onclick="history.back();">취　소
-                                        </button>
+                                        <button id="submitBtn" type="submit" class="btn btn-success col"
+                                                style="font-size: medium">글등록</button>
+                                        <button type="button" class="btn btn-secondary col" style="font-size:
+                                    medium;
+                                    right: 15px"
+                                                onclick="history.back();">취　소</button>
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" th:value="${post.id}" id="postId" name="postId">
-                        </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 투표 모달창 띄우기 -->
+        <div class="modal fade" id="pollModal" tabindex="-1" role="dialog"
+             aria-labelledby="pollModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pollModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 </div>
+<!-- 메인영역 E -->
 
 
 <!-- 푸터영역 -->
@@ -300,6 +329,7 @@ font-weight: bolder">
 <!-- 푸터영역 E -->
 
 
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         crossorigin="anonymous"></script>
@@ -315,11 +345,7 @@ font-weight: bolder">
 
 
 <!--ckeditor 부분-->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/super-build/ckeditor.js"></script>
-<!--<script src="/ckeditor5/build/ckeditor.js"></script>-->
-<script src="/js/ckeditorscript.js"></script>
 <!--ckeditor 부분 종료 -->
-
 
 
 <!--<script>  // 스크롤을 위로 올리는 스티키바-->
@@ -355,49 +381,28 @@ font-weight: bolder">
 
 
 <script>
-    document.getElementById('updatePostForm').addEventListener('submit', function(event) {
+    document.getElementById('postSumitForm').addEventListener('submit', function(event) {
+        // 폼 제출 이벤트를 가로채기
         event.preventDefault(); // 기본 동작 중지
-        var formData = new FormData(this); // 폼 데이터 가져오기
-        var jsonObject = {}; // 폼 데이터를 JSON 객체로 변환하기 위한 빈 객체 생성
 
-        // FormData를 JSON 객체로 변환
-        formData.forEach(function(value, key) {
-            jsonObject[key] = value;
-        });
+        // 닉네임과 제목 입력 값 가져오기
+        var nickname = document.getElementById('simpleinput').value;
+        var title = document.getElementById('title').value;
+        var password = document.getElementById('password').value;
+        var content = document.getElementById('editor').value;
 
-        // 비밀번호가 null이거나 빈 문자열인 경우에 경고 메시지 표시
-        if (!jsonObject['password']) {
-            swal.fire('비밀번호를 입력해주세요.');
+        // 만약 입력 값 중에 공백 또는 빈 문자열이 있는 경우
+        if (!nickname.trim() || !title.trim() || !password.trim() || !content.trim()) {
+            // 알림창 띄우기
+            swal.fire('빈 공간을 입력해주세요.');
             return; // 함수 종료
         }
 
-        // JSON 데이터를 문자열로 변환하여 서버에 전송
-        fetch(this.getAttribute('action'), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(jsonObject)
-        }).then(function(response) {
-            if (response.ok) {
-                // 성공적으로 업데이트되었음을 사용자에게 알림
-                swal.fire('게시글이 성공적으로 업데이트되었습니다.').then(function() {
-                    // 게시글의 읽기 페이지로 리디렉션
-                    var postId = document.getElementById('postId').value; // hidden input에서 postId 가져오기
-                    window.location.href = '/post/read/' + postId; // 해당 게시글의 읽기 페이지로 리디렉션
-
-                });
-            } else {
-                // 오류 처리
-                swal.fire('게시글 업데이트에 실패했습니다.');
-            }
-        }).catch(function(error) {
-            // 오류 처리
-            console.error('게시글 업데이트 중 오류 발생:', error);
-            swal.fire('게시글 업데이트 중 오류가 발생했습니다.');
-        });
+        // 비밀번호 값이 있는 경우 폼 제출
+        document.getElementById('postSumitForm').submit();
     });
 </script>
+
 
 </body>
 

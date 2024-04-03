@@ -104,7 +104,7 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">자유게시판</strong>
+                        <strong class="card-title">시뮬공유</strong>
                     </div>
                     <div class="card-body p-5">
                         <div class="row flex-column">
@@ -131,6 +131,28 @@ font-weight: bolder">
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col">
+                                <div class="row" style="padding: 0 20px; margin-bottom: 10px">
+                                    <div class="col d-flex justify-content-between">
+                                        <div id="championImg" class="" style="width: 70px; height: 70px; background: #00bbab">
+                                        </div>
+                                        <div id="simulItem1" class="" style="width: 70px; height: 70px; background: #E8BA36FF">
+                                        </div>
+                                        <div id="simulItem2" class="" style="width: 70px; height: 70px; background: #E8BA36FF">
+                                        </div>
+                                        <div id="simulItem3" class="" style="width: 70px; height: 70px; background: #E8BA36FF">
+                                        </div>
+                                        <div id="simulItem4" class="" style="width: 70px; height: 70px; background: #E8BA36FF">
+                                        </div>
+                                        <div id="simulItem5" class="" style="width: 70px; height: 70px; background: #E8BA36FF">
+                                        </div>
+                                        <div id="simulItem6" class="" style="width: 70px; height: 70px; background: #E8BA36FF">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
                             <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
                             <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
@@ -140,7 +162,6 @@ font-weight: bolder">
                         </div>
                         <div class="row ">
                             <div class="col d-flex justify-content-end align-items-center">
-
                                 <button class="thumb-up" th:attr="data-post-id=${post.id}">
                                     <span class="postLikeCount" th:attr="data-post-id=${post.id}"></span>
                                     <iconify-icon icon="material-symbols:thumb-up-outline" width="50" height="50"></iconify-icon>
