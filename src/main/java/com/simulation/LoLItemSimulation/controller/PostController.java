@@ -138,6 +138,14 @@ public class PostController {
     // 글 작성이 성공하면 readPost 페이지로 리다이렉션
     return "redirect:/post/read/" + post.getId();
   }
+
+
+
+
+
+
+/* ---------------------------------- createPost 영역 시작 ------------------------------------*/
+
   @GetMapping("/create")
   public String showForm(Model model) {
     model.addAttribute("post", new Post());
@@ -172,6 +180,14 @@ public class PostController {
     return "pollCreate";
   }
 
+
+/* ---------------------------------- createPost 영역 끝 ------------------------------------*/
+
+
+
+
+
+/* ---------------------------------- list 영역 시작 ------------------------------------*/
   @GetMapping("/list")
   public String getPostList(@RequestParam(defaultValue = "0") int page,
                             @RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
@@ -196,6 +212,8 @@ public class PostController {
 //    model.addAttribute("searchPaging", null);
     return "postList";
   }
+
+
 
   // 검색
 //  @GetMapping("/list/search")
@@ -264,6 +282,9 @@ public class PostController {
     System.out.println(paging);
     return "postSearchList";
   }
+
+
+  /* ---------------------------------- readPost 영역 시작 ------------------------------------*/
 
 
   @GetMapping("/read/{postId}")
@@ -359,6 +380,16 @@ public class PostController {
     model.addAttribute("keyword", keyword);
     return "readSearchPost";
   }
+
+
+
+
+/* ---------------------------------- readPost 영역 끝 ------------------------------------*/
+
+
+
+
+/* ---------------------------------- modify 영역 시작 ------------------------------------*/
 
 
   // 게시글 수정 페이지로 이동하는 요청 처리 메소드
