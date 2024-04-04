@@ -104,14 +104,31 @@ font-weight: bolder">
 
 
                         <div style="display: flex; justify-content: space-between;">
-                            <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item list-group-item-action active" data-toggle="list" role="tab" href="#">전체게시판</li>
-                                <li class="list-group-item list-group-item-action" href="#">시뮬공유</li>
-                                <li class="list-group-item list-group-item-action" href="#">매드무비</li>
-                                <li class="list-group-item list-group-item-action" href="#">룰렛게시판</li>
-                                <li class="list-group-item list-group-item-action" href="#">유머게시판</li>
-                                <li class="list-group-item list-group-item-action" href="#">자유게시판</li>
+                            <ul class="list-group list-group-horizontal d-none d-lg-flex"  style="font-size: 1.3rem">
+                                <li class="list-group-item list-group-item-action active" data-toggle="list" role="tab">자유게시판</li>
+                                <li class="list-group-item list-group-item-action">시뮬공유</li>
+                                <li class="list-group-item list-group-item-action">매드무비</li>
+                                <li class="list-group-item list-group-item-action">룰렛게시판</li>
+                                <li class="list-group-item list-group-item-action">투표게시판</li>
                             </ul>
+
+                            <div class="dropdown d-lg-none">
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false" style="font-size: 1.3rem">
+                                    전체게시판
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="font-size:
+                                1.5rem; max-height: 300px; overflow-y: auto;">
+                                    <a class="dropdown-item" href="#">시뮬공유</a>
+                                    <a class="dropdown-item" href="#">매드무비</a>
+                                    <a class="dropdown-item" href="#">룰렛게시판</a>
+                                    <a class="dropdown-item" href="#">유머게시판</a>
+                                    <a class="dropdown-item" href="#">자유게시판</a>
+                                </div>
+                            </div>
+
+
                             <div style="display: flex; align-items: flex-end;">
                                 <span style="margin-right: 5px;">정렬 :</span>
                                 <!-- 정렬 목록 -->

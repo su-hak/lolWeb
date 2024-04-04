@@ -104,7 +104,7 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">시뮬공유</strong>
+                        <strong class="card-title">투표게시판</strong>
                     </div>
                     <div class="card-body p-5">
                         <div class="row flex-column">
@@ -132,58 +132,24 @@ font-weight: bolder">
                         </div>
                         <div class="row">
                             <div class="col">
-                                <!--시뮬 공유 영역-->
-                                <div class="row" style="padding: 0 20px; margin-bottom: 10px">
-                                    <div class="col d-flex justify-content-between">
-                                        <div id="championImg" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #00bbab; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--챔피언 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem0" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem1" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem2" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem3" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem4" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem5" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
+                                <!-- 투표 내용 영역-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
+                                    <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
+                                    <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
+                                         th:utext="${post.content}">
+                                        <!-- 게시물 본문 들어가는 영역 -->
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
-                            <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
-                            <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
-                                 th:utext="${post.content}">
-                                <!-- 게시물 본문 들어가는 영역 -->
-                            </div>
-                        </div>
                         <div class="row ">
                             <div class="col d-flex justify-content-end align-items-center">
+
                                 <button class="thumb-up" th:attr="data-post-id=${post.id}">
                                     <span class="postLikeCount" th:attr="data-post-id=${post.id}"></span>
                                     <iconify-icon icon="material-symbols:thumb-up-outline" width="50" height="50"></iconify-icon>
@@ -254,7 +220,7 @@ font-weight: bolder">
                             <div class="col-9 d-flex" th:each="commentInfo,commentIndex : ${comment}">
 
                                 <div class="col-11">
-                                    <div class="row" th:text="${commentInfo.comment.content}">
+                                    <div id="commentContent" class="row" th:text="${commentInfo.comment.content}">
                                         <!-- 댓글 내용 영역-->
                                     </div>
                                     <div class="row d-flex usercss" style="color: #777777; font-size: 13px;
