@@ -109,7 +109,7 @@ font-weight: bolder">
                     <div class="card-header">
                         <strong class="card-title">룰렛게시판</strong>
                     </div>
-                    <form th:object="${post}" th:action="@{/post/submitForm}" method="post" id="postSumitForm">
+                    <form th:object="${post}" th:action="@{/post/rouletteSubmit}" method="post" id="postSumitForm">
                         <div class="card-body" style="padding: 40px">
                             <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">
@@ -132,7 +132,7 @@ font-weight: bolder">
                                     1.5rem" th:field="*{title}">
                                     </div>
                                     <div class="form-check align-content-center">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                                        <input class="form-check-input" type="radio" value="" id="defaultCheck1"
                                                style="margin: 6px -17px;" checked>
                                             <label class="form-check-label" for="defaultCheck1" style="">
                                             룰렛
@@ -263,15 +263,13 @@ font-weight: bolder">
                                     </div>
                                 </div>
                             </div>
+                            <!-- 글 등록, 취소 버튼 -->
                             <div>
-                                <div class="row">
-                                    <div class="col ds_flex">
-                                        <button id="submitBtn" type="submit" class="btn btn-success col"
-                                                style="font-size: medium">글등록</button>
+                                <div class="row" style="padding: 0 20px">
+                                    <div class="col d-flex">
+                                        <button id="submitBtn" type="submit" class="btn btn-success col" style="font-size: medium">글등록</button>
                                         <button type="button" class="btn btn-secondary col" style="font-size:
-                                    medium;
-                                    right: 15px"
-                                                onclick="history.back();">취　소</button>
+                                    medium;" onclick="history.back();">취　소</button>
                                     </div>
                                 </div>
                             </div>

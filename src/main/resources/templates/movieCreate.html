@@ -131,6 +131,15 @@ font-weight: bolder">
                                         <input type="text" id="title" class="form-control col-8" style="font-size:
                                     1.5rem" th:field="*{title}">
                                     </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupFileAddon">Upload</span>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+                                            <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- 글 작성 에디터 영역 -->
@@ -255,15 +264,13 @@ font-weight: bolder">
                                     </div>
                                 </div>
                             </div>
+                            <!-- 글 등록, 취소 버튼 -->
                             <div>
-                                <div class="row">
-                                    <div class="col ds_flex">
-                                        <button id="submitBtn" type="submit" class="btn btn-success col"
-                                                style="font-size: medium">글등록</button>
+                                <div class="row" style="padding: 0 20px">
+                                    <div class="col d-flex">
+                                        <button id="submitBtn" type="submit" class="btn btn-success col" style="font-size: medium">글등록</button>
                                         <button type="button" class="btn btn-secondary col" style="font-size:
-                                    medium;
-                                    right: 15px"
-                                                onclick="history.back();">취　소</button>
+                                    medium;" onclick="history.back();">취　소</button>
                                     </div>
                                 </div>
                             </div>
