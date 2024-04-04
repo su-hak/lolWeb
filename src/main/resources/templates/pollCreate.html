@@ -107,9 +107,9 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">자유게시판</strong>
+                        <strong class="card-title">투표게시판</strong>
                     </div>
-                    <form th:object="${post}" th:action="@{/post/submitForm}" method="post" id="postSumitForm">
+                    <form th:object="${post}" th:action="@{/post/pollSubmit}" method="post" id="postSumitForm">
                         <div class="card-body" style="padding: 40px">
                             <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">
@@ -132,11 +132,41 @@ font-weight: bolder">
                                     1.5rem" th:field="*{title}">
                                     </div>
                                     <div>
-                                        <button id="pollBtn" class="btn btn-primary" type="button"
-                                                data-toggle="modal" data-target="#pollModal">투표</button>
+<!--                                        <button id="pollBtn" class="btn btn-primary" type="button"-->
+<!--                                                data-toggle="modal" data-target="#pollModal">투표</button>-->
                                     </div>
                                 </div>
                             </div>
+                            <!-- 투표 영역 시작 -->
+
+                            <!-- poll.js 파일 있음 -->
+                            <div class="row" style="padding: 0 20px">
+                                <div class="col" id="pollModal">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="pollModalLabel">투표창</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="pollTitle">제목</label>
+                                                <input type="text" class="form-control" id="pollTitle" placeholder="투표 제목을 입력하세요" style="font-size: 1.3rem" aria-describedby="pollTitleDesc">
+                                            </div>
+                                            <div class="form-group" id="pollOptions">
+                                                <label for="pollContent">내용</label>
+                                                <input id="pollContent" type="text" class="form-control poll-option"
+                                                       placeholder="투표 내용을 입력하세요"
+                                                       style="font-size: 1.3rem" aria-describedby="pollOptionDesc">
+                                                <input type="text" class="form-control poll-option" placeholder="투표 내용을 입력하세요" style="font-size: 1.3rem" aria-describedby="pollOptionDesc">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                            <button type="button" class="btn btn-primary" id="submitPoll" disabled>투표등록</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 투표 영역 종료 -->
                             <!-- 글 작성 에디터 영역 -->
                             <div class="row">
                                 <div class="centered">
@@ -271,37 +301,6 @@ font-weight: bolder">
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-        <!-- 투표 모달창 띄우기 -->
-        <div class="modal fade" id="pollModal" tabindex="-1" role="dialog"
-             aria-labelledby="pollModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="pollModalLabel">투표창</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="pollTitle">제목</label>
-                            <input type="text" class="form-control" id="pollTitle" placeholder="투표 제목을 입력하세요" style="font-size: 1.3rem" aria-describedby="pollTitleDesc">
-                        </div>
-                        <div class="form-group" id="pollOptions">
-                            <label for="pollContent">내용</label>
-                            <input id="pollContent" type="text" class="form-control poll-option"
-                                   placeholder="투표 내용을 입력하세요"
-                                   style="font-size: 1.3rem" aria-describedby="pollOptionDesc">
-                            <input type="text" class="form-control poll-option" placeholder="투표 내용을 입력하세요" style="font-size: 1.3rem" aria-describedby="pollOptionDesc">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                        <button type="button" class="btn btn-primary" id="submitPoll" disabled>투표등록</button>
-                    </div>
                 </div>
             </div>
         </div>

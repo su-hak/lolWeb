@@ -42,3 +42,16 @@
         width: 328px !important;
     }
 }
+
+
+
+/* 룰렛 애니메이션 효과를 정의하는 CSS */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 룰렛 애니메이션 클래스 */
+.spin-animation {
+    animation: spin 3s linear infinite; /* 3초 동안 회전, 반복 */
+}

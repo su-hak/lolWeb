@@ -104,7 +104,7 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">자유게시판</strong>
+                        <strong class="card-title">룰렛게시판</strong>
                     </div>
                     <div class="card-body p-5">
                         <div class="row flex-column">
@@ -131,11 +131,56 @@ font-weight: bolder">
                             </div>
                         </div>
                         <div class="row">
-                            <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
-                            <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
-                            <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
-                                 th:utext="${post.content}">
-                                <!-- 게시물 본문 들어가는 영역 -->
+                            <div class="col">
+
+                                <!-- 룰렛 버튼 -->
+                                <div class="row">
+                                    <div class="col p-5">
+                                        <button id="rouletteBtn" class="col btn-danger">룰렛실행</button>
+                                        <div id="rouletteResult" class="col"></div>
+                                        <script>
+                                            // 룰렛 실행 버튼 클릭 시 실행되는 함수
+                                            document.querySelector('#rouletteBtn').addEventListener('click', function() {
+                                                // 룰렛 결과를 표시할 요소
+                                                var resultElement = document.getElementById('rouletteResult');
+
+                                                // 댓글 영역에서 모든 댓글 요소들을 가져옴
+                                                var comments = document.querySelectorAll('#commentContent');
+
+                                                // 댓글 내용을 담을 배열
+                                                var commentContents = [];
+
+                                                // 각 댓글 요소에서 댓글 내용을 가져와 배열에 추가
+                                                comments.forEach(function(comment) {
+                                                    commentContents.push(comment.textContent.trim());
+                                                });
+
+                                                // 결과 요소에 룰렛 애니메이션 클래스 추가
+                                                resultElement.classList.add('spin-animation');
+
+                                                // 일정 시간 후에 룰렛 애니메이션 클래스 제거하고 결과 표시
+                                                setTimeout(function() {
+                                                    // 결과 요소에 룰렛 애니메이션 클래스 제거
+                                                    resultElement.classList.remove('spin-animation');
+
+                                                    // 0부터 댓글 개수까지 랜덤한 인덱스 생성
+                                                    var randomIndex = Math.floor(Math.random() * commentContents.length);
+
+                                                    // 랜덤한 댓글 내용을 결과 요소에 표시
+                                                    resultElement.textContent = commentContents[randomIndex];
+                                                }, 3000); // 애니메이션 시간: 3초
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
+                                    <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
+                                    <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
+                                         th:utext="${post.content}">
+                                        <!-- 게시물 본문 들어가는 영역 -->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row ">
@@ -211,7 +256,7 @@ font-weight: bolder">
                             <div class="col-9 d-flex" th:each="commentInfo,commentIndex : ${comment}">
 
                                 <div class="col-11">
-                                    <div class="row" th:text="${commentInfo.comment.content}">
+                                    <div id="commentContent" class="row" th:text="${commentInfo.comment.content}">
                                         <!-- 댓글 내용 영역-->
                                     </div>
                                     <div class="row d-flex usercss" style="color: #777777; font-size: 13px;

@@ -114,6 +114,7 @@ public class PostController {
       return mav;
   }
 
+  /* ---------------------------------- submit 영역 시작 ------------------------------------*/
 
   @PostMapping("/submitForm")
   public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request) {
@@ -140,8 +141,83 @@ public class PostController {
   }
 
 
+  @PostMapping("/simulSubmit")
+  public String simulSubmit(@ModelAttribute("post") Post post, HttpServletRequest request) {
+    // 닉네임, 비밀번호 설정
+    post.setNickname(post.getNickname());
+    post.setPassword(post.getPassword());
+
+    // IP 주소 설정
+    String ipAddress = getClientIP(request);
+    post.setIpAddress(ipAddress);
+
+    // 글 작성일
+    LocalDateTime createtime = LocalDateTime.now();
+    post.setCreatetime(createtime);
+
+    // title과 content는 HTML 폼에서의 매핑을 기다립니다.
+
+    // 저장
+    postRepository.save(post);
+
+    // 다른 로직 또는 리다이렉션 등...
+    // 글 작성이 성공하면 readPost 페이지로 리다이렉션
+    return "redirect:/post/simulRead/" + post.getId();
+  }
+
+  @PostMapping("/rouletteSubmit")
+  public String rouletteSubmit(@ModelAttribute("post") Post post, HttpServletRequest request) {
+    // 닉네임, 비밀번호 설정
+    post.setNickname(post.getNickname());
+    post.setPassword(post.getPassword());
+
+    // IP 주소 설정
+    String ipAddress = getClientIP(request);
+    post.setIpAddress(ipAddress);
+
+    // 글 작성일
+    LocalDateTime createtime = LocalDateTime.now();
+    post.setCreatetime(createtime);
+
+    // title과 content는 HTML 폼에서의 매핑을 기다립니다.
+
+    // 저장
+    postRepository.save(post);
+
+    // 다른 로직 또는 리다이렉션 등...
+    // 글 작성이 성공하면 readPost 페이지로 리다이렉션
+    return "redirect:/post/rouletteRead/" + post.getId();
+  }
 
 
+  @PostMapping("/pollSubmit")
+  public String pollSubmit(@ModelAttribute("post") Post post, HttpServletRequest request) {
+    // 닉네임, 비밀번호 설정
+    post.setNickname(post.getNickname());
+    post.setPassword(post.getPassword());
+
+    // IP 주소 설정
+    String ipAddress = getClientIP(request);
+    post.setIpAddress(ipAddress);
+
+    // 글 작성일
+    LocalDateTime createtime = LocalDateTime.now();
+    post.setCreatetime(createtime);
+
+    // title과 content는 HTML 폼에서의 매핑을 기다립니다.
+
+    // 저장
+    postRepository.save(post);
+
+    // 다른 로직 또는 리다이렉션 등...
+    // 글 작성이 성공하면 readPost 페이지로 리다이렉션
+    return "redirect:/post/pollRead/" + post.getId();
+  }
+
+
+
+
+  /* ---------------------------------- submit 영역 종료 ------------------------------------*/
 
 
 /* ---------------------------------- createPost 영역 시작 ------------------------------------*/
@@ -331,6 +407,147 @@ public class PostController {
     model.addAttribute("page", page);
     model.addAttribute("sort", sort);
     return "readPost";
+  }
+
+
+  @GetMapping("/simulRead/{postId}")
+  public String simulRead(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
+                             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                             @RequestParam(name = "sort", required = false, defaultValue = "id") String sort) {
+    // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
+    String sessionKey = "postViewTime_" + postId;
+    LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
+    LocalDateTime currentTime = LocalDateTime.now();
+
+    // 마지막 조회 시간이 없거나 오늘 처음 조회한 경우에만 조회수를 증가시킴
+    if (lastViewTime == null || lastViewTime.toLocalDate().isBefore(currentTime.toLocalDate())) {
+      // 조회수 증가
+      postService.incrementViews(postId);
+
+      // 세션에 마지막 조회 시간 저장
+      session.setAttribute(sessionKey, currentTime);
+    }
+
+    // postId에 해당하는 게시글 정보를 가져옴
+    PostDto postDto = postService.getPostDtoById(postId);
+
+    if (postDto == null) {
+      // 게시글이 없을 경우 예외처리
+      // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
+      return "게시글이 없습니다.";
+    }
+
+    // 해당 게시글에 연결된 댓글 정보를 가져옴
+    List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
+    List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
+
+    String clientIpAddress = getClientIP(request);
+    log.info("client IP " +  clientIpAddress);
+    for (Comment comment : commentDtoList) {
+      boolean isLiked = commentLikeService.isCommentLikedByIp(comment.getId(), clientIpAddress);
+      commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
+    }
+
+    // 모델에 댓글 정보와 게시글 정보를 추가하여 게시글 읽기 페이지로 반환
+    model.addAttribute("comment", commentLikeInfoList);
+    model.addAttribute("post", postDto);
+    model.addAttribute("page", page);
+    model.addAttribute("sort", sort);
+    return "simulRead";
+  }
+
+
+  @GetMapping("/rouletteRead/{postId}")
+  public String rouletteRead(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
+                         @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                         @RequestParam(name = "sort", required = false, defaultValue = "id") String sort) {
+    // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
+    String sessionKey = "postViewTime_" + postId;
+    LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
+    LocalDateTime currentTime = LocalDateTime.now();
+
+    // 마지막 조회 시간이 없거나 오늘 처음 조회한 경우에만 조회수를 증가시킴
+    if (lastViewTime == null || lastViewTime.toLocalDate().isBefore(currentTime.toLocalDate())) {
+      // 조회수 증가
+      postService.incrementViews(postId);
+
+      // 세션에 마지막 조회 시간 저장
+      session.setAttribute(sessionKey, currentTime);
+    }
+
+    // postId에 해당하는 게시글 정보를 가져옴
+    PostDto postDto = postService.getPostDtoById(postId);
+
+    if (postDto == null) {
+      // 게시글이 없을 경우 예외처리
+      // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
+      return "게시글이 없습니다.";
+    }
+
+    // 해당 게시글에 연결된 댓글 정보를 가져옴
+    List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
+    List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
+
+    String clientIpAddress = getClientIP(request);
+    log.info("client IP " +  clientIpAddress);
+    for (Comment comment : commentDtoList) {
+      boolean isLiked = commentLikeService.isCommentLikedByIp(comment.getId(), clientIpAddress);
+      commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
+    }
+
+    // 모델에 댓글 정보와 게시글 정보를 추가하여 게시글 읽기 페이지로 반환
+    model.addAttribute("comment", commentLikeInfoList);
+    model.addAttribute("post", postDto);
+    model.addAttribute("page", page);
+    model.addAttribute("sort", sort);
+    return "rouletteRead";
+  }
+
+
+  @GetMapping("/pollRead/{postId}")
+  public String pollRead(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
+                             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                             @RequestParam(name = "sort", required = false, defaultValue = "id") String sort) {
+    // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
+    String sessionKey = "postViewTime_" + postId;
+    LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
+    LocalDateTime currentTime = LocalDateTime.now();
+
+    // 마지막 조회 시간이 없거나 오늘 처음 조회한 경우에만 조회수를 증가시킴
+    if (lastViewTime == null || lastViewTime.toLocalDate().isBefore(currentTime.toLocalDate())) {
+      // 조회수 증가
+      postService.incrementViews(postId);
+
+      // 세션에 마지막 조회 시간 저장
+      session.setAttribute(sessionKey, currentTime);
+    }
+
+    // postId에 해당하는 게시글 정보를 가져옴
+    PostDto postDto = postService.getPostDtoById(postId);
+
+    if (postDto == null) {
+      // 게시글이 없을 경우 예외처리
+      // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.
+      return "게시글이 없습니다.";
+    }
+
+    // 해당 게시글에 연결된 댓글 정보를 가져옴
+    List<Comment> commentDtoList = commentService.getCommentsByPostId(postId);
+    List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
+
+    String clientIpAddress = getClientIP(request);
+    log.info("client IP " +  clientIpAddress);
+    for (Comment comment : commentDtoList) {
+      boolean isLiked = commentLikeService.isCommentLikedByIp(comment.getId(), clientIpAddress);
+      commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
+    }
+
+    // 모델에 댓글 정보와 게시글 정보를 추가하여 게시글 읽기 페이지로 반환
+    model.addAttribute("comment", commentLikeInfoList);
+    model.addAttribute("post", postDto);
+    model.addAttribute("page", page);
+    model.addAttribute("sort", sort);
+    return "pollRead";
   }
 
   // search read 작업 type이랑 keyword가 필요해서 따로팜
