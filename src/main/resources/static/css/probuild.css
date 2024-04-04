@@ -24,6 +24,16 @@
     padding: 10px;
 }
 
+/* section */
+#section3 {
+    padding-right: 10px;
+}
+
+#section4 {
+    width: 250%;
+}
+/* section end */
+
 .main-title {
     display: flex;
     gap: 10px;
@@ -150,17 +160,39 @@
 }
 
 /* 아이템 빌드 */
-#section4 {
-    width: 250%;
+.user-time-line {
 }
+
+.user-time-line p {
+    text-align: left;
+}
+
 .user-time-line img{
     width: 32px;
+}
+.build-total-timestamp {
+    padding-bottom: 5px;
+}
+
+.total-timestamp {
+    font-size: 20px;
+    border-bottom: 1px solid;
 }
 
 .build-frame {
     display: flex;
+    gap: 2px;
 }
 
+.bulid-start-and-ward {
+    display: flex;
+    gap: 10px;
+}
+
+.ward-item-box {
+    display: flex;
+    gap: 2px;
+}
 /* 아이템 빌드 끝 */
 
 /*    main 끝    */

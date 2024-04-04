@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.timestamp = [];
     var ddEle = document.querySelectorAll('.match-info');
     var entries = document.querySelectorAll('.match');
     var userRankInfo = document.querySelectorAll('.user-rank-info');
@@ -86,6 +85,20 @@ document.addEventListener('DOMContentLoaded', function () {
         rankTier.innerHTML = '';
         rankTier.appendChild(img);
     });
+
+
+    // 모든 div 요소 선택
+    var divs = document.querySelectorAll('div');
+
+    // 동적으로 생성 된 안쓰는 'div'들 삭제
+    divs.forEach(function (div) {
+        // div의 내용을 trim() 함수를 사용하여 앞뒤 공백을 제거한 후 확인
+        if (div.textContent.trim() === '') {
+            // 내용이 공백인 경우 해당 div 요소를 삭제
+            div.parentNode.removeChild(div);
+        }
+    });
+
     getChampionImg();
     getMostChampImg();
     getItemImg();
@@ -323,7 +336,7 @@ function getItemImg() {
         timeStampSpan.empty().append(timeStampCalcMin)
     });
 }
-/*
+
 // 총 게임시간
 function totalTimestamp() {
     $('.total-timestamp').each(function () {
@@ -335,16 +348,10 @@ function totalTimestamp() {
         lastTimestampCalc.toFixed(0);
 
         var lastTimestampCalcMin = (lastTimestampCalc / 60)
-            .toFixed(0) + "분" + (lastTimestampCalc % 60)
+            .toFixed(0) + "분 " + (lastTimestampCalc % 60)
             .toFixed(0)  + "초";
-        console.log("==============");
-        console.log(lastFrame)
-        console.log(lastTimestamp)
-        document.timestamp.push(lastTimestamp);
-        console.log("==============");
 
-        console.log(document.timestamp);
         totalTimestamp.empty().append(lastTimestampCalcMin)
     });
-}*/
+}
 
