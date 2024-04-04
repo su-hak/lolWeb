@@ -244,6 +244,7 @@ public class LeagueEntryDTO {
 
     private int itemId;
     private int timestamp;
+    private int lastTimestamp;
     private String type;
     private String levelUpType;
     private int skillSlot;
@@ -264,6 +265,14 @@ public class LeagueEntryDTO {
 
     public void setTimestamp(int timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getLastTimestamp() {
+        return lastTimestamp;
+    }
+
+    public void setLastTimestamp(int lastTimestamp) {
+        this.lastTimestamp = lastTimestamp;
     }
 
     public String getType() {

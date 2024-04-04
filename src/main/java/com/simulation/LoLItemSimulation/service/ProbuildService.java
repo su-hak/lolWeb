@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-2718ecc6-31e4-4328-b174-e6fc23dddb4b";
+    private final String apiKey = "";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -164,8 +164,7 @@ public class ProbuildService {
         }
     }
 
-    // timestamp / 1000 = 초 단위
-    // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
+
     // 인게임 Timeline 가져오기
     private void setProbuildTimeline(LeagueEntryDTO entry) {
         RestTemplate restTemplate = new RestTemplate();
@@ -184,8 +183,8 @@ public class ProbuildService {
                 // 매치에 참가한 모든 플레이어의 정보를 가져옴
                 List<MatchTimelineDTO.Participant> participants = matchTimeline.getInfo().getParticipants();
                 List<MatchTimelineDTO.Frame> frames = matchTimeline.getInfo().getFrames();
-                System.out.println("participants ::" + participants);
-                System.out.println("frames ::" + frames);
+                /*System.out.println("participants ::" + participants);
+                System.out.println("frames ::" + frames);*/
 
                 // url의 puuid와 같은 배열에 있는 participantId를 가져오기 위해 LeagueEntryDTO에 저장된 puuid를 사용
                 String entryPuuid = entry.getPuuid(); // LeagueEntryDTO에 저장된 puuid 가져오기
@@ -193,19 +192,28 @@ public class ProbuildService {
                     // LeagueEntryDTO에 저장된 puuid와 url의 puuid를 비교
                     if (participant.getPuuid().equals(entryPuuid)) {
                         // puuid가 일치하는 경우 해당하는 participantId를 출력
-                        System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());
+                        /*System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());*/
                         entry.setParticipantId(participant.getParticipantId());
 
                         int targetId = entry.getParticipantId();
                         if (participant.getParticipantId() == targetId) {
-                            System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());
+                            /*System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());*/
 
                             // 해당 Participant의 모든 항목들을 출력
                             if (frames != null) {
                                 for (MatchTimelineDTO.Frame frame : frames) {
                                     List<MatchTimelineDTO.Event> events = frame.getEvents();
                                     entry.setFrame(frames);
-                                    if (events != null) {
+                                    if (frames != null && !frames.isEmpty()) {
+                                        MatchTimelineDTO.Frame lastFrame = frames.get(frames.size() - 1);
+                                        System.out.println("lastFrame ::" + lastFrame);
+                                        System.out.println("getTimestamp ::" + entry.getTimestamp());
+                                        System.out.println("getLastTimestamp ::" + entry.getLastTimestamp());
+                                        int lastTimestamp = lastFrame.getTimestamp();
+                                        entry.setLastTimestamp(lastTimestamp);
+                                    } else if (events != null) {
+                                        System.out.println("frames is null");
+                                    }
                                         for (MatchTimelineDTO.Event event : events) {
                                             if (event.getParticipantId() == targetId) {
                                                 entry.setItemId(event.getItemId());
@@ -219,7 +227,7 @@ public class ProbuildService {
                                                 System.out.println("type: " + entry.getType());
                                             }
                                         }
-                                    }
+
                                 }
                             } else {
                                 System.out.println("frames is null");

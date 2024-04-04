@@ -58,11 +58,27 @@ public class MatchTimelineDTO {
 
     public static class Frame {
         private List<Event> events;
+        private int timestamp;
+        private int lastTimestamp;
         public List<Event> getEvents() {
             return events;
         }
         public void setEvents(List<Event> events) {
             this.events = events;
+        }
+        public int getTimestamp() {
+            return timestamp;
+        }
+        public void setTimestamp(int timestamp) {
+            this.timestamp = timestamp;
+        }
+
+        public int getLastTimestamp() {
+            return lastTimestamp;
+        }
+
+        public void setLastTimestamp(int lastTimestamp) {
+            this.lastTimestamp = lastTimestamp;
         }
     }
     public static class Event {

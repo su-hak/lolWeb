@@ -102,63 +102,105 @@
     <div id="leagueEntriesContainer" class="entry" th:if="${not #lists.isEmpty(leagueEntries)}">
         <!-- Loop through each entry in leagueEntries -->
         <div class="match" th:each="entry : ${leagueEntries}">
+            <section class="main-section-probuild" id="section1">
                 <div class="what-use-champ">
                     <span class="info-title">Champion</span>
                     <p id="nickName"><span th:text="${entry.getSummonerName()}"></span></p>
                 </div>
-                <div class="most-champion-img">
-                    <p class="info-title" style="padding-bottom: 1px;">Most3</p>
-                    <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
-                </div>
-            <div class="user-rank-info">
-                <div style="display: block;">
-                        <p class="info-title" th:text="${entry.getQueueType()}"></p>
-                        <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
-                <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
-                    <div class="winrate">
-                    <span id="win" th:text="|${entry.getWins()}W|"></span>&nbsp;
-                    <span id="lose" th:text="|${entry.getLosses()}L|"></span>
-                        <span>&nbsp/&nbsp</span>
-                        &nbsp;<span class="winrate_result"></span>
+            </section>
+                <section class="main-section-probuild" id="section2">
+                    <div class="most-champion-img">
+                        <p class="info-title" style="padding-bottom: 1px;">Most3</p>
+                        <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
                     </div>
-                </div>
-            </div>
-            <div class="user-time-line">
-                <div th:each="matchId : ${entry.getMatchIds()}">
-                    <div th:each="frames : ${entry.getFrame()}">
-                        <div th:each="event : ${frames.getEvents()}">
-                            <div th:if="${event.getParticipantId() == entry.getParticipantId()}">
-                                <p>participantId: <span th:text="${event.getParticipantId()}"></span></p>
-                                <p>itemId: <span th:text="${event.getItemId()}"></span></p>
-                                <p>timestamp: <span th:text="${event.getTimestamp()}"></span></p>
-                                <p>type: <span th:text="${event.getType()}"></span></p>
+                </section>
+                <section class="main-section-probuild" id="section3">
+                    <div class="user-rank-info">
+                        <div style="display: block;">
+                            <p class="info-title" th:text="${entry.getQueueType()}"></p>
+                            <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
+                            <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
+                            <div class="winrate">
+                                <span id="win" th:text="|${entry.getWins()}W|"></span>&nbsp;
+                                <span id="lose" th:text="|${entry.getLosses()}L|"></span>
+                                <span>&nbsp/&nbsp</span>
+                                &nbsp;<span class="winrate_result"></span>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
+                <section class="main-section-probuild" id="section4">
+                    <!--아이템, 특성 빌드-->
+                    <div class="user-time-line">
+                        <div  th:each="matchId : ${entry.getMatchIds()}">
 
-            <!-- Loop through each match -->
-            <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
-                <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
-                <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
-                    <div class="match-user">
-                        <dl id="championName" class="championName">
-                            <dd th:text="${participant.championName}"></dd></dl>
-                        <dl id="summonerName">
-                            <dd th:text="${participant.summonerName}"></dd></dl>
-                        <div class="match-info">
-                            <dl id="kda">
-                                <dd id="kills" th:text="${participant.getKills()}"></dd>
-                                <dd id="deaths" th:text="${participant.getDeaths()}"></dd>
-                                <dd id="assists" th:text="${participant.getAssists()}"></dd>
-                                <dd class="kda-result"></dd>
-                            </dl>
+                            <div class="build-total-timestamp">
+                                <span class="info-title">총 게임 시간</span>
+                                <div class="total-timestamp">
+                                    <div th:each="frames : ${entry.getFrame()}">
+                                        <p class="total-match-timestamp" th:text="${frames.getLastTimestamp()}"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="build-start-item">
+                                <span class="info-title">시작 아이템</span>
+                                <div class="build-frame" th:each="frames : ${entry.getFrame()}">
+                                    <div class="build-event" th:each="event : ${frames.getEvents()}">
+                                        <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
+                                        and event.getType() == 'ITEM_PURCHASED'
+                                        and event.getTimestamp() < 60000}">
+                                            <p>participantId: <span th:text="${event.getParticipantId()}"></span></p>
+                                            <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
+                                            <p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>
+                                            <p>type: <span th:text="${event.getType()}"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="build-all-item">
+                                <span class="info-title">아이템 빌드</span>
+                                <div class="build-frame" th:each="frames : ${entry.getFrame()}">
+                                    <div class="build-event" th:each="event : ${frames.getEvents()}">
+                                        <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
+                                        and event.getType() == 'ITEM_PURCHASED'
+                                        and event.getTimestamp() >= 60000 }">
+                                            <p>participantId: <span th:text="${event.getParticipantId()}"></span></p>
+                                            <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
+                                            <p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>
+                                            <p>type: <span th:text="${event.getType()}"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- End of match loop -->
+                    <!--아이템, 특성 빌드 끝-->
+                </section>
+                <section class="main-section-probuild" id="section5">
+                    <!-- Loop through each match -->
+                    <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
+                        <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
+                        <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
+                            <div class="match-user">
+                                <dl id="championName" class="championName">
+                                    <dd th:text="${participant.championName}"></dd></dl>
+                                <dl id="summonerName">
+                                    <dd th:text="${participant.summonerName}"></dd></dl>
+                                <div class="match-info">
+                                    <dl id="kda">
+                                        <dd id="kills" th:text="${participant.getKills()}"></dd>
+                                        <dd id="deaths" th:text="${participant.getDeaths()}"></dd>
+                                        <dd id="assists" th:text="${participant.getAssists()}"></dd>
+                                        <dd class="kda-result"></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of match loop -->
+                </section>
         </div>
     </div>
     <!-- If leagueEntries is empty, display a message -->

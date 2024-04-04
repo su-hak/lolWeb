@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    document.timestamp = [];
     var ddEle = document.querySelectorAll('.match-info');
     var entries = document.querySelectorAll('.match');
     var userRankInfo = document.querySelectorAll('.user-rank-info');
@@ -87,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     getChampionImg();
     getMostChampImg();
+    getItemImg();
+    totalTimestamp();
 });
 
 // KDA를 계산하는 함수
@@ -108,6 +111,7 @@ function calculateWinrate(win,lose) {
     }
 }
 
+// 검색
 function search() {
     // 입력 상자에서 검색어 가져오기
     var searchText = document.getElementById('searchBox').value.toLowerCase()/*.replace(/\s/g, '')*/;
@@ -166,6 +170,7 @@ function loadPage(page) {
 }
 */
 
+// page 나누기
 document.addEventListener("DOMContentLoaded", function () {
     var currentPage = getUrlParameter("page") || 1;
     currentPage = parseInt(currentPage);
@@ -255,27 +260,91 @@ function getChampionImg() {
 function getMostChampImg() {
     $('.most-champion-img span').each(function (index, element) {
         var championId = $(element).text().trim().split(',');
-        console.log('championId', championId);
+        /*console.log('championId', championId);*/
 
         var allChampion = "https://ddragon.leagueoflegends.com/cdn/14.6.1/data/en_US/champion.json"
 
         $.getJSON(allChampion, function (data) {
-            console.log('data', data);
+            /*console.log('data', data);*/
 
             championId.forEach(function (championIds) {
-                console.log('championIds', championIds);
+                /*console.log('championIds', championIds);*/
 
                 var championKey = Object.values(data.data).find(champion => champion.key === championIds);
-                console.log('championKey', championKey);
+                /*console.log('championKey', championKey);*/
 
                 if (championKey) {
                     var img = document.createElement("img");
                     img.src = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championKey.image.full;
                     img.alt = championKey.name;
                     $(element).empty().append(img);
-                    console.log('img', img);
+                    /*console.log('img', img);*/
                 }
             });
         });
     });
 }
+
+// 빌드
+function getItemImg() {
+    $('.match-time-line').each(function () {
+        // 빌드 아이템 이미지
+        var itemIdSpan = $(this).find('.build-getItemId');
+        var itemId = itemIdSpan.text().trim();
+        /*console.log("itemId",itemId);*/
+
+            var itemImg = $("<img>", {
+                src: "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + itemId + ".png",
+                alt: itemId.name,
+            });
+        /*console.log(itemImg);*/
+
+
+        itemIdSpan.empty().append(itemImg);
+
+        // 타임스탬프 분/초 단위로 바꾸기
+        // timestamp / 1000 = 초 단위
+        // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
+        var timeStampSpan = $(this).find('.build-getTimeStamp');
+        var timeStamp = timeStampSpan.text().trim();
+        console.log(timeStamp)
+
+
+        var timeStampCalcSec = timeStamp / 1000;
+        timeStampCalcSec.toFixed(0);
+
+        if (timeStampCalcSec >= 60) {
+            var timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분" + (timeStampCalcSec % 60).toFixed(0) + "초";
+        } else if (timeStampCalcSec < 60){
+            timeStampCalcMin = "1분 미만";
+        }
+        console.log(timeStampCalcSec);
+        console.log(timeStampCalcMin)
+        timeStampSpan.empty().append(timeStampCalcMin)
+    });
+}
+/*
+// 총 게임시간
+function totalTimestamp() {
+    $('.total-timestamp').each(function () {
+        var totalTimestamp = $(this);
+        var lastFrame = totalTimestamp.find('.total-match-timestamp').last();
+        var lastTimestamp = lastFrame.text().trim();
+
+        var lastTimestampCalc = lastTimestamp / 1000;
+        lastTimestampCalc.toFixed(0);
+
+        var lastTimestampCalcMin = (lastTimestampCalc / 60)
+            .toFixed(0) + "분" + (lastTimestampCalc % 60)
+            .toFixed(0)  + "초";
+        console.log("==============");
+        console.log(lastFrame)
+        console.log(lastTimestamp)
+        document.timestamp.push(lastTimestamp);
+        console.log("==============");
+
+        console.log(document.timestamp);
+        totalTimestamp.empty().append(lastTimestampCalcMin)
+    });
+}*/
+

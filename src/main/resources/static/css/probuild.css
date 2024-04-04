@@ -148,4 +148,19 @@
 .user-time-line {
     width: 100%;
 }
+
+/* 아이템 빌드 */
+#section4 {
+    width: 250%;
+}
+.user-time-line img{
+    width: 32px;
+}
+
+.build-frame {
+    display: flex;
+}
+
+/* 아이템 빌드 끝 */
+
 /*    main 끝    */
