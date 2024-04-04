@@ -272,6 +272,8 @@ public class LeagueEntryDTO {
     }
 
     public void setLastTimestamp(int lastTimestamp) {
+        /*int min = lastTimestamp / (1000 * 60);
+        int sec = (lastTimestamp / 1000) % 60;*/
         this.lastTimestamp = lastTimestamp;
     }
 

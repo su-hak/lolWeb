@@ -135,41 +135,67 @@
                         <div  th:each="matchId : ${entry.getMatchIds()}">
 
                             <div class="build-total-timestamp">
-                                <span class="info-title">총 게임 시간</span>
+                                <p class="info-title">총 게임 시간</p>
                                 <div class="total-timestamp">
-                                    <div th:each="frames : ${entry.getFrame()}">
-                                        <p class="total-match-timestamp" th:text="${frames.getLastTimestamp()}"></p>
-                                    </div>
+                                        <p class="total-match-timestamp" th:text="${entry.getLastTimestamp()}"></p>
                                 </div>
                             </div>
 
-                            <div class="build-start-item">
-                                <span class="info-title">시작 아이템</span>
-                                <div class="build-frame" th:each="frames : ${entry.getFrame()}">
-                                    <div class="build-event" th:each="event : ${frames.getEvents()}">
-                                        <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
+                            <div class="bulid-start-and-ward">
+                                <div class="build-start-item">
+                                    <p class="info-title">시작 아이템</p>
+                                        <div class="build-frame" th:each="frames : ${entry.getFrame()}">
+                                            <div class="build-event" th:each="event : ${frames.getEvents()}">
+                                                <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
                                         and event.getType() == 'ITEM_PURCHASED'
-                                        and event.getTimestamp() < 60000}">
-                                            <p>participantId: <span th:text="${event.getParticipantId()}"></span></p>
-                                            <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
-                                            <p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>
-                                            <p>type: <span th:text="${event.getType()}"></span></p>
+                                        and event.getTimestamp() < 60000
+                                        and !(event.getItemId() == 2055
+                                        or event.getItemId() == 3340
+                                        or event.getItemId() == 3363
+                                        or event.getItemId() == 3364)}">
+                                                    <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
+                                                    <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
+                                                    <!--<p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>-->
+                                                    <!--<p>type: <span th:text="${event.getType()}"></span></p>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="build-ward-item">
+                                    <p class="info-title">시야 아이템</p>
+                                    <div class="ward-item-box">
+                                        <div class="build-frame" th:each="frames : ${entry.getFrame()}">
+                                            <div class="build-event" th:each="event : ${frames.getEvents()}">
+                                                <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
+                                        and (event.getItemId() == 3340
+                                        or event.getItemId() == 3363
+                                        or event.getItemId() == 3364)
+                                        and event.getType() == 'ITEM_PURCHASED'
+                                        and event.getTimestamp() < entry.getLastTimestamp() -30000}">
+                                                    <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
+                                                    <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
+                                                    <!--<p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>-->
+                                                    <!--<p>type: <span th:text="${event.getType()}"></span></p>-->
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
 
                             <div class="build-all-item">
-                                <span class="info-title">아이템 빌드</span>
+                                <p class="info-title">아이템 빌드</p>
                                 <div class="build-frame" th:each="frames : ${entry.getFrame()}">
                                     <div class="build-event" th:each="event : ${frames.getEvents()}">
                                         <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
                                         and event.getType() == 'ITEM_PURCHASED'
-                                        and event.getTimestamp() >= 60000 }">
-                                            <p>participantId: <span th:text="${event.getParticipantId()}"></span></p>
+                                        and 60000 <= event.getTimestamp()
+                                        and event.getTimestamp() < entry.getLastTimestamp() -30000}">
+                                            <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
                                             <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
-                                            <p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>
-                                            <p>type: <span th:text="${event.getType()}"></span></p>
+                                            <!--<p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>-->
+                                            <!--<p>type: <span th:text="${event.getType()}"></span></p>-->
                                         </div>
                                     </div>
                                 </div>

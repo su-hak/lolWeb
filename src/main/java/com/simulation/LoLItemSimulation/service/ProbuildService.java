@@ -203,44 +203,50 @@ public class ProbuildService {
                             if (frames != null) {
                                 for (MatchTimelineDTO.Frame frame : frames) {
                                     List<MatchTimelineDTO.Event> events = frame.getEvents();
+
+                                    // 프레임
                                     entry.setFrame(frames);
+                                    // 총 게임시간 계산 조건문
                                     if (frames != null && !frames.isEmpty()) {
                                         MatchTimelineDTO.Frame lastFrame = frames.get(frames.size() - 1);
-                                        System.out.println("lastFrame ::" + lastFrame);
-                                        System.out.println("getTimestamp ::" + entry.getTimestamp());
-                                        System.out.println("getLastTimestamp ::" + entry.getLastTimestamp());
+                                        /*System.out.println("lastFrame ::" + lastFrame);*/
                                         int lastTimestamp = lastFrame.getTimestamp();
+
                                         entry.setLastTimestamp(lastTimestamp);
+                                        /*System.out.println("getTimestamp ::" + entry.getTimestamp());
+                                        System.out.println("getLastTimestamp ::" + entry.getLastTimestamp());*/
                                     } else if (events != null) {
                                         System.out.println("frames is null");
                                     }
-                                        for (MatchTimelineDTO.Event event : events) {
-                                            if (event.getParticipantId() == targetId) {
-                                                entry.setItemId(event.getItemId());
-                                                entry.setTimestamp(event.getTimestamp());
-                                                entry.setType(event.getType());
-                                                entry.setEvent(events);
 
-                                                System.out.println("ParticipantId: " + entry.getParticipantId());
-                                                System.out.println("itemId: " + entry.getItemId());
-                                                System.out.println("timestamp: " + entry.getTimestamp());
-                                                System.out.println("type: " + entry.getType());
-                                            }
+                                    // 이벤트
+                                    if (events != null) {
+                                    for (MatchTimelineDTO.Event event : events) {
+                                        if (event.getParticipantId() == targetId) {
+                                            entry.setItemId(event.getItemId());
+                                            entry.setTimestamp(event.getTimestamp());
+                                            entry.setType(event.getType());
+                                            entry.setEvent(events);
+
+                                            /*System.out.println("ParticipantId: " + entry.getParticipantId());
+                                            System.out.println("itemId: " + entry.getItemId());
+                                            System.out.println("timestamp: " + entry.getTimestamp());
+                                            System.out.println("type: " + entry.getType());*/
                                         }
-
+                                    }
                                 }
-                            } else {
-                                System.out.println("frames is null");
                             }
+                        } else {
+                            System.out.println("frames is null");
                         }
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            System.out.println("Timeline ::" + url);
+        } catch(Exception e){
+            e.printStackTrace();
         }
+        System.out.println("Timeline ::" + url);
     }
-
+}
 }
 
