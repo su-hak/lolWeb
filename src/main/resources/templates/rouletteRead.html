@@ -15,6 +15,11 @@
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
     <link rel="stylesheet" th:href="@{/css/index.css}"/>
     <link rel="stylesheet" th:href="@{/css/lolMain.css}"/>
+    <link rel="stylesheet" th:href="@{/css/roulette.css}"/>
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/ui-lightness/jquery-ui.css">
+
 
 
     <!-- ckeditor -->
@@ -136,41 +141,22 @@ font-weight: bolder">
                                 <!-- 룰렛 버튼 -->
                                 <div class="row">
                                     <div class="col p-5">
-                                        <button id="rouletteBtn" class="col btn-danger">룰렛실행</button>
-                                        <div id="rouletteResult" class="col"></div>
-                                        <script>
-                                            // 룰렛 실행 버튼 클릭 시 실행되는 함수
-                                            document.querySelector('#rouletteBtn').addEventListener('click', function() {
-                                                // 룰렛 결과를 표시할 요소
-                                                var resultElement = document.getElementById('rouletteResult');
+                                        <!-- 룰렛 test-->
+                                        <div class="row span4">
+                                            <div class="col roulette_container" >
+                                                <div class="roulette" style="display:none;">
+                                                    <!-- 룰렛 화면 -->
 
-                                                // 댓글 영역에서 모든 댓글 요소들을 가져옴
-                                                var comments = document.querySelectorAll('#commentContent');
-
-                                                // 댓글 내용을 담을 배열
-                                                var commentContents = [];
-
-                                                // 각 댓글 요소에서 댓글 내용을 가져와 배열에 추가
-                                                comments.forEach(function(comment) {
-                                                    commentContents.push(comment.textContent.trim());
-                                                });
-
-                                                // 결과 요소에 룰렛 애니메이션 클래스 추가
-                                                resultElement.classList.add('spin-animation');
-
-                                                // 일정 시간 후에 룰렛 애니메이션 클래스 제거하고 결과 표시
-                                                setTimeout(function() {
-                                                    // 결과 요소에 룰렛 애니메이션 클래스 제거
-                                                    resultElement.classList.remove('spin-animation');
-
-                                                    // 0부터 댓글 개수까지 랜덤한 인덱스 생성
-                                                    var randomIndex = Math.floor(Math.random() * commentContents.length);
-
-                                                    // 랜덤한 댓글 내용을 결과 요소에 표시
-                                                    resultElement.textContent = commentContents[randomIndex];
-                                                }, 3000); // 애니메이션 시간: 3초
-                                            });
-                                        </script>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 btn_container">
+                                                <p>
+                                                    <button class="start btn btn-large btn-primary"> START </button>
+                                                    <button class="stop btn-large btn btn-warning"> STOP </button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- 룰렛 test-->
                                     </div>
                                 </div>
                                 <div class="row">
@@ -256,7 +242,7 @@ font-weight: bolder">
                             <div class="col-9 d-flex" th:each="commentInfo,commentIndex : ${comment}">
 
                                 <div class="col-11">
-                                    <div id="commentContent" class="row" th:text="${commentInfo.comment.content}">
+                                    <div id="commentContent" class="row commentContent" th:text="${commentInfo.comment.content}">
                                         <!-- 댓글 내용 영역-->
                                     </div>
                                     <div class="row d-flex usercss" style="color: #777777; font-size: 13px;
@@ -338,6 +324,12 @@ font-weight: bolder">
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js"></script>
+<script src="/js/roulette/roulette.js"></script>
+<script src="/js/roulette/rouletteSetting.js"></script>
 
 
 <!-- 댓글 등록 코드 -->
@@ -855,6 +847,7 @@ font-weight: bolder">
 <!--        }-->
 <!--    });-->
 <!--</script>-->
+
 
 
 </body>
