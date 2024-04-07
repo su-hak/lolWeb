@@ -8,6 +8,7 @@ public class LeagueEntryDTO {
     private String leagueId;
     private String summonerId;
     private String summonerName;
+    private String riotIdTagline;
     private String queueType;
     private String tier;
     private String rank;
@@ -106,6 +107,14 @@ public class LeagueEntryDTO {
 
     public void setSummonerName(String summonerName) {
         this.summonerName = summonerName;
+    }
+
+    public String getRiotIdTagline() {
+        return riotIdTagline;
+    }
+
+    public void setRiotIdTagline(String riotIdTagline) {
+        this.riotIdTagline = riotIdTagline;
     }
 
     public String getQueueType() {
@@ -243,12 +252,14 @@ public class LeagueEntryDTO {
     }
 
     private int itemId;
+    private int beforeId;
+    private int afterId;
     private int timestamp;
     private int lastTimestamp;
     private String type;
     private String levelUpType;
     private int skillSlot;
-    private String wardType;
+    private int controlWard;
 
 
     public int getItemId() {
@@ -257,6 +268,22 @@ public class LeagueEntryDTO {
 
     public void setItemId(int itemId) {
         this.itemId = itemId;
+    }
+
+    public int getBeforeId() {
+        return beforeId;
+    }
+
+    public void setBeforeId(int beforeId) {
+        this.beforeId = beforeId;
+    }
+
+    public int getAfterId() {
+        return afterId;
+    }
+
+    public void setAfterId(int afterId) {
+        this.afterId = afterId;
     }
 
     public int getTimestamp() {
@@ -285,7 +312,13 @@ public class LeagueEntryDTO {
         this.type = type;
     }
 
+    public int getControlWard() {
+        return controlWard;
+    }
 
+    public void setControlWard(int controlWard) {
+        this.controlWard = controlWard;
+    }
 }
 
 

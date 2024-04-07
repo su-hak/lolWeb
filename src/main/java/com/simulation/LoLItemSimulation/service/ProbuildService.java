@@ -6,16 +6,12 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "";
+    private final String apiKey = "RGAPI-d315e426-fd1a-4492-a719-9e660effcd9e";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -183,8 +179,6 @@ public class ProbuildService {
                 // 매치에 참가한 모든 플레이어의 정보를 가져옴
                 List<MatchTimelineDTO.Participant> participants = matchTimeline.getInfo().getParticipants();
                 List<MatchTimelineDTO.Frame> frames = matchTimeline.getInfo().getFrames();
-                /*System.out.println("participants ::" + participants);
-                System.out.println("frames ::" + frames);*/
 
                 // url의 puuid와 같은 배열에 있는 participantId를 가져오기 위해 LeagueEntryDTO에 저장된 puuid를 사용
                 String entryPuuid = entry.getPuuid(); // LeagueEntryDTO에 저장된 puuid 가져오기
@@ -192,15 +186,13 @@ public class ProbuildService {
                     // LeagueEntryDTO에 저장된 puuid와 url의 puuid를 비교
                     if (participant.getPuuid().equals(entryPuuid)) {
                         // puuid가 일치하는 경우 해당하는 participantId를 출력
-                        /*System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());*/
-                        entry.setParticipantId(participant.getParticipantId());
+                       entry.setParticipantId(participant.getParticipantId());
 
                         int targetId = entry.getParticipantId();
                         if (participant.getParticipantId() == targetId) {
-                            /*System.out.println("ParticipantId for puuid " + entryPuuid + " is " + participant.getParticipantId());*/
-
                             // 해당 Participant의 모든 항목들을 출력
                             if (frames != null) {
+                                int count = 0;
                                 for (MatchTimelineDTO.Frame frame : frames) {
                                     List<MatchTimelineDTO.Event> events = frame.getEvents();
 
@@ -209,34 +201,71 @@ public class ProbuildService {
                                     // 총 게임시간 계산 조건문
                                     if (frames != null && !frames.isEmpty()) {
                                         MatchTimelineDTO.Frame lastFrame = frames.get(frames.size() - 1);
-                                        /*System.out.println("lastFrame ::" + lastFrame);*/
                                         int lastTimestamp = lastFrame.getTimestamp();
 
                                         entry.setLastTimestamp(lastTimestamp);
-                                        /*System.out.println("getTimestamp ::" + entry.getTimestamp());
-                                        System.out.println("getLastTimestamp ::" + entry.getLastTimestamp());*/
-                                    } else if (events != null) {
+                                        } else if (events != null) {
                                         System.out.println("frames is null");
                                     }
 
+
                                     // 이벤트
                                     if (events != null) {
-                                    for (MatchTimelineDTO.Event event : events) {
-                                        if (event.getParticipantId() == targetId) {
-                                            entry.setItemId(event.getItemId());
-                                            entry.setTimestamp(event.getTimestamp());
-                                            entry.setType(event.getType());
-                                            entry.setEvent(events);
+                                        for (MatchTimelineDTO.Event event : events) {
+                                            if (event.getParticipantId() == targetId) {
 
-                                            /*System.out.println("ParticipantId: " + entry.getParticipantId());
-                                            System.out.println("itemId: " + entry.getItemId());
-                                            System.out.println("timestamp: " + entry.getTimestamp());
-                                            System.out.println("type: " + entry.getType());*/
+                                                entry.setTimestamp(event.getTimestamp());
+                                                entry.setType(event.getType());
+                                                entry.setEvent(events);
+
+                                                // 제어 와드 총 구매 갯수
+                                                if (entry.getItemId() == 2055
+                                                && entry.getType().equals("ITEM_PURCHASED")) {
+                                                    count++;
+                                                }
+
+                                                /*int beforeId = event.getBeforeId();
+                                                int eventSize = events.size();
+                                                int frameSize = frames.size();
+
+                                                for (int i = eventSize - 1; i >= 0; i--) {
+                                                    MatchTimelineDTO.Event prevEvent = events.get(i);
+                                                    if (prevEvent.getItemId() == beforeId
+                                                            && prevEvent.getItemId() != 0
+                                                            && beforeId != 0
+                                                            && prevEvent.getItemId() != 2055
+                                                            && beforeId != 2055) {
+                                                        events.remove(i);
+                                                        entry.setItemId(prevEvent.getItemId());
+                                                        break;
+                                                    }
+                                                }*/
+                                                removeItem(events, frames);
+
+                                                /*int beforeIds = frame.getBeforeId();
+                                                for (int i = frameSize - 1; i >= 0; i--) {
+                                                    System.out.println("beforeIds ::" + beforeId);
+                                                    MatchTimelineDTO.Event prevEvent = events.get(i);
+                                                    if (prevEvent.getItemId() == beforeId
+                                                            && prevEvent.getItemId() != 0
+                                                            && beforeId != 0
+                                                            && prevEvent.getItemId() != 2055
+                                                            && beforeId != 2055) {
+
+                                                        events.remove(i);
+                                                        entry.setItemId(prevEvent.getItemId());
+                                                        break;
+                                                    }
+                                                }*/
+
+                                                entry.setItemId(event.getItemId());
+                                            }
                                         }
-                                    }
                                 }
                             }
-                        } else {
+                                entry.setControlWard(count);
+
+                            } else {
                             System.out.println("frames is null");
                         }
                     }
@@ -248,5 +277,21 @@ public class ProbuildService {
         System.out.println("Timeline ::" + url);
     }
 }
+
+    private static void removeItem(List<MatchTimelineDTO.Event> events, List<MatchTimelineDTO.Frame> frames) {
+        Set<MatchTimelineDTO.Event> dupli = new HashSet<>();
+       /* System.out.println("events" + events);
+        System.out.println("frames" + frames);*/
+
+        for (MatchTimelineDTO.Event eventId : events) {
+            if (frames.contains(eventId.getItemId())) {
+                System.out.println("eventId"+eventId);
+                dupli.add(eventId);
+            }
+            /*System.out.println("dupli" + dupli);*/
+            events.removeAll(dupli);
+            frames.removeAll(dupli);
+        }
+    }
 }
 

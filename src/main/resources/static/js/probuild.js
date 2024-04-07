@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 championImg.alt = championName + " 이미지";
                 championImg.id = "participant_champion";
 
-                var pElement = whatUseChamp.querySelector('p');
+                var pElement = whatUseChamp.querySelector('#nickName');
                 pElement.insertAdjacentElement('beforebegin', championImg);
                 // whatUseChamp.insertBefore(championImg, pElement.nextSibling);
             }
@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     getMostChampImg();
     getItemImg();
     totalTimestamp();
+    controlWard();
 });
 
 // KDA를 계산하는 함수
@@ -320,7 +321,7 @@ function getItemImg() {
         // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
         var timeStampSpan = $(this).find('.build-getTimeStamp');
         var timeStamp = timeStampSpan.text().trim();
-        console.log(timeStamp)
+        /*console.log(timeStamp)*/
 
 
         var timeStampCalcSec = timeStamp / 1000;
@@ -331,8 +332,8 @@ function getItemImg() {
         } else if (timeStampCalcSec < 60){
             timeStampCalcMin = "1분 미만";
         }
-        console.log(timeStampCalcSec);
-        console.log(timeStampCalcMin)
+        /*console.log(timeStampCalcSec);
+        console.log(timeStampCalcMin)*/
         timeStampSpan.empty().append(timeStampCalcMin)
     });
 }
@@ -355,3 +356,13 @@ function totalTimestamp() {
     });
 }
 
+// 제어와드 이미지 추가
+function controlWard() {
+    var controlWard = $('.controlWard');
+
+    var imageUrl = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/2055.png";
+    var url = $("<img>", {
+        src: imageUrl
+    });
+    controlWard.append(url);
+}

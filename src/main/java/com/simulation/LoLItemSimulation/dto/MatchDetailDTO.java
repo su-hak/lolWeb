@@ -27,6 +27,7 @@ public class MatchDetailDTO {
 
     public static class Participant {
         private String summonerName;
+        private String riotIdTagline;
         private String championName;
         private int kills;
         private int deaths;
@@ -42,6 +43,14 @@ public class MatchDetailDTO {
 
         public void setSummonerName(String summonrName) {
             this.summonerName = summonrName;
+        }
+
+        public String getRiotIdTagline() {
+            return riotIdTagline;
+        }
+
+        public void setRiotIdTagline(String riotIdTagline) {
+            this.riotIdTagline = riotIdTagline;
         }
 
         public String getChampionName() {
