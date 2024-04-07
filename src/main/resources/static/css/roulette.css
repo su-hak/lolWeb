@@ -1,14 +1,12 @@
 
 div.roulette {
-	margin-top: 35px;
+	height: 40px;
+	margin-top: 5px;
 }
 div.roulette-inner {
 	left : 33px;
 }
 
-
-div.roulette { 
-}
 
 div.roulette_container {
 	background-color:rgb(253, 252, 253);

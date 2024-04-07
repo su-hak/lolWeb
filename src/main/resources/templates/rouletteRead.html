@@ -15,10 +15,10 @@
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
     <link rel="stylesheet" th:href="@{/css/index.css}"/>
     <link rel="stylesheet" th:href="@{/css/lolMain.css}"/>
-    <link rel="stylesheet" th:href="@{/css/roulette.css}"/>
 
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/ui-lightness/jquery-ui.css">
+    <link rel="stylesheet" th:href="@{/css/roulette.css}"/>
 
 
 
@@ -140,23 +140,32 @@ font-weight: bolder">
 
                                 <!-- 룰렛 버튼 -->
                                 <div class="row">
-                                    <div class="col p-5">
-                                        <!-- 룰렛 test-->
-                                        <div class="row span4">
-                                            <div class="col roulette_container" >
-                                                <div class="roulette" style="display:none;">
-                                                    <!-- 룰렛 화면 -->
+                                    <div class="span4">
+                                        <div class="roulette_container" >
+                                            <div class="roulette" style="display:none;">
 
-                                                </div>
-                                            </div>
-                                            <div class="col-3 btn_container">
-                                                <p>
-                                                    <button class="start btn btn-large btn-primary"> START </button>
-                                                    <button class="stop btn-large btn btn-warning"> STOP </button>
-                                                </p>
                                             </div>
                                         </div>
-                                        <!-- 룰렛 test-->
+                                        <div class="btn_container">
+                                            <p>
+                                                <button class="btn btn-large btn-primary start"> START </button>
+                                                <button class="stop btn-large btn btn-warning"> STOP </button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="span4">
+                                        <div class="right_container">
+                                            <p class="demo_label">Paramater</p>
+                                            <div class="speed_value param_label">
+                                                <span class="param_name">speed :</span> <span class="speed_param"></span>
+                                            </div>
+                                            <div id="speed"> </div>
+
+                                            <div class="duration_value param_label">
+                                                <span class="param_name">duration :</span> <span class="duration_param"></span>
+                                            </div>
+                                            <div id="duration"> </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -309,6 +318,7 @@ font-weight: bolder">
 
 
 <!-- 메인영역 E -->
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
