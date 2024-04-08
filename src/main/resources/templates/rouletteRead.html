@@ -203,7 +203,7 @@ font-weight: bolder">
 
                         </div>
                         <div class="col">
-                            <a th:href="@{'/post/list?page=' + ${page} + '&sort=' + ${sort}}">
+                            <a th:href="@{'/post/list/'+${post.type}+'?page=' + ${page} + '&sort=' + ${sort}}">
                                 <button class="col btn btn-info" style="font-size: medium">목록</button>
                             </a>
                         </div>
@@ -520,7 +520,7 @@ font-weight: bolder">
                             confirmButtonText: '확인'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '/post/list'; // 삭제 성공 시 게시글 목록 페이지로 이동
+                                location.href = '/post/list/roulette'; // 삭제 성공 시 게시글 목록 페이지로 이동
                             }
                         });
                     })

@@ -109,7 +109,7 @@ font-weight: bolder">
                     <div class="card-header">
                         <strong class="card-title">시뮬공유</strong>
                     </div>
-                    <form th:object="${post}" th:action="@{/post/simulSubmit}" method="post" id="postSumitForm">
+                    <form th:object="${post}" th:action="@{/post/submitForm/simulation}" method="post" id="postSumitForm">
                         <div class="card-body" style="padding: 40px">
                             <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">

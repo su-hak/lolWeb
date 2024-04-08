@@ -45,24 +45,24 @@ public class PostService {
     return this.postRepository.findAll(pageable);
   }
 
-  public Page<Post> getSortedPosts(int page, String sortBy) {
+  public Page<Post> getSortedPosts(int page, String sortBy, String type) {
     Sort sort = Sort.by(sortBy);
 
     if (sortBy.equals("id")) {
       sort = Sort.by(Sort.Direction.DESC, "id");
     } else if (sortBy.equals("date")) {
       sort = Sort.by(Sort.Direction.DESC, "createtime");
-    }else if (sortBy.equals("replyCount")) {
+    } else if (sortBy.equals("replyCount")) {
       return getPostsSortedByCommentCount(page);
-    }else if (sortBy.equals("nickname")) {
+    } else if (sortBy.equals("nickname")) {
       sort = Sort.by(Sort.Direction.DESC, "nickname");
-    }else if (sortBy.equals("viewCount")) {
+    } else if (sortBy.equals("viewCount")) {
       sort = Sort.by(Sort.Direction.DESC, "views");
     }
 
     Pageable pageable = PageRequest.of(page, 10, sort);
 
-    return postRepository.findAll(pageable);
+    return postRepository.findByType(type, pageable);
   }
 
   public Page<Post> getPostsSortedByCommentCount(int page) {
@@ -178,6 +178,7 @@ public class PostService {
     postDto.setIpAddress(post.getIpAddress());
     postDto.setCreatetime(post.getCreatetime());
     postDto.setViews(post.getViews());
+    postDto.setType(post.getType());
 
     // 다른 필요한 변환 로직 추가
     return postDto;

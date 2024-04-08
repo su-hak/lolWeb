@@ -49,4 +49,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Object[]> result = findAllSortedByCommentCount(pageable);
     return result.map(array -> (Post) array[0]);
   }
+
+  Page<Post> findByType(String type, Pageable pageable);
 } 

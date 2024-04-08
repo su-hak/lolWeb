@@ -82,7 +82,7 @@ font-weight: bolder">
                     <a class="nav-link navMenu" href="/probuild">프로빌드</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link navMenu" href="/post/list">커뮤니티</a>
+                    <a class="nav-link navMenu" href="/post/list/default">커뮤니티</a>
                 </li>
             </ul>
         </div>
@@ -105,11 +105,21 @@ font-weight: bolder">
 
                         <div style="display: flex; justify-content: space-between;">
                             <ul class="list-group list-group-horizontal d-none d-lg-flex"  style="font-size: 1.3rem">
-                                <li class="list-group-item list-group-item-action active" data-toggle="list" role="tab">자유게시판</li>
-                                <li class="list-group-item list-group-item-action">시뮬공유</li>
-                                <li class="list-group-item list-group-item-action">매드무비</li>
-                                <li class="list-group-item list-group-item-action">룰렛게시판</li>
-                                <li class="list-group-item list-group-item-action">투표게시판</li>
+                                <li class="list-group-item list-group-item-action" >
+                                    <a th:href="@{/post/list/default}">자유게시판</a>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <a th:href="@{/post/list/simulation}">시뮬공유</a>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <a th:href="@{/post/list/movie}">매드무비</a>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <a th:href="@{/post/list/roulette}">룰렛게시판</a>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <a th:href="@{/post/list/poll}">투표게시판</a>
+                                </li>
                             </ul>
 
                             <div class="dropdown d-lg-none">
@@ -120,11 +130,11 @@ font-weight: bolder">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="font-size:
                                 1.5rem; max-height: 300px; overflow-y: auto;">
-                                    <a class="dropdown-item" href="#">시뮬공유</a>
-                                    <a class="dropdown-item" href="#">매드무비</a>
-                                    <a class="dropdown-item" href="#">룰렛게시판</a>
-                                    <a class="dropdown-item" href="#">유머게시판</a>
-                                    <a class="dropdown-item" href="#">자유게시판</a>
+                                    <a class="dropdown-item" href="/post/list/default">자유게시판</a>
+                                    <a class="dropdown-item" href="/post/list/simulation">시뮬공유</a>
+                                    <a class="dropdown-item" href="/post/list/movie">매드무비</a>
+                                    <a class="dropdown-item" href="/post/list/roulette">룰렛게시판</a>
+                                    <a class="dropdown-item" href="/post/list/poll">투표게시판</a>
                                 </div>
                             </div>
 
@@ -168,7 +178,7 @@ font-weight: bolder">
                                 <td>
                                     <div class="d-flex">
 
-                                        <a th:href="@{'/post/read/' + ${post.id} + '?page=' + ${paging.number} +'&sort=' + ${sort}}">
+                                        <a th:href="@{'/post/read/' + ${post.type} + '/' + ${post.id} + '?page=' + ${paging.number} + '&sort=' + ${sort}}">
                                             <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                                th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
                                             </p>
@@ -211,44 +221,40 @@ font-weight: bolder">
                             </tbody>
                         </table>
                         <!-- 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'default'}">
                             <a th:href="@{/post/create}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">글쓰기</button>
                             </a>
                         </div>
 
                         <!-- 시뮬 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'simulation'}">
                             <a th:href="@{/post/simulCreate}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">시뮬글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">시뮬글쓰기</button>
                             </a>
                         </div>
 
                         <!-- 무비 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'movie'}">
                             <a th:href="@{/post/movieCreate}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">무비글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">무비글쓰기</button>
                             </a>
                         </div>
 
                         <!-- 룰렛 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'roulette'}">
                             <a th:href="@{/post/rouletteCreate}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">룰렛글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">룰렛글쓰기</button>
                             </a>
                         </div>
 
                         <!-- 투표 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'poll'}">
                             <a th:href="@{/post/pollCreate}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">투표글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">투표글쓰기</button>
                             </a>
                         </div>
+
 
                         <!-- 페이징 번호 -->
                         <div style="margin-top: 10px">
@@ -454,7 +460,7 @@ font-weight: bolder">
 
     function sortPostListByItem() {
         var selectedValue = $("#sortOption").val();
-        var url = "/post/list?sort=" + selectedValue;
+        var url = "/post/list/default?sort=" + selectedValue;
         window.location.href = url;
     }
 
