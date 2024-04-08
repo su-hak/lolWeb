@@ -33,6 +33,17 @@ public class Post {
   @Column(name = "views")
   private Long views = 0L;
 
+  @Column(name = "type")
+  private String type;
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
   @Transient
   private Boolean isImageIncluded = false;
 
