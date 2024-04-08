@@ -60,6 +60,7 @@ public class MatchTimelineDTO {
         private List<Event> events;
         private int timestamp;
         private int lastTimestamp;
+        private int beforeId;
         public List<Event> getEvents() {
             return events;
         }
@@ -80,15 +81,26 @@ public class MatchTimelineDTO {
         public void setLastTimestamp(int lastTimestamp) {
             this.lastTimestamp = lastTimestamp;
         }
+
+        public int getBeforeId() {
+            return beforeId;
+        }
+
+        public void setBeforeId(int beforeId) {
+            this.beforeId = beforeId;
+        }
     }
     public static class Event {
         private int itemId;
+        private int beforeId;
+        private int afterId;
         private int timestamp;
         private String type;
         private String levelUpType;
         private int skillSlot;
         private String wardType;
         private int participantId;
+        private int controlWard;
 
         public int getItemId() {
             return itemId;
@@ -96,6 +108,22 @@ public class MatchTimelineDTO {
 
         public void setItemId(int itemId) {
             this.itemId = itemId;
+        }
+
+        public int getBeforeId() {
+            return beforeId;
+        }
+
+        public void setBeforeId(int beforeId) {
+            this.beforeId = beforeId;
+        }
+
+        public int getAfterId() {
+            return afterId;
+        }
+
+        public void setAfterId(int afterId) {
+            this.afterId = afterId;
         }
 
         public int getTimestamp() {
@@ -144,6 +172,14 @@ public class MatchTimelineDTO {
 
         public void setParticipantId(int participantId) {
             this.participantId = participantId;
+        }
+
+        public int getControlWard() {
+            return controlWard;
+        }
+
+        public void setControlWard(int controlWard) {
+            this.controlWard = controlWard;
         }
     }
 }

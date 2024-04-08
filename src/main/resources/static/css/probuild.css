@@ -80,10 +80,12 @@
 }
 
 #nickName {
-    text-align: center;
+    display: flex;
+    justify-content: flex-start;
     padding: 5px 0;
     font-weight: 800;
     font-size: 13px;
+    overflow: visible;
 }
 
 .info-title {
@@ -96,6 +98,7 @@
 
 #participant_champion {
     height: 100px;
+    max-width: 100px;
 }
 
 #RankTier {
@@ -110,6 +113,7 @@
 .what-use-champ {
     display: flex;
     flex-direction: column;
+    max-width: 100px;
 }
 
 .most-champion-img {
@@ -193,6 +197,14 @@
     display: flex;
     gap: 2px;
 }
+
+.controlWadDiv {
+    display: flex;
+    align-items: end;
+    font-size: 13px;
+    gap: 5px;
+}
+
 /* 아이템 빌드 끝 */
 
 /*    main 끝    */

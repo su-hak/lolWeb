@@ -105,7 +105,19 @@
             <section class="main-section-probuild" id="section1">
                 <div class="what-use-champ">
                     <span class="info-title">Champion</span>
-                    <p id="nickName"><span th:text="${entry.getSummonerName()}"></span></p>
+                    <div id="nickName">
+                        <p >
+                        <span th:text="${entry.getSummonerName()}"></span>
+                        </p>
+                        <div th:each="matchId : ${entry.getMatchIds()}">
+                            <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
+                            <div th:each="participant : ${entry.getParticipants()}">
+                                <div th:if="${entry.getSummonerName() == participant.getSummonerName()}">
+                                    <p>&nbsp; #<span th:text="${participant.getRiotIdTagline()}"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
                 <section class="main-section-probuild" id="section2">
@@ -161,6 +173,7 @@
                                             </div>
                                         </div>
                                 </div>
+
                                 <div class="build-ward-item">
                                     <p class="info-title">시야 아이템</p>
                                     <div class="ward-item-box">
@@ -181,6 +194,14 @@
                                         </div>
                                     </div>
 
+                                    <div>
+                                        <p class="info-title">구매한 제어 와드 수</p>
+                                        <div class="controlWadDiv" style="display: flex;">
+                                            <p><span class="controlWard"></span></p>
+                                            <p>X <span th:text="${entry.getControlWard()}"></span></p>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -189,13 +210,20 @@
                                 <div class="build-frame" th:each="frames : ${entry.getFrame()}">
                                     <div class="build-event" th:each="event : ${frames.getEvents()}">
                                         <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
-                                        and event.getType() == 'ITEM_PURCHASED'
+                                        and (event.getType() == 'ITEM_PURCHASED'
+                                        or event.getType() == 'ITEM_UNDO')
                                         and 60000 <= event.getTimestamp()
-                                        and event.getTimestamp() < entry.getLastTimestamp() -30000}">
+                                        and event.getTimestamp() < entry.getLastTimestamp() -30000
+                                        and !(event.getItemId() == 2055
+                                        or event.getItemId() == 3340
+                                        or event.getItemId() == 2003
+                                        or event.getItemId() == 3363
+                                        or event.getItemId() == 3364)}">
                                             <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
                                             <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
                                             <!--<p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>-->
-                                            <!--<p>type: <span th:text="${event.getType()}"></span></p>-->
+                                            <p>type: <span th:text="${event.getType()}"></span></p>
+                                            <p>beforeId: <span th:text="${event.getBeforeId()}"></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -204,6 +232,7 @@
                     </div>
                     <!--아이템, 특성 빌드 끝-->
                 </section>
+
                 <section class="main-section-probuild" id="section5">
                     <!-- Loop through each match -->
                     <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
