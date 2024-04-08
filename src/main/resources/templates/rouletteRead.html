@@ -139,8 +139,8 @@ font-weight: bolder">
                             <div class="col">
 
                                 <!-- 룰렛 버튼 -->
-                                <div class="row">
-                                    <div class="span4">
+                                <div class="row" style="padding: 20px 0;  border-top: solid 1px #e0e0e0;">
+                                    <div class="col span4">
                                         <div class="roulette_container" >
                                             <div class="roulette" style="display:none;">
 
@@ -153,19 +153,16 @@ font-weight: bolder">
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="span4">
-                                        <div class="right_container">
-                                            <p class="demo_label">Paramater</p>
-                                            <div class="speed_value param_label">
-                                                <span class="param_name">speed :</span> <span class="speed_param"></span>
-                                            </div>
-                                            <div id="speed"> </div>
-
-                                            <div class="duration_value param_label">
-                                                <span class="param_name">duration :</span> <span class="duration_param"></span>
-                                            </div>
-                                            <div id="duration"> </div>
+                                    <div class="col-5 right_container">
+                                        <div class="speed_value param_label">
+                                            <span class="param_name">회전속도 :</span> <span class="speed_param"></span>
                                         </div>
+                                        <div id="speed"> </div>
+
+                                        <div class="duration_value param_label">
+                                            <span class="param_name">회전시간 :</span> <span class="duration_param"></span>
+                                        </div>
+                                        <div id="duration"> </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -178,7 +175,7 @@ font-weight: bolder">
                                 </div>
                             </div>
                         </div>
-                        <div class="row ">
+                        <div class="row">
                             <div class="col d-flex justify-content-end align-items-center">
 
                                 <button class="thumb-up" th:attr="data-post-id=${post.id}">
