@@ -161,7 +161,6 @@ font-weight: bolder">
                             </thead>
                             <!-- 게시판 바디 -->
                             <tbody>
-
                             <tr th:each="post, loop : ${paging}"> <!-- 게시물이 반복되어 리스트로 표시 -->
                                 <td style="font-size: 14px; color: #777777">
                                     <p class="mb-0 text-muted" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"><!--게시물id--></p>

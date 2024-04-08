@@ -106,7 +106,7 @@ font-weight: bolder">
                     <div class="card-header">
                         <strong class="card-title">투표게시판</strong>
                     </div>
-                    <div class="card-body p-5">
+                    <div class="card-body" style="padding: 40px">
                         <div class="row flex-column">
                             <div class="col" style="font-size: larger" th:text="${post.title}">
                                 <!-- 제목 들어가는 부분 -->
@@ -130,11 +130,70 @@ font-weight: bolder">
 
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <!-- 투표 내용 영역-->
+                        <!-- 투표 영역 시작 -->
+
+                        <!-- poll.js 파일 있음 -->
+                        <div class="row" style="padding: 20px 0; border-top: solid 1px #e0e0e0;">
+                            <div class="col" id="pollModal">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="pollModalLabel">투표창</h5>
+                                    </div>
+                                    <div class="modal-body p-5">
+                                        <div class="form-group">
+                                            <div id="pollTitle"style="font-size: 1.3rem; border-bottom: solid 1px
+                                                 #e0e0e0;"
+                                                 aria-describedby="pollTitleDesc">
+                                                <h4>투표 제목 들어갈 곳</h4>
+                                            </div>
+                                            <div class="form-group mt-4" id="pollOptions">
+<!--                                                <h4>선택해주세요.</h4>-->
+                                                <div class="input-group" style="display: block">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <input type="radio"
+                                                                   id="pollOptionId00" name="poll"
+                                                                   aria-label="Radio button for following text input">
+                                                        </div>
+                                                        <div class="form-control" id="pollOptionText00"
+                                                             aria-label="Text input with radio button" style="font-size: 1.3rem">
+                                                            fdsasdas
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <input type="radio" id="pollOptionId01" name="poll"
+                                                                   aria-label="Radio button for following text input">
+                                                        </div>
+                                                        <div class="form-control" id="pollOptionText01"
+                                                             aria-label="Text input with radio button" style="font-size: 1.3rem">
+                                                            fdsasdas
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <input type="radio" id="pollOptionId02" name="poll"
+                                                                   aria-label="Radio button for following text input">
+                                                        </div>
+                                                        <div class="form-control" id="pollOptionText02"
+                                                             aria-label="Text input with radio button"
+                                                             style="font-size: 1.3rem">
+                                                            fdsasdas
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        </div>
+                                        <div class="modal-footer" style="border-top: none; padding: 0px;">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                            <button type="button" class="btn btn-primary" id="submitPoll" disabled>
+                                                투표완료</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <!-- 투표 영역 종료 -->
                         <div class="row">
                             <div class="col">
                                 <div class="row">
@@ -149,17 +208,16 @@ font-weight: bolder">
                         </div>
                         <div class="row ">
                             <div class="col d-flex justify-content-end align-items-center">
-
                                 <button class="thumb-up" th:attr="data-post-id=${post.id}">
-                                    <span class="postLikeCount" th:attr="data-post-id=${post.id}"></span>
-                                    <iconify-icon icon="material-symbols:thumb-up-outline" width="50" height="50"></iconify-icon>
+                                    <iconify-icon icon="foundation:like" width="50" height="50"></iconify-icon>
                                 </button>
+                                <span class="postLikeCount" th:attr="data-post-id=${post.id}"></span>
                             </div>
                             <div class="col d-flex align-items-center">
                                 <button class="thumb-down" th:attr="data-post-id=${post.id}">
-                                    <span class="postHateCount" th:attr="data-post-id=${post.id}"></span>
-                                    <iconify-icon icon="material-symbols:thumb-down-outline" width="50" height="50"></iconify-icon>
+                                    <iconify-icon icon="foundation:dislike" width="50" height="50"></iconify-icon>
                                 </button>
+                                <span class="postHateCount" th:attr="data-post-id=${post.id}"></span>
 
                             </div>
                         </div>
