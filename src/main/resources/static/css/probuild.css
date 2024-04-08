@@ -159,12 +159,9 @@
     gap: 10px;
 }
 
-.user-time-line {
-    width: 100%;
-}
-
 /* 아이템 빌드 */
 .user-time-line {
+    width: 100%;
 }
 
 .user-time-line p {
@@ -193,6 +190,14 @@
     gap: 10px;
 }
 
+.build-start-item {
+    width: 70%;
+}
+
+.build-ward-item {
+    width: 100%;
+}
+
 .ward-item-box {
     display: flex;
     gap: 2px;
@@ -204,6 +209,29 @@
     font-size: 13px;
     gap: 5px;
 }
+
+.build-all-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.build-event p {
+    text-align: center;
+    margin: 0;
+}
+
+.build-event {
+    width: 32px;
+}
+
+.probuild-itemBuild-arrow {
+    width: 32px;
+    height: 32px;
+}
+
 
 /* 아이템 빌드 끝 */
 

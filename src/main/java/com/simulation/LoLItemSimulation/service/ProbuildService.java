@@ -227,11 +227,6 @@ public class ProbuildService {
                                                     count++;
                                                 }
 
-
-//                                                removeEventsItem(events, entry);
-
-
-
                                                 entry.setItemId(event.getItemId());
                                             }
                                         }
@@ -253,33 +248,6 @@ public class ProbuildService {
         System.out.println("Timeline ::" + url);
     }
 }
-
-    private static void removeEventsItem(List<MatchTimelineDTO.Event> events, LeagueEntryDTO entry) {
-
-        int targetId = entry.getParticipantId();
-        for (MatchTimelineDTO.Event event : events) {
-            if (event.getParticipantId() == targetId) {
-
-                /*System.out.println("eventId" + event);*/
-
-                int beforeId = event.getBeforeId();
-                int eventSize = events.size();
-
-                for (int i = eventSize - 1; i >= 0; i--) {
-                    MatchTimelineDTO.Event prevEvent = events.get(i);
-                    if (prevEvent.getItemId() == beforeId
-                            && prevEvent.getItemId() != 0
-                            && beforeId != 0
-                            && prevEvent.getItemId() != 2055
-                            && beforeId != 2055) {
-                        events.remove(i);
-                        entry.setItemId(prevEvent.getItemId());
-                        break;
-                    }
-                }
-            }
-        }
-    }
 
     private static void removeFramesItem(List<MatchTimelineDTO.Event> events, MatchTimelineDTO.Frame frame, LeagueEntryDTO entry) {
 
