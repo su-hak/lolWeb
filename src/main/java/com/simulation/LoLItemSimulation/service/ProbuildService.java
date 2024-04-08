@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-f2ba4f2b-af35-4ee3-bddd-9126bcd1b8f3";
+    private final String apiKey = "";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
