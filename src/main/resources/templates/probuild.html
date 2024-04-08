@@ -120,12 +120,14 @@
                     </div>
                 </div>
             </section>
+
                 <section class="main-section-probuild" id="section2">
                     <div class="most-champion-img">
                         <p class="info-title" style="padding-bottom: 1px;">Most3</p>
                         <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
                     </div>
                 </section>
+
                 <section class="main-section-probuild" id="section3">
                     <div class="user-rank-info">
                         <div style="display: block;">
@@ -141,6 +143,7 @@
                         </div>
                     </div>
                 </section>
+
                 <section class="main-section-probuild" id="section4">
                     <!--아이템, 특성 빌드-->
                     <div class="user-time-line">
@@ -161,8 +164,7 @@
                                                 <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
                                         and event.getType() == 'ITEM_PURCHASED'
                                         and event.getTimestamp() < 60000
-                                        and !(event.getItemId() == 2055
-                                        or event.getItemId() == 3340
+                                        and !(event.getItemId() == 3340
                                         or event.getItemId() == 3363
                                         or event.getItemId() == 3364)}">
                                                     <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
@@ -175,6 +177,7 @@
                                 </div>
 
                                 <div class="build-ward-item">
+                                    <div class="ward-item">
                                     <p class="info-title">시야 아이템</p>
                                     <div class="ward-item-box">
                                         <div class="build-frame" th:each="frames : ${entry.getFrame()}">
@@ -185,10 +188,8 @@
                                         or event.getItemId() == 3364)
                                         and event.getType() == 'ITEM_PURCHASED'
                                         and event.getTimestamp() < entry.getLastTimestamp() -30000}">
-                                                    <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
-                                                    <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
-                                                    <!--<p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>-->
-                                                    <!--<p>type: <span th:text="${event.getType()}"></span></p>-->
+                                                        <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -205,13 +206,13 @@
                                 </div>
                             </div>
 
-                            <div class="build-all-item">
+                            <div class="item-build">
                                 <p class="info-title">아이템 빌드</p>
-                                <div class="build-frame" th:each="frames : ${entry.getFrame()}">
-                                    <div class="build-event" th:each="event : ${frames.getEvents()}">
-                                        <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
-                                        and (event.getType() == 'ITEM_PURCHASED'
-                                        or event.getType() == 'ITEM_UNDO')
+                                <div class="build-all-item">
+                                    <div class="build-frame" th:each="frames : ${entry.getFrame()}">
+                                        <div class="build-event" th:each="event : ${frames.getEvents()}">
+                                            <div class="match-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
+                                        and (event.getType() == 'ITEM_PURCHASED')
                                         and 60000 <= event.getTimestamp()
                                         and event.getTimestamp() < entry.getLastTimestamp() -30000
                                         and !(event.getItemId() == 2055
@@ -219,16 +220,19 @@
                                         or event.getItemId() == 2003
                                         or event.getItemId() == 3363
                                         or event.getItemId() == 3364)}">
-                                            <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
-                                            <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
-                                            <!--<p>timestamp: <span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>-->
-                                            <p>itemid: <span th:text="${event.getItemId()}"></span></p>
-                                            <p>type: <span th:text="${event.getType()}"></span></p>
-                                            <p>beforeId: <span th:text="${event.getBeforeId()}"></span></p>
+                                                <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
+                                                <p><span class="build-getItemId" th:text="${event.getItemId()}"></span></p>
+                                                <p><span class="build-getTimeStamp" th:text="${event.getTimestamp()}"></span></p>
+                                                <!--<p>itemid: <span th:text="${event.getItemId()}"></span></p>-->
+                                                <!--<p>type: <span th:text="${event.getType()}"></span></p>-->
+                                                <!--<p>beforeId: <span th:text="${event.getBeforeId()}"></span></p>-->
+                                            </div>
                                         </div>
+                                        <img class="probuild-itemBuild-arrow" src="/img/arrow/arrow.png"/>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <!--아이템, 특성 빌드 끝-->
@@ -257,6 +261,7 @@
                     </div>
                     <!-- End of match loop -->
                 </section>
+
         </div>
     </div>
     <!-- If leagueEntries is empty, display a message -->

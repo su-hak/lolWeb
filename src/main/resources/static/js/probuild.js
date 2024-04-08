@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var userRankInfo = document.querySelectorAll('.user-rank-info');
     var winRate = document.querySelectorAll('.winrate');
 
+    //
     ddEle.forEach(function (ddEle) {
         var kills = parseFloat(ddEle.querySelector('#kills').textContent);
         var deaths = parseFloat(ddEle.querySelector('#deaths').textContent);
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // 승률
     winRate.forEach(function (winrate) {
         var win = parseFloat(winrate.querySelector('#win').textContent);
         var lose = parseFloat(winrate.querySelector('#lose').textContent);
@@ -41,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         winrateResult.textContent = winRate.toFixed(1) + "%";
     });
 
+    //
     entries.forEach(function (entry) {
         var summonerName = entry.querySelector('#nickName span').textContent;
 
@@ -69,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // 랭크 티어
     userRankInfo.forEach(function (entry) {
         var tierText = entry.querySelector('#RankTier span').textContent;
 
@@ -99,9 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+
     getChampionImg();
     getMostChampImg();
     getItemImg();
+    wardItem();
     totalTimestamp();
     controlWard();
 });
@@ -116,7 +122,7 @@ function calculateKda(kills, deaths, assists) {
     }
 }
 
-function calculateWinrate(win,lose) {
+function calculateWinrate(win, lose) {
     if (win + lose !== 0) {
         var winRate = (win / (win + lose)) * 100;
         return winRate;
@@ -124,6 +130,13 @@ function calculateWinrate(win,lose) {
         return 0;
     }
 }
+
+// 아이템 빌드 마지막 화살표 제거
+$(document).ready(function () {
+    $('.build-all-item').each(function () {
+        $(this).find('.probuild-itemBuild-arrow:last').css('display', 'none');
+    });
+});
 
 // 검색
 function search() {
@@ -177,8 +190,8 @@ function search() {
 }
 
 
-
 /*
+// page 넘버링
 function loadPage(page) {
     window.location.href = '/probuild?page=' + page;
 }
@@ -305,12 +318,13 @@ function getItemImg() {
         // 빌드 아이템 이미지
         var itemIdSpan = $(this).find('.build-getItemId');
         var itemId = itemIdSpan.text().trim();
+
         /*console.log("itemId",itemId);*/
 
-            var itemImg = $("<img>", {
-                src: "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + itemId + ".png",
-                alt: itemId.name,
-            });
+        var itemImg = $("<img>", {
+            src: "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + itemId + ".png",
+            alt: itemId.name,
+        });
         /*console.log(itemImg);*/
 
 
@@ -327,14 +341,25 @@ function getItemImg() {
         var timeStampCalcSec = timeStamp / 1000;
         timeStampCalcSec.toFixed(0);
 
-        if (timeStampCalcSec >= 60) {
-            var timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분" + (timeStampCalcSec % 60).toFixed(0) + "초";
-        } else if (timeStampCalcSec < 60){
+        if (timeStampCalcSec >= 300) {
+            var timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분";
+        }else if (timeStampCalcSec >= 60) {
+             timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분 " + (timeStampCalcSec % 60).toFixed(0) + "초";
+        }   else if (timeStampCalcSec < 60) {
             timeStampCalcMin = "1분 미만";
         }
         /*console.log(timeStampCalcSec);
         console.log(timeStampCalcMin)*/
         timeStampSpan.empty().append(timeStampCalcMin)
+    });
+}
+
+function wardItem() {
+    $('.build-ward-item').each(function () {
+        var wardItemBox = $(this).find('.ward-item-box');
+        if (wardItemBox.length === 0) {
+            $(this).find('.info-title:first').after("<span>와드를 구매하지 않았습니다.</span>");
+        }
     });
 }
 
@@ -350,7 +375,7 @@ function totalTimestamp() {
 
         var lastTimestampCalcMin = (lastTimestampCalc / 60)
             .toFixed(0) + "분 " + (lastTimestampCalc % 60)
-            .toFixed(0)  + "초";
+            .toFixed(0) + "초";
 
         totalTimestamp.empty().append(lastTimestampCalcMin)
     });
