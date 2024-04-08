@@ -1,11 +1,9 @@
 (function($) {
-	// Roulette 객체 정의
-	var Roulette = function($roulette, options) {
-		// 기본 설정 값
+	var Roulette = function(options) {
 		var defaultSettings = {
 			maxPlayCount: null,
 			speed: 10,
-			stopCommentIndex: null,
+			stopImageNumber: -1,
 			rollCount: 3,
 			duration: 3,
 			stopCallback: function() {},
@@ -13,61 +11,38 @@
 			slowDownCallback: function() {}
 		};
 
-		// 기본 속성 값
 		var defaultProperty = {
 			playCount: 0,
 			$rouletteTarget: null,
 			commentCount: null,
 			$comments: null,
-			originalStopCommentIndex: null,
-			distance: 0,
+			originalStopImageNumber: -1,
+			totalHeight: null,
+			topPosition: 0,
+			maxDistance: null,
+			slowDownStartDistance: null,
 			isRunUp: true,
 			isSlowdown: false,
 			isStop: false,
-			topPosition: 0,
-			totalHeight: null,
+			distance: 0,
 			runUpDistance: null,
-			maxDistance: null,
-			slowDownStartDistance: null,
-			slowdownTimer: null
+			slowdownTimer: null,
+			isIE: navigator.userAgent.toLowerCase().indexOf('msie') > -1
 		};
 
-		// 설정 값과 기본 속성 값 병합
-		var p = Object.assign({}, defaultSettings, options, defaultProperty);
+		var p = $.extend({}, defaultSettings, options, defaultProperty);
 
-		// 초기화 함수
-		var init = function($roulette, options) {
-			/*todo: roulette-inner 추가해줘야함 */
-			if (!($roulette instanceof jQuery)) {
-				console.error('$roulette is not a valid jQuery object');
-				return;
-			}
-			$roulette.css({ 'overflow': 'hidden' });
-			p.originalStopCommentIndex = p.stopCommentIndex;
-
-			// 댓글 로드 후 설정
-			if (!p.$comments) {
-				p.$comments = $roulette.find('.comment-content');
-				p.commentCount = p.$comments.length;
-			}
+		var reset = function() {
+			p.maxDistance = defaultProperty.maxDistance;
+			p.slowDownStartDistance = defaultProperty.slowDownStartDistance;
+			p.distance = defaultProperty.distance;
+			p.isRunUp = defaultProperty.isRunUp;
+			p.isSlowdown = defaultProperty.isSlowdown;
+			p.isStop = defaultProperty.isStop;
+			p.topPosition = defaultProperty.topPosition;
+			clearTimeout(p.slowDownTimer);
 		};
 
-		// 시작 함수
-		var start = function() {
-			p.playCount++;
-			if (p.maxPlayCount && p.playCount > p.maxPlayCount) {
-				return;
-			}
-			p.stopCommentIndex = $.isNumeric(p.originalStopCommentIndex) && Number(p.originalStopCommentIndex) >= 0 ?
-				Number(p.originalStopCommentIndex) : Math.floor(Math.random() * p.commentCount);
-			p.startCallback();
-			roll();
-			p.slowDownTimer = setTimeout(() => {
-				slowDownSetup();
-			}, p.duration * 1000);
-		};
-
-		// 슬로우다운 설정 함수
 		var slowDownSetup = function() {
 			if (p.isSlowdown) {
 				return;
@@ -75,14 +50,14 @@
 			p.slowDownCallback();
 			p.isSlowdown = true;
 			p.slowDownStartDistance = p.distance;
-			p.maxDistance = p.distance + (2 * p.totalHeight);
-			p.maxDistance += p.totalHeight - p.topPosition % p.totalHeight;
-			if (p.stopCommentIndex != null) {
-				p.maxDistance += (p.totalHeight - (p.maxDistance % p.totalHeight) + (p.stopCommentIndex * p.totalHeight)) % p.totalHeight;
+			/* 슬로우다운 최대 거리 = 속도 */
+			p.maxDistance = p.distance + (20 * p.totalHeight);
+			p.maxDistance += p.commentHeight - p.topPosition % p.commentHeight;
+			if (p.stopImageNumber != null) {
+				p.maxDistance += (p.totalHeight - (p.maxDistance % p.totalHeight) + (p.stopImageNumber * p.commentHeight)) % p.totalHeight;
 			}
 		};
 
-		// 롤링 함수
 		var roll = function() {
 			var speed_ = p.speed;
 
@@ -90,75 +65,126 @@
 				if (p.distance <= p.runUpDistance) {
 					var rate_ = ~~((p.distance / p.runUpDistance) * p.speed);
 					speed_ = rate_ + 1;
+					console.log("p.isRunUp 일때", rate_, speed_)
 				} else {
 					p.isRunUp = false;
 				}
-
 			} else if (p.isSlowdown) {
-				var rate_ = ~~(((p.maxDistance - p.distance) / (p.maxDistance - p.slowDownStartDistance)) * p.speed);
-				speed_ = rate_ + 1;
+				var rate_ = ~~(((p.maxDistance - p.distance) / (p.maxDistance - p.slowDownStartDistance)) * (p.speed));
+				speed_ = rate_ + 0.2;
+				console.log("p.isSlowdown 일때", rate_, speed_)
 			}
 
 			if (p.maxDistance && p.distance >= p.maxDistance) {
 				p.isStop = true;
 				reset();
-				if (p.$rouletteTarget) { // 유효성 확인
-					p.$rouletteTarget.css('transform', 'translate(0px, -' + p.topPosition + 'px)');
-					var stopComment = p.$rouletteTarget.find('.comment-content').eq(p.stopCommentIndex);
-					var stopCommentText = stopComment.length > 0 ? stopComment.text() : '';
-					p.stopCallback(stopCommentText);
-				}
+				p.stopCallback();
 				return;
 			}
+
 			p.distance += speed_;
 			p.topPosition += speed_;
+
 			if (p.topPosition >= p.totalHeight) {
 				p.topPosition = p.topPosition - p.totalHeight;
 			}
-			if (p.$rouletteTarget) { // 유효성 확인
+
+			if (p.isIE) {
+				p.$rouletteTarget.css('top', '-' + p.topPosition + 'px');
+			} else {
 				p.$rouletteTarget.css('transform', 'translate(0px, -' + p.topPosition + 'px)');
 			}
+
 			setTimeout(roll, 1);
 		};
 
+		var init = function($roulette) {
+			$(document).ready(function() {
+				var rouletteDiv = document.getElementsByClassName('roulette')[0];
+				var commentContents = document.querySelectorAll('.commentContent');
+				var commentsHTML = '';
 
-		// 멈춤 함수
+				commentContents.forEach(function(comment) {
+					commentsHTML += '<div class="rouletteComment" style="height: 40px">' + comment.innerHTML + '</div>';
+				});
+
+				rouletteDiv.innerHTML = commentsHTML;
+
+				$roulette.css({ 'overflow': 'hidden' });
+				defaultProperty.originalStopImageNumber = p.stopImageNumber;
+
+				if (!p.$comments) {
+					p.$comments = $roulette.find('.rouletteComment').remove();
+					p.commentCount = p.$comments.length;
+
+					p.commentHeight = 40; // Default height
+					$roulette.css({ 'height': (p.commentHeight + 'px') });
+
+					p.totalHeight = p.commentCount * p.commentHeight;
+					p.runUpDistance = 2 * p.commentHeight;
+				}
+
+				$roulette.find('div').remove();
+				p.$comments.css({ 'display': 'block' });
+
+				p.$rouletteTarget = $('<div>').css({
+					'position': 'relative',
+					'top': '0'
+				}).attr('class', "roulette-inner");
+
+				$roulette.append(p.$rouletteTarget);
+				p.$rouletteTarget.append(p.$comments);
+				p.$rouletteTarget.append(p.$comments.eq(0).clone());
+				$roulette.show();
+			});
+		};
+
+		var start = function() {
+			p.playCount++;
+			if (p.maxPlayCount && p.playCount > p.maxPlayCount) {
+				return;
+			}
+
+			p.stopImageNumber = $.isNumeric(defaultProperty.originalStopImageNumber) && Number(defaultProperty.originalStopImageNumber) >= 0 ?
+				Number(defaultProperty.originalStopImageNumber) : Math.floor(Math.random() * p.commentCount);
+
+			p.startCallback();
+			roll();
+
+			p.slowDownTimer = setTimeout(function() {
+				slowDownSetup();
+			}, p.duration * 1000);
+		};
+
 		var stop = function(option) {
 			if (!p.isSlowdown) {
 				if (option) {
-					var stopCommentIndex = Number(option.stopCommentIndex);
-					if (0 <= stopCommentIndex && stopCommentIndex <= (p.commentCount - 1)) {
-						p.stopCommentIndex = stopCommentIndex;
+					var stopImageNumber = Number(option.stopImageNumber);
+					if (0 <= stopImageNumber && stopImageNumber <= (p.commentCount - 1)) {
+						p.stopImageNumber = option.stopImageNumber;
 					}
 				}
 				slowDownSetup();
 			}
 		};
 
-		// 옵션 설정 함수
-		var setOption = function(options) {
-			p = Object.assign(p, options);
+		var option = function(options) {
+			p = $.extend(p, options);
 			p.speed = Number(p.speed);
 			p.duration = Number(p.duration);
 			p.duration = p.duration > 1 ? p.duration - 1 : 1;
-			defaultProperty.originalStopCommentIndex = options.stopCommentIndex;
+			defaultProperty.originalStopImageNumber = options.stopImageNumber;
 		};
 
-		// 초기화 함수 호출
-		init($roulette, options);
-
-		// 공개 메소드
 		return {
 			start: start,
 			stop: stop,
-			setOption: setOption
+			init: init,
+			option: option
 		};
 	};
 
-	// 플러그인 이름
 	var pluginName = 'roulette';
-
-	// jQuery 플러그인 등록
 	$.fn[pluginName] = function(method, options) {
 		return this.each(function() {
 			var self = $(this);
@@ -171,8 +197,9 @@
 					console && console.error('Method ' + method + ' does not exist on jQuery.roulette');
 				}
 			} else {
-				roulette = new Roulette(self, method);
-				self.data('plugin_' + pluginName, roulette);
+				roulette = new Roulette(method);
+				roulette.init(self, method);
+				$(this).data('plugin_' + pluginName, roulette);
 			}
 		});
 	};
