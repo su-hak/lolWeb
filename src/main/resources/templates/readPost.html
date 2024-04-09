@@ -402,7 +402,7 @@ font-weight: bolder">
                             success: function (response) {
                                 if (response === "true") {
                                     // 비밀번호가 일치하면 수정 페이지로 이동
-                                    window.location.href = "/post/modify/" + postId;
+                                    window.location.href = "/post/modify/" + postId + "/default";
                                 } else {
                                     // 비밀번호가 일치하지 않는 경우 알림창 표시
                                     Swal.fire({

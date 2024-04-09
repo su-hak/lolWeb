@@ -634,8 +634,8 @@ public class PostController {
 
 
   // 게시글 수정 페이지로 이동하는 요청 처리 메소드
-  @GetMapping("/modify/{postId}")
-  public ModelAndView getModifyPostPage(@PathVariable("postId") Long postId, Model model, HttpServletRequest request) {
+  @GetMapping("/modify/{postId}/{type}")
+  public ModelAndView getModifyPostPage(@PathVariable("postId") Long postId, @PathVariable String type, Model model, HttpServletRequest request) {
     // 인터넷 주소창에서 직접 입력한 요청인지 확인
     String referer = request.getHeader("referer");
     if (referer == null || referer.isEmpty()) {
@@ -649,7 +649,19 @@ public class PostController {
       if (postOptional.isPresent()) {
         Post post = postOptional.get();
         model.addAttribute("post", post);
-        return new ModelAndView("modifyPost"); // 수정 페이지로 이동
+        model.addAttribute("type", type);
+
+        if(type.equals("movie")){
+          return new ModelAndView("modifyMovie");
+        } else if (type.equals("poll")) {
+          return new ModelAndView("modifyPoll");
+        } else if (type.equals("simulation")){
+          return new ModelAndView("modifySimul");
+        } else if (type.equals("roulette")) {
+          return new ModelAndView("modifyRoulette");
+        } else{
+          return new ModelAndView("modifyPost"); // 수정 페이지로 이동
+        }
       } else {
         // 게시글이 없을 경우 예외처리
         // 여기서는 단순하게 "게시글이 없습니다."를 반환하도록 하겠습니다.

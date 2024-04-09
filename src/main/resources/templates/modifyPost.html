@@ -384,7 +384,7 @@ font-weight: bolder">
                 swal.fire('게시글이 성공적으로 업데이트되었습니다.').then(function() {
                     // 게시글의 읽기 페이지로 리디렉션
                     var postId = document.getElementById('postId').value; // hidden input에서 postId 가져오기
-                    window.location.href = '/post/read/' + postId; // 해당 게시글의 읽기 페이지로 리디렉션
+                    window.location.href = '/post/read/default/' + postId; // 해당 게시글의 읽기 페이지로 리디렉션
 
                 });
             } else {
