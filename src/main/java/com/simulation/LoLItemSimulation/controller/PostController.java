@@ -7,16 +7,14 @@ import com.simulation.LoLItemSimulation.repository.CommentRepository;
 import com.simulation.LoLItemSimulation.repository.PostHateRepository;
 import com.simulation.LoLItemSimulation.repository.PostLikeRepository;
 import com.simulation.LoLItemSimulation.repository.PostRepository;
-import com.simulation.LoLItemSimulation.service.CommentLikeService;
-import com.simulation.LoLItemSimulation.service.CommentService;
-import com.simulation.LoLItemSimulation.service.FirebaseStorageService;
-import com.simulation.LoLItemSimulation.service.PostService;
+import com.simulation.LoLItemSimulation.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -45,6 +43,10 @@ public class PostController {
   private HttpServletRequest request;
   @Autowired
   private PostRepository postRepository;
+
+  @Qualifier("postLikeServiceImpl")
+  @Autowired
+  private PostLikeService postLikeService;
 
   @Autowired
   private CommentRepository commentRepository;
@@ -616,6 +618,7 @@ public class PostController {
       commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
     }
 
+
     // 모델에 댓글 정보와 게시글 정보를 추가하여 게시글 읽기 페이지로 반환
     model.addAttribute("comment", commentLikeInfoList);
     model.addAttribute("post", postDto);
@@ -655,13 +658,13 @@ public class PostController {
         model.addAttribute("type", type);
 
         if(type.equals("movie")){
-          return new ModelAndView("modifyMovie");
+          return new ModelAndView("movieUpdate");
         } else if (type.equals("poll")) {
-          return new ModelAndView("modifyPoll");
+          return new ModelAndView("pollUpdate");
         } else if (type.equals("simulation")){
-          return new ModelAndView("modifySimul");
+          return new ModelAndView("simulUpdate");
         } else if (type.equals("roulette")) {
-          return new ModelAndView("modifyRoulette");
+          return new ModelAndView("rouletteUpdate");
         } else{
           return new ModelAndView("modifyPost"); // 수정 페이지로 이동
         }
@@ -696,8 +699,8 @@ public class PostController {
 
 
   // 게시글 수정 처리 메소드
-  @PostMapping("/updatePost/{postId}")
-  public ResponseEntity<String> updatePost(@PathVariable Long postId, @RequestBody PostDto postDto) {
+  @PostMapping("/updatePost/{postId}/{type}")
+  public ResponseEntity<String> updatePost(@PathVariable Long postId, @PathVariable String type, @RequestBody PostDto postDto) {
     postDto.setCreatetime(LocalDateTime.now());
     postService.updatePost(postId, postDto);
     return ResponseEntity.ok("게시글이 성공적으로 업데이트되었습니다.");
