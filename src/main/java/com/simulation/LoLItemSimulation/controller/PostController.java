@@ -334,15 +334,16 @@ public class PostController {
 //    System.out.println(paging);
 //    return "postSearchList";
 //  }
-  @GetMapping("/list/search")
-  public String getPostSearchList(@RequestParam(defaultValue = "0") int page,
+  @GetMapping("/list/search/{type}")
+  public String getPostSearchList(@PathVariable String type,
+                                  @RequestParam(defaultValue = "0") int page,
                                   @RequestParam("option") String option,
                                   @RequestParam("keyword") String keyword,
                                   @RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
                                   Model model) {
     System.out.println(option);
     System.out.println(keyword);
-    Page<Post> paging = postService.searchPosts(option, keyword, page, sort);
+    Page<Post> paging = postService.searchPosts(type, option, keyword, page, sort);
 
     if (paging != null && paging.hasContent()) {
       List<Post> posts = paging.getContent();
@@ -361,6 +362,7 @@ public class PostController {
       model.addAttribute("keyword", keyword);
       model.addAttribute("have", true); // 검색 결과가 있는 경우
       model.addAttribute("sort", sort);
+      model.addAttribute("type", type);
 
     } else {
       model.addAttribute("searchPaging", paging);
@@ -368,6 +370,7 @@ public class PostController {
       model.addAttribute("keyword", keyword);
       model.addAttribute("have", false); // 검색 결과가 없는 경우
       model.addAttribute("sort", sort);
+      model.addAttribute("type", type);
     }
 
     System.out.println(paging);
