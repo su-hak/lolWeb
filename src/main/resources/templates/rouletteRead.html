@@ -48,13 +48,13 @@
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
-                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
             </span>
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
             <span class="btn-two blue mini" id="btnradio3">
-                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                <img src="/img/Maplestory_Icon.png" style="height: 20px"/>
                 메이플 스토리
             </span>
         </a>
@@ -203,7 +203,7 @@ font-weight: bolder">
 
                         </div>
                         <div class="col">
-                            <a th:href="@{'/post/list?page=' + ${page} + '&sort=' + ${sort}}">
+                            <a th:href="@{'/post/list/'+${post.type}+'?page=' + ${page} + '&sort=' + ${sort}}">
                                 <button class="col btn btn-info" style="font-size: medium">목록</button>
                             </a>
                         </div>
@@ -520,7 +520,7 @@ font-weight: bolder">
                             confirmButtonText: '확인'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '/post/list'; // 삭제 성공 시 게시글 목록 페이지로 이동
+                                location.href = '/post/list/roulette'; // 삭제 성공 시 게시글 목록 페이지로 이동
                             }
                         });
                     })

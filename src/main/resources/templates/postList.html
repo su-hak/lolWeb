@@ -36,13 +36,13 @@
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
-                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
             </span>
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
             <span class="btn-two blue mini" id="btnradio3">
-                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                <img src="/img/Maplestory_Icon.png" style="height: 20px"/>
                 메이플 스토리
             </span>
         </a>
@@ -82,7 +82,7 @@ font-weight: bolder">
                     <a class="nav-link navMenu" href="/probuild">프로빌드</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link navMenu" href="/post/list">커뮤니티</a>
+                    <a class="nav-link navMenu" href="/post/list/default">커뮤니티</a>
                 </li>
             </ul>
         </div>
@@ -105,11 +105,21 @@ font-weight: bolder">
 
                         <div style="display: flex; justify-content: space-between;">
                             <ul class="list-group list-group-horizontal d-none d-lg-flex"  style="font-size: 1.3rem">
-                                <li class="list-group-item list-group-item-action active" data-toggle="list" role="tab">자유게시판</li>
-                                <li class="list-group-item list-group-item-action">시뮬공유</li>
-                                <li class="list-group-item list-group-item-action">매드무비</li>
-                                <li class="list-group-item list-group-item-action">룰렛게시판</li>
-                                <li class="list-group-item list-group-item-action">투표게시판</li>
+                                <li class="list-group-item list-group-item-action" >
+                                    <a th:href="@{/post/list/default}">자유게시판</a>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <a th:href="@{/post/list/simulation}">시뮬공유</a>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <a th:href="@{/post/list/movie}">매드무비</a>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <a th:href="@{/post/list/roulette}">룰렛게시판</a>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <a th:href="@{/post/list/poll}">투표게시판</a>
+                                </li>
                             </ul>
 
                             <div class="dropdown d-lg-none">
@@ -120,11 +130,11 @@ font-weight: bolder">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="font-size:
                                 1.5rem; max-height: 300px; overflow-y: auto;">
-                                    <a class="dropdown-item" href="#">시뮬공유</a>
-                                    <a class="dropdown-item" href="#">매드무비</a>
-                                    <a class="dropdown-item" href="#">룰렛게시판</a>
-                                    <a class="dropdown-item" href="#">유머게시판</a>
-                                    <a class="dropdown-item" href="#">자유게시판</a>
+                                    <a class="dropdown-item" href="/post/list/default">자유게시판</a>
+                                    <a class="dropdown-item" href="/post/list/simulation">시뮬공유</a>
+                                    <a class="dropdown-item" href="/post/list/movie">매드무비</a>
+                                    <a class="dropdown-item" href="/post/list/roulette">룰렛게시판</a>
+                                    <a class="dropdown-item" href="/post/list/poll">투표게시판</a>
                                 </div>
                             </div>
 
@@ -150,6 +160,26 @@ font-weight: bolder">
                         <!-- table -->
                         <table class="table table-borderless table-hover">
                             <!-- 게시판 헤더 -->
+                            <div th:if="${type == 'default'}">
+                                            <span class="boardType" value="default" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="자유게시판"></span>
+                            </div>
+                            <div th:if="${type == 'simulation'}">
+                                            <span class="boardType" value="simulation" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="시뮬공유"></span>
+                            </div>
+                            <div th:if="${type == 'movie'}">
+                                            <span class="boardType" value="movie" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="매드무비"></span>
+                            </div>
+                            <div th:if="${type == 'roulette'}">
+                                            <span class="boardType" value="roulette" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="룰렛게시판"></span>
+                            </div>
+                            <div th:if="${type == 'poll'}">
+                                            <span class="boardType" value="poll" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="투표게시판"></span>
+                            </div>
                             <thead>
                             <tr>
                                 <th class="col-1">글번호</th>
@@ -168,7 +198,7 @@ font-weight: bolder">
                                 <td>
                                     <div class="d-flex">
 
-                                        <a th:href="@{'/post/read/' + ${post.id} + '?page=' + ${paging.number} +'&sort=' + ${sort}}">
+                                        <a th:href="@{'/post/read/' + ${post.type} + '/' + ${post.id} + '?page=' + ${paging.number} + '&sort=' + ${sort}}">
                                             <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                                th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
                                             </p>
@@ -211,44 +241,40 @@ font-weight: bolder">
                             </tbody>
                         </table>
                         <!-- 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'default'}">
                             <a th:href="@{/post/create}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">글쓰기</button>
                             </a>
                         </div>
 
                         <!-- 시뮬 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'simulation'}">
                             <a th:href="@{/post/simulCreate}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">시뮬글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">시뮬글쓰기</button>
                             </a>
                         </div>
 
                         <!-- 무비 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'movie'}">
                             <a th:href="@{/post/movieCreate}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">무비글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">무비글쓰기</button>
                             </a>
                         </div>
 
                         <!-- 룰렛 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'roulette'}">
                             <a th:href="@{/post/rouletteCreate}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">룰렛글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">룰렛글쓰기</button>
                             </a>
                         </div>
 
                         <!-- 투표 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'poll'}">
                             <a th:href="@{/post/pollCreate}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">투표글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">투표글쓰기</button>
                             </a>
                         </div>
+
 
                         <!-- 페이징 번호 -->
                         <div style="margin-top: 10px">
@@ -440,21 +466,23 @@ font-weight: bolder">
     function searchPost() {
         var option = $("#searchOption").val();
         var keyword = $("#freeSearch").val();
+        var type = $(".boardType").attr("value");
         // 필요한 데이터를 수집하고 이를 URL에 추가합니다.
         // URLSearchParams 객체를 생성하고 쿼리 매개변수를 추가합니다.
         var params = new URLSearchParams();
         params.append('option', option);
         params.append('keyword', keyword);
+        console.log(type);
 
         // URLSearchParams 객체를 사용하여 URL에 쿼리 매개변수를 추가합니다.
-        var url = "/post/list/search?" + params.toString();
+        var url = "/post/list/search/"+type+"?" + params.toString();
         // 수집한 데이터를 포함하여 해당 URL로 리디렉션합니다.
         window.location.href = url;
     }
 
     function sortPostListByItem() {
         var selectedValue = $("#sortOption").val();
-        var url = "/post/list?sort=" + selectedValue;
+        var url = "/post/list/default?sort=" + selectedValue;
         window.location.href = url;
     }
 

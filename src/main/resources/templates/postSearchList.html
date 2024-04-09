@@ -36,13 +36,13 @@
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
-                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
             </span>
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
             <span class="btn-two blue mini" id="btnradio3">
-                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                <img src="/img/Maplestory_Icon.png" style="height: 20px"/>
                 메이플 스토리
             </span>
         </a>
@@ -82,7 +82,7 @@ font-weight: bolder">
                     <a class="nav-link navMenu" href="/probuild">프로빌드</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link navMenu" href="/post/list">커뮤니티</a>
+                    <a class="nav-link navMenu" href="/post/list/default">커뮤니티</a>
                 </li>
             </ul>
         </div>
@@ -104,11 +104,12 @@ font-weight: bolder">
                         </div>
                         <div style="display: flex; justify-content: space-between;">
                             <ul class="list-group list-group-horizontal d-none d-lg-flex"  style="font-size: 1.3rem">
-                                <li class="list-group-item list-group-item-action active" data-toggle="list" role="tab">자유게시판</li>
-                                <li class="list-group-item list-group-item-action">시뮬공유</li>
-                                <li class="list-group-item list-group-item-action">매드무비</li>
-                                <li class="list-group-item list-group-item-action">룰렛게시판</li>
-                                <li class="list-group-item list-group-item-action">투표게시판</li>
+                                <li class="list-group-item list-group-item-action" onclick="updateURL('all')">전체게시판</li>
+                                <li class="list-group-item list-group-item-action" onclick="updateURL('default')">자유게시판</li>
+                                <li class="list-group-item list-group-item-action" onclick="updateURL('simulation')">시뮬공유</li>
+                                <li class="list-group-item list-group-item-action" onclick="updateURL('movie')">매드무비</li>
+                                <li class="list-group-item list-group-item-action" onclick="updateURL('roulette')">룰렛게시판</li>
+                                <li class="list-group-item list-group-item-action" onclick="updateURL('poll')">투표게시판</li>
                             </ul>
 
                             <div class="dropdown d-lg-none">
@@ -128,7 +129,7 @@ font-weight: bolder">
 
 
 
-                            <div class="setType" th:value="${type}"></div>
+                            <div class="setType" th:value="${option}"></div>
                             <div class="setKeyword" th:value="${keyword}"></div>
 
 
@@ -154,16 +155,40 @@ font-weight: bolder">
                         <!-- table -->
                         <table class="table table-borderless table-hover" th:if="${have != false and not #lists.isEmpty(have)}">
                             <!-- 게시판 헤더 -->
+                            <div th:if="${type == 'all'}">
+                                            <span class="boardType" value="all" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="전체게시판"></span>
+                            </div>
+                            <div th:if="${type == 'simulation'}">
+                                            <span class="boardType" value="simulation" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="시뮬공유"></span>
+                            </div>
+                            <div th:if="${type == 'default'}">
+                                            <span class="boardType" value="default" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="자유게시판"></span>
+                            </div>
+                            <div th:if="${type == 'poll'}">
+                                            <span class="boardType" value="poll" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="투표게시판"></span>
+                            </div>
+                            <div th:if="${type == 'movie'}">
+                                            <span class="boardType" value="movie" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="메드무비"></span>
+                            </div>
+                            <div th:if="${type == 'roulette'}">
+                                            <span class="boardType" value="roulette" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="룰렛게시판"></span>
+                            </div>
                             <thead>
                             <td colspan="5" class="searchResult">
                                 <span>검색타입 : </span>
-                                <span class="searchType" th:value="${type}" th:text="${type == 'title' ? '제목' : (type == 'content' ? '내용' : (type == 'titleContent' ? '제목 + 내용' : '작성자'))}"></span>,
+                                <span class="searchType" th:value="${option}" th:text="${option == 'title' ? '제목' : (option == 'content' ? '내용' : (option == 'titleContent' ? '제목 + 내용' : '작성자'))}"></span>,
                                 <span>검색어 : </span>
                                 <span class="searchKeyword" th:value="${keyword}" th:text="${keyword}"></span>로 검색한 결과입니다.
                             </td>
 
                             <td>
-                                <a th:href="@{/post/list}">
+                                <a th:href="@{/post/list/default}">
                                     <button type="button" class="btn btn-outline-secondary">
                                         초기화
                                     </button>
@@ -185,7 +210,7 @@ font-weight: bolder">
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <a th:href="@{'/post/readSearch/' + ${post.id} + '?option=' + ${type} + '&keyword=' + ${keyword}+ '&page=' + ${searchPaging.number}}">
+                                        <a th:href="@{'/post/readSearch/' + ${post.id} + '?option=' + ${option} + '&keyword=' + ${keyword}+ '&page=' + ${searchPaging.number}}">
                                             <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                                th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
                                             </p>
@@ -230,7 +255,7 @@ font-weight: bolder">
                             <!-- 검색어 출력 -->
                             <td colspan="5" class="searchResult">
                                 <span>검색타입 : </span>
-                                <span class="searchType" th:value="${type}" th:text="${type == 'title' ? '제목' : (type == 'content' ? '내용' : (type == 'titleContent' ? '제목 + 내용' : '작성자'))}"></span>,
+                                <span class="searchType" th:value="${option}" th:text="${option == 'title' ? '제목' : (option == 'content' ? '내용' : (option == 'titleContent' ? '제목 + 내용' : '작성자'))}"></span>,
                                 <span>검색어 : </span>
                                 <span class="searchKeyword" th:value="${keyword}" th:text="${keyword}"></span>로 검색한 결과가 없습니다.
                             </td>
@@ -238,7 +263,7 @@ font-weight: bolder">
 
                             <!-- 초기화 버튼 -->
                             <td>
-                                <a th:href="@{/post/list}">
+                                <a th:href="@{/post/list/default}">
                                     <button type="button" class="btn btn-outline-secondary">
                                         초기화
                                     </button>
@@ -265,17 +290,17 @@ font-weight: bolder">
                             <nav th:if="${!searchPaging.isEmpty()}" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                                     <li th:classappend="${!searchPaging.hasPrevious()} ? 'disabled'" class="page-item">
-                                        <a th:href="@{|/post/list/search?option=${type}&keyword=${keyword}&page=${searchPaging.number-1}|}" class="page-link" aria-label="Previous">
+                                        <a th:href="@{|/post/list/search/${type}?option=${option}&keyword=${keyword}&page=${searchPaging.number-1}&sort=${sort}|}" class="page-link" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
                                     <li th:each="page: ${#numbers.sequence(0, searchPaging.totalPages-1)}"
                                         th:if="${page >= searchPaging.number-5 and page <= searchPaging.number+5}"
                                         th:classappend="${page == searchPaging.number} ? 'active'" class="page-item">
-                                        <a th:text="${page+1}" th:href="@{|/post/list/search?option=${type}&keyword=${keyword}&page=${page}|}" class="page-link"></a>
+                                        <a th:text="${page+1}" th:href="@{|/post/list/search/${type}?option=${option}&keyword=${keyword}&page=${page}&sort=${sort}|}" class="page-link"></a>
                                     </li>
                                     <li th:classappend="${!searchPaging.hasNext} ? 'disabled'" class="page-item">
-                                        <a th:href="@{|/post/list/search?option=${type}&keyword=${keyword}&page=${searchPaging.number+1}|}" class="page-link" aria-label="Next">
+                                        <a th:href="@{|/post/list/search/${type}?option=${option}&keyword=${keyword}&page=${searchPaging.number+1}&sort=${sort}|}" class="page-link" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
@@ -376,7 +401,7 @@ font-weight: bolder">
         // URL의 쿼리 파라미터에서 페이지 번호를 가져옵니다.
         const urlParams = new URLSearchParams(window.location.search);
         const page = urlParams.get('page');
-        const type = urlParams.get('option');
+        const option = urlParams.get('option');
         const keyword = urlParams.get('keyword');
         var selectedValue = $("#sortOption").val();
 
@@ -387,7 +412,7 @@ font-weight: bolder">
         const baseUrl = window.location.href.split('?')[0];
 
         // 새로운 URL을 생성하여 페이지 번호를 추가합니다.
-        const newUrl = `${baseUrl}?option=${type}&keyword=${keyword}&page=${pageNumber}&sort=${selectedValue}`;
+        const newUrl = `${baseUrl}?option=${option}&keyword=${keyword}&page=${pageNumber}&sort=${selectedValue}`;
 
         // 브라우저의 URL을 새로운 URL로 변경합니다.
         history.pushState({}, '', newUrl);
@@ -414,20 +439,21 @@ font-weight: bolder">
     // 정렬 기준 함수
     function sortPostListByItem() {
         var selectedValue = $("#sortOption").val();
-        var type = $(".setType").attr("value");
+        var option = $(".setType").attr("value");
         var keyword = $(".setKeyword").attr("value");
+        var type = $(".boardType").attr("value");
 
         // var url = "/post/list?sort=" + selectedValue;
         // var selectedValue = $("#sortOption").val();
         // 필요한 데이터를 수집하고 이를 URL에 추가합니다.
         // URLSearchParams 객체를 생성하고 쿼리 매개변수를 추가합니다.
         var params = new URLSearchParams();
-        params.append('option', type);
+        params.append('option', option);
         params.append('keyword', keyword);
         params.append('sort', selectedValue)
 
         // URLSearchParams 객체를 사용하여 URL에 쿼리 매개변수를 추가합니다.
-        var url = "/post/list/search?" + params.toString();
+        var url = "/post/list/search/"+type+"?" + params.toString();
         // 수집한 데이터를 포함하여 해당 URL로 리디렉션합니다.
         // window.location.href = url;
         window.location.href = url;
@@ -526,6 +552,20 @@ font-weight: bolder">
         return text.replace(regex, '<span style="background-color: yellow;">$&</span>');
     }
 
+    function updateURL(tabName) {
+        // 현재 URL 가져오기
+        var currentUrl = new URL(window.location.href);
+
+        // URL의 경로 부분 변경
+        var newPath = tabName;
+        currentUrl.pathname = currentUrl.pathname.replace(/\/search\/[^/]+/, "/search/" + newPath);
+
+        // URL 변화 적용
+        history.pushState({}, null, currentUrl.href);
+        console.log(currentUrl.href);
+        window.location.href = currentUrl.href;
+    }
+
 </script>
 
 
@@ -546,6 +586,7 @@ font-weight: bolder">
         var option = $("#searchOption").val();
         var keyword = $("#freeSearch").val();
         var selectedValue = $("#sortOption").val();
+        var type = $(".boardType").attr("value");
         // 필요한 데이터를 수집하고 이를 URL에 추가합니다.
         // URLSearchParams 객체를 생성하고 쿼리 매개변수를 추가합니다.
         var params = new URLSearchParams();
@@ -554,7 +595,7 @@ font-weight: bolder">
         params.append('sort', selectedValue)
 
         // URLSearchParams 객체를 사용하여 URL에 쿼리 매개변수를 추가합니다.
-        var url = "/post/list/search?" + params.toString();
+        var url = "/post/list/search/"+type+"?" + params.toString();
         // 수집한 데이터를 포함하여 해당 URL로 리디렉션합니다.
         window.location.href = url;
     }

@@ -18,10 +18,10 @@
     <link rel="stylesheet" th:href="@{/css/editor.css}"/>
 
     <!-- ckeditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+<!--    <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>-->
     <!--    <script src="/build/ckeditor.js"></script>-->
     <!-- 이미지 업로드 어댑터 -->
-    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+<!--    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>-->
 
 
 
@@ -46,13 +46,13 @@
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
-                <img src="/img/Gersang_icon.png" style="height: 20px"/>
+                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
                 거상
             </span>
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
             <span class="btn-two blue mini" id="btnradio3">
-                <img src="/img/Maplestory_Icon.png" style="height: 20px"/>
+                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
                 메이플 스토리
             </span>
         </a>
@@ -107,36 +107,76 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">룰렛게시판</strong>
+                        <strong class="card-title">시뮬공유</strong>
                     </div>
-                    <form th:object="${post}" th:action="@{/post/submitForm/roulette}" method="post" id="postSumitForm">
+                    <form th:object="${post}" th:action="@{'/post/updatePost/'+ ${post.id} + '/' + ${post.type} }"
+                          method="post"
+                          id="simulUpdateForm">
                         <div class="card-body" style="padding: 40px">
                             <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">
                                 <div class="col-md-6 d-flex">
                                     <div class="form-group mb-3 d-flex" style="gap: 10px">
-                                        <label for="simpleinput">닉네임</label>
-                                        <input type="text" id="simpleinput" class="form-control col-6" style="font-size:
-                                    1.5rem" th:field="*{nickname}">
+                                        <label for="nickname">닉네임</label>
+                                        <!-- 닉네임 표시 -->
+                                        <input th:field="*{nickname}" th:value="${post.nickname}" type="text" id="nickname" name="nickname"
+                                               class="form-control col-6" style="font-size: 1.5rem" readonly>
                                     </div>
                                     <div class="form-group mb-3 d-flex" style="gap: 10px">
-                                        <label for="password">비밀번호</label>
-                                        <input type="password" id="password" class="form-control col-6" value="" style="font-size:
-                                    1.5rem" th:field="*{password}">
+                                        <label for="newPassword">비밀번호</label>
+                                        <input type="password" th:field="*{password}" th:value="${post.password}" id="newPassword"
+                                               name="newPassword"
+                                               class="form-control col-6"
+                                               style="font-size: 1.5rem">
                                     </div>
                                 </div> <!-- /.col -->
                                 <div class="col d-flex">
                                     <div class="form-group d-flex" style="gap: 10px; width: 100%">
-                                        <label for="title">제　목</label>
-                                        <input type="text" id="title" class="form-control col-8" style="font-size:
-                                    1.5rem" th:field="*{title}">
+                                        <label for="newTitle">제　목</label>
+                                        <input th:field="*{title}" th:value="${post.title}" type="text" id="newTitle"
+                                               name="newTitle"
+                                               class="form-control col-8" style="font-size: 1.5rem" required>
                                     </div>
-                                    <div class="form-check align-content-center">
-                                        <input class="form-check-input" type="radio" value="" id="defaultCheck1"
-                                               style="margin: 6px -17px;" checked>
-                                            <label class="form-check-label" for="defaultCheck1" style="">
-                                            룰렛
-                                        </label>
+                                </div>
+                            </div>
+
+                            <!--시뮬 공유 영역-->
+                            <div class="row" style="padding: 0 20px; margin-bottom: 10px">
+                                <div class="col d-flex justify-content-between">
+                                    <div id="championImg" class="" style="width: 70px; height: 70px; border: solid
+                                    2px #00bbab; overflow: hidden; display: flex; align-items: center;
+                                    justify-content: center; object-fit: cover;">
+                                        <!--챔피언 아이콘 이미지-->
+                                    </div>
+                                    <div id="simulItem0" class="" style="width: 70px; height: 70px; border: solid
+                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
+                                    justify-content: center; object-fit: cover;">
+                                        <!--아이템 아이콘 이미지-->
+                                    </div>
+                                    <div id="simulItem1" class="" style="width: 70px; height: 70px; border: solid
+                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
+                                    justify-content: center; object-fit: cover;">
+                                        <!--아이템 아이콘 이미지-->
+                                    </div>
+                                    <div id="simulItem2" class="" style="width: 70px; height: 70px; border: solid
+                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
+                                    justify-content: center; object-fit: cover;">
+                                        <!--아이템 아이콘 이미지-->
+                                    </div>
+                                    <div id="simulItem3" class="" style="width: 70px; height: 70px; border: solid
+                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
+                                    justify-content: center; object-fit: cover;">
+                                        <!--아이템 아이콘 이미지-->
+                                    </div>
+                                    <div id="simulItem4" class="" style="width: 70px; height: 70px; border: solid
+                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
+                                    justify-content: center; object-fit: cover;">
+                                        <!--아이템 아이콘 이미지-->
+                                    </div>
+                                    <div id="simulItem5" class="" style="width: 70px; height: 70px; border: solid
+                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
+                                    justify-content: center; object-fit: cover;">
+                                        <!--아이템 아이콘 이미지-->
                                     </div>
                                 </div>
                             </div>
@@ -146,8 +186,10 @@ font-weight: bolder">
                                 <div class="centered">
                                     <div class="row row-editor">
                                         <div class="col editor-container">
-                                            <label for="editor"></label>
-                                            <textarea class="editor" th:field="*{content}" id="editor"></textarea>
+                                            <textarea class="editor" th:field="*{content}" th:utext="${post.content}"
+                                                      id="editor"
+                                                      name="newContent"
+                                                      style="min-height:500px;"></textarea>
                                             <!--에디터 설정-->
                                             <!--                                            <script>-->
                                             <!--                                                let myEditor;-->
@@ -267,13 +309,18 @@ font-weight: bolder">
                             <div>
                                 <div class="row" style="padding: 0 20px">
                                     <div class="col d-flex">
-                                        <button id="submitBtn" type="submit" class="btn btn-success col" style="font-size: medium">글등록</button>
-                                        <button type="button" class="btn btn-secondary col" style="font-size:
-                                    medium;" onclick="history.back();">취　소</button>
+                                        <button type="submit" id="submitBtn" class="btn btn-success col" style="font-size: medium"
+                                                value="Modify">
+                                            글수정</button>
+                                        <button type="button" class="btn btn-secondary col" style="font-size: medium; right: 15px"
+                                                onclick="history.back();">취　소
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" th:value="${post.id}" id="postId" name="postId">
+                        <input type="hidden" th:value="${post.type}" id="postType" name="postType">
                     </form>
                 </div>
             </div>
@@ -343,6 +390,9 @@ font-weight: bolder">
 
 
 <!--ckeditor 부분-->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/super-build/ckeditor.js"></script>
+<script src="/js/ckeditorscript.js"></script>
+
 <!--ckeditor 부분 종료 -->
 
 
@@ -379,25 +429,48 @@ font-weight: bolder">
 
 
 <script>
-    document.getElementById('postSumitForm').addEventListener('submit', function(event) {
-        // 폼 제출 이벤트를 가로채기
+    document.getElementById('simulUpdateForm').addEventListener('submit', function(event) {
         event.preventDefault(); // 기본 동작 중지
+        var formData = new FormData(this); // 폼 데이터 가져오기
+        var jsonObject = {}; // 폼 데이터를 JSON 객체로 변환하기 위한 빈 객체 생성
 
-        // 닉네임과 제목 입력 값 가져오기
-        var nickname = document.getElementById('simpleinput').value;
-        var title = document.getElementById('title').value;
-        var password = document.getElementById('password').value;
-        var content = document.getElementById('editor').value;
+        // FormData를 JSON 객체로 변환
+        formData.forEach(function(value, key) {
+            jsonObject[key] = value;
+        });
 
-        // 만약 입력 값 중에 공백 또는 빈 문자열이 있는 경우
-        if (!nickname.trim() || !title.trim() || !password.trim() || !content.trim()) {
-            // 알림창 띄우기
-            swal.fire('빈 공간을 입력해주세요.');
+        // 비밀번호가 null이거나 빈 문자열인 경우에 경고 메시지 표시
+        if (!jsonObject['password']) {
+            swal.fire('비밀번호를 입력해주세요.');
             return; // 함수 종료
         }
 
-        // 비밀번호 값이 있는 경우 폼 제출
-        document.getElementById('postSumitForm').submit();
+        // JSON 데이터를 문자열로 변환하여 서버에 전송
+        fetch(this.getAttribute('action'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonObject)
+        }).then(function(response) {
+            if (response.ok) {
+                // 성공적으로 업데이트되었음을 사용자에게 알림
+                swal.fire('게시글이 성공적으로 업데이트되었습니다.').then(function() {
+                    // 게시글의 읽기 페이지로 리디렉션
+                    var postId = document.getElementById('postId').value; // hidden input에서 postId 가져오기
+                    var postType = document.getElementById('postType').value; // hidden input에서 postId 가져오기
+                    window.location.href = '/post/read/' + postType + '/' + postId; // 해당 게시글의 읽기 페이지로 리디렉션
+
+                });
+            } else {
+                // 오류 처리
+                swal.fire('게시글 업데이트에 실패했습니다.');
+            }
+        }).catch(function(error) {
+            // 오류 처리
+            console.error('게시글 업데이트 중 오류 발생:', error);
+            swal.fire('게시글 업데이트 중 오류가 발생했습니다.');
+        });
     });
 </script>
 

@@ -44,15 +44,15 @@
                 리그 오브 레전드
             </span>
         </a>
-        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list/default">
             <span class="btn-two blue mini" id="btnradio2">
-                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
             </span>
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
             <span class="btn-two blue mini" id="btnradio3">
-                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                <img src="/img/Maplestory_Icon.png" style="height: 20px"/>
                 메이플 스토리
             </span>
         </a>
@@ -93,7 +93,7 @@ font-weight: bolder">
                     <a class="nav-link navMenu" href="/probuild">프로빌드</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link navMenu" href="/post/list">커뮤니티</a>
+                    <a class="nav-link navMenu" href="/post/list/default">커뮤니티</a>
                 </li>
             </ul>
         </div>
@@ -109,7 +109,7 @@ font-weight: bolder">
                     <div class="card-header">
                         <strong class="card-title">매드무비</strong>
                     </div>
-                    <form th:object="${post}" th:action="@{/post/submitForm}" method="post" id="postSumitForm">
+                    <form th:object="${post}" th:action="@{/post/submitForm/movie}" method="post" id="postSumitForm">
                         <div class="card-body" style="padding: 40px">
                             <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">

@@ -45,24 +45,24 @@ public class PostService {
     return this.postRepository.findAll(pageable);
   }
 
-  public Page<Post> getSortedPosts(int page, String sortBy) {
+  public Page<Post> getSortedPosts(int page, String sortBy, String type) {
     Sort sort = Sort.by(sortBy);
 
     if (sortBy.equals("id")) {
       sort = Sort.by(Sort.Direction.DESC, "id");
     } else if (sortBy.equals("date")) {
       sort = Sort.by(Sort.Direction.DESC, "createtime");
-    }else if (sortBy.equals("replyCount")) {
+    } else if (sortBy.equals("replyCount")) {
       return getPostsSortedByCommentCount(page);
-    }else if (sortBy.equals("nickname")) {
+    } else if (sortBy.equals("nickname")) {
       sort = Sort.by(Sort.Direction.DESC, "nickname");
-    }else if (sortBy.equals("viewCount")) {
+    } else if (sortBy.equals("viewCount")) {
       sort = Sort.by(Sort.Direction.DESC, "views");
     }
 
     Pageable pageable = PageRequest.of(page, 10, sort);
 
-    return postRepository.findAll(pageable);
+    return postRepository.findByType(type, pageable);
   }
 
   public Page<Post> getPostsSortedByCommentCount(int page) {
@@ -178,6 +178,7 @@ public class PostService {
     postDto.setIpAddress(post.getIpAddress());
     postDto.setCreatetime(post.getCreatetime());
     postDto.setViews(post.getViews());
+    postDto.setType(post.getType());
 
     // 다른 필요한 변환 로직 추가
     return postDto;
@@ -220,7 +221,7 @@ public class PostService {
 //
 //    }
 //  }
-  public Page<Post> searchPosts(String type, String keyword, int page, String sortBy) {
+  public Page<Post> searchPosts(String type, String option, String keyword, int page, String sortBy) {
 //    List<Sort.Order> sorts = new ArrayList<>();
 //    sorts.add(Sort.Order.desc("id")); // id 필드를 기준으로 내림차순 정렬
 
@@ -231,7 +232,16 @@ public class PostService {
     } else if (sortBy.equals("date")) {
       sort = Sort.by(Sort.Direction.DESC, "createtime");
     }else if (sortBy.equals("replyCount")) {
-      return getPostsSortedByCommentCount(page);
+      Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "commentCount"));
+      if (option.equals("title")) {
+        return postRepository.findByTypeAndTitleContainingSortedByCommentCount(type, keyword, pageable).map(array -> (Post) array[0]);
+      } else if (option.equals("content")) {
+        return postRepository.findByTypeAndContentContainingSortedByCommentCount(type, keyword, pageable).map(array -> (Post) array[0]);
+      } else if (option.equals("titleContent")) {
+        return postRepository.findByTypeAndTitleContainingContentContainingSortedByCommentCount(type, keyword, pageable).map(array -> (Post) array[0]);
+      } else if (option.equals("nickname")) {
+        return postRepository.findByTypeAndNicknameContainingSortedByCommentCount(type, keyword, pageable).map(array -> (Post) array[0]);
+      }
     }else if (sortBy.equals("nickname")) {
       sort = Sort.by(Sort.Direction.DESC, "nickname");
     }else if (sortBy.equals("viewCount")) {
@@ -244,14 +254,25 @@ public class PostService {
 
     Page<Post> posts;
 
-    if (type.equals("title")) {
-      posts = postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
-    } else if (type.equals("content")) {
-      posts = postRepository.findByContentContainingKeyword(keyword, pageable);
-    } else if (type.equals("titleContent")) {
-      posts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
-    } else if (type.equals("nickname")) {
-      posts = postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
+//    if (option.equals("title")) {
+//      posts = postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+//    } else if (option.equals("content")) {
+//      posts = postRepository.findByContentContainingKeyword(keyword, pageable);
+//    } else if (option.equals("titleContent")) {
+//      posts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
+//    } else if (option.equals("nickname")) {
+//      posts = postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
+//    } else {
+//      posts = Page.empty(); // 빈 페이지 반환
+//    }
+    if (option.equals("title")) {
+      posts = postRepository.findByTypeAndTitleContainingIgnoreCase(type, keyword, pageable);
+    } else if (option.equals("content")) {
+      posts = postRepository.findByTypeAndContentContainingKeyword(type, keyword, pageable);
+    } else if (option.equals("titleContent")) {
+      posts = postRepository.findByTypeAndTitleContainingIgnoreCaseOrContentContainingIgnoreCase(type, keyword, keyword, pageable);
+    } else if (option.equals("nickname")) {
+      posts = postRepository.findByTypeAndNicknameContainingIgnoreCase(type, keyword, pageable);
     } else {
       posts = Page.empty(); // 빈 페이지 반환
     }

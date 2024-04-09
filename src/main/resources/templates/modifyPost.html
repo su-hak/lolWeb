@@ -41,15 +41,15 @@
                 리그 오브 레전드
             </span>
         </a>
-        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list/default">
             <span class="btn-two blue mini" id="btnradio2">
-                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
             </span>
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
             <span class="btn-two blue mini" id="btnradio3">
-                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                <img src="/img/Maplestory_Icon.png" style="height: 20px"/>
                 메이플 스토리
             </span>
         </a>
@@ -90,7 +90,7 @@ font-weight: bolder">
                     <a class="nav-link navMenu" href="/probuild">프로빌드</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link navMenu" href="/post/list">커뮤니티</a>
+                    <a class="nav-link navMenu" href="/post/list/default">커뮤니티</a>
                 </li>
             </ul>
         </div>
@@ -268,6 +268,7 @@ font-weight: bolder">
                                 </div>
                             </div>
                             <input type="hidden" th:value="${post.id}" id="postId" name="postId">
+                            <input type="hidden" th:value="${post.type}" id="postType" name="postType">
                         </form>
                     </div>
                 </div>
@@ -384,7 +385,8 @@ font-weight: bolder">
                 swal.fire('게시글이 성공적으로 업데이트되었습니다.').then(function() {
                     // 게시글의 읽기 페이지로 리디렉션
                     var postId = document.getElementById('postId').value; // hidden input에서 postId 가져오기
-                    window.location.href = '/post/read/' + postId; // 해당 게시글의 읽기 페이지로 리디렉션
+                    var postType = document.getElementById('postType').value; // hidden input에서 postId 가져오기
+                    window.location.href = '/post/read/' + postType + '/' + postId; // 해당 게시글의 읽기 페이지로 리디렉션
 
                 });
             } else {

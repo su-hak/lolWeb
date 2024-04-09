@@ -29,4 +29,6 @@ public class PostDto {
 
   private Long views;
 
+  private String type;
+
 }
