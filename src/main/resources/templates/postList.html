@@ -36,13 +36,13 @@
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
-                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
             </span>
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
             <span class="btn-two blue mini" id="btnradio3">
-                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                <img src="/img/Maplestory_Icon.png" style="height: 20px"/>
                 메이플 스토리
             </span>
         </a>
@@ -160,6 +160,26 @@ font-weight: bolder">
                         <!-- table -->
                         <table class="table table-borderless table-hover">
                             <!-- 게시판 헤더 -->
+                            <div th:if="${type == 'default'}">
+                                            <span style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="자유게시판"></span>
+                            </div>
+                            <div th:if="${type == 'simulation'}">
+                                            <span style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="시뮬공유"></span>
+                            </div>
+                            <div th:if="${type == 'movie'}">
+                                            <span style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="매드무비"></span>
+                            </div>
+                            <div th:if="${type == 'roulette'}">
+                                            <span style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="룰렛게시판"></span>
+                            </div>
+                            <div th:if="${type == 'poll'}">
+                                            <span style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="투표게시판"></span>
+                            </div>
                             <thead>
                             <tr>
                                 <th class="col-1">글번호</th>

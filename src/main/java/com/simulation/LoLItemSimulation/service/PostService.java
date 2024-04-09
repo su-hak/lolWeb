@@ -221,7 +221,7 @@ public class PostService {
 //
 //    }
 //  }
-  public Page<Post> searchPosts(String type, String keyword, int page, String sortBy) {
+  public Page<Post> searchPosts(String option, String keyword, int page, String sortBy) {
 //    List<Sort.Order> sorts = new ArrayList<>();
 //    sorts.add(Sort.Order.desc("id")); // id 필드를 기준으로 내림차순 정렬
 
@@ -245,13 +245,13 @@ public class PostService {
 
     Page<Post> posts;
 
-    if (type.equals("title")) {
+    if (option.equals("title")) {
       posts = postRepository.findByTitleContainingIgnoreCase(keyword, pageable);
-    } else if (type.equals("content")) {
+    } else if (option.equals("content")) {
       posts = postRepository.findByContentContainingKeyword(keyword, pageable);
-    } else if (type.equals("titleContent")) {
+    } else if (option.equals("titleContent")) {
       posts = postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword, pageable);
-    } else if (type.equals("nickname")) {
+    } else if (option.equals("nickname")) {
       posts = postRepository.findByNicknameContainingIgnoreCase(keyword, pageable);
     } else {
       posts = Page.empty(); // 빈 페이지 반환
