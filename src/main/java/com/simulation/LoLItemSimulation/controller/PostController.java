@@ -334,13 +334,13 @@ public class PostController {
 //  }
   @GetMapping("/list/search")
   public String getPostSearchList(@RequestParam(defaultValue = "0") int page,
-                                  @RequestParam("option") String type,
+                                  @RequestParam("option") String option,
                                   @RequestParam("keyword") String keyword,
                                   @RequestParam(name = "sort", required = false, defaultValue = "id") String sort,
                                   Model model) {
-    System.out.println(type);
+    System.out.println(option);
     System.out.println(keyword);
-    Page<Post> paging = postService.searchPosts(type, keyword, page, sort);
+    Page<Post> paging = postService.searchPosts(option, keyword, page, sort);
 
     if (paging != null && paging.hasContent()) {
       List<Post> posts = paging.getContent();
@@ -355,14 +355,14 @@ public class PostController {
       }
 
       model.addAttribute("searchPaging", paging);
-      model.addAttribute("type", type);
+      model.addAttribute("option", option);
       model.addAttribute("keyword", keyword);
       model.addAttribute("have", true); // 검색 결과가 있는 경우
       model.addAttribute("sort", sort);
 
     } else {
       model.addAttribute("searchPaging", paging);
-      model.addAttribute("type", type);
+      model.addAttribute("option", option);
       model.addAttribute("keyword", keyword);
       model.addAttribute("have", false); // 검색 결과가 없는 경우
       model.addAttribute("sort", sort);
