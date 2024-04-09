@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var whatUseChamp = entry.querySelector('.what-use-champ');
 
                 // 'p' 요소 다음 위치에 추가
-                var championImgSrc = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championName + ".png";
+                var championImgSrc = "https://ddragon.leagueoflegends.com/cdn/14.7.1/img/champion/" + championName + ".png";
                 var championImg = document.createElement('img');
                 championImg.src = championImgSrc;
                 championImg.alt = championName + " 이미지";

@@ -134,17 +134,51 @@ public class ProbuildService {
                 String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "?api_key=" + apiKey;
 
                 try {
-                    MatchDetailDTO matchDetail = restTemplate1.getForObject(url, MatchDetailDTO.class);
+                    MatchDTO matchDetail = restTemplate1.getForObject(url, MatchDTO.class);
+                    String info = String.valueOf(matchDetail.getInfoDTO());
 
-                    if (matchDetail != null && matchDetail.getInfo() != null && matchDetail.getInfo().getParticipants() != null) {
+                    System.out.println(matchDetail);
+                    System.out.println(info);
+                    System.out.println(matchDetail.getMetadataDto());
+
+                    if (matchDetail != null && matchDetail.getInfoDTO() != null && matchDetail.getInfoDTO().getParticipants() != null) {
                         // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
-                        List<MatchDetailDTO.Participant> participants = matchDetail.getInfo().getParticipants();
-                        for (MatchDetailDTO.Participant participant : participants) {
+                        List<ParticipantDTO> participants = matchDetail.getInfoDTO().getParticipants();
+                        for (ParticipantDTO participant : participants) {
                             String summonerName = participant.getSummonerName();
+                            /*String puuid = participant.getPuuid();
+                            System.out.println(puuid);*/
+
+                            /*System.out.println("summonerName ::" + summonerName);
+                            System.out.println("entry summonerName ::" + pro.getSummonerName());
+                            System.out.println("participants ::" + participants);*/
+
                             // 만약 summonerName이 빈 문자열이면 "닉네임 알 수 없음"으로 설정
                             if (summonerName.isEmpty()) {
                                 participant.setSummonerName("\"알 수 없는 소환사\"");
                             }
+
+                            // 룬 페이지 불러오기
+                            /*if (summonerName.equals(pro.getSummonerName())) {
+                                *//*System.out.println("in if Name ::" + summonerName);*//*
+                                List<MatchDetailDTO.Perks> perks = participant.getPerks();
+                                for (MatchDetailDTO.Perks perk : perks) {
+                                    List<MatchDetailDTO.StatPerks> statPerks = perk.getStatPerks();
+                                    List<MatchDetailDTO.Styles> styles = perk.getStyles();
+
+                                    for (MatchDetailDTO.StatPerks statPerk : statPerks) {
+                                        *//*System.out.println("statPerk" + statPerk);*//*
+                                    }
+
+                                    for (MatchDetailDTO.Styles style : styles) {
+                                        List<MatchDetailDTO.Selections> selections = style.getSelections();
+                                        for (MatchDetailDTO.Selections selection : selections) {
+                                            *//*System.out.println("selection" + selection);*//*
+                                        }
+                                    }
+
+                                }
+                            }*/
                         }
                         pro.setParticipants(participants);
                     }
@@ -257,7 +291,7 @@ public class ProbuildService {
             if (event.getParticipantId() == targetId) {
                 if(event.getBeforeId() != 0 && event.getBeforeId() != 2055){
                     int beforeId = event.getBeforeId();
-                    System.out.println("비포아이디 : " + beforeId);
+                    /*System.out.println("비포아이디 : " + beforeId);*/
                     int timeStamp = event.getTimestamp(); // before의 timestamp
 
                     removed.add(event);
@@ -266,8 +300,8 @@ public class ProbuildService {
                     for(MatchTimelineDTO.Event inevent : events){
 //                        if(inevent.getItemId() == beforeId ){
                         if(inevent.getItemId() == beforeId && inevent.getTimestamp() <= timeStamp ){
-                            System.out.println(inevent.getItemId() + " ::: " + event.getBeforeId());
-                            System.out.println(inevent.getTimestamp() + " ::: " + event.getTimestamp());
+                            /*System.out.println(inevent.getItemId() + " ::: " + event.getBeforeId());
+                            System.out.println(inevent.getTimestamp() + " ::: " + event.getTimestamp());*/
                             //events.remove(events.indexOf(inevent));
                             removed.add(inevent);
 

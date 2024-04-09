@@ -13,6 +13,7 @@ public class MatchTimelineDTO {
         this.info = info;
     }
 
+
     public static class Info {
         private List<Participant> participants;
         private List<Frame> frames;
