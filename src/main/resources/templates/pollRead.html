@@ -208,14 +208,14 @@ font-weight: bolder">
                         </div>
                         <div class="row ">
                             <div class="col d-flex justify-content-end align-items-center">
-                                <button class="thumb-up" th:attr="data-post-id=${post.id}">
-                                    <iconify-icon icon="foundation:like" width="50" height="50"></iconify-icon>
+                                <button class="thumb-up" th:attr="data-post-id=${post.id}" th:class="${isPostLiked} ? 'thumb-up liked' : 'thumb-up not-liked'">
+                                    <iconify-icon icon="foundation:like" width="50" height="50" th:style="${isPostLiked} ? 'color: red;' : 'color: black;'"></iconify-icon>
                                 </button>
                                 <span class="postLikeCount" th:attr="data-post-id=${post.id}"></span>
                             </div>
                             <div class="col d-flex align-items-center">
                                 <button class="thumb-down" th:attr="data-post-id=${post.id}">
-                                    <iconify-icon icon="foundation:dislike" width="50" height="50"></iconify-icon>
+                                    <iconify-icon icon="foundation:dislike" width="50" height="50" style=""></iconify-icon>
                                 </button>
                                 <span class="postHateCount" th:attr="data-post-id=${post.id}"></span>
 
@@ -647,29 +647,23 @@ font-weight: bolder">
         });
     });
 
-    // 게시글 좋아요
     $(".thumb-up").click(function() {
         var postId = $(this).attr("data-post-id"); // 게시물 ID 가져오기
-        var data = {}; // 요청 본문 데이터 생성
+        var thumbUp = $(this);
 
         // AJAX를 사용하여 서버에 요청을 보냄
         $.ajax({
             type: "POST",
             url: "/post/" + postId + "/like", // POST 요청을 보낼 엔드포인트 URL
             contentType: "application/json",
-            data: JSON.stringify(data),
+            data: JSON.stringify({}), // 빈 요청 본문 데이터 전송
             success: function(response) {
                 // 요청이 성공하면 서버에서 받은 응답에 따라 동작
-                if (response === true) {
-                    // 좋아요가 추가된 경우
-                    // 좋아요 수를 증가시키거나 다른 작업을 수행할 수 있음
-                    console.log("좋아요가 추가되었습니다.");
-                } else {
-                    // 좋아요가 제거된 경우
-                    // 좋아요 수를 감소시키거나 다른 작업을 수행할 수 있음
-                    console.log("좋아요가 제거되었습니다.");
-                }
-                updatePostLikeCount(postId); // 좋아요 수 갱신
+                // 좋아요 상태에 따라 아이콘 색상 변경
+                thumbUp.children("iconify-icon").css('color', response ? 'red' : 'black');
+
+                // 좋아요 수 갱신
+                updatePostLikeCount(postId);
             },
             error: function(xhr, status, error) {
                 // 요청이 실패한 경우 에러 처리
@@ -677,6 +671,8 @@ font-weight: bolder">
             }
         });
     });
+
+
 
     // 게시글 좋아요 수 갱신 함수
     function updatePostLikeCount(postId) {
@@ -711,6 +707,7 @@ font-weight: bolder">
         });
     }
 
+
     $(".thumb-down").click(function() {
         var postId = $(this).attr("data-post-id"); // 게시물 ID 가져오기
         var data = {}; // 요청 본문 데이터 생성
@@ -740,6 +737,7 @@ font-weight: bolder">
             }
         });
     });
+
 
     // 게시글 싫어요수 갱신 함수
     function updatePostHateCount(postId) {

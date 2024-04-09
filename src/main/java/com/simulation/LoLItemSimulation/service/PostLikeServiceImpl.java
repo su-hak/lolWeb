@@ -1,14 +1,16 @@
 package com.simulation.LoLItemSimulation.service;
 
 import com.simulation.LoLItemSimulation.repository.PostLikeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PostLikeServiceImpl implements PostLikeService {
 
-    @Autowired
-    private PostLikeRepository postLikeRepository;
+    private final PostLikeRepository postLikeRepository;
+
+    public PostLikeServiceImpl(PostLikeRepository postLikeRepository) {
+        this.postLikeRepository = postLikeRepository;
+    }
 
     @Override
     public boolean isPostLikedByIp(Long postId, String ipAddress) {

@@ -379,7 +379,7 @@ public class PostController {
 
 
   @GetMapping("/read/{type}/{postId}")
-  public String readPost(@PathVariable String type,@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
+  public String readPost(@PathVariable String type, @PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
                          @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                          @RequestParam(name = "sort", required = false, defaultValue = "id") String sort) {
     // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
@@ -410,33 +410,45 @@ public class PostController {
     List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
 
     String clientIpAddress = getClientIP(request);
-    log.info("client IP " +  clientIpAddress);
+    log.info("client IP " + clientIpAddress);
     for (Comment comment : commentDtoList) {
       boolean isLiked = commentLikeService.isCommentLikedByIp(comment.getId(), clientIpAddress);
       commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
     }
+
+    // 사용자가 해당 게시글을 좋아요했는지 여부를 가져옴
+    boolean isPostLiked = postLikeService.isPostLikedByIp(postId, clientIpAddress);
 
     // 모델에 댓글 정보와 게시글 정보를 추가하여 게시글 읽기 페이지로 반환
     model.addAttribute("comment", commentLikeInfoList);
     model.addAttribute("post", postDto);
     model.addAttribute("page", page);
     model.addAttribute("sort", sort);
-    if(type.equals("movie")){
+    model.addAttribute("isPostLiked", isPostLiked); // 게시글 좋아요 상태를 모델에 추가
 
+    if (type.equals("movie")) {
       return "movieRead";
     } else if (type.equals("poll")) {
       return "pollRead";
-    } else if (type.equals("simulation")){
+    } else if (type.equals("simulation")) {
       return "simulRead";
     } else if (type.equals("roulette")) {
       return "rouletteRead";
-    } else{
+    } else {
       return "readPost";
     }
   }
 
+  @GetMapping("/{postId}/like/status")
+  public ResponseEntity<Boolean> getLikeStatus(@PathVariable Long postId, HttpServletRequest request) {
+    String ipAddress = getClientIP(request);
+    boolean isLiked = postLikeService.isPostLikedByIp(postId, ipAddress);
+    return ResponseEntity.ok(isLiked);
+  }
 
-//  @GetMapping("/simulRead/{postId}")
+
+
+  //  @GetMapping("/simulRead/{postId}")
 //  public String simulRead(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
 //                             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
 //                             @RequestParam(name = "sort", required = false, defaultValue = "id") String sort) {
