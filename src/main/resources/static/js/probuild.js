@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     getChampionImg();
     getMostChampImg();
     getItemImg();
-    /*getRuneImg();*/
+    getRuneImg();
     wardItem();
     totalTimestamp();
     controlWard();
@@ -356,19 +356,41 @@ function getItemImg() {
 }
 
 // 룬 빌드 이미지
-/*function getRuneImg() {
-    $('.rune-perks').each(function () {
-        var runeText = $('.rune-img').textContent;
-        console.log(runeText);
+function getRuneImg() {
+    $('.rune-styles').each(function () {
+        var runeText = $(this).find('.rune-title-img').text().replace(/"/g, '');
+
         const runeImg = new Image();
         runeImg.src = './img/perk-images/' + runeText + '.png';
 
-        var runeBuild = $('.rune-img');
-        runeBuild.innerHTML = '';
-        runeBuild.append(runeImg);
+        var rune = $(this).find('.rune-title-img');
 
+        rune.empty().append(runeImg);
     });
-}*/
+
+    $('.rune-perks').each(function () {
+        var runeText = $(this).find('.rune-img').text().replace(/"/g, '');
+
+        const runeImg = new Image();
+        runeImg.src = './img/perk-images/' + runeText + '.png';
+
+        var rune = $(this).find('.rune-img');
+
+        rune.empty().append(runeImg);
+    });
+
+    $('.rune-stat').each(function () {
+        $(this).find('.rune-stat-img').each(function () {
+            var runeText = $(this).text().trim();
+            if (runeText !== "") {
+                const runeImg = new Image();
+                runeImg.src = './img/perk-images/' + runeText + '.png';
+
+                $(this).empty().append(runeImg);
+            }
+        });
+    });
+}
 
 function wardItem() {
     $('.build-ward-item').each(function () {

@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "";
+    private final String apiKey = "RGAPI-4ee478e6-aac6-4603-bb2a-8076e1d666a6";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -164,6 +164,7 @@ public class ProbuildService {
                                     List<PerkStyleDTO> styles = participant.getPerks().getStyles();
                                     for (PerkStyleDTO style : styles) {
                                         List<PerkStyleSelectionDTO> selections = style.getSelections();
+                                        pro.setStyle(style.getStyle());
                                         for (PerkStyleSelectionDTO selection : selections) {
                                             pro.setPerk(selection.getPerk());
                                             pro.setSelections(selections);

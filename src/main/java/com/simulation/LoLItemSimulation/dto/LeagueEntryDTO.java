@@ -60,6 +60,7 @@ public class LeagueEntryDTO {
     private int championPoints;
 
     private int perk;
+    private int style;
     private int defense;
     private int flex;
     private int offense;
@@ -73,6 +74,14 @@ public class LeagueEntryDTO {
 
     public void setPerk(int perk) {
         this.perk = perk;
+    }
+
+    public int getStyle() {
+        return style;
+    }
+
+    public void setStyle(int style) {
+        this.style = style;
     }
 
     public int getDefense() {

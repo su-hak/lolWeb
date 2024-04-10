@@ -12,6 +12,13 @@
 #probuild:hover .animated-width {
     width: 100%;
 }
+/*    공용 시작    */
+#sec1\~sec3 {
+    display: block;
+    margin-right: 10px;
+}
+/*    공용 끝    */
+
 
 /*    main 시작    */
 .match {
@@ -24,18 +31,40 @@
     padding: 10px;
 }
 
-/* section */
+/* section 1 */
 #section1 {
     display: flex;
 }
+/* section 1 end */
 
-.main-section-probuild:nth-of-type(2) {
-    display: block;
+/* section 2 */
+#section2 {
+    box-shadow: inset 0px 0px 19px 1px black;
+    padding: 0 20px;
 }
 
+.rune-build {
+    display: flex;
+    gap: 20px;
+}
+
+.rune-build img {
+    width: 32px;
+}
+
+.rune-stat {
+    display: flex;
+}
+
+/* section 2 end */
+
+/* section 3 */
 #section3 {
-    padding-right: 10px;
+    width: 100%;
+    box-shadow: inset 0px 0px 19px 1px black;
+    padding: 0 20px;
 }
+/* section 3 end */
 
 #section4 {
     width: 250%;
