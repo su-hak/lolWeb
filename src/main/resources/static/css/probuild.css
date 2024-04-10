@@ -25,6 +25,14 @@
 }
 
 /* section */
+#section1 {
+    display: flex;
+}
+
+.main-section-probuild:nth-of-type(2) {
+    display: block;
+}
+
 #section3 {
     padding-right: 10px;
 }

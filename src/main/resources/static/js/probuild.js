@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var userRankInfo = document.querySelectorAll('.user-rank-info');
     var winRate = document.querySelectorAll('.winrate');
 
-    //
+    // kda
     ddEle.forEach(function (ddEle) {
         var kills = parseFloat(ddEle.querySelector('#kills').textContent);
         var deaths = parseFloat(ddEle.querySelector('#deaths').textContent);
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         winrateResult.textContent = winRate.toFixed(1) + "%";
     });
 
-    //
+    // match 플레이어들 이미지, 이름, kda
     entries.forEach(function (entry) {
         var summonerName = entry.querySelector('#nickName span').textContent;
 
@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     getChampionImg();
     getMostChampImg();
     getItemImg();
+    /*getRuneImg();*/
     wardItem();
     totalTimestamp();
     controlWard();
@@ -312,7 +313,7 @@ function getMostChampImg() {
     });
 }
 
-// 빌드
+// 아이템 빌드 이미지
 function getItemImg() {
     $('.match-time-line').each(function () {
         // 빌드 아이템 이미지
@@ -344,7 +345,7 @@ function getItemImg() {
         if (timeStampCalcSec >= 300) {
             var timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분";
         }else if (timeStampCalcSec >= 60) {
-             timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분 " + (timeStampCalcSec % 60).toFixed(0) + "초";
+            timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분 " + (timeStampCalcSec % 60).toFixed(0) + "초";
         }   else if (timeStampCalcSec < 60) {
             timeStampCalcMin = "1분 미만";
         }
@@ -353,6 +354,21 @@ function getItemImg() {
         timeStampSpan.empty().append(timeStampCalcMin)
     });
 }
+
+// 룬 빌드 이미지
+/*function getRuneImg() {
+    $('.rune-perks').each(function () {
+        var runeText = $('.rune-img').textContent;
+        console.log(runeText);
+        const runeImg = new Image();
+        runeImg.src = './img/perk-images/' + runeText + '.png';
+
+        var runeBuild = $('.rune-img');
+        runeBuild.innerHTML = '';
+        runeBuild.append(runeImg);
+
+    });
+}*/
 
 function wardItem() {
     $('.build-ward-item').each(function () {

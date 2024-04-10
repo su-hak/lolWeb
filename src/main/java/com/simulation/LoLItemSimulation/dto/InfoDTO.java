@@ -13,25 +13,25 @@ public class InfoDTO {
         this.participants = participants;
     }
 
-    private String teams;
-    private String gameDuration;
+    private List<TeamDTO> teams;
+    private long gameDuration;
     private String gameMode;
     private String gameType;
 
 
-    public String getTeams() {
+    public List<TeamDTO> getTeams() {
         return teams;
     }
 
-    public void setTeams(String teams) {
+    public void setTeams(List<TeamDTO> teams) {
         this.teams = teams;
     }
 
-    public String getGameDuration() {
+    public long getGameDuration() {
         return gameDuration;
     }
 
-    public void setGameDuration(String gameDuration) {
+    public void setGameDuration(long gameDuration) {
         this.gameDuration = gameDuration;
     }
 

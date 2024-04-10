@@ -58,13 +58,45 @@ public class LeagueEntryDTO {
     private int assists;
     private List<Integer> championId;
     private int championPoints;
-    private List<PerksDTO> perks;
+
+    private int perk;
+    private int defense;
+    private int flex;
+    private int offense;
     private List<PerkStatsDTO> statPerks;
     private List<PerkStyleDTO> styles;
     private List<PerkStyleSelectionDTO> selections;
 
-    public List<PerksDTO> getPerks() {
-        return perks;
+    public int getPerk() {
+        return perk;
+    }
+
+    public void setPerk(int perk) {
+        this.perk = perk;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public int getFlex() {
+        return flex;
+    }
+
+    public void setFlex(int flex) {
+        this.flex = flex;
+    }
+
+    public int getOffense() {
+        return offense;
+    }
+
+    public void setOffense(int offense) {
+        this.offense = offense;
     }
 
     public List<PerkStatsDTO> getStatPerks() {
@@ -122,7 +154,6 @@ public class LeagueEntryDTO {
     public String getSummonerName() {
         return summonerName;
     }
-
     public void setSummonerName(String summonerName) {
         this.summonerName = summonerName;
     }
@@ -198,17 +229,12 @@ public class LeagueEntryDTO {
     public void setChampionId(List<Integer> championId) {
         this.championId = championId;
     }
-
     public int getChampionPoints() {
         return championPoints;
     }
 
     public void setChampionPoints(int championPoints) {
         this.championPoints = championPoints;
-    }
-
-    public void setPerks(List<PerksDTO> perks) {
-        this.perks = perks;
     }
 
     public void setStatPerks(List<PerkStatsDTO> statPerks) {

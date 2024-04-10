@@ -3,18 +3,18 @@ package com.simulation.LoLItemSimulation.dto;
 import java.util.List;
 
 public class PerksDTO {
-        private List<PerkStatsDTO> statPerks;
+        private PerkStatsDTO statPerks;
         private List<PerkStyleDTO> styles;
 
-        public List<PerkStatsDTO> getStatPerks() {
-            return statPerks;
-        }
+    public PerkStatsDTO getStatPerks() {
+        return statPerks;
+    }
 
-        public void setStatPerks(List<PerkStatsDTO> statPerks) {
-            this.statPerks = statPerks;
-        }
+    public void setStatPerks(PerkStatsDTO statPerks) {
+        this.statPerks = statPerks;
+    }
 
-        public List<PerkStyleDTO> getStyles() {
+    public List<PerkStyleDTO> getStyles() {
             return styles;
         }
 

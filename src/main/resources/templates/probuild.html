@@ -102,6 +102,7 @@
     <div id="leagueEntriesContainer" class="entry" th:if="${not #lists.isEmpty(leagueEntries)}">
         <!-- Loop through each entry in leagueEntries -->
         <div class="match" th:each="entry : ${leagueEntries}">
+
             <section class="main-section-probuild" id="section1">
                 <div class="what-use-champ">
                     <span class="info-title">Champion</span>
@@ -119,29 +120,44 @@
                         </div>
                     </div>
                 </div>
-            </section>
 
-                <section class="main-section-probuild" id="section2">
-                    <div class="most-champion-img">
-                        <p class="info-title" style="padding-bottom: 1px;">Most3</p>
-                        <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
-                    </div>
-                </section>
+                <div class="most-champion-img">
+                <p class="info-title" style="padding-bottom: 1px;">Most3</p>
+                <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
+            </div>
 
-                <section class="main-section-probuild" id="section3">
-                    <div class="user-rank-info">
-                        <div style="display: block;">
-                            <p class="info-title" th:text="${entry.getQueueType()}"></p>
-                            <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
-                            <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
-                            <div class="winrate">
-                                <span id="win" th:text="|${entry.getWins()}W|"></span>&nbsp;
-                                <span id="lose" th:text="|${entry.getLosses()}L|"></span>
-                                <span>&nbsp/&nbsp</span>
-                                &nbsp;<span class="winrate_result"></span>
-                            </div>
+                <div class="user-rank-info">
+                    <div style="display: block;">
+                        <p class="info-title" th:text="${entry.getQueueType()}"></p>
+                        <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
+                        <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
+                        <div class="winrate">
+                            <span id="win" th:text="|${entry.getWins()}W|"></span>&nbsp;
+                            <span id="lose" th:text="|${entry.getLosses()}L|"></span>
+                            <span>&nbsp/&nbsp</span>
+                            &nbsp;<span class="winrate_result"></span>
                         </div>
                     </div>
+                </div>
+
+            </section>
+
+                <!--<section class="main-section-probuild" id="section2">
+                    <div class="rune-build" th:each="matchId : ${entry.getMatchIds()}">
+                        <div class="rune-styles" th:each="styles : ${entry.getStyles()}">
+                            <div class="rune-perks" th:each="perks : ${styles.getSelections()}">
+                                <p>Perk : <span class="rune-img" th:text="${perks.getPerk()}"></span></p>
+                            </div>
+                        </div>
+
+                        <p>Defense : <span th:text="${entry.getDefense()}"></span></p>
+                        <p>Flex : <span th:text="${entry.getFlex()}"></span></p>
+                        <p>Offense : <span th:text="${entry.getOffense()}"></span></p>
+                    </div>
+                </section>-->
+
+                <section class="main-section-probuild" id="section3">
+
                 </section>
 
                 <section class="main-section-probuild" id="section4">

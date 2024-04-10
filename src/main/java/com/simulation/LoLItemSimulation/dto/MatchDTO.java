@@ -1,24 +1,25 @@
 package com.simulation.LoLItemSimulation.dto;
 
+import lombok.Getter;
+
 import java.util.List;
 
 
 public class MatchDTO {
-    private final MetadataDTO metadataDto;
+    private final MetadataDTO metadata;
 
-    private final InfoDTO infoDTO;
+    private final InfoDTO info;
 
-    public MatchDTO(MetadataDTO metadataDto, InfoDTO infoDTO) {
-        this.metadataDto = metadataDto;
-        this.infoDTO = infoDTO;
+    public MatchDTO(MetadataDTO metadata, InfoDTO info) {
+        this.metadata = metadata;
+        this.info = info;
     }
 
-    public MetadataDTO getMetadataDto() {
-        return metadataDto;
+    public MetadataDTO getMetadata() {
+        return metadata;
     }
 
-    public InfoDTO getInfoDTO() {
-        return infoDTO;
+    public InfoDTO getInfo() {
+        return info;
     }
-
 }

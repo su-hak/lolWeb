@@ -64,15 +64,15 @@ public class ProbuildService {
     // 소환사 이름을 기반으로 puuid를 가져오는 메서드
     private void setPuuidBySummonerName(LeagueEntryDTO entry) {
         RestTemplate restTemplate = new RestTemplate();
-        String summonerName = entry.getSummonerName();
-        String url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerName + "?api_key=" + apiKey;
+        String summonerId = entry.getSummonerId();
+        String url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/" + summonerId + "?api_key=" + apiKey;
         try {
             SummonerDTO summonerDTO = restTemplate.getForObject(url, SummonerDTO.class);
             entry.setPuuid(summonerDTO.getPuuid());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("summonerName ::" + url);
+        System.out.println("summonerId ::" + url);
     }
 
     private void setChampionPoints(LeagueEntryDTO entryDTO) {
@@ -135,53 +135,47 @@ public class ProbuildService {
 
                 try {
                     MatchDTO matchDetail = restTemplate1.getForObject(url, MatchDTO.class);
-                    String info = String.valueOf(matchDetail.getInfoDTO());
 
-                    System.out.println(matchDetail);
-                    System.out.println(info);
-                    System.out.println(matchDetail.getMetadataDto());
-
-                    if (matchDetail != null && matchDetail.getInfoDTO() != null && matchDetail.getInfoDTO().getParticipants() != null) {
+                    if (matchDetail != null && matchDetail.getInfo() != null && matchDetail.getInfo().getParticipants() != null) {
                         // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
-                        List<ParticipantDTO> participants = matchDetail.getInfoDTO().getParticipants();
+                        List<ParticipantDTO> participants = matchDetail.getInfo().getParticipants();
                         for (ParticipantDTO participant : participants) {
                             String summonerName = participant.getSummonerName();
-                            /*String puuid = participant.getPuuid();
-                            System.out.println(puuid);*/
 
-                            /*System.out.println("summonerName ::" + summonerName);
-                            System.out.println("entry summonerName ::" + pro.getSummonerName());
-                            System.out.println("participants ::" + participants);*/
+                            if (participant.getPuuid().equals(pro.getPuuid())) {
+                                pro.setSummonerName(summonerName);
+                                /*System.out.println("target :: " + pro.getSummonerName());*/
+                            }
 
                             // 만약 summonerName이 빈 문자열이면 "닉네임 알 수 없음"으로 설정
                             if (summonerName.isEmpty()) {
                                 participant.setSummonerName("\"알 수 없는 소환사\"");
                             }
 
-                            // 룬 페이지 불러오기
-                            /*if (summonerName.equals(pro.getSummonerName())) {
-                                *//*System.out.println("in if Name ::" + summonerName);*//*
-                                List<MatchDetailDTO.Perks> perks = participant.getPerks();
-                                for (MatchDetailDTO.Perks perk : perks) {
-                                    List<MatchDetailDTO.StatPerks> statPerks = perk.getStatPerks();
-                                    List<MatchDetailDTO.Styles> styles = perk.getStyles();
 
-                                    for (MatchDetailDTO.StatPerks statPerk : statPerks) {
-                                        *//*System.out.println("statPerk" + statPerk);*//*
-                                    }
+                                // 룬 페이지 불러오기
+                                if (summonerName.equals(pro.getSummonerName())) {
+                                    PerkStatsDTO statPerks = participant.getPerks().getStatPerks();
 
-                                    for (MatchDetailDTO.Styles style : styles) {
-                                        List<MatchDetailDTO.Selections> selections = style.getSelections();
-                                        for (MatchDetailDTO.Selections selection : selections) {
-                                            *//*System.out.println("selection" + selection);*//*
+                                    pro.setDefense(statPerks.getDefense());
+                                    pro.setFlex(statPerks.getFlex());
+                                    pro.setOffense(statPerks.getOffense());
+
+                                    List<PerkStyleDTO> styles = participant.getPerks().getStyles();
+                                    for (PerkStyleDTO style : styles) {
+                                        List<PerkStyleSelectionDTO> selections = style.getSelections();
+                                        for (PerkStyleSelectionDTO selection : selections) {
+                                            pro.setPerk(selection.getPerk());
+                                            pro.setSelections(selections);
+                                            /*System.out.println("셀렉션 내용 확인 :: " + pro.getPerk());*/
                                         }
+                                        pro.setStyles(styles);
                                     }
-
                                 }
-                            }*/
                         }
                         pro.setParticipants(participants);
                     }
+                    /*System.out.println("셀렉션 확인 :: " + pro.getSelections());*/
                     System.out.println("Match url ::" + url);
                 } catch (Exception e) {
                     e.printStackTrace();

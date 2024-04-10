@@ -13,7 +13,7 @@ public class ParticipantDTO {
         private int totalDamageDealt;
         private int participantId;
         private String puuid;
-        private List<PerksDTO> perks;
+        private PerksDTO perks;
 
         public String getSummonerName() {
             return summonerName;
@@ -99,11 +99,11 @@ public class ParticipantDTO {
             this.puuid = puuid;
         }
 
-        public List<PerksDTO> getPerks() {
+        public PerksDTO getPerks() {
             return perks;
         }
 
-        public void setPerks(List<PerksDTO> perks) {
+        public void setPerks(PerksDTO perks) {
             this.perks = perks;
         }
 
