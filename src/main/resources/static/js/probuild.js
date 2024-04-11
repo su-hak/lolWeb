@@ -62,12 +62,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 var championImgSrc = "https://ddragon.leagueoflegends.com/cdn/14.7.1/img/champion/" + championName + ".png";
                 var championImg = document.createElement('img');
                 championImg.src = championImgSrc;
-                championImg.alt = championName + " 이미지";
+                championImg.alt = championName;
                 championImg.id = "participant_champion";
 
                 var pElement = whatUseChamp.querySelector('#nickName');
                 pElement.insertAdjacentElement('beforebegin', championImg);
                 // whatUseChamp.insertBefore(championImg, pElement.nextSibling);
+
             }
         });
     });
@@ -108,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
     getMostChampImg();
     getItemImg();
     getRuneImg();
+    getSkillImg();
     wardItem();
     totalTimestamp();
     controlWard();
@@ -277,7 +279,7 @@ function getChampionImg() {
         // 이미지 엘리먼트를 생성하고 속성을 설정
         var championImg = $("<img>", {
             src: championImgSrc,
-            alt: championName + " 이미지",
+            alt: championName,
             class: "championName-img"
         });
         // 해당 요소에 이미지 추가
@@ -335,6 +337,7 @@ function getItemImg() {
         // timestamp / 1000 = 초 단위
         // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
         var timeStampSpan = $(this).find('.build-getTimeStamp');
+        var skillSpan = $(this).find('.skill-slot');
         var timeStamp = timeStampSpan.text().trim();
         /*console.log(timeStamp)*/
 
@@ -390,6 +393,53 @@ function getRuneImg() {
             }
         });
     });
+}
+
+
+function getSkillImg() {
+    $('.match').each(function () {
+        const championName = $(this).find('#participant_champion').attr('alt');
+        $.ajax({
+            type: "get",
+            url: "https://ddragon.leagueoflegends.com/cdn/14.7.1/data/en_US/champion/" + championName + ".json",
+            success: function (data) {
+                const spells = Object.values(data.data).flatMap(champion => champion.spells);
+                const spellNames = spells.map(spell => spell.id);
+
+                $(this).find('.skill-time-line').each(function (index) {
+                    const skillIdSpan = $(this).find('.skill-slot');
+                    const skillId = skillIdSpan.text().replace(/"/g, '');
+
+                    var spellName;
+
+                    if (skillId == 1) {
+                        spellName = spellNames[0];
+                    } else if (skillId == 2) {
+                        spellName = spellNames[1];
+                    } else if (skillId == 3) {
+                        spellName = spellNames[2];
+                    } else if (skillId == 4) {
+                        spellName = spellNames[3];
+                    }
+
+                    console.log("spellName", spellName);
+
+                    const skillImg = $("<img>", {
+                        src: "https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/" + spellName + ".png",
+                        alt: spellName,
+                    });
+                    console.log("skillImg", skillImg);
+                    skillIdSpan.empty().append(skillImg);
+                });
+            }.bind(this),
+// Ajax 요청이 완료되고 실행되는 콜백 함수 내에서는 this를 올바르게 참조하기 위해 bind() 함수를 사용
+        });
+
+    });
+}
+
+function setSkillImg() {
+
 }
 
 function wardItem() {

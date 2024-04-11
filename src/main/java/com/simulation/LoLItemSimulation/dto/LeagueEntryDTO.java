@@ -267,6 +267,10 @@ public class LeagueEntryDTO {
         this.levelUpType = levelUpType;
     }
 
+    public int getSkillSlot() {
+        return skillSlot;
+    }
+
     public void setSkillSlot(int skillSlot) {
         this.skillSlot = skillSlot;
     }

@@ -143,6 +143,7 @@
                     </div>
 
                 </section>
+
             <div id="sec2+sec3" style="display: flex">
                 <section class="main-section-probuild" id="section2">
                     <p class="info-title">룬 페이지</p>
@@ -162,13 +163,28 @@
                         </div>
                     </div>
                 </section>
+
                 <section class="main-section-probuild" id="section3">
                     <p class="info-title">스킬 빌드</p>
+                        <div class="skill-build" th:each="matchId : ${entry.getMatchIds()}">
+                            <div class="skill-frame" th:each="frames : ${entry.getFrame()}">
+                                <div class="skill-event" th:each="event : ${frames.getEvents()}">
+                                    <div class="skill-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
+                                        and event.getType() == 'SKILL_LEVEL_UP'}">
+                                        <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
+                                        <p><span class="skill-slot" th:text="${event.getSkillSlot()}"></span></p>
+                                        <!--<p>timestamp: <span class="build-getTimeStamp"
+                                                            th:text="${event.getTimestamp()}"></span></p>
+                                        <p>type: <span th:text="${event.getType()}"></span></p>-->
+                                        <img class="probuild-itemBuild-arrow" src="/img/arrow/arrow.png"/>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
                 </section>
             </div>
             </div>
-
-
 
             <section class="main-section-probuild" id="section4">
                 <!--아이템, 특성 빌드-->

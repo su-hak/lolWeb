@@ -64,7 +64,32 @@
     box-shadow: inset 0px 0px 19px 1px black;
     padding: 0 20px;
 }
-/* section 3 end */
+
+#section3 img {
+    width: 24px;
+}
+
+.skill-build {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.skill-frame {
+    display: flex;
+}
+
+.skill-time-line {
+    display: flex;
+    align-items: center;
+}
+
+#section3 .probuild-itemBuild-arrow {
+    height: 8px;
+    width: 8px;
+}
+
+    /* section 3 end */
 
 #section4 {
     width: 250%;
@@ -219,7 +244,6 @@
 
 .build-frame {
     display: flex;
-    gap: 2px;
 }
 
 .bulid-start-and-ward {

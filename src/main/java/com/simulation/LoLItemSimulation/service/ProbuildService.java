@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-4ee478e6-aac6-4603-bb2a-8076e1d666a6";
+    private final String apiKey = "RGAPI-105170df-7a16-4301-b530-23591eeb63e6";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -246,6 +246,9 @@ public class ProbuildService {
                                         for (MatchTimelineDTO.Event event : events) {
                                             if (event.getParticipantId() == targetId) {
 
+                                                entry.setSkillSlot(event.getSkillSlot());
+                                                /*System.out.println("Id ::"+entry.getParticipantId());
+                                                System.out.println("skill ::"+entry.getSkillSlot());*/
                                                 entry.setTimestamp(event.getTimestamp());
                                                 entry.setType(event.getType());
                                                 entry.setEvent(events);
