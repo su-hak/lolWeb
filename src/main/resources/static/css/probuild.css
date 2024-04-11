@@ -81,12 +81,13 @@
 
 .skill-time-line {
     display: flex;
-    align-items: center;
+    gap: 2px;
 }
 
 #section3 .probuild-itemBuild-arrow {
     height: 8px;
     width: 8px;
+    margin-top: 7px;
 }
 
     /* section 3 end */
@@ -244,6 +245,7 @@
 
 .build-frame {
     display: flex;
+    gap: 2px;
 }
 
 .bulid-start-and-ward {
@@ -288,10 +290,13 @@
     width: 32px;
 }
 
-.probuild-itemBuild-arrow {
-    width: 32px;
-    height: 32px;
+#section4 .probuild-itemBuild-arrow {
+    width: 16px !important;
+    height: 16px;
+    margin-top: 7px;
 }
+
+
 
 
 /* 아이템 빌드 끝 */
