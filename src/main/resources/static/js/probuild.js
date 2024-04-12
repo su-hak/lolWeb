@@ -139,6 +139,9 @@ $(document).ready(function () {
     $('.build-all-item').each(function () {
         $(this).find('.probuild-itemBuild-arrow:last').css('display', 'none');
     });
+    $('.skill-build').each(function () {
+        $(this).find('.probuild-itemBuild-arrow:last').css('display', 'none');
+    });
 });
 
 // 검색
@@ -337,7 +340,6 @@ function getItemImg() {
         // timestamp / 1000 = 초 단위
         // 예를 들어 60000(timestamp) / 1000 = 60초 = 1분
         var timeStampSpan = $(this).find('.build-getTimeStamp');
-        var skillSpan = $(this).find('.skill-slot');
         var timeStamp = timeStampSpan.text().trim();
         /*console.log(timeStamp)*/
 
@@ -408,28 +410,54 @@ function getSkillImg() {
 
                 $(this).find('.skill-time-line').each(function (index) {
                     const skillIdSpan = $(this).find('.skill-slot');
-                    const skillId = skillIdSpan.text().replace(/"/g, '');
+                    var skillId = skillIdSpan.text().replace(/"/g, '');
+                    const skillInfoSpan = $(this).find('.skill-info');
+                    var skillInfo = skillInfoSpan.text().replace(/"/g, '');
 
                     var spellName;
 
                     if (skillId == 1) {
                         spellName = spellNames[0];
+                        skillId = "Q";
                     } else if (skillId == 2) {
                         spellName = spellNames[1];
+                        skillId = "W";
                     } else if (skillId == 3) {
                         spellName = spellNames[2];
+                        skillId = "E";
                     } else if (skillId == 4) {
                         spellName = spellNames[3];
+                        skillId = "R";
                     }
 
-                    console.log("spellName", spellName);
+                    if (skillInfo == 1) {
+                        spellName = spellNames[0];
+                        skillInfo = "Q";
+                    } else if (skillInfo == 2) {
+                        spellName = spellNames[1];
+                        skillInfo = "W";
+                    } else if (skillInfo == 3) {
+                        spellName = spellNames[2];
+                        skillInfo = "E";
+                    } else if (skillInfo == 4) {
+                        spellName = spellNames[3];
+                        skillInfo = "R";
+                    }
+
+                    for (let i = 0; i < skillInfo.length; i++) {
+                        console.log(skillInfo);
+                    }
 
                     const skillImg = $("<img>", {
                         src: "https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/" + spellName + ".png",
                         alt: spellName,
                     });
-                    console.log("skillImg", skillImg);
-                    skillIdSpan.empty().append(skillImg);
+
+                    skillIdSpan.text(skillId);
+                    skillIdSpan.append(skillImg);
+
+                    skillInfoSpan.text(skillInfo);
+                    skillInfoSpan.append(skillImg);
                 });
             }.bind(this),
 // Ajax 요청이 완료되고 실행되는 콜백 함수 내에서는 this를 올바르게 참조하기 위해 bind() 함수를 사용

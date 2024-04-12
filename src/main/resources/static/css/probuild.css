@@ -41,6 +41,7 @@
 #section2 {
     box-shadow: inset 0px 0px 19px 1px black;
     padding: 0 20px;
+    width: 90%;
 }
 
 .rune-build {
@@ -75,6 +76,13 @@
     flex-wrap: wrap;
 }
 
+.skill-build-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
 .skill-frame {
     display: flex;
 }
@@ -84,18 +92,32 @@
     gap: 2px;
 }
 
+.skill-slot {
+    display: flex;
+    flex-direction: column-reverse;
+    text-align: center;
+}
+
 #section3 .probuild-itemBuild-arrow {
     height: 8px;
     width: 8px;
     margin-top: 7px;
 }
 
-    /* section 3 end */
+/* section 3 end */
 
+/* section 4 */
 #section4 {
     width: 250%;
+    margin-right: 20px;
 }
-/* section end */
+
+.build-total-timestamp {
+    display: flex;
+justify-content: space-between;
+}
+
+/* section 4 end */
 
 .main-title {
     display: flex;
@@ -190,12 +212,12 @@
     margin: 0 10px;
 }
 
-.user-rank-info {
+/*.user-rank-info {
     display: flex;
     gap: 5px;
-    width: 40%;
-    text-align: center;
-}
+    width: 100%;
+    text-align: center !important;
+}*/
 
 .tier-img {
     width: 150px;
@@ -296,7 +318,14 @@
     margin-top: 7px;
 }
 
+/* section 5 */
+.sec5\+3 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
+/* section 5 end */
 
 
 /* 아이템 빌드 끝 */

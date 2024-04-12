@@ -128,23 +128,9 @@
                         <span th:each="championId : ${entry.championId}" th:text="|${championId},|"></span>
                     </div>
 
-                    <div class="user-rank-info">
-                        <div style="display: block;">
-                            <p class="info-title" th:text="${entry.getQueueType()}"></p>
-                            <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
-                            <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
-                            <div class="winrate">
-                                <span id="win" th:text="|${entry.getWins()}W|"></span>&nbsp;
-                                <span id="lose" th:text="|${entry.getLosses()}L|"></span>
-                                <span>&nbsp/&nbsp</span>
-                                &nbsp;<span class="winrate_result"></span>
-                            </div>
-                        </div>
-                    </div>
-
                 </section>
 
-            <div id="sec2+sec3" style="display: flex">
+
                 <section class="main-section-probuild" id="section2">
                     <p class="info-title">룬 페이지</p>
                     <div class="rune-build" th:each="matchId : ${entry.getMatchIds()}">
@@ -164,26 +150,6 @@
                     </div>
                 </section>
 
-                <section class="main-section-probuild" id="section3">
-                    <p class="info-title">스킬 빌드</p>
-                        <div class="skill-build" th:each="matchId : ${entry.getMatchIds()}">
-                            <div class="skill-frame" th:each="frames : ${entry.getFrame()}">
-                                <div class="skill-event" th:each="event : ${frames.getEvents()}">
-                                    <div class="skill-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
-                                        and event.getType() == 'SKILL_LEVEL_UP'}">
-                                        <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
-                                        <p><span class="skill-slot" th:text="${event.getSkillSlot()}"></span></p>
-                                        <!--<p>timestamp: <span class="build-getTimeStamp"
-                                                            th:text="${event.getTimestamp()}"></span></p>
-                                        <p>type: <span th:text="${event.getType()}"></span></p>-->
-                                        <img class="probuild-itemBuild-arrow" src="/img/arrow/arrow.png"/>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-
-                </section>
-            </div>
             </div>
 
             <section class="main-section-probuild" id="section4">
@@ -192,10 +158,25 @@
                     <div th:each="matchId : ${entry.getMatchIds()}">
 
                         <div class="build-total-timestamp">
-                            <p class="info-title">총 게임 시간</p>
-                            <div class="total-timestamp">
-                                <p class="total-match-timestamp" th:text="${entry.getLastTimestamp()}"></p>
+                            <div style="width: 80%;">
+                                <p class="info-title">총 게임 시간</p>
+                                <div class="total-timestamp">
+                                    <p class="total-match-timestamp" th:text="${entry.getLastTimestamp()}"></p>
+                                </div>
                             </div>
+                            <!--<div class="user-rank-info">
+                                <div style="display: block;">
+                                    <p class="info-title" th:text="${entry.getQueueType()}"></p>
+                                    <p id="RankTier">Tier: <span th:text="${entry.getTier()}"></span></p>
+                                    <p><span th:text="|${entry.getLeaguePoints()}LP|"></span></p>
+                                    <div class="winrate">
+                                        <span id="win" th:text="|${entry.getWins()}W|"></span>&nbsp;
+                                        <span id="lose" th:text="|${entry.getLosses()}L|"></span>
+                                        <span>&nbsp/&nbsp</span>
+                                        &nbsp;<span class="winrate_result"></span>
+                                    </div>
+                                </div>
+                            </div>-->
                         </div>
 
                         <div class="bulid-start-and-ward">
@@ -282,31 +263,69 @@
                 <!--아이템, 특성 빌드 끝-->
             </section>
 
-            <section class="main-section-probuild" id="section5">
-                <!-- Loop through each match -->
-                <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
-                    <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
-                    <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
-                        <div class="match-user">
-                            <dl id="championName" class="championName">
-                                <dd th:text="${participant.championName}"></dd>
-                            </dl>
-                            <dl id="summonerName">
-                                <dd th:text="${participant.summonerName}"></dd>
-                            </dl>
-                            <div class="match-info">
-                                <dl id="kda">
-                                    <dd id="kills" th:text="${participant.getKills()}"></dd>
-                                    <dd id="deaths" th:text="${participant.getDeaths()}"></dd>
-                                    <dd id="assists" th:text="${participant.getAssists()}"></dd>
-                                    <dd class="kda-result"></dd>
+            <div class="sec5+3">
+                <section class="main-section-probuild" id="section5">
+                    <!-- Loop through each match -->
+                    <div class="match-box" th:each="matchId : ${entry.getMatchIds()}">
+                        <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
+                        <div class="match-user-info" th:each="participant : ${entry.getParticipants()}">
+                            <div class="match-user">
+                                <dl id="championName" class="championName">
+                                    <dd th:text="${participant.championName}"></dd>
                                 </dl>
+                                <dl id="summonerName">
+                                    <dd th:text="${participant.summonerName}"></dd>
+                                </dl>
+                                <div class="match-info">
+                                    <dl id="kda">
+                                        <dd id="kills" th:text="${participant.getKills()}"></dd>
+                                        <dd id="deaths" th:text="${participant.getDeaths()}"></dd>
+                                        <dd id="assists" th:text="${participant.getAssists()}"></dd>
+                                        <dd class="kda-result"></dd>
+                                    </dl>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- End of match loop -->
-            </section>
+                    <!-- End of match loop -->
+                </section>
+
+                <section class="main-section-probuild" id="section3">
+                    <p class="info-title">스킬 빌드</p>
+                    <div class="skill-build" th:each="matchId : ${entry.getMatchIds()}">
+                        <div class="skill-frame" th:each="frames : ${entry.getFrame()}">
+                            <div class="skill-event" th:each="event : ${frames.getEvents()}">
+                                <div class="skill-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
+                                        and event.getType() == 'SKILL_LEVEL_UP'}">
+                                    <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
+                                    <p><span class="skill-slot" th:text="${event.getSkillSlot()}"></span></p>
+                                    <!--<p>timestamp: <span class="build-getTimeStamp"
+                                                        th:text="${event.getTimestamp()}"></span></p>
+                                    <p>type: <span th:text="${event.getType()}"></span></p>-->
+                                    <img class="probuild-itemBuild-arrow" src="/img/arrow/arrow.png"/>
+                                    <!--<p><span class="skill-info" th:text="${event.getSkillSlot()}"></span></p>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="skill-build-info" th:each="matchId : ${entry.getMatchIds()}">
+                            <div class="" th:each="frames : ${entry.getFrame()}">
+                                <div class="" th:each="event : ${frames.getEvents()}">
+                                    <div class="skill-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
+                                        and event.getType() == 'SKILL_LEVEL_UP'}">
+                                        <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
+                                        <p><span class="skill-info" th:text="${event.getSkillSlot()}"></span></p>
+                                        <!--<p>timestamp: <span class="build-getTimeStamp"
+                                                            th:text="${event.getTimestamp()}"></span></p>
+                                        <p>type: <span th:text="${event.getType()}"></span></p>-->
+                                        <img class="probuild-itemBuild-arrow" src="/img/arrow/arrow.png"/>
+                                        <!--<p><span class="skill-info" th:text="${event.getSkillSlot()}"></span></p>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </section>
+            </div>
 
         </div>
     </div>
