@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- 파비콘 -->
+<!--    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> &lt;!&ndash; 파비콘 &ndash;&gt;-->
 
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
@@ -44,15 +44,15 @@
                 리그 오브 레전드
             </span>
         </a>
-        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list/default">
             <span class="btn-two blue mini" id="btnradio2">
-                <img src="/img/Gersang_Icon.png" style="height: 20px"/>
+                <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
             </span>
         </a>
         <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="#">
             <span class="btn-two blue mini" id="btnradio3">
-                <img src="/img/MapleStory_Icon.png" style="height: 20px"/>
+                <img src="/img/Maplestory_Icon.png" style="height: 20px"/>
                 메이플 스토리
             </span>
         </a>
@@ -107,11 +107,9 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">시뮬공유</strong>
+                        <strong class="card-title">매드무비</strong>
                     </div>
-                    <form th:object="${post}" th:action="@{'/post/updatePost/'+ ${post.id} + '/' + ${post.type} }"
-                          method="post"
-                          id="simulUpdateForm">
+                    <form th:object="${post}" th:action="@{'/post/updatePost/'+ ${post.id} + '/' + ${post.type}}" method="post" id="movieUpdateForm">
                         <div class="card-body" style="padding: 40px">
                             <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">
@@ -137,50 +135,17 @@ font-weight: bolder">
                                                name="newTitle"
                                                class="form-control col-8" style="font-size: 1.5rem" required>
                                     </div>
-                                </div>
-                            </div>
-
-                            <!--시뮬 공유 영역-->
-                            <div class="row" style="padding: 0 20px; margin-bottom: 10px">
-                                <div class="col d-flex justify-content-between">
-                                    <div id="championImg" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #00bbab; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--챔피언 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem0" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem1" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem2" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem3" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem4" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem5" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupFileAddon">Upload</span>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+                                            <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                             <!-- 글 작성 에디터 영역 -->
                             <div class="row">
                                 <div class="centered">
@@ -390,9 +355,6 @@ font-weight: bolder">
 
 
 <!--ckeditor 부분-->
-<!--<script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/super-build/ckeditor.js"></script>-->
-<!--<script src="/js/ckeditorscript.js"></script>-->
-
 <!--ckeditor 부분 종료 -->
 
 
@@ -429,7 +391,7 @@ font-weight: bolder">
 
 
 <script>
-    document.getElementById('simulUpdateForm').addEventListener('submit', function(event) {
+    document.getElementById('movieUpdateForm').addEventListener('submit', function(event) {
         event.preventDefault(); // 기본 동작 중지
         var formData = new FormData(this); // 폼 데이터 가져오기
         var jsonObject = {}; // 폼 데이터를 JSON 객체로 변환하기 위한 빈 객체 생성
