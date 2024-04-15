@@ -2,6 +2,8 @@
 package com.simulation.LoLItemSimulation.dto;
 
 
+
+
 import java.util.List;
 
 public class LeagueEntryDTO {
@@ -40,18 +42,83 @@ public class LeagueEntryDTO {
 
 
     // MATCH-V5 matchId가 필요
-    private List<MatchDetailDTO.Participant> participants;
+    private List<ParticipantDTO> participants;
+
+    public List<ParticipantDTO> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<ParticipantDTO> participants) {
+        this.participants = participants;
+    }
 
     private String championName;
     private int kills;
     private int deaths;
     private int assists;
-    private String teamPosition;
     private List<Integer> championId;
     private int championPoints;
-    private int summoner1Id;
-    private int summoner2Id;
-    private int totalDamageDealt;
+
+    private int perk;
+    private int style;
+    private int defense;
+    private int flex;
+    private int offense;
+    private List<PerkStatsDTO> statPerks;
+    private List<PerkStyleDTO> styles;
+    private List<PerkStyleSelectionDTO> selections;
+
+    public int getPerk() {
+        return perk;
+    }
+
+    public void setPerk(int perk) {
+        this.perk = perk;
+    }
+
+    public int getStyle() {
+        return style;
+    }
+
+    public void setStyle(int style) {
+        this.style = style;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public int getFlex() {
+        return flex;
+    }
+
+    public void setFlex(int flex) {
+        this.flex = flex;
+    }
+
+    public int getOffense() {
+        return offense;
+    }
+
+    public void setOffense(int offense) {
+        this.offense = offense;
+    }
+
+    public List<PerkStatsDTO> getStatPerks() {
+        return statPerks;
+    }
+
+    public List<PerkStyleDTO> getStyles() {
+        return styles;
+    }
+
+    public List<PerkStyleSelectionDTO> getSelections() {
+        return selections;
+    }
 
     public String getChampionName() {
         return championName;
@@ -77,14 +144,6 @@ public class LeagueEntryDTO {
         this.deaths = deaths;
     }
 
-    public String getTeamPosition() {
-        return teamPosition;
-    }
-
-    public void setTeamPosition(String teamPosition) {
-        this.teamPosition = teamPosition;
-    }
-
     public String getLeagueId() {
         return leagueId;
     }
@@ -104,7 +163,6 @@ public class LeagueEntryDTO {
     public String getSummonerName() {
         return summonerName;
     }
-
     public void setSummonerName(String summonerName) {
         this.summonerName = summonerName;
     }
@@ -180,7 +238,6 @@ public class LeagueEntryDTO {
     public void setChampionId(List<Integer> championId) {
         this.championId = championId;
     }
-
     public int getChampionPoints() {
         return championPoints;
     }
@@ -189,22 +246,33 @@ public class LeagueEntryDTO {
         this.championPoints = championPoints;
     }
 
-
-    public int getTotalDamageDealt() {
-        return totalDamageDealt;
+    public void setStatPerks(List<PerkStatsDTO> statPerks) {
+        this.statPerks = statPerks;
     }
 
-    public void setTotalDamageDealt(int totalDamageDealt) {
-        this.totalDamageDealt = totalDamageDealt;
+    public void setStyles(List<PerkStyleDTO> styles) {
+        this.styles = styles;
     }
 
-    public List<MatchDetailDTO.Participant> getParticipants() {
-        return participants;
+    public void setSelections(List<PerkStyleSelectionDTO> selections) {
+        this.selections = selections;
     }
 
-    public void setParticipants(List<MatchDetailDTO.Participant> participants) {
+    public void setEvents(List<MatchTimelineDTO.Event> events) {
+        this.events = events;
+    }
 
-        this.participants = participants;
+
+    public void setLevelUpType(String levelUpType) {
+        this.levelUpType = levelUpType;
+    }
+
+    public int getSkillSlot() {
+        return skillSlot;
+    }
+
+    public void setSkillSlot(int skillSlot) {
+        this.skillSlot = skillSlot;
     }
 
 
@@ -218,7 +286,6 @@ public class LeagueEntryDTO {
     public void setInfo(List<MatchTimelineDTO.Info> info) {
         this.info = info;
     }
-
     private List<MatchTimelineDTO.Frame> frames;
 
     public List<MatchTimelineDTO.Frame> getFrame() {
@@ -250,7 +317,6 @@ public class LeagueEntryDTO {
     public void setParticipantId(int participantId) {
         this.participantId = participantId;
     }
-
     private int itemId;
     private int beforeId;
     private int afterId;
@@ -299,8 +365,8 @@ public class LeagueEntryDTO {
     }
 
     public void setLastTimestamp(int lastTimestamp) {
-        /*int min = lastTimestamp / (1000 * 60);
-        int sec = (lastTimestamp / 1000) % 60;*/
+        int min = lastTimestamp / (1000 * 60);
+        int sec = (lastTimestamp / 1000) % 60;
         this.lastTimestamp = lastTimestamp;
     }
 

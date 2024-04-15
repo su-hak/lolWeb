@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var userRankInfo = document.querySelectorAll('.user-rank-info');
     var winRate = document.querySelectorAll('.winrate');
 
-    //
+    // kda
     ddEle.forEach(function (ddEle) {
         var kills = parseFloat(ddEle.querySelector('#kills').textContent);
         var deaths = parseFloat(ddEle.querySelector('#deaths').textContent);
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         winrateResult.textContent = winRate.toFixed(1) + "%";
     });
 
-    //
+    // match 플레이어들 이미지, 이름, kda
     entries.forEach(function (entry) {
         var summonerName = entry.querySelector('#nickName span').textContent;
 
@@ -59,15 +59,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 var whatUseChamp = entry.querySelector('.what-use-champ');
 
                 // 'p' 요소 다음 위치에 추가
-                var championImgSrc = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championName + ".png";
+                var championImgSrc = "https://ddragon.leagueoflegends.com/cdn/14.7.1/img/champion/" + championName + ".png";
                 var championImg = document.createElement('img');
                 championImg.src = championImgSrc;
-                championImg.alt = championName + " 이미지";
+                championImg.alt = championName;
                 championImg.id = "participant_champion";
 
                 var pElement = whatUseChamp.querySelector('#nickName');
                 pElement.insertAdjacentElement('beforebegin', championImg);
                 // whatUseChamp.insertBefore(championImg, pElement.nextSibling);
+
             }
         });
     });
@@ -107,6 +108,8 @@ document.addEventListener('DOMContentLoaded', function () {
     getChampionImg();
     getMostChampImg();
     getItemImg();
+    getRuneImg();
+    getSkillImg();
     wardItem();
     totalTimestamp();
     controlWard();
@@ -134,6 +137,9 @@ function calculateWinrate(win, lose) {
 // 아이템 빌드 마지막 화살표 제거
 $(document).ready(function () {
     $('.build-all-item').each(function () {
+        $(this).find('.probuild-itemBuild-arrow:last').css('display', 'none');
+    });
+    $('.skill-build').each(function () {
         $(this).find('.probuild-itemBuild-arrow:last').css('display', 'none');
     });
 });
@@ -276,7 +282,7 @@ function getChampionImg() {
         // 이미지 엘리먼트를 생성하고 속성을 설정
         var championImg = $("<img>", {
             src: championImgSrc,
-            alt: championName + " 이미지",
+            alt: championName,
             class: "championName-img"
         });
         // 해당 요소에 이미지 추가
@@ -312,7 +318,7 @@ function getMostChampImg() {
     });
 }
 
-// 빌드
+// 아이템 빌드 이미지
 function getItemImg() {
     $('.match-time-line').each(function () {
         // 빌드 아이템 이미지
@@ -344,7 +350,7 @@ function getItemImg() {
         if (timeStampCalcSec >= 300) {
             var timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분";
         }else if (timeStampCalcSec >= 60) {
-             timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분 " + (timeStampCalcSec % 60).toFixed(0) + "초";
+            timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분 " + (timeStampCalcSec % 60).toFixed(0) + "초";
         }   else if (timeStampCalcSec < 60) {
             timeStampCalcMin = "1분 미만";
         }
@@ -352,6 +358,116 @@ function getItemImg() {
         console.log(timeStampCalcMin)*/
         timeStampSpan.empty().append(timeStampCalcMin)
     });
+}
+
+// 룬 빌드 이미지
+function getRuneImg() {
+    $('.rune-styles').each(function () {
+        var runeText = $(this).find('.rune-title-img').text().replace(/"/g, '');
+
+        const runeImg = new Image();
+        runeImg.src = './img/perk-images/' + runeText + '.png';
+
+        var rune = $(this).find('.rune-title-img');
+
+        rune.empty().append(runeImg);
+    });
+
+    $('.rune-perks').each(function () {
+        var runeText = $(this).find('.rune-img').text().replace(/"/g, '');
+
+        const runeImg = new Image();
+        runeImg.src = './img/perk-images/' + runeText + '.png';
+
+        var rune = $(this).find('.rune-img');
+
+        rune.empty().append(runeImg);
+    });
+
+    $('.rune-stat').each(function () {
+        $(this).find('.rune-stat-img').each(function () {
+            var runeText = $(this).text().trim();
+            if (runeText !== "") {
+                const runeImg = new Image();
+                runeImg.src = './img/perk-images/' + runeText + '.png';
+
+                $(this).empty().append(runeImg);
+            }
+        });
+    });
+}
+
+
+function getSkillImg() {
+    $('.match').each(function () {
+        const championName = $(this).find('#participant_champion').attr('alt');
+        $.ajax({
+            type: "get",
+            url: "https://ddragon.leagueoflegends.com/cdn/14.7.1/data/en_US/champion/" + championName + ".json",
+            success: function (data) {
+                const spells = Object.values(data.data).flatMap(champion => champion.spells);
+                const spellNames = spells.map(spell => spell.id);
+
+                $(this).find('.skill-time-line').each(function (index) {
+                    const skillIdSpan = $(this).find('.skill-slot');
+                    var skillId = skillIdSpan.text().replace(/"/g, '');
+                    const skillInfoSpan = $(this).find('.skill-info');
+                    var skillInfo = skillInfoSpan.text().replace(/"/g, '');
+
+                    var spellName;
+
+                    if (skillId == 1) {
+                        spellName = spellNames[0];
+                        skillId = "Q";
+                    } else if (skillId == 2) {
+                        spellName = spellNames[1];
+                        skillId = "W";
+                    } else if (skillId == 3) {
+                        spellName = spellNames[2];
+                        skillId = "E";
+                    } else if (skillId == 4) {
+                        spellName = spellNames[3];
+                        skillId = "R";
+                    }
+
+                    if (skillInfo == 1) {
+                        spellName = spellNames[0];
+                        skillInfo = "Q";
+                    } else if (skillInfo == 2) {
+                        spellName = spellNames[1];
+                        skillInfo = "W";
+                    } else if (skillInfo == 3) {
+                        spellName = spellNames[2];
+                        skillInfo = "E";
+                    } else if (skillInfo == 4) {
+                        spellName = spellNames[3];
+                        skillInfo = "R";
+                    }
+
+                    for (let i = 0; i < skillInfo.length; i++) {
+                        console.log(skillInfo);
+                    }
+
+                    const skillImg = $("<img>", {
+                        src: "https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/" + spellName + ".png",
+                        alt: spellName,
+                    });
+
+                    skillIdSpan.text(skillId);
+                    skillIdSpan.append(skillImg);
+
+                    skillInfoSpan.text(skillInfo);
+                    skillInfoSpan.append(skillImg);
+                });
+            }.bind(this),
+// Ajax 요청이 완료되고 실행되는 콜백 함수 내에서는 this를 올바르게 참조하기 위해 bind() 함수를 사용
+        });
+
+    });
+}
+
+function setSkillImg() {
+
 }
 
 function wardItem() {

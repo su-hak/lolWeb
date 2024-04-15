@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "";
+    private final String apiKey = "RGAPI-8b71a14f-45a1-456c-8de4-2ab3dd92d520";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -64,15 +64,15 @@ public class ProbuildService {
     // 소환사 이름을 기반으로 puuid를 가져오는 메서드
     private void setPuuidBySummonerName(LeagueEntryDTO entry) {
         RestTemplate restTemplate = new RestTemplate();
-        String summonerName = entry.getSummonerName();
-        String url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerName + "?api_key=" + apiKey;
+        String summonerId = entry.getSummonerId();
+        String url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/" + summonerId + "?api_key=" + apiKey;
         try {
             SummonerDTO summonerDTO = restTemplate.getForObject(url, SummonerDTO.class);
             entry.setPuuid(summonerDTO.getPuuid());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("summonerName ::" + url);
+        System.out.println("summonerId ::" + url);
     }
 
     private void setChampionPoints(LeagueEntryDTO entryDTO) {
@@ -134,20 +134,49 @@ public class ProbuildService {
                 String url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchIds + "?api_key=" + apiKey;
 
                 try {
-                    MatchDetailDTO matchDetail = restTemplate1.getForObject(url, MatchDetailDTO.class);
+                    MatchDTO matchDetail = restTemplate1.getForObject(url, MatchDTO.class);
 
                     if (matchDetail != null && matchDetail.getInfo() != null && matchDetail.getInfo().getParticipants() != null) {
                         // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
-                        List<MatchDetailDTO.Participant> participants = matchDetail.getInfo().getParticipants();
-                        for (MatchDetailDTO.Participant participant : participants) {
+                        List<ParticipantDTO> participants = matchDetail.getInfo().getParticipants();
+                        for (ParticipantDTO participant : participants) {
                             String summonerName = participant.getSummonerName();
+
+                            if (participant.getPuuid().equals(pro.getPuuid())) {
+                                pro.setSummonerName(summonerName);
+                                /*System.out.println("target :: " + pro.getSummonerName());*/
+                            }
+
                             // 만약 summonerName이 빈 문자열이면 "닉네임 알 수 없음"으로 설정
                             if (summonerName.isEmpty()) {
                                 participant.setSummonerName("\"알 수 없는 소환사\"");
                             }
+
+
+                                // 룬 페이지 불러오기
+                                if (summonerName.equals(pro.getSummonerName())) {
+                                    PerkStatsDTO statPerks = participant.getPerks().getStatPerks();
+
+                                    pro.setDefense(statPerks.getDefense());
+                                    pro.setFlex(statPerks.getFlex());
+                                    pro.setOffense(statPerks.getOffense());
+
+                                    List<PerkStyleDTO> styles = participant.getPerks().getStyles();
+                                    for (PerkStyleDTO style : styles) {
+                                        List<PerkStyleSelectionDTO> selections = style.getSelections();
+                                        pro.setStyle(style.getStyle());
+                                        for (PerkStyleSelectionDTO selection : selections) {
+                                            pro.setPerk(selection.getPerk());
+                                            pro.setSelections(selections);
+                                            /*System.out.println("셀렉션 내용 확인 :: " + pro.getPerk());*/
+                                        }
+                                        pro.setStyles(styles);
+                                    }
+                                }
                         }
                         pro.setParticipants(participants);
                     }
+                    /*System.out.println("셀렉션 확인 :: " + pro.getSelections());*/
                     System.out.println("Match url ::" + url);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -217,6 +246,9 @@ public class ProbuildService {
                                         for (MatchTimelineDTO.Event event : events) {
                                             if (event.getParticipantId() == targetId) {
 
+                                                entry.setSkillSlot(event.getSkillSlot());
+                                                /*System.out.println("Id ::"+entry.getParticipantId());
+                                                System.out.println("skill ::"+entry.getSkillSlot());*/
                                                 entry.setTimestamp(event.getTimestamp());
                                                 entry.setType(event.getType());
                                                 entry.setEvent(events);
@@ -257,7 +289,7 @@ public class ProbuildService {
             if (event.getParticipantId() == targetId) {
                 if(event.getBeforeId() != 0 && event.getBeforeId() != 2055){
                     int beforeId = event.getBeforeId();
-                    System.out.println("비포아이디 : " + beforeId);
+                    /*System.out.println("비포아이디 : " + beforeId);*/
                     int timeStamp = event.getTimestamp(); // before의 timestamp
 
                     removed.add(event);
@@ -266,8 +298,8 @@ public class ProbuildService {
                     for(MatchTimelineDTO.Event inevent : events){
 //                        if(inevent.getItemId() == beforeId ){
                         if(inevent.getItemId() == beforeId && inevent.getTimestamp() <= timeStamp ){
-                            System.out.println(inevent.getItemId() + " ::: " + event.getBeforeId());
-                            System.out.println(inevent.getTimestamp() + " ::: " + event.getTimestamp());
+                            /*System.out.println(inevent.getItemId() + " ::: " + event.getBeforeId());
+                            System.out.println(inevent.getTimestamp() + " ::: " + event.getTimestamp());*/
                             //events.remove(events.indexOf(inevent));
                             removed.add(inevent);
 
