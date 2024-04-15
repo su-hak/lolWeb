@@ -48,18 +48,25 @@ public class PostController {
   @Autowired
   private PostLikeService postLikeService;
 
+  @Qualifier("postHateServiceImpl")
   @Autowired
-  private CommentRepository commentRepository;
-  @Autowired
-  private CommentService commentService;
-  @Autowired
-  private CommentLikeService commentLikeService;
+  private PostHateService postHateService;
 
   @Autowired
   private PostLikeRepository postLikeRepository;
 
   @Autowired
   private PostHateRepository postHateRepository;
+
+  @Autowired
+  private CommentRepository commentRepository;
+
+  @Autowired
+  private CommentService commentService;
+
+  @Autowired
+  private CommentLikeService commentLikeService;
+
 
   @Autowired
   private PhotoUtil photoUtil;
@@ -382,7 +389,7 @@ public class PostController {
 
 
   @GetMapping("/read/{type}/{postId}")
-  public String readPost(@PathVariable String type,@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
+  public String readPost(@PathVariable String type, @PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
                          @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                          @RequestParam(name = "sort", required = false, defaultValue = "id") String sort) {
     // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
@@ -413,33 +420,54 @@ public class PostController {
     List<CommentLikeInfo> commentLikeInfoList = new ArrayList<>();
 
     String clientIpAddress = getClientIP(request);
-    log.info("client IP " +  clientIpAddress);
+    log.info("client IP " + clientIpAddress);
     for (Comment comment : commentDtoList) {
       boolean isLiked = commentLikeService.isCommentLikedByIp(comment.getId(), clientIpAddress);
       commentLikeInfoList.add(new CommentLikeInfo(comment, isLiked));
     }
+
+    // 사용자가 해당 게시글을 좋아요했는지 여부를 가져옴
+    boolean isPostLiked = postLikeService.isPostLikedByIp(postId, clientIpAddress);
+    boolean isPostHated = postHateService.isPostHatedByIp(postId, clientIpAddress);
 
     // 모델에 댓글 정보와 게시글 정보를 추가하여 게시글 읽기 페이지로 반환
     model.addAttribute("comment", commentLikeInfoList);
     model.addAttribute("post", postDto);
     model.addAttribute("page", page);
     model.addAttribute("sort", sort);
-    if(type.equals("movie")){
+    model.addAttribute("isPostLiked", isPostLiked); // 게시글 좋아요 상태를 모델에 추가
+    model.addAttribute("isPostHated", isPostHated); // 게시글 싫어요 상태를 모델에 추가
 
+    if (type.equals("movie")) {
       return "movieRead";
     } else if (type.equals("poll")) {
       return "pollRead";
-    } else if (type.equals("simulation")){
+    } else if (type.equals("simulation")) {
       return "simulRead";
     } else if (type.equals("roulette")) {
       return "rouletteRead";
-    } else{
+    } else {
       return "readPost";
     }
   }
 
+  @GetMapping("/{postId}/like/status")
+  public ResponseEntity<Boolean> getLikeStatus(@PathVariable Long postId, HttpServletRequest request) {
+    String ipAddress = getClientIP(request);
+    boolean isLiked = postLikeService.isPostLikedByIp(postId, ipAddress);
+    return ResponseEntity.ok(isLiked);
+  }
 
-//  @GetMapping("/simulRead/{postId}")
+  @GetMapping("/{postId}/hate/status")
+  public ResponseEntity<Boolean> getHateStatus(@PathVariable Long postId, HttpServletRequest request) {
+    String ipAddress = getClientIP(request);
+    boolean isHated = postHateService.isPostHatedByIp(postId, ipAddress);
+    return ResponseEntity.ok(isHated);
+  }
+
+
+
+  //  @GetMapping("/simulRead/{postId}")
 //  public String simulRead(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
 //                             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
 //                             @RequestParam(name = "sort", required = false, defaultValue = "id") String sort) {
@@ -628,6 +656,75 @@ public class PostController {
     return "readSearchPost";
   }
 
+  // 게시글 좋아요
+  @PostMapping("/{postId}/like")
+  public ResponseEntity<Boolean> addOrRemoveLike(@PathVariable Long postId, @RequestBody Map<String, String> requestBody) {
+    String ipAddress = getClientIP(request);
+
+    Post post = postRepository.findById(postId).orElse(null);
+
+    if (post == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    PostLike existingLike = postLikeRepository.findByPostIdAndIpAddress(postId, ipAddress);
+    PostHate existingHate = postHateRepository.findByPostIdAndIpAddress(postId, ipAddress);
+
+    if (existingLike != null) {
+      // 이미 좋아요를 눌렀으면 삭제
+      postLikeRepository.delete(existingLike);
+      return ResponseEntity.ok(false); // Like removed
+    } else {
+      // 좋아요 추가
+      PostLike newLike = new PostLike();
+      newLike.setPost(post);
+      newLike.setIpAddress(ipAddress);
+      postLikeRepository.save(newLike);
+      return ResponseEntity.ok(true); // Hate added
+    }
+
+  }
+  // 게시글 싫어요
+  @PostMapping("/{postId}/hate")
+  public ResponseEntity<Boolean> addOrRemoveHate(@PathVariable Long postId, @RequestBody Map<String, String> requestBody) {
+    String ipAddress = getClientIP(request);
+
+    Post post = postRepository.findById(postId).orElse(null);
+
+    if (post == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    PostHate existingHate = postHateRepository.findByPostIdAndIpAddress(postId, ipAddress);
+
+    if (existingHate != null) {
+      // 이미 싫어요를 눌렀으면 삭제
+      postHateRepository.delete(existingHate);
+      return ResponseEntity.ok(false); // Like removed
+    } else {
+      // 싫어요 추가
+      PostHate newHate = new PostHate();
+      newHate.setPost(post);
+      newHate.setIpAddress(ipAddress);
+      postHateRepository.save(newHate);
+      return ResponseEntity.ok(true); // Like added
+    }
+  }
+
+  // 게시글 좋아요 수 카운트
+  @GetMapping("/{postId}/like/count")
+  public ResponseEntity<Integer> getPostLikeCount(@PathVariable Long postId) {
+    int likeCount = postService.getPostLikeCount(postId);
+    return ResponseEntity.ok(likeCount);
+  }
+
+  // 게시글 싫어요 수 카운트
+  @GetMapping("/{postId}/hate/count")
+  public ResponseEntity<Integer> getPostHateCount(@PathVariable Long postId) {
+    int hateCount = postService.getPostHateCount(postId);
+    return ResponseEntity.ok(hateCount);
+  }
+
 
 
 
@@ -720,74 +817,6 @@ public class PostController {
     return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
   }
 
-  // 게시글 좋아요
-  @PostMapping("/{postId}/like")
-  public ResponseEntity<Boolean> addOrRemoveLike(@PathVariable Long postId, @RequestBody Map<String, String> requestBody) {
-    String ipAddress = getClientIP(request);
-
-    Post post = postRepository.findById(postId).orElse(null);
-
-    if (post == null) {
-      return ResponseEntity.notFound().build();
-    }
-
-    PostLike existingLike = postLikeRepository.findByPostIdAndIpAddress(postId, ipAddress);
-
-    if (existingLike != null) {
-      // 이미 좋아요를 눌렀으면 삭제
-      postLikeRepository.delete(existingLike);
-      return ResponseEntity.ok(false); // Like removed
-    } else {
-      // 좋아요 추가
-      PostLike newLike = new PostLike();
-      newLike.setPost(post);
-      newLike.setIpAddress(ipAddress);
-      postLikeRepository.save(newLike);
-      return ResponseEntity.ok(true); // Like added
-    }
-  }
-  // 게시글 싫어요
-  @PostMapping("/{postId}/hate")
-  public ResponseEntity<Boolean> addOrRemoveHate(@PathVariable Long postId, @RequestBody Map<String, String> requestBody) {
-    String ipAddress = getClientIP(request);
-
-    Post post = postRepository.findById(postId).orElse(null);
-
-    if (post == null) {
-      return ResponseEntity.notFound().build();
-    }
-
-    PostHate existingHate = postHateRepository.findByPostIdAndIpAddress(postId, ipAddress);
-
-    if (existingHate != null) {
-      // 이미 좋아요를 눌렀으면 삭제
-      postHateRepository.delete(existingHate);
-      return ResponseEntity.ok(false); // Like removed
-    } else {
-      // 좋아요 추가
-      PostHate newHate = new PostHate();
-      newHate.setPost(post);
-      newHate.setIpAddress(ipAddress);
-      postHateRepository.save(newHate);
-      return ResponseEntity.ok(true); // Like added
-    }
-  }
-
-  // 게시글 좋아요 수 카운트
-  @GetMapping("/{postId}/like/count")
-  public ResponseEntity<Integer> getPostLikeCount(@PathVariable Long postId) {
-    int likeCount = postService.getPostLikeCount(postId);
-    return ResponseEntity.ok(likeCount);
-  }
-
-  // 게시글 싫어요 수 카운트
-  @GetMapping("/{postId}/hate/count")
-  public ResponseEntity<Integer> getPostHateCount(@PathVariable Long postId) {
-    int hateCount = postService.getPostHateCount(postId);
-    return ResponseEntity.ok(hateCount);
-  }
-
-
 
   private Post convertDtoToEntity(PostDto postDto) {
     Post post = new Post();
@@ -795,11 +824,6 @@ public class PostController {
     post.setContent(postDto.getContent());
     return post;
   }
-
-
-
-
-
 
 
   // 클라이언트의 실제 IP 주소를 가져오는 메서드
@@ -824,4 +848,4 @@ public class PostController {
   }
 
 
-}
+};
