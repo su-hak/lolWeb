@@ -93,7 +93,7 @@ font-weight: bolder">
                     <a class="nav-link navMenu" href="/probuild">프로빌드</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link navMenu" href="/post/list">커뮤니티</a>
+                    <a class="nav-link navMenu" href="/post/list/default">커뮤니티</a>
                 </li>
             </ul>
         </div>
@@ -131,10 +131,10 @@ font-weight: bolder">
                                         <input type="text" id="title" class="form-control col-8" style="font-size:
                                     1.5rem" th:field="*{title}">
                                     </div>
-                                    <div>
-                                        <button id="pollBtn" class="btn btn-primary" type="button"
-                                                data-toggle="modal" data-target="#pollModal">투표</button>
-                                    </div>
+<!--                                    <div>-->
+<!--                                        <button id="pollBtn" class="btn btn-primary" type="button"-->
+<!--                                                data-toggle="modal" data-target="#pollModal">투표</button>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                             <!-- 글 작성 에디터 영역 -->
@@ -275,26 +275,26 @@ font-weight: bolder">
             </div>
         </div>
         <!-- 투표 모달창 띄우기 -->
-        <div class="modal fade" id="pollModal" tabindex="-1" role="dialog"
-             aria-labelledby="pollModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="pollModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="modal fade" id="pollModal" tabindex="-1" role="dialog"-->
+<!--             aria-labelledby="pollModalLabel" aria-hidden="true">-->
+<!--            <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title" id="pollModalLabel">Modal title</h5>-->
+<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                            <span aria-hidden="true">&times;</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        ...-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                        <button type="button" class="btn btn-primary">Save changes</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </main>
 </div>
 <!-- 메인영역 E -->

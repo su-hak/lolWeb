@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- 파비콘 -->
+<!--    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> &lt;!&ndash; 파비콘 &ndash;&gt;-->
 
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
@@ -105,14 +105,15 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">자유게시판</strong>
+                        <strong class="card-title">룰렛게시판</strong>
                     </div>
-                    <div class="card-body" style="padding: 40px">
-                        <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
-                        <form th:object="${post}" th:action="@{'/post/updatePost/'+ ${post.id} + '/' + ${post.type}}" method="post" id="updatePostForm">
+                    <form th:object="${post}" th:action="@{'/post/updatePost/'+ ${post.id} + '/' + ${post.type}}"
+                          method="post" id="rouletteUpdateForm">
+                        <div class="card-body" style="padding: 40px">
+                            <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">
                                 <div class="col-md-6 d-flex">
-                                    <div class="mb-3 d-flex" style="gap: 10px">
+                                    <div class="form-group mb-3 d-flex" style="gap: 10px">
                                         <label for="nickname">닉네임</label>
                                         <!-- 닉네임 표시 -->
                                         <input th:field="*{nickname}" th:value="${post.nickname}" type="text" id="nickname" name="nickname"
@@ -131,7 +132,7 @@ font-weight: bolder">
                                         <label for="newTitle">제　목</label>
                                         <input th:field="*{title}" th:value="${post.title}" type="text" id="newTitle"
                                                name="newTitle"
-                                               class="form-control col-8" style="font-size: 1.5rem" required>
+                                               class="form-control col-8" style="font-size: 1.5rem" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -144,6 +145,7 @@ font-weight: bolder">
                                                       id="editor"
                                                       name="newContent"
                                                       style="min-height:500px;"></textarea>
+                                            <!--에디터 설정-->
                                             <!--                                            <script>-->
                                             <!--                                                let myEditor;-->
 
@@ -269,15 +271,16 @@ font-weight: bolder">
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" th:value="${post.id}" id="postId" name="postId">
-                            <input type="hidden" th:value="${post.type}" id="postType" name="postType">
-                        </form>
-                    </div>
+                        </div>
+                        <input type="hidden" th:value="${post.id}" id="postId" name="postId">
+                        <input type="hidden" th:value="${post.type}" id="postType" name="postType">
+                    </form>
                 </div>
             </div>
         </div>
     </main>
 </div>
+<!-- 메인영역 E -->
 
 
 <!-- 푸터영역 -->
@@ -303,6 +306,7 @@ font-weight: bolder">
 <!-- 푸터영역 E -->
 
 
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         crossorigin="anonymous"></script>
@@ -318,11 +322,7 @@ font-weight: bolder">
 
 
 <!--ckeditor 부분-->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/super-build/ckeditor.js"></script>
-<!--<script src="/ckeditor5/build/ckeditor.js"></script>-->
-<script src="/js/ckeditorscript.js"></script>
 <!--ckeditor 부분 종료 -->
-
 
 
 <!--<script>  // 스크롤을 위로 올리는 스티키바-->
@@ -358,7 +358,7 @@ font-weight: bolder">
 
 
 <script>
-    document.getElementById('updatePostForm').addEventListener('submit', function(event) {
+    document.getElementById('rouletteUpdateForm').addEventListener('submit', function(event) {
         event.preventDefault(); // 기본 동작 중지
         var formData = new FormData(this); // 폼 데이터 가져오기
         var jsonObject = {}; // 폼 데이터를 JSON 객체로 변환하기 위한 빈 객체 생성
@@ -402,6 +402,7 @@ font-weight: bolder">
         });
     });
 </script>
+
 
 </body>
 

@@ -141,42 +141,103 @@ font-weight: bolder">
                             </div>
 
                             <!--시뮬 공유 영역-->
-                            <div class="row" style="padding: 0 20px; margin-bottom: 10px">
+                            <div class="row" style="padding: 0 20px; ">
                                 <div class="col d-flex justify-content-between">
-                                    <div id="championImg" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #00bbab; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
+                                    <div id="championImg" class="btn-group dropright" style="width: 70px; height: 70px; border: solid
+                                    2px #00bbab; ">
                                         <!--챔피언 아이콘 이미지-->
+                                        <button class="btn-blue" type="button" id="champion-btn"
+                                                data-toggle="dropdown" style="width: 66px; height: 66px; ">
+                                            <img class="portrait img-fluid mx-auto champion-img" src="" name="" id="left-champ-portrait"
+                                                 data-toggle="tooltip" data-placement="bottom" />
+                                        </button>
+                                        <!-- 왼쪽 챔피언 목록 -->
+                                        <div class="dropdown-menu" id="champion-dropdown">
+                                            <!-- 왼쪽 챔피언 목록 속 검색창 -->
+                                            <input class="form-control mx-auto my-2 sticky" type="text" placeholder="챔피언 검색"
+                                                   id="champion-search" />
+                                            <div id="champion-list" class="mx-auto" style="">
+                                                <!-- 왼쪽 챔피언 목록이 들어갈 자리 -->
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div id="simulItem0" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem1" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem2" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem3" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem4" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
-                                    </div>
-                                    <div id="simulItem5" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                        <!--아이템 아이콘 이미지-->
+                                    <!--                                    <div id="simulItem0" class="item_pan dropright" style="width: 70px; height: 70px; border: solid-->
+                                    <!--                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;-->
+                                    <!--                                    justify-content: center; object-fit: cover;">-->
+                                    <!--                                        &lt;!&ndash;아이템 아이콘 이미지&ndash;&gt;-->
+                                    <!--                                        <button type="button" id="iBox0" class="item_box" data-idx ="0">-->
+                                    <!--                                            <iconify-icon  icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>-->
+                                    <!--                                        </button>-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <div id="simulItem1" class="item_pan dropright" style="width: 70px; height: 70px; border: solid-->
+                                    <!--                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;-->
+                                    <!--                                    justify-content: center; object-fit: cover;">-->
+                                    <!--                                        &lt;!&ndash;아이템 아이콘 이미지&ndash;&gt;-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <div id="simulItem2" class="item_pan dropright" style="width: 70px; height: 70px; border: solid-->
+                                    <!--                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;-->
+                                    <!--                                    justify-content: center; object-fit: cover;">-->
+                                    <!--                                        &lt;!&ndash;아이템 아이콘 이미지&ndash;&gt;-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <div id="simulItem3" class="item_pan dropright" style="width: 70px; height: 70px; border: solid-->
+                                    <!--                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;-->
+                                    <!--                                    justify-content: center; object-fit: cover;">-->
+                                    <!--                                        &lt;!&ndash;아이템 아이콘 이미지&ndash;&gt;-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <div id="simulItem4" class="item_pan dropright" style="width: 70px; height: 70px; border: solid-->
+                                    <!--                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;-->
+                                    <!--                                    justify-content: center; object-fit: cover;">-->
+                                    <!--                                        &lt;!&ndash;아이템 아이콘 이미지&ndash;&gt;-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <div id="simulItem5" class="item_pan dropright" style="width: 70px; height: 70px; border: solid-->
+                                    <!--                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;-->
+                                    <!--                                    justify-content: center; object-fit: cover;">-->
+                                    <!--                                        &lt;!&ndash;아이템 아이콘 이미지&ndash;&gt;-->
+                                    <!--                                    </div>-->
+                                    <!-- 아이템 선택 전체창 -->
+                                    <div class="item_pan dropdown" id="plusItem" style="gap: 20px">
+                                        <!-- 아이템 목록 전체창 -->
+                                        <div class="dropdown-menu dropdown-multicol" id="left-item-filter-options"
+                                             aria-labelledby="dropdownMenuButton"
+                                             style="display: none; margin: 0px">
+                                            <!-- 아이템 검색창 -->
+                                            <input class="form-control mx-auto my-0 sticky" type="text" placeholder="아이템 검색..." id="left-item-search" autocomplete="on">
+                                            <!-- 아이템 목록창 -->
+                                            <div class="row mx-auto" id="item-list">
+                                                <button type="button" class="itemRemoveBtn" id="emptyBtn" onclick="deleteItem()">delete</button>
+                                            </div>
+                                        </div>
+                                        <!-- 아이템 선택 개별창 -->
+                                        <div>
+                                            <button type="button" id="iBox0" class="item_box" data-idx ="0">
+                                                <iconify-icon  icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="iBox1" class="item_box" data-idx ="1">
+                                                <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="iBox2" class="item_box" data-idx ="2">
+                                                <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="iBox3" class="item_box" data-idx ="3">
+                                                <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="iBox4" class="item_box" data-idx ="4">
+                                                <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="iBox5" class="item_box" data-idx ="5">
+                                                <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +373,7 @@ font-weight: bolder">
                                         <button type="submit" id="submitBtn" class="btn btn-success col" style="font-size: medium"
                                                 value="Modify">
                                             글수정</button>
-                                        <button type="button" class="btn btn-secondary col" style="font-size: medium; right: 15px"
+                                        <button type="button" class="btn btn-secondary col" style="font-size: medium;"
                                                 onclick="history.back();">취　소
                                         </button>
                                     </div>
@@ -384,7 +445,7 @@ font-weight: bolder">
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <!--<script src="/js/jquery.sticky.js"></script>-->
-<script th:src="@{/js/test.js}"></script> <!-- 모든 기능 이벤트 -->
+<script th:src="@{/js/simulpost.js}"></script> <!-- 모든 기능 이벤트 -->
 <script th:src="@{/js/decimal.js}"></script> <!-- 계산식 -->
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
