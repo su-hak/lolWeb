@@ -90,7 +90,7 @@ font-weight: bolder">
                     <a class="nav-link navMenu" href="/probuild">프로빌드</a>
                 </li>
                 <li class="navMenu nav-item">
-                    <a class="nav-link navMenu" href="/post/list">커뮤니티</a>
+                    <a class="nav-link navMenu" href="/post/list/default">커뮤니티</a>
                 </li>
             </ul>
         </div>
@@ -133,42 +133,44 @@ font-weight: bolder">
                         <div class="row">
                             <div class="col">
                                 <!--시뮬 공유 영역-->
-                                <div class="row" style="padding: 0 20px; margin-bottom: 10px">
+                                <div class="row" style="padding: 0 20px; ">
                                     <div class="col d-flex justify-content-between">
                                         <div id="championImg" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #00bbab; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
+                                    2px #00bbab; ">
                                             <!--챔피언 아이콘 이미지-->
+                                            <div class="btn-blue" type="" id="champion-img"
+                                                    style="width: 66px; height: 66px; ">
+                                                <img class="portrait img-fluid mx-auto champion-img" src="" name="" id="left-champ-portrait"
+                                                     />
+                                            </div>
                                         </div>
-                                        <div id="simulItem0" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem1" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem2" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem3" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem4" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
-                                        </div>
-                                        <div id="simulItem5" class="" style="width: 70px; height: 70px; border: solid
-                                    2px #E8BA36FF; overflow: hidden; display: flex; align-items: center;
-                                    justify-content: center; object-fit: cover;">
-                                            <!--아이템 아이콘 이미지-->
+                                        <!-- 아이템 선택 전체창 -->
+                                        <div class="item_pan" id="plusItem" style="gap: 20px">
+                                            <!-- 아이템 선택 개별창 -->
+                                            <div>
+                                                <div id="iBox0" class="item_box" data-idx ="0">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox1" class="item_box" data-idx ="1">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox2" class="item_box" data-idx ="2">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox3" class="item_box" data-idx ="3">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox4" class="item_box" data-idx ="4">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox5" class="item_box" data-idx ="5">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

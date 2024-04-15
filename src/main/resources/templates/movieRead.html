@@ -22,7 +22,8 @@
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+
 
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
@@ -150,6 +151,8 @@ font-weight: bolder">
                                 </div>
                             </div>
                         </div>
+
+                        <!-- 게시글 좋아요 싫어요 -->
                         <div class="row ">
                             <div class="col d-flex justify-content-end align-items-center">
                                 <button class="thumb-up" th:attr="data-post-id=${post.id}" th:class="${isPostLiked} ? 'thumb-up liked' : 'thumb-up not-liked'">

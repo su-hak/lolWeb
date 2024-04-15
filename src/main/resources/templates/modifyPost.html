@@ -17,6 +17,7 @@
     <link rel="stylesheet" th:href="@{/css/lolMain.css}"/>
     <link rel="stylesheet" th:href="@{/css/editor.css}"/>
 
+    <!-- ckeditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
     <!--    <script src="/build/ckeditor.js"></script>-->
     <!-- 이미지 업로드 어댑터 -->
@@ -28,7 +29,7 @@
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 
-<body>
+<body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
 <!-- 최상단 네비바 -->
 <nav class="site-header sticky-top py-1" style="background: #8360CE; ">
     <div class="container d-flex flex-column flex-md-row color-white">
@@ -108,7 +109,7 @@ font-weight: bolder">
                     </div>
                     <div class="card-body" style="padding: 40px">
                         <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
-                        <form th:object="${post}" th:action="@{'/post/updatePost/' + ${post.id}}" method="post" id="updatePostForm">
+                        <form th:object="${post}" th:action="@{'/post/updatePost/'+ ${post.id} + '/' + ${post.type}}" method="post" id="updatePostForm">
                             <div class="row flex-column" style="padding: 0 20px">
                                 <div class="col-md-6 d-flex">
                                     <div class="mb-3 d-flex" style="gap: 10px">
@@ -255,13 +256,14 @@ font-weight: bolder">
                                     </div>
                                 </div>
                             </div>
+                            <!-- 글 등록, 취소 버튼 -->
                             <div>
-                                <div class="row">
-                                    <div class="col ds_flex">
+                                <div class="row" style="padding: 0 20px">
+                                    <div class="col d-flex">
                                         <button type="submit" id="submitBtn" class="btn btn-success col" style="font-size: medium"
                                                 value="Modify">
                                             글수정</button>
-                                        <button type="button" class="btn btn-secondary col" style="font-size: medium; right: 15px"
+                                        <button type="button" class="btn btn-secondary col" style="font-size: medium;"
                                                 onclick="history.back();">취　소
                                         </button>
                                     </div>
