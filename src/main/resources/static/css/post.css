@@ -55,3 +55,13 @@
 .spin-animation {
     animation: spin 3s linear infinite; /* 3초 동안 회전, 반복 */
 }
+
+
+/* 게시판 타입 css */
+.list-group .active {
+    background-color: #488A95;
+    border: solid 2px #8360CE;
+}
+.list-group .active a {
+    color: #FFFFFF;
+}
