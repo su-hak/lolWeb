@@ -71,7 +71,7 @@
 				}
 			} else if (p.isSlowdown) {
 				var rate_ = ~~(((p.maxDistance - p.distance) / (p.maxDistance - p.slowDownStartDistance)) * (p.speed));
-				speed_ = rate_ + 0.2;
+				speed_ = rate_ + 0.5;
 				console.log("p.isSlowdown 일때", rate_, speed_)
 			}
 
