@@ -25,7 +25,19 @@
     padding-top: 50px;
 }
 
+/* 전체 화면 해상도 */
+@media all and (min-width: 1750px) {
+    .main-title {
+        padding: 5px 500px !important;
+    }
 
+    .match {
+        padding: 10px 500px !important;
+    }
+}
+/* 전체 화면 해상도 끝 */
+
+/* 해상도 width 869px */
 .main-title {
     display: flex;
     gap: 10px;
@@ -340,3 +352,5 @@ justify-content: space-between;
 /* 아이템 빌드 끝 */
 
 /*    main 끝    */
+
+/* 해상도 width 869px 끝 */

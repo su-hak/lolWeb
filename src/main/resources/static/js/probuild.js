@@ -144,10 +144,15 @@ $(document).ready(function () {
     });
 });
 
+// 입력 상자에서 검색어를 가져오는 함수
+function getSearchText() {
+    return document.getElementById('searchBox').value.toLowerCase();
+}
+
 // 검색
 function search() {
     // 입력 상자에서 검색어 가져오기
-    var searchText = document.getElementById('searchBox').value.toLowerCase()/*.replace(/\s/g, '')*/;
+    var searchText = getSearchText();
 
     // 모든 match 요소들을 가져와서 반복합니다.
     var matches = document.getElementsByClassName('match');
@@ -192,8 +197,20 @@ function search() {
             match.style.display = 'block';
         }
     }
-
 }
+
+// 입력 상자에 키가 눌렸을 때 검색 함수를 호출하도록 설정
+document.getElementById('searchBox').addEventListener('keyup', function(event) {
+    if (event.key === 'Backspace') {
+        search();
+    } else if (event.key === 'Enter') {
+        // 엔터 키를 누르면 검색 함수를 호출
+        search();
+    }
+});
+
+// 페이지 로드 시 초기 검색 수행
+/*search();*/
 
 
 /*
