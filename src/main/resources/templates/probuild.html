@@ -110,12 +110,12 @@
                         <span class="info-title">Champion</span>
                         <div id="nickName">
                             <p>
-                                <span th:text="${entry.getSummonerName()}"></span>
+                                <span th:text="${entry.getRiotIdGameName()}"></span>
                             </p>
                             <div th:each="matchId : ${entry.getMatchIds()}">
                                 <!--<p>MatchId: <span th:text="${matchId}"></span></p><br/>-->
                                 <div th:each="participant : ${entry.getParticipants()}">
-                                    <div th:if="${entry.getSummonerName() == participant.getSummonerName()}">
+                                    <div th:if="${entry.getRiotIdGameName() == participant.getRiotIdGameName()}">
                                         <p>&nbsp; #<span th:text="${participant.getRiotIdTagline()}"></span></p>
                                     </div>
                                 </div>
@@ -274,7 +274,7 @@
                                     <dd th:text="${participant.championName}"></dd>
                                 </dl>
                                 <dl id="summonerName">
-                                    <dd th:text="${participant.summonerName}"></dd>
+                                    <dd th:text="${participant.riotIdGameName}"></dd>
                                 </dl>
                                 <div class="match-info">
                                     <dl id="kda">
@@ -308,22 +308,22 @@
                             </div>
                         </div>
                     </div>
-                        <div class="skill-build-info" th:each="matchId : ${entry.getMatchIds()}">
+                        <!--<div class="skill-build-info" th:each="matchId : ${entry.getMatchIds()}">
                             <div class="" th:each="frames : ${entry.getFrame()}">
                                 <div class="" th:each="event : ${frames.getEvents()}">
                                     <div class="skill-time-line" th:if="${event.getParticipantId() == entry.getParticipantId()
                                         and event.getType() == 'SKILL_LEVEL_UP'}">
-                                        <!--<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>-->
+                                        &lt;!&ndash;<p>participantId: <span th:text="${event.getParticipantId()}"></span></p>&ndash;&gt;
                                         <p><span class="skill-info" th:text="${event.getSkillSlot()}"></span></p>
-                                        <!--<p>timestamp: <span class="build-getTimeStamp"
+                                        &lt;!&ndash;<p>timestamp: <span class="build-getTimeStamp"
                                                             th:text="${event.getTimestamp()}"></span></p>
-                                        <p>type: <span th:text="${event.getType()}"></span></p>-->
+                                        <p>type: <span th:text="${event.getType()}"></span></p>&ndash;&gt;
                                         <img class="probuild-itemBuild-arrow" src="/img/arrow/arrow.png"/>
-                                        <!--<p><span class="skill-info" th:text="${event.getSkillSlot()}"></span></p>-->
+                                        &lt;!&ndash;<p><span class="skill-info" th:text="${event.getSkillSlot()}"></span></p>&ndash;&gt;
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                 </section>
             </div>
 

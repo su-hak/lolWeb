@@ -4,6 +4,7 @@ import java.util.List;
 
 public class ParticipantDTO {
         private String summonerName;
+        private String riotIdGameName;
         private String riotIdTagline;
         private String championName;
         private int kills;
@@ -23,7 +24,15 @@ public class ParticipantDTO {
             this.summonerName = summonrName;
         }
 
-        public String getRiotIdTagline() {
+        public String getRiotIdGameName() {
+        return riotIdGameName;
+        }
+
+        public void setRiotIdGameName(String riotIdGameName) {
+        this.riotIdGameName = riotIdGameName;
+        }
+
+    public String getRiotIdTagline() {
             return riotIdTagline;
         }
 

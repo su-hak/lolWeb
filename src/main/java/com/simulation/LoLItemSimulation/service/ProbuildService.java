@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-8b71a14f-45a1-456c-8de4-2ab3dd92d520";
+    private final String apiKey = "RGAPI-fc5560d6-cb22-417f-9d28-648855c490c1";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
@@ -65,6 +65,7 @@ public class ProbuildService {
     private void setPuuidBySummonerName(LeagueEntryDTO entry) {
         RestTemplate restTemplate = new RestTemplate();
         String summonerId = entry.getSummonerId();
+
         String url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/" + summonerId + "?api_key=" + apiKey;
         try {
             SummonerDTO summonerDTO = restTemplate.getForObject(url, SummonerDTO.class);
@@ -97,7 +98,7 @@ public class ProbuildService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("championId ::" + url);
+        System.out.println("championMastery ::" + url);
     }
 
     // matchIds 가져오기
@@ -140,21 +141,23 @@ public class ProbuildService {
                         // 플레이어들의 정보를 LeagueEntryDTO 객체에 추가
                         List<ParticipantDTO> participants = matchDetail.getInfo().getParticipants();
                         for (ParticipantDTO participant : participants) {
-                            String summonerName = participant.getSummonerName();
+                            /*String summonerName = participant.getSummonerName();*/
+                            String riotIdGameName = participant.getRiotIdGameName();
 
                             if (participant.getPuuid().equals(pro.getPuuid())) {
-                                pro.setSummonerName(summonerName);
+                                pro.setRiotIdGameName(riotIdGameName);
+                                System.out.println("pro.getRiotIdGameName()"+pro.getRiotIdGameName());
                                 /*System.out.println("target :: " + pro.getSummonerName());*/
                             }
 
                             // 만약 summonerName이 빈 문자열이면 "닉네임 알 수 없음"으로 설정
-                            if (summonerName.isEmpty()) {
-                                participant.setSummonerName("\"알 수 없는 소환사\"");
+                            if (riotIdGameName.isEmpty()) {
+                                participant.setRiotIdGameName("\"닉네임 알 수 없음\"");
                             }
 
 
                                 // 룬 페이지 불러오기
-                                if (summonerName.equals(pro.getSummonerName())) {
+                                if (riotIdGameName.equals(pro.getRiotIdGameName())) {
                                     PerkStatsDTO statPerks = participant.getPerks().getStatPerks();
 
                                     pro.setDefense(statPerks.getDefense());
