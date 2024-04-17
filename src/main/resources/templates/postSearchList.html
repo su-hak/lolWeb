@@ -104,12 +104,15 @@ font-weight: bolder">
                         </div>
                         <div style="display: flex; justify-content: space-between;">
                             <ul class="list-group list-group-horizontal d-none d-lg-flex"  style="font-size: 1.3rem">
-<!--                                <li class="list-group-item list-group-item-action" onclick="updateURL('all')">전체게시판</li>-->
-                                <li class="list-group-item list-group-item-action" onclick="updateURL('default')">자유게시판</li>
-                                <li class="list-group-item list-group-item-action" onclick="updateURL('simulation')">시뮬공유</li>
-                                <li class="list-group-item list-group-item-action" onclick="updateURL('movie')">매드무비</li>
-                                <li class="list-group-item list-group-item-action" onclick="updateURL('roulette')">룰렛게시판</li>
-                                <li class="list-group-item list-group-item-action" onclick="updateURL('poll')">투표게시판</li>
+
+
+
+                                <li id="default"  class="list-group-item list-group-item-action" onclick="updateURL('default')">자유게시판</li>
+                                <li id="simulation" class="list-group-item list-group-item-action" onclick="updateURL('simulation')">시뮬공유</li>
+                                <li id="movie" class="list-group-item list-group-item-action" onclick="updateURL('movie')">매드무비</li>
+                                <li id="roulette" class="list-group-item list-group-item-action" onclick="updateURL('roulette')">룰렛게시판</li>
+                                <li id="poll" class="list-group-item list-group-item-action" onclick="updateURL('poll')">투표게시판</li>
+
                             </ul>
 
                             <div class="dropdown d-lg-none">
@@ -155,21 +158,13 @@ font-weight: bolder">
                         <!-- table -->
                         <table class="table table-borderless table-hover" th:if="${have != false and not #lists.isEmpty(have)}">
                             <!-- 게시판 헤더 -->
-                            <div th:if="${type == 'all'}">
-                                            <span class="boardType" value="all" style="font-size: 12px; margin-bottom: 4px;"
-                                                  th:text="전체게시판"></span>
-                            </div>
-                            <div th:if="${type == 'simulation'}">
-                                            <span class="boardType" value="simulation" style="font-size: 12px; margin-bottom: 4px;"
-                                                  th:text="시뮬공유"></span>
-                            </div>
                             <div th:if="${type == 'default'}">
                                             <span class="boardType" value="default" style="font-size: 12px; margin-bottom: 4px;"
                                                   th:text="자유게시판"></span>
                             </div>
-                            <div th:if="${type == 'poll'}">
-                                            <span class="boardType" value="poll" style="font-size: 12px; margin-bottom: 4px;"
-                                                  th:text="투표게시판"></span>
+                            <div th:if="${type == 'simulation'}">
+                                            <span class="boardType" value="simulation" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="시뮬공유"></span>
                             </div>
                             <div th:if="${type == 'movie'}">
                                             <span class="boardType" value="movie" style="font-size: 12px; margin-bottom: 4px;"
@@ -178,6 +173,10 @@ font-weight: bolder">
                             <div th:if="${type == 'roulette'}">
                                             <span class="boardType" value="roulette" style="font-size: 12px; margin-bottom: 4px;"
                                                   th:text="룰렛게시판"></span>
+                            </div>
+                            <div th:if="${type == 'poll'}">
+                                            <span class="boardType" value="poll" style="font-size: 12px; margin-bottom: 4px;"
+                                                  th:text="투표게시판"></span>
                             </div>
                             <thead>
                             <td colspan="5" class="searchResult">
@@ -631,6 +630,47 @@ font-weight: bolder">
     function clearSearch() {
         $("#freeSearch").val(""); // 검색어 필드를 비웁니다.
         searchPost(); // 검색을 초기화하고 전체 목록을 보여줍니다.
+    }
+</script>
+
+
+<!-- 게시판 타입 선택 시 배경색 변경-->
+<script>
+    // 현재 URL 가져오기
+    var currentUrl = window.location.pathname;
+
+    // URL에 따라 해당하는 id를 가진 요소에 active 클래스 추가
+    if (currentUrl.includes("/post/list/search/default")) {
+        document.getElementById("default").classList.add("active");
+        // 다른 id에는 active 클래스 삭제
+        document.getElementById("simulation").classList.remove("active");
+        document.getElementById("movie").classList.remove("active");
+        document.getElementById("roulette").classList.remove("active");
+        document.getElementById("poll").classList.remove("active");
+    } else if (currentUrl.includes("/post/list/search/simulation")) {
+        document.getElementById("simulation").classList.add("active");
+        document.getElementById("default").classList.remove("active");
+        document.getElementById("movie").classList.remove("active");
+        document.getElementById("roulette").classList.remove("active");
+        document.getElementById("poll").classList.remove("active");
+    } else if (currentUrl.includes("/post/list/search/movie")) {
+        document.getElementById("movie").classList.add("active");
+        document.getElementById("default").classList.remove("active");
+        document.getElementById("simulation").classList.remove("active");
+        document.getElementById("roulette").classList.remove("active");
+        document.getElementById("poll").classList.remove("active");
+    } else if (currentUrl.includes("/post/list/search/roulette")) {
+        document.getElementById("roulette").classList.add("active");
+        document.getElementById("default").classList.remove("active");
+        document.getElementById("simulation").classList.remove("active");
+        document.getElementById("movie").classList.remove("active");
+        document.getElementById("poll").classList.remove("active");
+    } else if (currentUrl.includes("/post/list/search/poll")) {
+        document.getElementById("poll").classList.add("active");
+        document.getElementById("default").classList.remove("active");
+        document.getElementById("simulation").classList.remove("active");
+        document.getElementById("movie").classList.remove("active");
+        document.getElementById("roulette").classList.remove("active");
     }
 </script>
 
