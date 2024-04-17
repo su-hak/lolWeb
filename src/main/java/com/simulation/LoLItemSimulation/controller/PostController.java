@@ -1,5 +1,9 @@
 package com.simulation.LoLItemSimulation.controller;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.simulation.LoLItemSimulation.config.PhotoUtil;
 import com.simulation.LoLItemSimulation.domain.*;
 import com.simulation.LoLItemSimulation.dto.PostDto;
@@ -15,7 +19,9 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -122,6 +128,34 @@ public class PostController {
 
       return mav;
   }
+
+
+  @PostMapping("/uploadMovie")
+  public ModelAndView uploadMovie(MultipartHttpServletRequest request) {
+    ModelAndView mav = new ModelAndView("jsonView");
+
+    try {
+
+      MultipartFile file = request.getFile("upload");
+      if (file != null) {
+        String uploadPath = photoUtil.uploadVideoToFirebase(file); // uploadToFirebase 메서드를 uploadVideoToFirebase로 수정
+        mav.addObject("uploaded", true);
+        mav.addObject("url", uploadPath);
+      } else {
+        mav.addObject("uploaded", false);
+        mav.addObject("error", "업로드할 파일을 찾을 수 없습니다.");
+      }
+    } catch (Exception e) {
+      mav.addObject("uploaded", false);
+      mav.addObject("error", "Failed to upload video.");
+      e.printStackTrace();
+      mav.addObject("error", "파일 업로드에 실패했습니다: " + e.getMessage());
+    }
+
+    return mav;
+  }
+
+
 
   /* ---------------------------------- submit 영역 시작 ------------------------------------*/
 

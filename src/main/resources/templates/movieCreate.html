@@ -29,6 +29,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
     <title>Carry.kr</title> <!-- 타이틀 -->
+
+    <style>
+        #progress {
+            width: 100%;
+            height: 30px;
+            background-color: #f0f0f0;
+            margin-top: 10px;
+        }
+        #bar {
+            width: 0;
+            height: 100%;
+            background-color: #4caf50;
+        }
+    </style>
 </head>
 
 <body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
@@ -131,15 +145,14 @@ font-weight: bolder">
                                         <input type="text" id="title" class="form-control col-8" style="font-size:
                                     1.5rem" th:field="*{title}">
                                     </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupFileAddon">Upload</span>
-                                        </div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
-                                            <label class="custom-file-label" for="inputGroupFile">Choose file</label>
-                                        </div>
+                                </div>
+                                <div class="col">
+                                    <input type="file" id="videoInput">
+                                    <button type="button" class="btn btn-danger" onclick="uploadVideo()">업로드</button>
+                                    <div id="progress">
+                                        <div id="bar"></div>
                                     </div>
+                                    <div id="message"></div>
                                 </div>
                             </div>
                             <!-- 글 작성 에디터 영역 -->
@@ -400,6 +413,55 @@ font-weight: bolder">
         // 비밀번호 값이 있는 경우 폼 제출
         document.getElementById('postSumitForm').submit();
     });
+</script>
+
+
+<!-- 동영상 업로드 -->
+<script>
+    function uploadVideo() {
+        var fileInput = document.getElementById('videoInput');
+        var file = fileInput.files[0];
+        if (!file) {
+            showMessage('파일을 선택하세요.');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('upload', file);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/post/uploadMovie');
+
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                var percentComplete = (event.loaded / event.total) * 100;
+                document.getElementById('bar').style.width = percentComplete + '%';
+            }
+        };
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.uploaded) {
+                    showMessage('업로드가 완료되었습니다. 다운로드 링크: ' + response.url);
+                } else {
+                    showMessage('업로드에 실패했습니다: ' + response.error);
+                }
+            } else {
+                showMessage('서버 오류: ' + xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function() {
+            showMessage('네트워크 오류');
+        };
+
+        xhr.send(formData);
+    }
+
+    function showMessage(message) {
+        document.getElementById('message').innerText = message;
+    }
 </script>
 
 
