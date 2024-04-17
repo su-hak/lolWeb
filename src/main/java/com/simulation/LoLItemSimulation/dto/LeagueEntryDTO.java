@@ -10,6 +10,7 @@ public class LeagueEntryDTO {
     private String leagueId;
     private String summonerId;
     private String summonerName;
+    private String riotIdGameName;
     private String riotIdTagline;
     private String queueType;
     private String tier;
@@ -165,6 +166,14 @@ public class LeagueEntryDTO {
     }
     public void setSummonerName(String summonerName) {
         this.summonerName = summonerName;
+    }
+
+    public String getRiotIdGameName() {
+        return riotIdGameName;
+    }
+
+    public void setRiotIdGameName(String riotIdGameName) {
+        this.riotIdGameName = riotIdGameName;
     }
 
     public String getRiotIdTagline() {
