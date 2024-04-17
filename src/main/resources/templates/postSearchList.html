@@ -104,7 +104,7 @@ font-weight: bolder">
                         </div>
                         <div style="display: flex; justify-content: space-between;">
                             <ul class="list-group list-group-horizontal d-none d-lg-flex"  style="font-size: 1.3rem">
-                                <li class="list-group-item list-group-item-action" onclick="updateURL('all')">전체게시판</li>
+<!--                                <li class="list-group-item list-group-item-action" onclick="updateURL('all')">전체게시판</li>-->
                                 <li class="list-group-item list-group-item-action" onclick="updateURL('default')">자유게시판</li>
                                 <li class="list-group-item list-group-item-action" onclick="updateURL('simulation')">시뮬공유</li>
                                 <li class="list-group-item list-group-item-action" onclick="updateURL('movie')">매드무비</li>
@@ -279,10 +279,37 @@ font-weight: bolder">
                             </thead>
                         </table>
                         <!-- 글쓰기 버튼 -->
-                        <div>
+                        <div th:if="${type == 'default'}">
                             <a th:href="@{/post/create}">
-                                <button type="button" class="btn btn-success" style="width: 100%; font-size:
-                                medium">글쓰기</button>
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">글쓰기</button>
+                            </a>
+                        </div>
+
+                        <!-- 시뮬 글쓰기 버튼 -->
+                        <div th:if="${type == 'simulation'}">
+                            <a th:href="@{/post/simulCreate}">
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">시뮬글쓰기</button>
+                            </a>
+                        </div>
+
+                        <!-- 무비 글쓰기 버튼 -->
+                        <div th:if="${type == 'movie'}">
+                            <a th:href="@{/post/movieCreate}">
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">무비글쓰기</button>
+                            </a>
+                        </div>
+
+                        <!-- 룰렛 글쓰기 버튼 -->
+                        <div th:if="${type == 'roulette'}">
+                            <a th:href="@{/post/rouletteCreate}">
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">룰렛글쓰기</button>
+                            </a>
+                        </div>
+
+                        <!-- 투표 글쓰기 버튼 -->
+                        <div th:if="${type == 'poll'}">
+                            <a th:href="@{/post/pollCreate}">
+                                <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">투표글쓰기</button>
                             </a>
                         </div>
 

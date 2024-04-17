@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -126,7 +127,14 @@ public class PostController {
   /* ---------------------------------- submit 영역 시작 ------------------------------------*/
 
   @PostMapping("/submitForm/{type}")
-  public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request, @PathVariable String type) {
+  public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request, @PathVariable String type,
+                           @RequestParam("nextATagClass1") String nextATagClass1,
+                           @RequestParam("nextATagClass2") String nextATagClass2,
+                           @RequestParam("nextATagClass3") String nextATagClass3,
+                           @RequestParam("nextATagClass4") String nextATagClass4,
+                           @RequestParam("nextATagClass5") String nextATagClass5,
+                           @RequestParam("nextATagClass6") String nextATagClass6,
+                           @RequestParam("nextATagClass7") String nextATagClass7) {
     // 닉네임, 비밀번호 설정
     post.setNickname(post.getNickname());
     post.setPassword(post.getPassword());
@@ -135,8 +143,12 @@ public class PostController {
     String ipAddress = getClientIP(request);
     post.setIpAddress(ipAddress);
 
+    // 한국 시간대로 설정
+    ZoneId koreaZone = ZoneId.of("Asia/Seoul");
+    LocalDateTime createtime = LocalDateTime.now(koreaZone);
+
+
     // 글 작성일
-    LocalDateTime createtime = LocalDateTime.now();
     post.setCreatetime(createtime);
 
     post.setType(type);
@@ -152,6 +164,13 @@ public class PostController {
     } else if (type.equals("poll")) {
       return "redirect:/post/read/poll/" + post.getId();
     } else if (type.equals("simulation")) {
+      System.out.println("클래스 값 1: " + nextATagClass1);
+      System.out.println("클래스 값 2: " + nextATagClass2);
+      System.out.println("클래스 값 3: " + nextATagClass3);
+      System.out.println("클래스 값 4: " + nextATagClass4);
+      System.out.println("클래스 값 5: " + nextATagClass5);
+      System.out.println("클래스 값 6: " + nextATagClass6);
+      System.out.println("클래스 값 7: " + nextATagClass7);
       return "redirect:/post/read/simulation/" + post.getId();
     } else if (type.equals("roulette")) {
       return "redirect:/post/read/roulette/" + post.getId();
@@ -395,7 +414,10 @@ public class PostController {
     // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
     String sessionKey = "postViewTime_" + postId;
     LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
-    LocalDateTime currentTime = LocalDateTime.now();
+
+// 한국 시간대로 설정
+    ZoneId koreaZone = ZoneId.of("Asia/Seoul");
+    LocalDateTime currentTime = LocalDateTime.now(koreaZone);
 
     // 마지막 조회 시간이 없거나 오늘 처음 조회한 경우에만 조회수를 증가시킴
     if (lastViewTime == null || lastViewTime.toLocalDate().isBefore(currentTime.toLocalDate())) {
@@ -615,7 +637,10 @@ public class PostController {
     // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
     String sessionKey = "postViewTime_" + postId;
     LocalDateTime lastViewTime = (LocalDateTime) session.getAttribute(sessionKey);
-    LocalDateTime currentTime = LocalDateTime.now();
+
+// 한국 시간대로 설정
+    ZoneId koreaZone = ZoneId.of("Asia/Seoul");
+    LocalDateTime currentTime = LocalDateTime.now(koreaZone);
 
     // 마지막 조회 시간이 없거나 오늘 처음 조회한 경우에만 조회수를 증가시킴
     if (lastViewTime == null || lastViewTime.toLocalDate().isBefore(currentTime.toLocalDate())) {
@@ -798,7 +823,11 @@ public class PostController {
   // 게시글 수정 처리 메소드
   @PostMapping("/updatePost/{postId}/{type}")
   public ResponseEntity<String> updatePost(@PathVariable Long postId, @PathVariable String type, @RequestBody PostDto postDto) {
-    postDto.setCreatetime(LocalDateTime.now());
+    // 한국 시간대로 설정
+    ZoneId koreaZone = ZoneId.of("Asia/Seoul");
+
+    // 글 작성일
+    postDto.setCreatetime(LocalDateTime.now(koreaZone));
     postService.updatePost(postId, postDto);
     return ResponseEntity.ok("게시글이 성공적으로 업데이트되었습니다.");
 //Todo: 게시글 업데이트 후 해당 게시글 read 페이지 이동하기

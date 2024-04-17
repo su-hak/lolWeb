@@ -110,6 +110,15 @@ font-weight: bolder">
                         <strong class="card-title">시뮬공유</strong>
                     </div>
                     <form th:object="${post}" th:action="@{/post/submitForm/simulation}" method="post" id="postSumitForm">
+                        <!-- JavaScript를 사용하여 Hidden input 값을 할당합니다 -->
+                        <input type="hidden" id="nextATagClass1" name="nextATagClass1" />
+                        <input type="hidden" id="nextATagClass2" name="nextATagClass2" />
+                        <input type="hidden" id="nextATagClass3" name="nextATagClass3" />
+                        <input type="hidden" id="nextATagClass4" name="nextATagClass4" />
+                        <input type="hidden" id="nextATagClass5" name="nextATagClass5" />
+                        <input type="hidden" id="nextATagClass6" name="nextATagClass6" />
+                        <input type="hidden" id="nextATagClass7" name="nextATagClass7" />
+                        <!-- 나머지 폼 요소들 -->
                         <div class="card-body" style="padding: 40px">
                             <!-- 글 작성자 닉네임, 비번, 제목 입력창 -->
                             <div class="row flex-column" style="padding: 0 20px">
@@ -144,6 +153,7 @@ font-weight: bolder">
                                                 data-toggle="dropdown" style="width: 66px; height: 66px; ">
                                             <img class="portrait img-fluid mx-auto champion-img" src="" name="" id="left-champ-portrait"
                                                  data-toggle="tooltip" data-placement="bottom" />
+                                            <a></a>
                                         </button>
                                         <!-- 왼쪽 챔피언 목록 -->
                                         <div class="dropdown-menu" id="champion-dropdown">
@@ -181,31 +191,37 @@ font-weight: bolder">
                                             <button type="button" id="iBox0" class="item_box" data-idx ="0">
                                                 <iconify-icon  icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
+                                            <a></a>
                                         </div>
                                         <div>
                                             <button type="button" id="iBox1" class="item_box" data-idx ="1">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
+                                            <a></a>
                                         </div>
                                         <div>
                                             <button type="button" id="iBox2" class="item_box" data-idx ="2">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
+                                            <a></a>
                                         </div>
                                         <div>
                                             <button type="button" id="iBox3" class="item_box" data-idx ="3">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
+                                            <a></a>
                                         </div>
                                         <div>
                                             <button type="button" id="iBox4" class="item_box" data-idx ="4">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
+                                            <a></a>
                                         </div>
                                         <div>
                                             <button type="button" id="iBox5" class="item_box" data-idx ="5">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
+                                            <a></a>
                                         </div>
                                     </div>
                                 </div>
@@ -469,6 +485,30 @@ font-weight: bolder">
         // 비밀번호 값이 있는 경우 폼 제출
         document.getElementById('postSumitForm').submit();
     });
+
+    $('#submitBtn').click(function() {
+        // Hidden input 필드들에 값을 할당합니다.
+        var nextATagClass1 = $('#champion-btn').find('a').attr('class') || null;
+        var nextATagClass2 = $('#iBox0').next('a').attr('class') || null;
+        var nextATagClass3 = $('#iBox1').next('a').attr('class') || null;
+        var nextATagClass4 = $('#iBox2').next('a').attr('class') || null;
+        var nextATagClass5 = $('#iBox3').next('a').attr('class') || null;
+        var nextATagClass6 = $('#iBox4').next('a').attr('class') || null;
+        var nextATagClass7 = $('#iBox5').next('a').attr('class') || null;
+
+        // Hidden input 필드들에 값 할당
+        $('#nextATagClass1').val(nextATagClass1);
+        $('#nextATagClass2').val(nextATagClass2);
+        $('#nextATagClass3').val(nextATagClass3);
+        $('#nextATagClass4').val(nextATagClass4);
+        $('#nextATagClass5').val(nextATagClass5);
+        $('#nextATagClass6').val(nextATagClass6);
+        $('#nextATagClass7').val(nextATagClass7);
+
+        // 폼을 제출합니다.
+        $('#submitBtn').submit();
+    });
+
 </script>
 
 

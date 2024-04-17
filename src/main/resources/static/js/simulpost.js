@@ -141,6 +141,7 @@ function searchItem() {
 function updateChampionButtonImage(championId) {
     var championBtnImg = $("#left-champ-portrait");
     championBtnImg.attr("src", "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championId + ".png");
+    championBtnImg.next("a").addClass(championId);
 }
 
 
@@ -284,6 +285,7 @@ $("#item-list").click(function (e) {
             'background-position': 'center',
             'background-size': 'contain'
         });
+        $('#iBox' + callIdx).next("a").removeClass().addClass(itemData.image.full);
         const searchInput = document.getElementById('left-item-search');
         searchInput.value = '';
         searchItem();
