@@ -1,50 +1,60 @@
 // ProbuildService.java
 package com.simulation.LoLItemSimulation.service;
 
+
+
 import com.simulation.LoLItemSimulation.dto.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
 public class ProbuildService {
-    private final String apiKey = "RGAPI-fc5560d6-cb22-417f-9d28-648855c490c1";
+    private final String apiKey = "RGAPI-052d781d-7e3d-423c-91a3-635e813de537";
     private RestTemplate restTemplate;
 
     public ProbuildService(RestTemplateBuilder restTemplateBuilder) { // 생성자에서 RestTemplate 초기화
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    // Page<leagueEntryDTO> 페이징 처리할려면 이 코드로 변경
-    public LeagueEntryDTO[] getLeagueInfo(String queue, String tier, String division/*, int limit, int page*/) {
-        /*int offset = (page - 1) * limit;*/
+    // Page<LeagueEntryDTO> 페이징 처리할려면 이 코드로 변경
+    // 세개 볼려면 LeagueEntryDTO[] 이 코드로 변경
+    public Page<LeagueEntryDTO> getLeagueInfo(String queue, String tier, String division, int limit, int page) {
+        int offset = (page - 1) * limit;
 
         RestTemplate restTemplate = new RestTemplate();
         System.out.println("qu : " + queue + "  tier : " + tier + " division  : " + division);
-        String url = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/" + queue + "/" + tier + "/" + division + "?api_key=" + apiKey /*+ "&start=" + offset + "&limit=" + limit*/;
+        String url = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/" + queue + "/" + tier + "/" + division + "?api_key=" + apiKey + "&start=" + offset + "&limit=" + limit;
         System.out.println(" url ::" + url);
 
         try {
             LeagueEntryDTO[] leagueEntries = restTemplate.getForObject(url, LeagueEntryDTO[].class);
-            /*// puuid 설정 (전체)
-            for (LeagueEntryDTO entry : leagueEntries) {
-                setPuuidBySummonerName(entry);
-                setMatchIdsByPuuid(entry);
-                setProbuild(entry);
-            }*/
 
             // 3개
             List<LeagueEntryDTO> limitedEntries = new ArrayList<>();
-            for (int i = 0; i < Math.min(3, leagueEntries.length); i++) {
+            for (int i = 0; i < Math.min(20, leagueEntries.length); i++) {
                 limitedEntries.add(leagueEntries[i]);
             }
 
-            int totalCount = leagueEntries.length;
+            // 전체로 설정 : leagueEntries
+            /*for (LeagueEntryDTO entry : leagueEntries) {
+                *//*TimeUnit.SECONDS.sleep(1);*//*
 
-            // puuid 설정 // entry : limitedEntries로 바꿔야 3개의 forEach문 변수가 적용 됨.
+                setPuuidBySummonerName(entry);
+                setChampionPoints(entry);
+                setMatchIdsByPuuid(entry);
+                setProbuild(entry);
+                setProbuildTimeline(entry);
+            }*/
+
+            // 3개로 설정 limitedEntries
             for (LeagueEntryDTO entry : limitedEntries) {
                 setPuuidBySummonerName(entry);
                 setChampionPoints(entry);
@@ -52,8 +62,11 @@ public class ProbuildService {
                 setProbuild(entry);
                 setProbuildTimeline(entry);
             }
-            /*return new PageImpl<>(Arrays.asList(leagueEntries), PageRequest.of(page, limit), totalCount);*/
-            return leagueEntries;
+
+            int totalCount = leagueEntries.length;
+
+            return new PageImpl<>(Arrays.asList(leagueEntries), PageRequest.of(page, limit), totalCount);
+            /*return leagueEntries;*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,8 +119,10 @@ public class ProbuildService {
         RestTemplate restTemplate1 = new RestTemplate();
         String puuid = entry.getPuuid();
         String url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/" + puuid + "/ids?start=0&count=1&api_key=" + apiKey;
+
         try {
-            String[] matchIds = restTemplate1.getForObject(url, String[].class);
+                String[] matchIds = restTemplate1.getForObject(url, String[].class);
+
             // matchIds가 null이 아닌 경우에만 설정
             if (matchIds != null) {
                 entry.setMatchIds(Arrays.asList(matchIds));

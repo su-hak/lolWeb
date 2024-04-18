@@ -336,7 +336,7 @@
 
     <!-- Add dynamic pagination buttons -->
     <div class="page_btn" id="pageBtn">
-        <!--<button class="page-btn" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" th:text="${pageNum + 1}" th:attr="data-page=${pageNum}" onclick="loadPage(this.getAttribute('data-page'))"></button>-->
+        <button class="page-btn" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" th:text="${pageNum + 1}" th:attr="data-page=${pageNum}" onclick="loadPage(this.getAttribute('data-page'))"></button>
     </div>
 </main>
 

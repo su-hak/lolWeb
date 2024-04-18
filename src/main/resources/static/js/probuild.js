@@ -213,12 +213,10 @@ document.getElementById('searchBox').addEventListener('keyup', function(event) {
 /*search();*/
 
 
-/*
 // page 넘버링
 function loadPage(page) {
     window.location.href = '/probuild?page=' + page;
 }
-*/
 
 // page 나누기
 document.addEventListener("DOMContentLoaded", function () {
@@ -481,10 +479,6 @@ function getSkillImg() {
         });
 
     });
-}
-
-function setSkillImg() {
-
 }
 
 function wardItem() {
