@@ -224,6 +224,7 @@ $("#item-list").click(function (e) {
             'background-position': 'center',
             'background-size': 'contain'
         });
+        $('#iBox' + callIdx).attr("value", filterItemsL[e.target.getAttribute("value")].image.full);
         savedItemsL[callIdx] = itemData;
         itemGold[callIdx] = savedItemsL[callIdx].gold.total; // 아이템의 total값을 누산
         console.log("items ::::", itemsL);

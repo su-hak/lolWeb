@@ -7,6 +7,7 @@ import com.google.cloud.storage.StorageOptions;
 import com.simulation.LoLItemSimulation.config.PhotoUtil;
 import com.simulation.LoLItemSimulation.domain.*;
 import com.simulation.LoLItemSimulation.dto.PostDto;
+import com.simulation.LoLItemSimulation.dto.SimulationDTO;
 import com.simulation.LoLItemSimulation.repository.*;
 import com.simulation.LoLItemSimulation.service.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 // PostController.java
 @Controller
 @RequestMapping("/post")
@@ -214,6 +214,7 @@ public class PostController {
               nextATagClass7);
 
       return "redirect:/post/read/simulation/" + post.getId();
+
     } else if (type.equals("roulette")) {
       return "redirect:/post/read/roulette/" + post.getId();
     } else{
@@ -507,6 +508,10 @@ public class PostController {
     } else if (type.equals("poll")) {
       return "pollRead";
     } else if (type.equals("simulation")) {
+      SimulationDTO simulationDTO = simulationService.getSimulationDtoById(postId);
+      System.out.println("simulationDTO ::: "+ simulationDTO);
+        model.addAttribute("simulation", simulationDTO);
+
       return "simulRead";
     } else if (type.equals("roulette")) {
       return "rouletteRead";

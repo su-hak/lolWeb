@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface SimulationRepository extends JpaRepository<Simulation, Long> {
 
-    List<Simulation> findByPostId(Long postId);
+    Simulation findByPostId(Long postId);
 }

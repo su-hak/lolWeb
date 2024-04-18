@@ -1,9 +1,6 @@
 package com.simulation.LoLItemSimulation.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @NoArgsConstructor
 @Setter
@@ -19,4 +16,11 @@ public class SimulationDTO {
     private String item4;
     private String item5;
     private String item6;
+    private String championImageUrl;
+    private String item1ImageUrl;
+    private String item2ImageUrl;
+    private String item3ImageUrl;
+    private String item4ImageUrl;
+    private String item5ImageUrl;
+    private String item6ImageUrl;
 }
