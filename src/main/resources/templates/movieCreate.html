@@ -147,7 +147,7 @@ font-weight: bolder">
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <input type="file" id="videoInput">
+                                    <input type="file" id="videoInput" accept="video/*" th:field="*{movieUrl}">
                                     <button type="button" class="btn btn-danger" onclick="uploadVideo()">업로드</button>
                                     <div id="progress">
                                         <div id="bar"></div>
@@ -422,7 +422,7 @@ font-weight: bolder">
         var fileInput = document.getElementById('videoInput');
         var file = fileInput.files[0];
         if (!file) {
-            showMessage('파일을 선택하세요.');
+            swal.fire('파일을 선택하세요.');
             return;
         }
 
@@ -430,7 +430,7 @@ font-weight: bolder">
         formData.append('upload', file);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/post/uploadMovie');
+        xhr.open('POST', '/post/upload');
 
         xhr.upload.onprogress = function(event) {
             if (event.lengthComputable) {
@@ -443,17 +443,17 @@ font-weight: bolder">
             if (xhr.status === 200) {
                 var response = JSON.parse(xhr.responseText);
                 if (response.uploaded) {
-                    showMessage('업로드가 완료되었습니다. 다운로드 링크: ' + response.url);
+                    swal.fire('업로드가 완료되었습니다. 다운로드 링크: ' + response.url);
                 } else {
-                    showMessage('업로드에 실패했습니다: ' + response.error);
+                    swal.fire('업로드에 실패했습니다: ' + response.error);
                 }
             } else {
-                showMessage('서버 오류: ' + xhr.statusText);
+                swal.fire('서버 오류: ' + xhr.statusText);
             }
         };
 
         xhr.onerror = function() {
-            showMessage('네트워크 오류');
+            swal.fire('네트워크 오류');
         };
 
         xhr.send(formData);
