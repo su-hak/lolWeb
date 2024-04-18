@@ -31,4 +31,6 @@ public class PostDto {
 
   private String type;
 
+  private String movieUrl;
+
 }

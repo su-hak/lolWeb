@@ -27,6 +27,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 
     <title>Carry.kr</title> <!-- 타이틀 -->
+
+    <style>
+        #progress {
+            width: 100%;
+            height: 30px;
+            background-color: #f0f0f0;
+            margin-top: 10px;
+        }
+        #bar {
+            width: 0;
+            height: 100%;
+            background-color: #4caf50;
+        }
+    </style>
 </head>
 
 <body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
@@ -133,15 +147,15 @@ font-weight: bolder">
                                                name="newTitle"
                                                class="form-control col-8" style="font-size: 1.5rem" required>
                                     </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupFileAddon">Upload</span>
-                                        </div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
-                                            <label class="custom-file-label" for="inputGroupFile">Choose file</label>
-                                        </div>
+                                </div>
+                                <div class="col">
+                                    <input type="file" id="videoInput" accept="video/*" />
+                                    <button type="button" class="btn btn-danger" onclick="uploadVideo()">업로드</button>
+                                    <div id="progress">
+                                        <div id="bar"></div>
                                     </div>
+                                    <input type="hidden" id="movieUrl" th:field="*{movieUrl}" th:value="${post.movieUrl}" />
+
                                 </div>
                             </div>
                             <!-- 글 작성 에디터 영역 -->
@@ -409,6 +423,60 @@ font-weight: bolder">
             swal.fire('게시글 업데이트 중 오류가 발생했습니다.');
         });
     });
+</script>
+
+<!-- 동영상 업로드 -->
+<script>
+    function uploadVideo() {
+        var fileInput = document.getElementById('videoInput');
+        var file = fileInput.files[0];
+        if (!file) {
+            swal.fire('파일을 선택하세요.');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('upload', file);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/post/upload');
+
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                var percentComplete = (event.loaded / event.total) * 100;
+                document.getElementById('bar').style.width = percentComplete + '%';
+            }
+        };
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.uploaded) {
+                    swal.fire('업로드가 완료되었습니다. 다운로드 링크: ' + response.url);
+                    saveUrlToPost(response.url);
+                } else {
+                    swal.fire('업로드에 실패했습니다: ' + response.error);
+                }
+            } else {
+                swal.fire('서버 오류: ' + xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function() {
+            swal.fire('네트워크 오류');
+        };
+
+        xhr.send(formData);
+    }
+
+    // 반환된 URL을 포스트 엔티티에 저장
+    function saveUrlToPost(url) {
+        // URL을 hidden input에 설정하여 form을 submit할 수도 있음
+        // 혹은 AJAX 요청을 사용하여 서버에 URL을 전송할 수도 있음
+        // 이 코드는 예시로, hidden input에 설정하는 방법을 사용함
+        document.getElementById('movieUrl').value = url;
+    }
+
 </script>
 
 

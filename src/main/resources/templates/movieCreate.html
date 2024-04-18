@@ -29,6 +29,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
     <title>Carry.kr</title> <!-- 타이틀 -->
+
+    <style>
+        #progress {
+            width: 100%;
+            height: 30px;
+            background-color: #f0f0f0;
+            margin-top: 10px;
+        }
+        #bar {
+            width: 0;
+            height: 100%;
+            background-color: #4caf50;
+        }
+    </style>
 </head>
 
 <body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
@@ -131,15 +145,14 @@ font-weight: bolder">
                                         <input type="text" id="title" class="form-control col-8" style="font-size:
                                     1.5rem" th:field="*{title}">
                                     </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupFileAddon">Upload</span>
-                                        </div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
-                                            <label class="custom-file-label" for="inputGroupFile">Choose file</label>
-                                        </div>
+                                </div>
+                                <div class="col">
+                                    <input type="file" id="videoInput" accept="video/*" />
+<!--                                    <button type="button" class="btn btn-danger" onclick="uploadVideo()">업로드</button>-->
+                                    <div id="progress">
+                                        <div id="bar"></div>
                                     </div>
+                                    <input type="hidden" id="movieUrl" th:field="*{movieUrl}" />
                                 </div>
                             </div>
                             <!-- 글 작성 에디터 영역 -->
@@ -268,7 +281,7 @@ font-weight: bolder">
                             <div>
                                 <div class="row" style="padding: 0 20px">
                                     <div class="col d-flex">
-                                        <button id="submitBtn" type="submit" class="btn btn-success col" style="font-size: medium">글등록</button>
+                                        <button id="submitBtn" type="button" class="btn btn-success col" style="font-size: medium" onclick="uploadVideoAndSubmit()">글등록</button>
                                         <button type="button" class="btn btn-secondary col" style="font-size:
                                     medium;" onclick="history.back();">취　소</button>
                                     </div>
@@ -276,27 +289,6 @@ font-weight: bolder">
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-        <!-- 투표 모달창 띄우기 -->
-        <div class="modal fade" id="pollModal" tabindex="-1" role="dialog"
-             aria-labelledby="pollModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="pollModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -400,6 +392,74 @@ font-weight: bolder">
         // 비밀번호 값이 있는 경우 폼 제출
         document.getElementById('postSumitForm').submit();
     });
+</script>
+
+
+<!-- 동영상 업로드 -->
+<script>
+    function uploadVideoAndSubmit() {
+        uploadVideo(); // 동영상 업로드 함수 호출
+
+        // 업로드가 완료되면 폼 제출
+        // (실제로는 업로드 완료를 어떻게 감지하는지에 따라 구현 방법이 달라질 수 있음)
+        setTimeout(function() {
+            document.getElementById('postSumitForm').submit();
+        }, 3000); // 업로드 완료까지 대기하는 시간 설정 (예: 3초)
+    }
+</script>
+
+
+<script>
+    function uploadVideo() {
+        var fileInput = document.getElementById('videoInput');
+        var file = fileInput.files[0];
+        if (!file) {
+            swal.fire('파일을 선택하세요.');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('upload', file);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/post/uploadMovie');
+
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                var percentComplete = (event.loaded / event.total) * 100;
+                document.getElementById('bar').style.width = percentComplete + '%';
+            }
+        };
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.uploaded) {
+                    // swal.fire('업로드가 완료되었습니다. 다운로드 링크: ' + response.url);
+                    saveUrlToPost(response.url);
+                } else {
+                    swal.fire('업로드에 실패했습니다: ' + response.error);
+                }
+            } else {
+                swal.fire('서버 오류: ' + xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function() {
+            swal.fire('네트워크 오류');
+        };
+
+        xhr.send(formData);
+    }
+
+    // 반환된 URL을 포스트 엔티티에 저장
+    function saveUrlToPost(url) {
+        // URL을 hidden input에 설정하여 form을 submit할 수도 있음
+        // 혹은 AJAX 요청을 사용하여 서버에 URL을 전송할 수도 있음
+        // 이 코드는 예시로, hidden input에 설정하는 방법을 사용함
+        document.getElementById('movieUrl').value = url;
+    }
+
 </script>
 
 

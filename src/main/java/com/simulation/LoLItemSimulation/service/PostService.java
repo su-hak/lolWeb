@@ -84,6 +84,7 @@ public class PostService {
     post.setContent(postDto.getContent());
     post.setPassword(postDto.getPassword());
     post.setCreatetime(postDto.getCreatetime());
+    post.setMovieUrl(postDto.getMovieUrl());
     // 업데이트된 게시글 저장
     postRepository.save(post);
   }
@@ -179,6 +180,7 @@ public class PostService {
     postDto.setCreatetime(post.getCreatetime());
     postDto.setViews(post.getViews());
     postDto.setType(post.getType());
+    postDto.setMovieUrl(post.getMovieUrl());
 
     // 다른 필요한 변환 로직 추가
     return postDto;

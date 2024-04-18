@@ -36,6 +36,17 @@ public class Post {
   @Column(name = "type")
   private String type;
 
+  @Column(name = "movie_url")
+  private String movieUrl;
+
+  public String getMovieUrl() {
+    return movieUrl;
+  }
+
+  public void setMovieUrl(String movieUrl) {
+    this.movieUrl = movieUrl;
+  }
+
   public String getType() {
     return type;
   }

@@ -46,7 +46,7 @@ function displayChampionList(champions) {
         const championImg = $("<img>", {
             src: "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + champion.id + ".png",
             alt: champion.name + " 이미지",
-            class: "champion-img"
+            class: "champion-img",
         });
 
         const championName = $("<p>", {
@@ -103,6 +103,8 @@ function searchChampion() {
 function updateChampionButtonImage(championId) {
     const championBtnImg = $("#left-champ-portrait");
     championBtnImg.attr("src", "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championId + ".png");
+    championBtnImg.attr("value", championId);
+
 }
 
 // 현재 레벨을 부르는 함수

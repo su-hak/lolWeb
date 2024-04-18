@@ -135,7 +135,9 @@ font-weight: bolder">
                         <!-- 무비 영역 시작 -->
                         <div class="row" style="padding: 20px 0; border-top: solid 1px #e0e0e0;">
                             <div class="col" id="">
-
+                                <video controls width="100%">
+                                    <source th:src="${post.movieUrl}" type="video/webm" />
+                                </video>
                             </div>
                         </div>
                         <!-- 무비 영역 종료 -->
