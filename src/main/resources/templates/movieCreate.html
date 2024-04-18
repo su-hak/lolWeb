@@ -147,12 +147,12 @@ font-weight: bolder">
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <input type="file" id="videoInput" accept="video/*" th:field="*{movieUrl}">
+                                    <input type="file" id="videoInput" accept="video/*" />
                                     <button type="button" class="btn btn-danger" onclick="uploadVideo()">업로드</button>
                                     <div id="progress">
                                         <div id="bar"></div>
                                     </div>
-                                    <div id="message"></div>
+                                    <input type="hidden" id="movieUrl" th:field="*{movieUrl}" />
                                 </div>
                             </div>
                             <!-- 글 작성 에디터 영역 -->
@@ -444,6 +444,7 @@ font-weight: bolder">
                 var response = JSON.parse(xhr.responseText);
                 if (response.uploaded) {
                     swal.fire('업로드가 완료되었습니다. 다운로드 링크: ' + response.url);
+                    saveUrlToPost(response.url);
                 } else {
                     swal.fire('업로드에 실패했습니다: ' + response.error);
                 }
@@ -459,9 +460,14 @@ font-weight: bolder">
         xhr.send(formData);
     }
 
-    function showMessage(message) {
-        document.getElementById('message').innerText = message;
+    // 반환된 URL을 포스트 엔티티에 저장
+    function saveUrlToPost(url) {
+        // URL을 hidden input에 설정하여 form을 submit할 수도 있음
+        // 혹은 AJAX 요청을 사용하여 서버에 URL을 전송할 수도 있음
+        // 이 코드는 예시로, hidden input에 설정하는 방법을 사용함
+        document.getElementById('movieUrl').value = url;
     }
+
 </script>
 
 
