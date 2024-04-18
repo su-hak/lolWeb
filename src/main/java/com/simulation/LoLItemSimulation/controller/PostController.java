@@ -7,10 +7,7 @@ import com.google.cloud.storage.StorageOptions;
 import com.simulation.LoLItemSimulation.config.PhotoUtil;
 import com.simulation.LoLItemSimulation.domain.*;
 import com.simulation.LoLItemSimulation.dto.PostDto;
-import com.simulation.LoLItemSimulation.repository.CommentRepository;
-import com.simulation.LoLItemSimulation.repository.PostHateRepository;
-import com.simulation.LoLItemSimulation.repository.PostLikeRepository;
-import com.simulation.LoLItemSimulation.repository.PostRepository;
+import com.simulation.LoLItemSimulation.repository.*;
 import com.simulation.LoLItemSimulation.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -73,6 +70,12 @@ public class PostController {
 
   @Autowired
   private CommentLikeService commentLikeService;
+
+  @Autowired
+  private SimulationService simulationService;
+
+  @Autowired
+  private SimulationRepository simulationRepository;
 
 
   @Autowired
@@ -162,13 +165,13 @@ public class PostController {
 
   @PostMapping("/submitForm/{type}")
   public String submitForm(@ModelAttribute("post") Post post, HttpServletRequest request, @PathVariable String type,
-                           @RequestParam("nextATagClass1") String nextATagClass1,
-                           @RequestParam("nextATagClass2") String nextATagClass2,
-                           @RequestParam("nextATagClass3") String nextATagClass3,
-                           @RequestParam("nextATagClass4") String nextATagClass4,
-                           @RequestParam("nextATagClass5") String nextATagClass5,
-                           @RequestParam("nextATagClass6") String nextATagClass6,
-                           @RequestParam("nextATagClass7") String nextATagClass7) {
+                           @RequestParam(value = "nextATagClass1", required = false) String nextATagClass1,
+                           @RequestParam(value = "nextATagClass2", required = false) String nextATagClass2,
+                           @RequestParam(value = "nextATagClass3", required = false) String nextATagClass3,
+                           @RequestParam(value = "nextATagClass4", required = false) String nextATagClass4,
+                           @RequestParam(value = "nextATagClass5", required = false) String nextATagClass5,
+                           @RequestParam(value = "nextATagClass6", required = false) String nextATagClass6,
+                           @RequestParam(value = "nextATagClass7", required = false) String nextATagClass7) {
     // 닉네임, 비밀번호 설정
     post.setNickname(post.getNickname());
     post.setPassword(post.getPassword());
@@ -205,6 +208,11 @@ public class PostController {
       System.out.println("클래스 값 5: " + nextATagClass5);
       System.out.println("클래스 값 6: " + nextATagClass6);
       System.out.println("클래스 값 7: " + nextATagClass7);
+      System.out.println("postid:" +  post.getId());
+      simulationService.submitSimulation(post.getId(), nextATagClass1, nextATagClass2, nextATagClass3,
+              nextATagClass4, nextATagClass5, nextATagClass6,
+              nextATagClass7);
+
       return "redirect:/post/read/simulation/" + post.getId();
     } else if (type.equals("roulette")) {
       return "redirect:/post/read/roulette/" + post.getId();
