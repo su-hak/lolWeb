@@ -179,6 +179,7 @@ public class PostService {
     postDto.setCreatetime(post.getCreatetime());
     postDto.setViews(post.getViews());
     postDto.setType(post.getType());
+    postDto.setMovieUrl(post.getMovieUrl());
 
     // 다른 필요한 변환 로직 추가
     return postDto;
