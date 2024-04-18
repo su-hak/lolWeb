@@ -56,38 +56,38 @@ public class PhotoUtil {
     }
   }
 
-  public String uploadVideoToFirebase(MultipartFile videoFile) {
-    try {
-      // Authenticate with Google Cloud Storage
-      GoogleCredentials credentials = GoogleCredentials.fromStream(getClass().getResourceAsStream(
-              "/firebaseServiceAccountKey.json"));
-      Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-
-      // Get a reference to the Firebase Storage bucket
-      Bucket bucket = storage.get(bucketName);
-
-      // Generate a unique file name
-      String fileName = generateUniqueFileName(videoFile);
-
-      // Upload video to Firebase Storage with content type
-      byte[] videoBytes = videoFile.getBytes();
-      Blob blob = bucket.create(
-              fileName, // 파일 이름
-              videoBytes, // 파일 내용
-              "video/mp4" // 비디오 컨텐츠 유형
-      );
-
-      // Construct the download URL of the uploaded video
-      String downloadUrl = "https://firebasestorage.googleapis.com/v0/b/"
-              + bucket.getName() + "/o/"
-              + URLEncoder.encode(fileName, "UTF-8")
-              + "?alt=media&token=" + blob.getGeneratedId(); // 토큰 추가
-
-      return downloadUrl;
-    } catch (IOException e) {
-      throw new RuntimeException("Failed to upload the video to Firebase Storage", e);
-    }
-  }
+//  public String uploadVideoToFirebase(MultipartFile videoFile) {
+//    try {
+//      // Authenticate with Google Cloud Storage
+//      GoogleCredentials credentials = GoogleCredentials.fromStream(getClass().getResourceAsStream(
+//              "/firebaseServiceAccountKey.json"));
+//      Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+//
+//      // Get a reference to the Firebase Storage bucket
+//      Bucket bucket = storage.get(bucketName);
+//
+//      // Generate a unique file name
+//      String fileName = generateUniqueFileName(videoFile);
+//
+//      // Upload video to Firebase Storage with content type
+//      byte[] videoBytes = videoFile.getBytes();
+//      Blob blob = bucket.create(
+//              fileName, // 파일 이름
+//              videoBytes, // 파일 내용
+//              "video/*" // 비디오 컨텐츠 유형
+//      );
+//
+//      // Construct the download URL of the uploaded video
+//      String downloadUrl = "https://firebasestorage.googleapis.com/v0/b/"
+//              + bucket.getName() + "/o/"
+//              + URLEncoder.encode(fileName, "UTF-8")
+//              + "?alt=media&token=" + blob.getGeneratedId(); // 토큰 추가
+//
+//      return downloadUrl;
+//    } catch (IOException e) {
+//      throw new RuntimeException("Failed to upload the video to Firebase Storage", e);
+//    }
+//  }
 
   private String generateUniqueFileName(MultipartFile file) {
     String originalFileName = file.getOriginalFilename();

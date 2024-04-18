@@ -131,30 +131,30 @@ public class PostController {
   }
 
 
-  @PostMapping("/uploadMovie")
-  public ModelAndView uploadMovie(MultipartHttpServletRequest request) {
-    ModelAndView mav = new ModelAndView("jsonView");
-
-    try {
-
-      MultipartFile file = request.getFile("upload");
-      if (file != null) {
-        String uploadPath = photoUtil.uploadVideoToFirebase(file); // uploadToFirebase 메서드를 uploadVideoToFirebase로 수정
-        mav.addObject("uploaded", true);
-        mav.addObject("url", uploadPath);
-      } else {
-        mav.addObject("uploaded", false);
-        mav.addObject("error", "업로드할 파일을 찾을 수 없습니다.");
-      }
-    } catch (Exception e) {
-      mav.addObject("uploaded", false);
-      mav.addObject("error", "Failed to upload video.");
-      e.printStackTrace();
-      mav.addObject("error", "파일 업로드에 실패했습니다: " + e.getMessage());
-    }
-
-    return mav;
-  }
+//  @PostMapping("/uploadMovie")
+//  public ModelAndView uploadMovie(MultipartHttpServletRequest request) {
+//    ModelAndView mav = new ModelAndView("jsonView");
+//
+//    try {
+//
+//      MultipartFile file = request.getFile("upload");
+//      if (file != null) {
+//        String uploadPath = photoUtil.uploadVideoToFirebase(file); // uploadToFirebase 메서드를 uploadVideoToFirebase로 수정
+//        mav.addObject("uploaded", true);
+//        mav.addObject("url", uploadPath);
+//      } else {
+//        mav.addObject("uploaded", false);
+//        mav.addObject("error", "업로드할 파일을 찾을 수 없습니다.");
+//      }
+//    } catch (Exception e) {
+//      mav.addObject("uploaded", false);
+//      mav.addObject("error", "Failed to upload video.");
+//      e.printStackTrace();
+//      mav.addObject("error", "파일 업로드에 실패했습니다: " + e.getMessage());
+//    }
+//
+//    return mav;
+//  }
 
 
 
