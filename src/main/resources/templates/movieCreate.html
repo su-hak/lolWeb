@@ -148,7 +148,7 @@ font-weight: bolder">
                                 </div>
                                 <div class="col">
                                     <input type="file" id="videoInput" accept="video/*" />
-                                    <button type="button" class="btn btn-danger" onclick="uploadVideo()">업로드</button>
+<!--                                    <button type="button" class="btn btn-danger" onclick="uploadVideo()">업로드</button>-->
                                     <div id="progress">
                                         <div id="bar"></div>
                                     </div>
@@ -281,7 +281,7 @@ font-weight: bolder">
                             <div>
                                 <div class="row" style="padding: 0 20px">
                                     <div class="col d-flex">
-                                        <button id="submitBtn" type="submit" class="btn btn-success col" style="font-size: medium">글등록</button>
+                                        <button id="submitBtn" type="button" class="btn btn-success col" style="font-size: medium" onclick="uploadVideoAndSubmit()">글등록</button>
                                         <button type="button" class="btn btn-secondary col" style="font-size:
                                     medium;" onclick="history.back();">취　소</button>
                                     </div>
@@ -397,6 +397,19 @@ font-weight: bolder">
 
 <!-- 동영상 업로드 -->
 <script>
+    function uploadVideoAndSubmit() {
+        uploadVideo(); // 동영상 업로드 함수 호출
+
+        // 업로드가 완료되면 폼 제출
+        // (실제로는 업로드 완료를 어떻게 감지하는지에 따라 구현 방법이 달라질 수 있음)
+        setTimeout(function() {
+            document.getElementById('postSumitForm').submit();
+        }, 3000); // 업로드 완료까지 대기하는 시간 설정 (예: 3초)
+    }
+</script>
+
+
+<script>
     function uploadVideo() {
         var fileInput = document.getElementById('videoInput');
         var file = fileInput.files[0];
@@ -409,7 +422,7 @@ font-weight: bolder">
         formData.append('upload', file);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/post/upload');
+        xhr.open('POST', '/post/uploadMovie');
 
         xhr.upload.onprogress = function(event) {
             if (event.lengthComputable) {
@@ -422,7 +435,7 @@ font-weight: bolder">
             if (xhr.status === 200) {
                 var response = JSON.parse(xhr.responseText);
                 if (response.uploaded) {
-                    swal.fire('업로드가 완료되었습니다. 다운로드 링크: ' + response.url);
+                    // swal.fire('업로드가 완료되었습니다. 다운로드 링크: ' + response.url);
                     saveUrlToPost(response.url);
                 } else {
                     swal.fire('업로드에 실패했습니다: ' + response.error);
