@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<!--    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> &lt;!&ndash; 파비콘 &ndash;&gt;-->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- 파비콘 -->
 
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
@@ -15,7 +15,13 @@
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
     <link rel="stylesheet" th:href="@{/css/index.css}"/>
     <link rel="stylesheet" th:href="@{/css/lolMain.css}"/>
-    <link rel="stylesheet" th:href="@{/css/editor.css}"/>
+
+    <!--룰렛 관련-->
+<!--    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css">-->
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+    <link rel="stylesheet" th:href="@{/css/roulette.css}"/>
+    <!--룰렛 관련-->
+
 
     <!-- ckeditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
@@ -28,7 +34,7 @@
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 
-<body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
+<body>
 <!-- 최상단 네비바 -->
 <nav class="site-header sticky-top py-1" style="background: #8360CE; ">
     <div class="container d-flex flex-column flex-md-row color-white">
@@ -41,7 +47,7 @@
                 리그 오브 레전드
             </span>
         </a>
-        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list/default">
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
                 <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
@@ -104,7 +110,7 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">매드무비</strong>
+                        <strong class="card-title">룰렛게시판</strong>
                     </div>
                     <div class="card-body" style="padding: 40px">
                         <div class="row flex-column">
@@ -130,19 +136,36 @@ font-weight: bolder">
 
                             </div>
                         </div>
-
-
-                        <!-- 무비 영역 시작 -->
-                        <div class="row" style="padding: 20px 0; border-top: solid 1px #e0e0e0;">
-                            <div class="col" id="">
-                                <video controls width="100%">
-                                    <source th:src="${post.movieUrl}" type="video/webm" />
-                                </video>
-                            </div>
-                        </div>
-                        <!-- 무비 영역 종료 -->
                         <div class="row">
                             <div class="col">
+
+                                <!-- 룰렛 버튼 -->
+                                <div class="row" style="padding: 20px 0;  border-top: solid 1px #e0e0e0;">
+                                    <div class="col span4">
+                                        <div class="roulette_container" >
+                                            <div class="roulette" style="display:none;">
+
+                                            </div>
+                                        </div>
+                                        <div class="btn_container">
+                                            <p>
+                                                <button class="btn btn-large btn-primary start"> START </button>
+                                                <button class="stop btn-large btn btn-warning"> STOP </button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 right_container">
+                                        <div class="speed_value param_label">
+                                            <span class="param_name">회전속도 :</span> <span class="speed_param"></span>
+                                        </div>
+                                        <div id="speed"> </div>
+
+                                        <div class="duration_value param_label">
+                                            <span class="param_name">회전시간 :</span> <span class="duration_param"></span>
+                                        </div>
+                                        <div id="duration"> </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
                                     <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
@@ -153,9 +176,7 @@ font-weight: bolder">
                                 </div>
                             </div>
                         </div>
-
-                        <!-- 게시글 좋아요 싫어요 -->
-                        <div class="row ">
+                        <div class="row">
                             <div class="col d-flex justify-content-end align-items-center">
                                 <button class="thumb-up" th:attr="data-post-id=${post.id}" th:class="${isPostLiked} ? 'thumb-up liked' : 'thumb-up not-liked'">
                                     <iconify-icon icon="foundation:like" width="50" height="50" th:style="${isPostLiked} ? 'color: red;' : 'color: black;'"></iconify-icon>
@@ -182,7 +203,7 @@ font-weight: bolder">
 
                         </div>
                         <div class="col">
-                            <a th:href="@{'/post/list/'+${post.type}+'?page=' + ${page} + '&sort=' + ${sort}}">
+                            <a th:href="@{'/post/list/search?option=' + ${option} + '&keyword=' + ${keyword} + '&page=' + ${page}}">
                                 <button class="col btn btn-info" style="font-size: medium">목록</button>
                             </a>
                         </div>
@@ -228,7 +249,7 @@ font-weight: bolder">
                             <div class="col-9 d-flex" th:each="commentInfo,commentIndex : ${comment}">
 
                                 <div class="col-11">
-                                    <div id="commentContent" class="row" th:text="${commentInfo.comment.content}">
+                                    <div id="commentContent" class="row commentContent" th:text="${commentInfo.comment.content}">
                                         <!-- 댓글 내용 영역-->
                                     </div>
                                     <div class="row d-flex usercss" style="color: #777777; font-size: 13px;
@@ -297,6 +318,7 @@ font-weight: bolder">
 <!-- 메인영역 E -->
 
 
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         crossorigin="anonymous"></script>
@@ -310,6 +332,12 @@ font-weight: bolder">
 <script th:src="@{/js/web.js}"></script> <!-- 웹페이지 이벤트 관련 -->
 
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/roulette/roulette.js"></script>
+<script src="/js/roulette/rouletteSetting.js"></script>
 
 
 <!-- 댓글 등록 코드 -->
@@ -494,7 +522,7 @@ font-weight: bolder">
                             confirmButtonText: '확인'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '/post/list/movie'; // 삭제 성공 시 게시글 목록 페이지로 이동
+                                location.href = '/post/list/roulette'; // 삭제 성공 시 게시글 목록 페이지로 이동
                             }
                         });
                     })
@@ -820,6 +848,7 @@ font-weight: bolder">
 <!--        }-->
 <!--    });-->
 <!--</script>-->
+
 
 
 </body>

@@ -15,7 +15,7 @@
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
     <link rel="stylesheet" th:href="@{/css/index.css}"/>
     <link rel="stylesheet" th:href="@{/css/lolMain.css}"/>
-    <link rel="stylesheet" th:href="@{/css/editor.css}"/>
+
 
     <!-- ckeditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
@@ -28,7 +28,7 @@
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 
-<body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
+<body>
 <!-- 최상단 네비바 -->
 <nav class="site-header sticky-top py-1" style="background: #8360CE; ">
     <div class="container d-flex flex-column flex-md-row color-white">
@@ -41,7 +41,7 @@
                 리그 오브 레전드
             </span>
         </a>
-        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list/default">
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
                 <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
@@ -104,7 +104,7 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">매드무비</strong>
+                        <strong class="card-title">투표게시판</strong>
                     </div>
                     <div class="card-body" style="padding: 40px">
                         <div class="row flex-column">
@@ -130,17 +130,70 @@ font-weight: bolder">
 
                             </div>
                         </div>
+                        <!-- 투표 영역 시작 -->
 
-
-                        <!-- 무비 영역 시작 -->
+                        <!-- poll.js 파일 있음 -->
                         <div class="row" style="padding: 20px 0; border-top: solid 1px #e0e0e0;">
-                            <div class="col" id="">
-                                <video controls width="100%">
-                                    <source th:src="${post.movieUrl}" type="video/webm" />
-                                </video>
+                            <div class="col" id="pollModal">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="pollModalLabel">투표창</h5>
+                                    </div>
+                                    <div class="modal-body p-5">
+                                        <div class="form-group">
+                                            <div id="pollTitle"style="font-size: 1.3rem; border-bottom: solid 1px
+                                                 #e0e0e0;"
+                                                 aria-describedby="pollTitleDesc">
+                                                <h4>투표 제목 들어갈 곳</h4>
+                                            </div>
+                                            <div class="form-group mt-4" id="pollOptions">
+<!--                                                <h4>선택해주세요.</h4>-->
+                                                <div class="input-group" style="display: block">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <input type="radio"
+                                                                   id="pollOptionId00" name="poll"
+                                                                   aria-label="Radio button for following text input">
+                                                        </div>
+                                                        <div class="form-control" id="pollOptionText00"
+                                                             aria-label="Text input with radio button" style="font-size: 1.3rem">
+                                                            fdsasdas
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <input type="radio" id="pollOptionId01" name="poll"
+                                                                   aria-label="Radio button for following text input">
+                                                        </div>
+                                                        <div class="form-control" id="pollOptionText01"
+                                                             aria-label="Text input with radio button" style="font-size: 1.3rem">
+                                                            fdsasdas
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <input type="radio" id="pollOptionId02" name="poll"
+                                                                   aria-label="Radio button for following text input">
+                                                        </div>
+                                                        <div class="form-control" id="pollOptionText02"
+                                                             aria-label="Text input with radio button"
+                                                             style="font-size: 1.3rem">
+                                                            fdsasdas
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        </div>
+                                        <div class="modal-footer" style="border-top: none; padding: 0px;">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                            <button type="button" class="btn btn-primary" id="submitPoll" disabled>
+                                                투표완료</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!-- 무비 영역 종료 -->
+                        <!-- 투표 영역 종료 -->
                         <div class="row">
                             <div class="col">
                                 <div class="row">
@@ -182,7 +235,7 @@ font-weight: bolder">
 
                         </div>
                         <div class="col">
-                            <a th:href="@{'/post/list/'+${post.type}+'?page=' + ${page} + '&sort=' + ${sort}}">
+                            <a th:href="@{'/post/list/search?option=' + ${option} + '&keyword=' + ${keyword} + '&page=' + ${page}}">
                                 <button class="col btn btn-info" style="font-size: medium">목록</button>
                             </a>
                         </div>
@@ -494,7 +547,7 @@ font-weight: bolder">
                             confirmButtonText: '확인'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '/post/list/movie'; // 삭제 성공 시 게시글 목록 페이지로 이동
+                                location.href = '/post/list/poll'; // 삭제 성공 시 게시글 목록 페이지로 이동
                             }
                         });
                     })
