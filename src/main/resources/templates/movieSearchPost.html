@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<!--    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> &lt;!&ndash; 파비콘 &ndash;&gt;-->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- 파비콘 -->
 
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
@@ -41,7 +41,7 @@
                 리그 오브 레전드
             </span>
         </a>
-        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list/default">
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
                 <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
@@ -182,7 +182,7 @@ font-weight: bolder">
 
                         </div>
                         <div class="col">
-                            <a th:href="@{'/post/list/'+${post.type}+'?page=' + ${page} + '&sort=' + ${sort}}">
+                            <a th:href="@{'/post/list/search?option=' + ${option} + '&keyword=' + ${keyword} + '&page=' + ${page}}">
                                 <button class="col btn btn-info" style="font-size: medium">목록</button>
                             </a>
                         </div>

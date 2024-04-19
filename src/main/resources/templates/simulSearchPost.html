@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<!--    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> &lt;!&ndash; 파비콘 &ndash;&gt;-->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- 파비콘 -->
 
 
     <link rel="stylesheet" th:href="@{/css/dropdowns.css}"/>
@@ -15,7 +15,6 @@
     <link rel="stylesheet" th:href="@{/css/post.css}"/>
     <link rel="stylesheet" th:href="@{/css/index.css}"/>
     <link rel="stylesheet" th:href="@{/css/lolMain.css}"/>
-    <link rel="stylesheet" th:href="@{/css/editor.css}"/>
 
     <!-- ckeditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
@@ -28,7 +27,7 @@
     <title>Carry.kr</title> <!-- 타이틀 -->
 </head>
 
-<body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
+<body>
 <!-- 최상단 네비바 -->
 <nav class="site-header sticky-top py-1" style="background: #8360CE; ">
     <div class="container d-flex flex-column flex-md-row color-white">
@@ -41,7 +40,7 @@
                 리그 오브 레전드
             </span>
         </a>
-        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list/default">
+        <a class="topNavMenu py-2 d-none d-md-inline-block color-white" href="/post/list">
             <span class="btn-two blue mini" id="btnradio2">
                 <img src="/img/Gersang_icon.png" style="height: 20px"/>
                 거상
@@ -104,9 +103,9 @@ font-weight: bolder">
             <div class="col">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <strong class="card-title">매드무비</strong>
+                        <strong class="card-title">시뮬공유</strong>
                     </div>
-                    <div class="card-body" style="padding: 40px">
+                    <div class="card-body p-5">
                         <div class="row flex-column">
                             <div class="col" style="font-size: larger" th:text="${post.title}">
                                 <!-- 제목 들어가는 부분 -->
@@ -130,31 +129,66 @@ font-weight: bolder">
 
                             </div>
                         </div>
-
-
-                        <!-- 무비 영역 시작 -->
-                        <div class="row" style="padding: 20px 0; border-top: solid 1px #e0e0e0;">
-                            <div class="col" id="">
-                                <video controls width="100%">
-                                    <source th:src="${post.movieUrl}" type="video/webm" />
-                                </video>
-                            </div>
-                        </div>
-                        <!-- 무비 영역 종료 -->
                         <div class="row">
                             <div class="col">
-                                <div class="row">
-                                    <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
-                                    <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
-                                    <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
-                                         th:utext="${post.content}">
-                                        <!-- 게시물 본문 들어가는 영역 -->
+                                <!--시뮬 공유 영역-->
+                                <div class="row" style="padding: 0 20px; ">
+                                    <div class="col d-flex justify-content-between">
+                                        <div id="championImg" class="" style="width: 70px; height: 70px; border: solid
+                                    2px #00bbab; ">
+                                            <!--챔피언 아이콘 이미지-->
+                                            <div class="btn-blue" type="" id="champion-img"
+                                                    style="width: 66px; height: 66px; ">
+                                                <img class="portrait img-fluid mx-auto champion-img"th:src="${simulation.getChampionImageUrl()}"  id="left-champ-portrait"
+                                                     />
+                                            </div>
+                                        </div>
+                                        <!-- 아이템 선택 전체창 -->
+                                        <div class="item_pan" id="plusItem" style="gap: 20px">
+                                            <!-- 아이템 선택 개별창 -->
+                                            <div>
+                                                <div id="iBox0" class="item_box" data-idx ="0">
+                                                    <img class="portrait img-fluid mx-auto champion-img" th:if="${simulation.getItem1ImageUrl()!=null}" th:src="${simulation.getItem1ImageUrl()}"/>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox1" class="item_box" data-idx ="1">
+                                                    <img class="portrait img-fluid mx-auto champion-img" th:if="${simulation.getItem2ImageUrl()!=null}" th:src="${simulation.getItem2ImageUrl()}"/>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox2" class="item_box" data-idx ="2">
+                                                    <img class="portrait img-fluid mx-auto champion-img"th:if="${simulation.getItem3ImageUrl()!=null}" th:src="${simulation.getItem3ImageUrl()}"/>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox3" class="item_box" data-idx ="3">
+                                                    <img class="portrait img-fluid mx-auto champion-img"th:if="${simulation.getItem4ImageUrl()!=null}" th:src="${simulation.getItem4ImageUrl()}"/>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox4" class="item_box" data-idx ="4">
+                                                    <img class="portrait img-fluid mx-auto champion-img"th:if="${simulation.getItem5ImageUrl()!=null}"th:src="${simulation.getItem5ImageUrl()}"/>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div id="iBox5" class="item_box" data-idx ="5">
+                                                    <img class="portrait img-fluid mx-auto champion-img"th:if="${simulation.getItem6ImageUrl()!=null}"th:src="${simulation.getItem6ImageUrl()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- 게시글 좋아요 싫어요 -->
+                        <div class="row">
+                            <!-- 내용 나오는 부분에 ckeditor의 ck-content 클래스 추가시켜줘야 태그들이 먹힘 -->
+                            <!-- 당연히 ckeditor js 파일들 로드시켜줘야함 -->
+                            <div class="col p-5 ck-content" style="border-top: solid 1px #e0e0e0;"
+                                 th:utext="${post.content}">
+                                <!-- 게시물 본문 들어가는 영역 -->
+                            </div>
+                        </div>
                         <div class="row ">
                             <div class="col d-flex justify-content-end align-items-center">
                                 <button class="thumb-up" th:attr="data-post-id=${post.id}" th:class="${isPostLiked} ? 'thumb-up liked' : 'thumb-up not-liked'">
@@ -182,7 +216,7 @@ font-weight: bolder">
 
                         </div>
                         <div class="col">
-                            <a th:href="@{'/post/list/'+${post.type}+'?page=' + ${page} + '&sort=' + ${sort}}">
+                            <a th:href="@{'/post/list/search?option=' + ${option} + '&keyword=' + ${keyword} + '&page=' + ${page}}">
                                 <button class="col btn btn-info" style="font-size: medium">목록</button>
                             </a>
                         </div>
@@ -494,7 +528,7 @@ font-weight: bolder">
                             confirmButtonText: '확인'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = '/post/list/movie'; // 삭제 성공 시 게시글 목록 페이지로 이동
+                                location.href = '/post/list/simulation'; // 삭제 성공 시 게시글 목록 페이지로 이동
                             }
                         });
                     })
