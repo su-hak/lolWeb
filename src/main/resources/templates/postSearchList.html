@@ -209,7 +209,7 @@ font-weight: bolder">
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <a th:href="@{'/post/readSearch/' + ${post.id} + '?option=' + ${option} + '&keyword=' + ${keyword}+ '&page=' + ${searchPaging.number}}">
+                                        <a th:href="@{'/post/readSearch/' + ${type} +'/'+ ${post.id} + '?option=' + ${option} + '&keyword=' + ${keyword}+ '&page=' + ${searchPaging.number}}">
                                             <p class="mb-0 text-muted view-post-btn" th:text="${post.title}"
                                                th:data-post-id="${post.id}" style="font-size: 14px;"><!--게시물 제목-->
                                             </p>
