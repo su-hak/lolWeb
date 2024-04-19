@@ -140,7 +140,7 @@ font-weight: bolder">
                                             <!--챔피언 아이콘 이미지-->
                                             <div class="btn-blue" type="" id="champion-img"
                                                     style="width: 66px; height: 66px; ">
-                                                <img class="portrait img-fluid mx-auto champion-img"th:src="${simulation.getChampionImageUrl()}"  id="left-champ-portrait"
+                                                <img class="portrait img-fluid mx-auto champion-img"th:if="${simulation.getChampionName()!='null'}" th:src="${simulation.getChampionImageUrl()}"  id="left-champ-portrait"
                                                      />
                                             </div>
                                         </div>

@@ -551,6 +551,9 @@ public String simulCreate(Model model,
     model.addAttribute("post", postDto);
     model.addAttribute("page", page);
     model.addAttribute("sort", sort);
+    model.addAttribute("type", type);
+
+
     model.addAttribute("isPostLiked", isPostLiked); // 게시글 좋아요 상태를 모델에 추가
     model.addAttribute("isPostHated", isPostHated); // 게시글 싫어요 상태를 모델에 추가
 
@@ -728,9 +731,9 @@ public String simulCreate(Model model,
 //  }
 
   // search read 작업 type이랑 keyword가 필요해서 따로팜
-  @GetMapping("/readSearch/{postId}")
-  public String readSearchPost(@PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
-                               @RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam("option") String type,
+  @GetMapping("/readSearch/{type}/{postId}")
+  public String readSearchPost(@PathVariable String type, @PathVariable Long postId, Model model, HttpServletRequest request, HttpSession session,
+                               @RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam("option") String option,
                                @RequestParam("keyword") String keyword) {
     // 게시글 조회 시간을 세션에 저장하여 같은 세션에서는 하루에 한 번만 조회 가능하도록 함
     String sessionKey = "postViewTime_" + postId;
@@ -776,6 +779,9 @@ public String simulCreate(Model model,
     model.addAttribute("page", page);
     model.addAttribute("type", type);
     model.addAttribute("keyword", keyword);
+    model.addAttribute("option", option);
+
+//    model.addAttribute("option", option);
     return "readSearchPost";
   }
 
