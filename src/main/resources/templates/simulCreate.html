@@ -151,9 +151,9 @@ font-weight: bolder">
                                         <!--챔피언 아이콘 이미지-->
                                         <button class="btn-blue" type="button" id="champion-btn"
                                                 data-toggle="dropdown" style="width: 66px; height: 66px; ">
-                                            <img class="portrait img-fluid mx-auto champion-img" src="" name="" id="left-champ-portrait"
+                                            <img class="portrait img-fluid mx-auto champion-img" src="" name="" id="left-champ-portrait" th:value="${championName}"
                                                  data-toggle="tooltip" data-placement="bottom" />
-                                            <a></a>
+                                            <a id="championHas" th:if="${championName!=null}" th:class="${championName}"></a>
                                         </button>
                                         <!-- 왼쪽 챔피언 목록 -->
                                         <div class="dropdown-menu" id="champion-dropdown">
@@ -188,40 +188,40 @@ font-weight: bolder">
                                         </div>
                                         <!-- 아이템 선택 개별창 -->
                                         <div>
-                                            <button type="button" id="iBox0" class="item_box" data-idx ="0">
+                                            <button type="button" id="iBox0" class="item_box" data-idx="0" th:value="${itme1ImageUrl}">
                                                 <iconify-icon  icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
-                                            <a></a>
+                                            <a id="item_box0_id"th:if="${itme1ImageUrl!=null}" th:class="${item1}"></a>
                                         </div>
                                         <div>
-                                            <button type="button" id="iBox1" class="item_box" data-idx ="1">
+                                            <button type="button" id="iBox1" class="item_box" data-idx ="1" th:value="${itme2ImageUrl}">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
-                                            <a></a>
+                                            <a id="item_box1_id"th:if="${itme2ImageUrl!=null}" th:class="${item2}"></a>
                                         </div>
                                         <div>
-                                            <button type="button" id="iBox2" class="item_box" data-idx ="2">
+                                            <button type="button" id="iBox2" class="item_box" data-idx ="2" th:value="${itme3ImageUrl}">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
-                                            <a></a>
+                                            <a id="item_box2_id"th:if="${itme3ImageUrl!=null}" th:class="${item3}"></a>
                                         </div>
                                         <div>
-                                            <button type="button" id="iBox3" class="item_box" data-idx ="3">
+                                            <button type="button" id="iBox3" class="item_box" data-idx ="3" th:value="${itme4ImageUrl}">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
-                                            <a></a>
+                                            <a id="item_box3_id"th:if="${itme4ImageUrl!=null}" th:class="${item4}"></a>
                                         </div>
                                         <div>
-                                            <button type="button" id="iBox4" class="item_box" data-idx ="4">
+                                            <button type="button" id="iBox4" class="item_box" data-idx ="4" th:value="${itme5ImageUrl}">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
-                                            <a></a>
+                                            <a id="item_box4_id"th:if="${itme5ImageUrl!=null}" th:class="${item5}"></a>
                                         </div>
                                         <div>
-                                            <button type="button" id="iBox5" class="item_box" data-idx ="5">
+                                            <button type="button" id="iBox5" class="item_box" data-idx ="5" th:value="${itme6ImageUrl}">
                                                 <iconify-icon icon="ic:baseline-plus" style="color: #ff00e1;" width="50" height="50"></iconify-icon>
                                             </button>
-                                            <a></a>
+                                            <a id="item_box5_id"th:if="${itme6ImageUrl!=null}" th:class="${item6}"></a>
                                         </div>
                                     </div>
                                 </div>

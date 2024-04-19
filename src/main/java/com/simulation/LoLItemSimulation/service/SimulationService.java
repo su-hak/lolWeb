@@ -28,7 +28,7 @@ public class SimulationService {
         Simulation simulation = new Simulation();
         simulation.setPostId(postId);
         simulation.setChampionName(nextATagClass1);
-        simulation.setItem1(nextATagClass2);
+//        simulation.setItem1(nextATagClass2);
 
         if (nextATagClass2 == null || nextATagClass2.isEmpty()) {
             simulation.setItem1(null);
@@ -63,7 +63,7 @@ public class SimulationService {
         if (nextATagClass7 == null || nextATagClass7.isEmpty()) {
             simulation.setItem6(null);
         } else {
-            simulation.setItem6(nextATagClass2);
+            simulation.setItem6(nextATagClass7);
         }
 
         simulationRepository.save(simulation);
@@ -101,46 +101,62 @@ public class SimulationService {
             String item1ImageUrl = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + simulation.getItem1();
             simulationDTO.setItem1ImageUrl(item1ImageUrl);
         }else{
-            simulationDTO.setItem1ImageUrl(null);
+            simulationDTO.setItem1ImageUrl("null");
         }
         if(simulation.getItem2()!=null) {
             String item2ImageUrl = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + simulation.getItem2();
             simulationDTO.setItem2ImageUrl(item2ImageUrl);
         }else{
-            simulationDTO.setItem2ImageUrl(null);
+            simulationDTO.setItem2ImageUrl("null");
         }
 
         if(simulation.getItem3()!=null) {
             String item3ImageUrl = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + simulation.getItem3();
             simulationDTO.setItem3ImageUrl(item3ImageUrl);
         }else{
-            simulationDTO.setItem3ImageUrl(null);
+            simulationDTO.setItem3ImageUrl("null");
         }
 
         if(simulation.getItem4()!=null) {
             String item4ImageUrl = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + simulation.getItem4();
             simulationDTO.setItem4ImageUrl(item4ImageUrl);
         }else{
-            simulationDTO.setItem4ImageUrl(null);
+            simulationDTO.setItem4ImageUrl("null");
         }
 
         if(simulation.getItem5()!=null) {
             String item5ImageUrl = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + simulation.getItem5();
             simulationDTO.setItem5ImageUrl(item5ImageUrl);
         }else{
-            simulationDTO.setItem5ImageUrl(null);
+            simulationDTO.setItem5ImageUrl("null");
         }
 
         if(simulation.getItem6()!=null) {
             String item6ImageUrl = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + simulation.getItem6();
             simulationDTO.setItem6ImageUrl(item6ImageUrl);
         }else{
-            simulationDTO.setItem6ImageUrl(null);
+            simulationDTO.setItem6ImageUrl("null");
         }
 
         return simulationDTO;
     }
 
+    public String generateChampionImageUrl(String championName) {
+//        System.out.println("generateChampionImageUrl:::"+championName);
+        if (championName != "null") {
+            return "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championName + ".png";
+        } else {
+            return null;
+        }
+    }
+
+    public String generateItemImageUrl(String item) {
+        if (item != "null") {
+            return "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/item/" + item;
+        } else {
+            return null;
+        }
+    }
 
 
 }
