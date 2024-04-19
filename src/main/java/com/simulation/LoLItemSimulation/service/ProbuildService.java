@@ -39,6 +39,7 @@ public class ProbuildService {
 
             // 3개
             List<LeagueEntryDTO> limitedEntries = new ArrayList<>();
+            /* TODO 파라미터 추가 후 조건 문 + page 당 해당하는 배열의 수 */
             for (int i = 0; i < Math.min(20, leagueEntries.length); i++) {
                 limitedEntries.add(leagueEntries[i]);
             }
