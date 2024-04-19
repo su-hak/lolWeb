@@ -309,11 +309,48 @@ public class PostController {
     model.addAttribute("post", new Post());
     return "postForm";
   }
-  @GetMapping("/simulCreate")
-  public String simulCreate(Model model) {
-    model.addAttribute("post", new Post());
-    return "simulCreate";
-  }
+//  @GetMapping("/simulCreate")
+//  public String simulCreate(Model model) {
+//    model.addAttribute("post", new Post());
+//    return "simulCreate";
+//  }
+@GetMapping("/simulCreate")
+public String simulCreate(Model model,
+                          @RequestParam("championName") String championName,
+                          @RequestParam("item1") String item1,
+                          @RequestParam("item2") String item2,
+                          @RequestParam("item3") String item3,
+                          @RequestParam("item4") String item4,
+                          @RequestParam("item5") String item5,
+                          @RequestParam("item6") String item6) {
+
+  model.addAttribute("post", new Post());
+  model.addAttribute("championName", championName);
+  model.addAttribute("item1", item1);
+  model.addAttribute("item2", item2);
+  model.addAttribute("item3", item3);
+  model.addAttribute("item4", item4);
+  model.addAttribute("item5", item5);
+  model.addAttribute("item6", item6);
+  String championImageUrl = simulationService.generateChampionImageUrl(championName);
+//  System.out.println(championImageUrl);
+  model.addAttribute("championImageUrl", championImageUrl);
+
+  String itme1ImageUrl = simulationService.generateItemImageUrl(item1);
+  model.addAttribute("itme1ImageUrl", itme1ImageUrl);
+  String itme2ImageUrl = simulationService.generateItemImageUrl(item2);
+  model.addAttribute("itme2ImageUrl", itme2ImageUrl);
+  String itme3ImageUrl = simulationService.generateItemImageUrl(item3);
+  model.addAttribute("itme3ImageUrl", itme3ImageUrl);
+  String itme4ImageUrl = simulationService.generateItemImageUrl(item4);
+  model.addAttribute("itme4ImageUrl", itme4ImageUrl);
+  String itme5ImageUrl = simulationService.generateItemImageUrl(item5);
+  model.addAttribute("itme5ImageUrl", itme5ImageUrl);
+  String itme6ImageUrl = simulationService.generateItemImageUrl(item6);
+  model.addAttribute("itme6ImageUrl", itme6ImageUrl);
+
+  return "simulCreate"; // 예시로 성공 응답 반환
+}
   @GetMapping("/simulRead")
   public String simulRead(Model model) {
     model.addAttribute("post", new Post());

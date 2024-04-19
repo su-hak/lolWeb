@@ -854,36 +854,38 @@ font-weight: bolder">
 
 
 
-<!--<script>  // 스크롤을 위로 올리는 스티키바-->
-<!--    $(window).on('scroll', function () {-->
-<!--        var scroll = $(window).scrollTop();-->
-<!--        if (scroll < 245) {-->
-<!--            $(".header-sticky").removeClass("sticky-bar");-->
-<!--        } else {-->
-<!--            $(".header-sticky").addClass("sticky-bar");-->
-<!--        }-->
-<!--    });-->
+<script>
+    $('#left-share-btn').click(function() {
+        swal.fire({
+            title: '조합을 공유하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '예',
+            cancelButtonText: '아니오'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var championName = document.getElementById("left-champ-portrait").getAttribute("value") || null;
+                var item1 = document.getElementById("iBox0").value || null;
+                var item2 = document.getElementById("iBox1").value || null;
+                var item3 = document.getElementById("iBox2").value || null;
+                var item4 = document.getElementById("iBox3").value || null;
+                var item5 = document.getElementById("iBox4").value || null;
+                var item6 = document.getElementById("iBox5").value || null;
 
-<!--    $(window).on('scroll', function () {-->
-<!--        var scroll = $(window).scrollTop();-->
-<!--        if (scroll < 245) {-->
-<!--            $(".header-sticky").removeClass("sticky");-->
-<!--        } else {-->
-<!--            $(".header-sticky").addClass("sticky");-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-
-
-<!--<script>  //스크롤 내리면 헤더영역 애니메이션-->
-<!--    $(window).scroll(function () {-->
-<!--        if ($(window).scrollTop() > 100) {-->
-<!--            $("#header").addClass("animated");-->
-<!--        } else {-->
-<!--            $("#header").removeClass('animated');-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
+                var params = new URLSearchParams();
+                params.append('championName', championName);
+                params.append('item1', item1);
+                params.append('item2', item2);
+                params.append('item3', item3);
+                params.append('item4', item4);
+                params.append('item5', item5);
+                params.append('item6', item6);
+                var url = "/post/simulCreate?" + params.toString();
+                window.location.href = url;
+            }
+        });
+    });
+</script>
 
 
 </body>

@@ -1,5 +1,111 @@
 let test = {};
 //
+window.onload = function() {
+    setBackgroundImage();
+};
+
+function setBackgroundImage() {
+
+    var element = document.getElementById("championHas");
+    var championClass = element.className;
+    if(championClass !== "null"){
+        var championBtnImg = $("#left-champ-portrait");
+        championBtnImg.attr("src", "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championClass + ".png");
+        championBtnImg.next("a").removeClass().addClass(championClass);
+    }
+
+
+    var ibox0Element = document.getElementById("iBox0");
+    var item1 = ibox0Element.getAttribute("value");
+    var element = document.getElementById("item_box0_id");
+    var elementClass0 = element.className;
+    if (elementClass0 !== "null") {
+
+        $('#iBox0').empty();
+        $('#iBox0').css({
+            'background-image': 'url(' + item1 + ')',
+            'background-repeat': 'no-repeat',
+            'background-position': 'center',
+            'background-size': 'contain'
+        });
+
+    }
+    var ibox1Element = document.getElementById("iBox1");
+    var item2 = ibox1Element.getAttribute("value");
+    var element = document.getElementById("item_box1_id");
+    var elementClass1 = element.className;
+    if (elementClass1 !== "null") {
+
+        $('#iBox1').empty();
+        $('#iBox1').css({
+            'background-image': 'url(' + item2 + ')',
+            'background-repeat': 'no-repeat',
+            'background-position': 'center',
+            'background-size': 'contain'
+        });
+
+    }
+    var ibox2Element = document.getElementById("iBox2");
+    var item3 = ibox2Element.getAttribute("value");
+    var element = document.getElementById("item_box2_id");
+    var elementClass2 = element.className;
+    if (elementClass2 !== "null") {
+
+        $('#iBox2').empty();
+        $('#iBox2').css({
+            'background-image': 'url(' + item3 + ')',
+            'background-repeat': 'no-repeat',
+            'background-position': 'center',
+            'background-size': 'contain'
+        });
+
+    }
+    var ibox3Element = document.getElementById("iBox3");
+    var item4 = ibox3Element.getAttribute("value");
+    var element = document.getElementById("item_box3_id");
+    var elementClass3 = element.className;
+    if (elementClass3 !== "null") {
+
+        $('#iBox3').empty();
+        $('#iBox3').css({
+            'background-image': 'url(' + item4 + ')',
+            'background-repeat': 'no-repeat',
+            'background-position': 'center',
+            'background-size': 'contain'
+        });
+
+    }
+    var ibox4Element = document.getElementById("iBox4");
+    var item5 = ibox4Element.getAttribute("value");
+    var element = document.getElementById("item_box4_id");
+    var elementClass4 = element.className;
+    if (elementClass4 !== "null") {
+
+        $('#iBox4').empty();
+        $('#iBox4').css({
+            'background-image': 'url(' + item5 + ')',
+            'background-repeat': 'no-repeat',
+            'background-position': 'center',
+            'background-size': 'contain'
+        });
+
+    }
+    var ibox5Element = document.getElementById("iBox5");
+    var item6 = ibox5Element.getAttribute("value");
+    var element = document.getElementById("item_box5_id");
+    var elementClass5 = element.className;
+    if (elementClass5 !== "null") {
+
+        $('#iBox5').empty();
+        $('#iBox5').css({
+            'background-image': 'url(' + item6 + ')',
+            'background-repeat': 'no-repeat',
+            'background-position': 'center',
+            'background-size': 'contain'
+        });
+
+    }
+}
 function selectObject(colElement) {
     var clickedDiv = currentTarget;
     var imgElement = clickedDiv.querySelector("img");
@@ -141,7 +247,7 @@ function searchItem() {
 function updateChampionButtonImage(championId) {
     var championBtnImg = $("#left-champ-portrait");
     championBtnImg.attr("src", "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/" + championId + ".png");
-    championBtnImg.next("a").addClass(championId);
+    championBtnImg.next("a").removeClass().addClass(championId);
 }
 
 
@@ -297,10 +403,10 @@ $("#item-list").click(function (e) {
 
 // 십자 이미지와 그 밖의 버튼 모두 하나의 버튼에 동작 하게 설정
 $("#plusItem").click(function (e){
-    if (!test.choose) {
-        Swal.fire("챔프 선택부터 혀라");
-        return; // test.choose가 false인 경우 함수 실행 중단
-    }
+    // if (!test.choose) {
+    //     Swal.fire("챔프 선택부터 혀라");
+    //     return; // test.choose가 false인 경우 함수 실행 중단
+    // }
     console.log("plusItem 클릭 !", e.type);
     if(e.target.dataset.idx != undefined){ // callIdx 안 십자 바깥 영역 클릭 시
         callIdx = e.target.dataset.idx; // 해당 idx 값을 callIdx에 저장
@@ -332,6 +438,9 @@ function itemFilterControl() {
         $("#left-item-filter-options").css("display", "block");
     }
 }
+
+
+
 
 
 // 아이템 생성 컨테이너 바깥 영역 클릭 시 닫기

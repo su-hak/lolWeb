@@ -252,7 +252,7 @@ font-weight: bolder">
 
                         <!-- 시뮬 글쓰기 버튼 -->
                         <div th:if="${type == 'simulation'}">
-                            <a th:href="@{/post/simulCreate}">
+                            <a th:href="@{/post/simulCreate?championName=null&item1=null&item2=null&item3=null&item4=null&item5=null&item6=null}">
                                 <button type="button" class="btn btn-success" style="width: 100%; font-size: medium">시뮬글쓰기</button>
                             </a>
                         </div>
