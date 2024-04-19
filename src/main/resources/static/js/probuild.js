@@ -362,7 +362,7 @@ function getItemImg() {
         var timeStampCalcSec = timeStamp / 1000;
         timeStampCalcSec.toFixed(0);
 
-        if (timeStampCalcSec >= 300) {
+        if (timeStampCalcSec >= 240) {
             var timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분";
         }else if (timeStampCalcSec >= 60) {
             timeStampCalcMin = (timeStampCalcSec / 60).toFixed(0) + "분 " + (timeStampCalcSec % 60).toFixed(0) + "초";
