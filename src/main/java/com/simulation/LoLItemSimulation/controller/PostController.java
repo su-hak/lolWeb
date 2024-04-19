@@ -134,31 +134,45 @@ public class PostController {
   }
 
 
-//  @PostMapping("/uploadMovie")
-//  public ModelAndView uploadMovie(MultipartHttpServletRequest request) {
-//    ModelAndView mav = new ModelAndView("jsonView");
-//
-//    try {
-//
-//      MultipartFile file = request.getFile("upload");
-//      if (file != null) {
-//        String uploadPath = photoUtil.uploadVideoToFirebase(file); // uploadToFirebase 메서드를 uploadVideoToFirebase로 수정
-//        mav.addObject("uploaded", true);
-//        mav.addObject("url", uploadPath);
-//      } else {
-//        mav.addObject("uploaded", false);
-//        mav.addObject("error", "업로드할 파일을 찾을 수 없습니다.");
-//      }
-//    } catch (Exception e) {
-//      mav.addObject("uploaded", false);
-//      mav.addObject("error", "Failed to upload video.");
-//      e.printStackTrace();
-//      mav.addObject("error", "파일 업로드에 실패했습니다: " + e.getMessage());
-//    }
-//
-//    return mav;
-//  }
+  @PostMapping("/uploadMovie")
+  public ModelAndView uploadMovie(MultipartHttpServletRequest request) {
+    ModelAndView mav = new ModelAndView("jsonView");
 
+
+      MultipartFile file = request.getFile("upload");
+      if (file != null) {
+        String uploadPath = photoUtil.uploadToFirebase(file); // uploadToFirebase 메서드를 uploadVideoToFirebase로 수정
+        mav.addObject("uploaded", true);
+        mav.addObject("url", uploadPath);
+      }
+
+    return mav;
+  }
+
+  //  @PostMapping("/uploadMovie")
+  //  public ModelAndView uploadMovie(MultipartHttpServletRequest request) {
+  //    ModelAndView mav = new ModelAndView("jsonView");
+  //
+  //    try {
+  //
+  //      MultipartFile file = request.getFile("upload");
+  //      if (file != null) {
+  //        String uploadPath = photoUtil.uploadVideoToFirebase(file); // uploadToFirebase 메서드를 uploadVideoToFirebase로 수정
+  //        mav.addObject("uploaded", true);
+  //        mav.addObject("url", uploadPath);
+  //      } else {
+  //        mav.addObject("uploaded", false);
+  //        mav.addObject("error", "업로드할 파일을 찾을 수 없습니다.");
+  //      }
+  //    } catch (Exception e) {
+  //      mav.addObject("uploaded", false);
+  //      mav.addObject("error", "Failed to upload video.");
+  //      e.printStackTrace();
+  //      mav.addObject("error", "파일 업로드에 실패했습니다: " + e.getMessage());
+  //    }
+  //
+  //    return mav;
+  //  }
 
 
   /* ---------------------------------- submit 영역 시작 ------------------------------------*/
@@ -914,8 +928,8 @@ public String simulCreate(Model model,
     postDto.setCreatetime(LocalDateTime.now(koreaZone));
     postService.updatePost(postId, postDto);
     return ResponseEntity.ok("게시글이 성공적으로 업데이트되었습니다.");
-//Todo: 게시글 업데이트 후 해당 게시글 read 페이지 이동하기
   }
+
 
 
   // 삭제 요청 처리하는 메소드
